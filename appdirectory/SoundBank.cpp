@@ -10,6 +10,10 @@ SoundBank::SoundBank() {
 
 SoundBank::~SoundBank() {
     // iterate over chunkbank and free all of the chunks
+    for(auto pair : mChunkBank) {
+        Mix_FreeChunk(pair.second);
+    }
+    mChunkBank.clear();
 }
 
 void SoundBank::loadAudioDatabase(const std::string& _fn) {

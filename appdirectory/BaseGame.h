@@ -13,6 +13,7 @@ http://www.ogre3d.org/tikiwiki/tiki-index.php?page=MinimalOgre-h&structure=Devel
 #include "GameObject.h"
 #include "GUISystem.h"
 #include "RenderingEngine.h"
+#include "SoundBank.h"
 
 #include <SDL/SDL.h>
 #include <SDL/SDL_net.h>
@@ -30,14 +31,14 @@ http://www.ogre3d.org/tikiwiki/tiki-index.php?page=MinimalOgre-h&structure=Devel
 class BaseGame : public Ogre::FrameListener
 {
 public:
-    BaseGame(RenderingEngine* renderer, GUISystem* gui);
+    BaseGame(RenderingEngine* renderer, GUISystem* gui, SoundBank* soundBank);
     virtual ~BaseGame(void);
     virtual bool go(void) = 0;
     virtual bool isShutDown(void) { return mShutDown; }
 
-    //Rendering System
     RenderingEngine* mRenderer;
     GUISystem* mGUI;
+    SoundBank* mSoundBank;
     bool mShutDown;
 
     // Ogre Bites

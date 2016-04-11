@@ -15,7 +15,7 @@ http://www.ogre3d.org/tikiwiki/tiki-index.php?page=MinimalOgre-h&structure=Devel
 class SingleplayerGame : public BaseGame
 {
 public:
-    SingleplayerGame(RenderingEngine* renderer, GUISystem* gui);
+    SingleplayerGame(RenderingEngine* renderer, GUISystem* gui, SoundBank* soundBank);
     virtual ~SingleplayerGame(void);
     bool go(void);
 

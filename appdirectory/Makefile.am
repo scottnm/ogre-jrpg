@@ -1,7 +1,7 @@
-noinst_HEADERS = BaseGame.h GameManager.h GUISystem.h RenderingEngine.h SingleplayerGame.h
+noinst_HEADERS = BaseGame.h GameManager.h GUISystem.h RenderingEngine.h SingleplayerGame.h SoundBank.h
 
 bin_PROGRAMS = Battle
-Battle_SOURCES = BaseGame.cpp GameManager.cpp GUISystem.cpp Main.cpp RenderingEngine.cpp SingleplayerGame.cpp
+Battle_SOURCES = BaseGame.cpp GameManager.cpp GUISystem.cpp Main.cpp RenderingEngine.cpp SingleplayerGame.cpp SoundBank.cpp
 
 Battle_CPPFLAGS = -I$(top_srcdir) -std=c++11 -Wall
 Battle_CXXFLAGS = $(OGRE_CFLAGS) $(OIS_CFLAGS) $(shell sdl-config --cflags) $(CEGUI_CFLAGS)

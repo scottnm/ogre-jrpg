@@ -5,6 +5,7 @@
 #include "SingleplayerGame.h"
 #include "GUISystem.h"
 #include "RenderingEngine.h"
+#include "SoundBank.h"
 
 #include <OgreFrameListener.h>
 #include <CEGUI/CEGUI.h>
@@ -36,6 +37,7 @@ private:
 
     RenderingEngine* mRenderer;
     GUISystem* mGUI;
+    SoundBank mSoundBank;
     BaseGame* mGame;
     bool mShutDown;
     

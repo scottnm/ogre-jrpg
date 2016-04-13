@@ -18,6 +18,7 @@ SingleplayerGame::SingleplayerGame(RenderingEngine* renderer, GUISystem* gui,
 
 SingleplayerGame::~SingleplayerGame(void) {
     destroyScene();
+    mRenderer->mSceneManager->setSkyBoxEnabled(false);
     mRenderer->mRoot->removeFrameListener(this);
 }
 
@@ -70,7 +71,10 @@ void SingleplayerGame::destroyScene(void) {
 
 void SingleplayerGame::initGUI(void)
 {
-    BaseGame::initGUI();
+    CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
+    CEGUI::Window* HUD = wmgr.loadLayoutFromFile("menu.layout");
+    mGUI->addAndSetWindowGroup("HUD", HUD);
+    windowNames.push_back("HUD");
 }
 
 bool SingleplayerGame::go(void)

@@ -39,4 +39,4 @@ private:
     */
 };
  
-#endif // #ifndef __SINGLE_PLAYER_GAME_H__
+#endif // __SINGLE_PLAYER_GAME_H__

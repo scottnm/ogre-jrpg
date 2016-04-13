@@ -3,12 +3,16 @@
 
 #include <OgreSceneManager.h>
 #include <OgreSceneNode.h>
+#include <OgreEntity.h>
+#include <OgreVector3.h>
 
 class GameObject
 {
 public:
     GameObject(Ogre::SceneManager* _scnmgr) : sceneManager(_scnmgr) {}
-    ~GameObject(void) {}
+    virtual ~GameObject(void) {}
+
+    void setPosition(Ogre::Vector3 position);
 
     Ogre::SceneManager* sceneManager;
     Ogre::SceneNode* sceneNode;

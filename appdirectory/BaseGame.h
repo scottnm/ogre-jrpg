@@ -13,6 +13,14 @@ http://www.ogre3d.org/tikiwiki/tiki-index.php?page=MinimalOgre-h&structure=Devel
 #include "GameObject.h"
 #include "GUISystem.h"
 #include "RenderingEngine.h"
+#include "Plane.h"
+#include "Player.h"
+
+#include "OgreParticleSystem.h"
+#include "OgreParticleSystemManager.h"
+#include "OgreParticle.h"
+
+#include <vector>
 
 #include <SDL/SDL.h>
 #include <SDL/SDL_net.h>
@@ -47,6 +55,8 @@ public:
     Ogre::SceneNode* mRoomRoot;
     Ogre::Light* mMainLight;
     static Ogre::String mainLightName;
+    Plane* ground;
+    std::vector<Player*> player_list;
 
     std::vector<std::string> windowNames;
 
@@ -66,4 +76,4 @@ public:
     bool guiCbQuit(const CEGUI::EventArgs& e);
 };
  
-#endif // #ifndef __BASE_GAME_H__
+#endif // __BASE_GAME_H__

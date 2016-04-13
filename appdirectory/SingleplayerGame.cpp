@@ -23,7 +23,10 @@ SingleplayerGame::~SingleplayerGame(void) {
 void SingleplayerGame::createScene(void){
     auto scnMgr = mRenderer->mSceneManager;
     auto root = scnMgr->getRootSceneNode();
+    Ogre::Camera* camera = mRenderer->mCamera;
     mRoomRoot = root->createChildSceneNode();
+    scnMgr->setSkyBox(true, "Examples/MorningSkyBox", 5000, false);
+
 
     // Set ambient light
     scnMgr->setAmbientLight(Ogre::ColourValue(0.3, 0.3, 0.3));
@@ -31,9 +34,33 @@ void SingleplayerGame::createScene(void){
  
     // Create a light
     mMainLight = scnMgr->createLight(BaseGame::mainLightName);
-    mMainLight->setPosition(0, 1, 0);
+    mMainLight->setPosition(0, 500, 0);
     mMainLight->setType(Ogre::Light::LT_POINT);
     mMainLight->setDiffuseColour(.5, .5, .5);
+
+    // Create ground plane
+    ground = new Plane(scnMgr, mRoomRoot);
+
+    // Add test objects
+    Player* p = new Player(scnMgr, mRoomRoot);
+    p->setPosition(Ogre::Vector3(500, 50, 0));
+    player_list.push_back(p);
+
+    Player* p2 = new Player(scnMgr, mRoomRoot);
+    p2->setPosition(Ogre::Vector3(500, 50, 200));
+    player_list.push_back(p2);
+
+    Player* p3 = new Player(scnMgr, mRoomRoot);
+    p3->setPosition(Ogre::Vector3(500, 50, -200));
+    player_list.push_back(p3);
+
+    Player* p4 = new Player(scnMgr, mRoomRoot);
+    p4->setPosition(Ogre::Vector3(-500, 50, 0));
+
+    // Set Camera Position
+    camera->setPosition(Ogre::Vector3(-1000, 250, -1000));
+    camera->lookAt(Ogre::Vector3(0, 0, 0));
+
 }
 
 void SingleplayerGame::destroyScene(void) {

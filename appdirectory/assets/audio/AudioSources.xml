@@ -1,0 +1,17 @@
+<audioDatabase>
+    <sourcedir>assets/audio</sourcedir>
+    <sources>
+        <source>
+            <id>1</id>
+            <filename>1.wav</filename>
+        </source>
+        <source>
+            <id>2</id>
+            <filename>2.wav</filename>
+        </source>
+        <source>
+            <id>3</id>
+            <filename>3.wav</filename>
+        </source>
+    </sources>
+</audioDatabase>

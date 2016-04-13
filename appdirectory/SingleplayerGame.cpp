@@ -71,10 +71,8 @@ void SingleplayerGame::destroyScene(void) {
 
 void SingleplayerGame::initGUI(void)
 {
-    CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
-    CEGUI::Window* HUD = wmgr.loadLayoutFromFile("menu.layout");
-    mGUI->addAndSetWindowGroup("HUD", HUD);
-    windowNames.push_back("HUD");
+    mHUD = new HUD(*mGUI);
+    windowNames.push_back(HUD::windowName);
 }
 
 bool SingleplayerGame::go(void)

@@ -11,6 +11,7 @@ http://www.ogre3d.org/tikiwiki/tiki-index.php?page=MinimalOgre-h&structure=Devel
 #define __SINGLE_PLAYER_GAME_H__
  
 #include "BaseGame.h"
+#include "HUD.h"
 
 class SingleplayerGame : public BaseGame
 {
@@ -30,7 +31,8 @@ private:
     virtual bool mouseReleased(const OIS::MouseEvent &arg, OIS::MouseButtonID id);
     virtual bool mouseMoved(const OIS::MouseEvent &arg);
 
-    // gui callbacks
+    // gui
+    HUD* mHUD;
 
     /*
     bool guiCbStart(const CEGUI::EventArgs& e);

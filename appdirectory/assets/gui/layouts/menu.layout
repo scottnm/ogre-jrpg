@@ -2,7 +2,7 @@
 
 <GUILayout version="4" >
     <Window type="Vanilla/FrameColourRect" name="Info_Frame" >
-        <Property name="Area" value="{{0,0},{0,872},{1,0},{1,0}}" />
+        <Property name="Area" value="{{0,0},{0,989},{1,0},{1,0}}" />
         <Property name="Colour" value="tl:C8000000 tr:C8000000 bl:C8000000 br:C8000000" />
         <Property name="MaxSize" value="{{1,0},{1,0}}" />
         <Window type="Vanilla/FrameColourRect" name="Menu_Frame" >
@@ -74,8 +74,8 @@
                     <Property name="MaxSize" value="{{1,0},{1,0}}" />
                     <Property name="FrameEnabled" value="false" />
                     <Property name="BackgroundEnabled" value="false" />
-                    <Property name="HorzScrollPageSize" value="238" />
-                    <Property name="VertScrollPageSize" value="17" />
+                    <Property name="HorzScrollPageSize" value="256" />
+                    <Property name="VertScrollPageSize" value="35" />
                 </Window>
                 <Window type="Vanilla/Label" name="PM_HP_Label" >
                     <Property name="Area" value="{{0,200},{0,74},{0,271},{0,106}}" />
@@ -97,8 +97,8 @@
                     <Property name="MaxSize" value="{{1,0},{1,0}}" />
                     <Property name="FrameEnabled" value="false" />
                     <Property name="BackgroundEnabled" value="false" />
-                    <Property name="HorzScrollPageSize" value="35" />
-                    <Property name="VertScrollPageSize" value="18" />
+                    <Property name="HorzScrollPageSize" value="53" />
+                    <Property name="VertScrollPageSize" value="36" />
                 </Window>
                 <Window type="Vanilla/Label" name="PM_HP_Divider_Label" >
                     <Property name="Area" value="{{0,326},{0,74},{0,356},{0,106}}" />
@@ -110,16 +110,16 @@
                     <Property name="MaxSize" value="{{1,0},{1,0}}" />
                     <Property name="FrameEnabled" value="false" />
                     <Property name="BackgroundEnabled" value="false" />
-                    <Property name="HorzScrollPageSize" value="35" />
-                    <Property name="VertScrollPageSize" value="18" />
+                    <Property name="HorzScrollPageSize" value="53" />
+                    <Property name="VertScrollPageSize" value="36" />
                 </Window>
                 <Window type="Vanilla/StaticText" name="PM_SP_Left_StaticText" >
                     <Property name="Area" value="{{0,272},{0,134},{0,325},{0,170}}" />
                     <Property name="MaxSize" value="{{1,0},{1,0}}" />
                     <Property name="FrameEnabled" value="false" />
                     <Property name="BackgroundEnabled" value="false" />
-                    <Property name="HorzScrollPageSize" value="35" />
-                    <Property name="VertScrollPageSize" value="18" />
+                    <Property name="HorzScrollPageSize" value="53" />
+                    <Property name="VertScrollPageSize" value="36" />
                 </Window>
                 <Window type="Vanilla/Label" name="PM_SP_Divider_Label" >
                     <Property name="Area" value="{{0,326},{0,136},{0,356},{0,168}}" />
@@ -131,8 +131,8 @@
                     <Property name="MaxSize" value="{{1,0},{1,0}}" />
                     <Property name="FrameEnabled" value="false" />
                     <Property name="BackgroundEnabled" value="false" />
-                    <Property name="HorzScrollPageSize" value="35" />
-                    <Property name="VertScrollPageSize" value="18" />
+                    <Property name="HorzScrollPageSize" value="53" />
+                    <Property name="VertScrollPageSize" value="36" />
                 </Window>
             </Window>
             <Window type="Vanilla/FrameColourRect" name="PartyMember2_Frame" >

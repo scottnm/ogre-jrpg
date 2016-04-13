@@ -8,6 +8,8 @@ GameManager::GameManager()
       mShutDown(false) {
     SDL_Init(SDL_INIT_EVERYTHING);
     SDLNet_Init();
+
+    mSoundBank.loadAudioDatabase("assets/audio/AudioSources.xml");
 }
 
 GameManager::~GameManager(void) {
@@ -179,7 +181,7 @@ void GameManager::closeGame(void) {
 
 bool GameManager::guiCbInitSinglePlayer(const CEGUI::EventArgs& e) {
     if (mGame != nullptr) delete mGame;
-    mGame = new SingleplayerGame(mRenderer, mGUI);
+    mGame = new SingleplayerGame(mRenderer, mGUI, &mSoundBank);
     mGame->go();
     return true;
 }

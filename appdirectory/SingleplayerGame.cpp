@@ -11,8 +11,9 @@ http://www.ogre3d.org/tikiwiki/tiki-index.php?page=MinimalOgre-cpp
 #include "SingleplayerGame.h"
 #include <string>
 
-SingleplayerGame::SingleplayerGame(RenderingEngine* renderer, GUISystem* gui)
-    : BaseGame(renderer, gui) {
+SingleplayerGame::SingleplayerGame(RenderingEngine* renderer, GUISystem* gui,
+        SoundBank* soundBank)
+    : BaseGame(renderer, gui, soundBank) {
 }
 
 SingleplayerGame::~SingleplayerGame(void) {
@@ -93,6 +94,19 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
 }
 
 bool SingleplayerGame::keyPressed(const OIS::KeyEvent &arg) {
+    switch(arg.key) {
+        case OIS::KC_1:
+            mSoundBank->play("1");
+            break;
+        case OIS::KC_2:
+            mSoundBank->play("2");
+            break;
+        case OIS::KC_3:
+            mSoundBank->play("3");
+            break;
+        default:
+            break;
+    }
     return true;
 }
 bool SingleplayerGame::keyReleased(const OIS::KeyEvent &arg) {

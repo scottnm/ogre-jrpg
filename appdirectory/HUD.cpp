@@ -29,6 +29,14 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
             case OIS::KC_DOWN:
                 mOptionSelected = std::max(0, mOptionSelected - 1);
                 break;
+            case OIS::KC_RETURN: {
+                mRoot->getChild("Menu_Frame")->hide();
+                auto itemFrame = mRoot->getChild("Item_Frame");
+                itemFrame->show();
+                itemFrame->activate();
+                mItemsMenuVisible = true;
+                break;
+             }
             default:
                 return;
         }
@@ -40,4 +48,5 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
 
 void HUD::injectKeyUp(const OIS::KeyEvent& arg) {
     // pass
+    (void) arg;
 }

@@ -96,6 +96,7 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
 }
 
 bool SingleplayerGame::keyPressed(const OIS::KeyEvent &arg) {
+    mHUD->injectKeyDown(arg);
     switch(arg.key) {
         case OIS::KC_1:
             mSoundBank->play("1");
@@ -112,6 +113,7 @@ bool SingleplayerGame::keyPressed(const OIS::KeyEvent &arg) {
     return true;
 }
 bool SingleplayerGame::keyReleased(const OIS::KeyEvent &arg) {
+    mHUD->injectKeyUp(arg);
     return true;
 }
 bool SingleplayerGame::mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonID id) {

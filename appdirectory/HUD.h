@@ -17,9 +17,14 @@ public:
     CEGUI::Window* mRoot;
     int mOptionSelected;
     CEGUI::Window* mOptionSelects[4];
+
     bool mItemsMenuVisible; 
+    bool mItemsFocused;
+    int mItemsTotal;
+    int mItemSelected;
 
     static const Ogre::String windowName;
+    static const Ogre::String mockItems[4];
 };
 
 #endif // __HUD_H__

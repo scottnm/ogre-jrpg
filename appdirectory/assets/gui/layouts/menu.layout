@@ -88,12 +88,12 @@
                     <Property name="MaxSize" value="{{1,0},{1,0}}" />
                 </Window>
                 <Window type="Vanilla/StaticImage" name="PM_Pic_StaticImage" >
-                    <Property name="Area" value="{{0,0},{0,0},{0,189},{0,204}}" />
+                    <Property name="Area" value="{{0,-1},{0,1},{0,188},{0,205}}" />
                     <Property name="MaxSize" value="{{1,0},{1,0}}" />
                     <Property name="BackgroundEnabled" value="false" />
                 </Window>
                 <Window type="Vanilla/StaticText" name="PM_HP_Left_StaticText" >
-                    <Property name="Area" value="{{0,285},{0,72},{0,338},{0,108}}" />
+                    <Property name="Area" value="{{0,272},{0,72},{0,325},{0,108}}" />
                     <Property name="MaxSize" value="{{1,0},{1,0}}" />
                     <Property name="FrameEnabled" value="false" />
                     <Property name="BackgroundEnabled" value="false" />
@@ -101,12 +101,12 @@
                     <Property name="VertScrollPageSize" value="18" />
                 </Window>
                 <Window type="Vanilla/Label" name="PM_HP_Divider_Label" >
-                    <Property name="Area" value="{{0,339},{0,74},{0,369},{0,106}}" />
+                    <Property name="Area" value="{{0,326},{0,74},{0,356},{0,106}}" />
                     <Property name="Text" value="/" />
                     <Property name="MaxSize" value="{{1,0},{1,0}}" />
                 </Window>
                 <Window type="Vanilla/StaticText" name="PM_HP_Total_StaticText" >
-                    <Property name="Area" value="{{0,369},{0,72},{0,422},{0,108}}" />
+                    <Property name="Area" value="{{0,356},{0,72},{0,409},{0,108}}" />
                     <Property name="MaxSize" value="{{1,0},{1,0}}" />
                     <Property name="FrameEnabled" value="false" />
                     <Property name="BackgroundEnabled" value="false" />
@@ -114,7 +114,7 @@
                     <Property name="VertScrollPageSize" value="18" />
                 </Window>
                 <Window type="Vanilla/StaticText" name="PM_SP_Left_StaticText" >
-                    <Property name="Area" value="{{0,285},{0,134},{0,338},{0,170}}" />
+                    <Property name="Area" value="{{0,272},{0,134},{0,325},{0,170}}" />
                     <Property name="MaxSize" value="{{1,0},{1,0}}" />
                     <Property name="FrameEnabled" value="false" />
                     <Property name="BackgroundEnabled" value="false" />
@@ -122,12 +122,12 @@
                     <Property name="VertScrollPageSize" value="18" />
                 </Window>
                 <Window type="Vanilla/Label" name="PM_SP_Divider_Label" >
-                    <Property name="Area" value="{{0,339},{0,136},{0,369},{0,168}}" />
+                    <Property name="Area" value="{{0,326},{0,136},{0,356},{0,168}}" />
                     <Property name="Text" value="/" />
                     <Property name="MaxSize" value="{{1,0},{1,0}}" />
                 </Window>
                 <Window type="Vanilla/StaticText" name="PM_SP_Total_StaticText" >
-                    <Property name="Area" value="{{0,369},{0,134},{0,422},{0,170}}" />
+                    <Property name="Area" value="{{0,356},{0,134},{0,409},{0,170}}" />
                     <Property name="MaxSize" value="{{1,0},{1,0}}" />
                     <Property name="FrameEnabled" value="false" />
                     <Property name="BackgroundEnabled" value="false" />
@@ -163,7 +163,7 @@
                     <Property name="BackgroundEnabled" value="false" />
                 </Window>
                 <Window type="Vanilla/StaticText" name="PM_HP_Left_StaticText" >
-                    <Property name="Area" value="{{0,285},{0,72},{0,338},{0,108}}" />
+                    <Property name="Area" value="{{0,272},{0,72},{0,325},{0,108}}" />
                     <Property name="MaxSize" value="{{1,0},{1,0}}" />
                     <Property name="FrameEnabled" value="false" />
                     <Property name="BackgroundEnabled" value="false" />
@@ -171,12 +171,12 @@
                     <Property name="VertScrollPageSize" value="36" />
                 </Window>
                 <Window type="Vanilla/Label" name="PM_HP_Divider_Label" >
-                    <Property name="Area" value="{{0,339},{0,74},{0,369},{0,106}}" />
+                    <Property name="Area" value="{{0,326},{0,74},{0,356},{0,106}}" />
                     <Property name="Text" value="/" />
                     <Property name="MaxSize" value="{{1,0},{1,0}}" />
                 </Window>
                 <Window type="Vanilla/StaticText" name="PM_HP_Total_StaticText" >
-                    <Property name="Area" value="{{0,369},{0,72},{0,422},{0,108}}" />
+                    <Property name="Area" value="{{0,356},{0,72},{0,409},{0,108}}" />
                     <Property name="MaxSize" value="{{1,0},{1,0}}" />
                     <Property name="FrameEnabled" value="false" />
                     <Property name="BackgroundEnabled" value="false" />
@@ -184,7 +184,7 @@
                     <Property name="VertScrollPageSize" value="36" />
                 </Window>
                 <Window type="Vanilla/StaticText" name="PM_SP_Left_StaticText" >
-                    <Property name="Area" value="{{0,285},{0,134},{0,338},{0,170}}" />
+                    <Property name="Area" value="{{0,272},{0,133},{0,325},{0,169}}" />
                     <Property name="MaxSize" value="{{1,0},{1,0}}" />
                     <Property name="FrameEnabled" value="false" />
                     <Property name="BackgroundEnabled" value="false" />
@@ -192,12 +192,12 @@
                     <Property name="VertScrollPageSize" value="36" />
                 </Window>
                 <Window type="Vanilla/Label" name="PM_SP_Divider_Label" >
-                    <Property name="Area" value="{{0,339},{0,136},{0,369},{0,168}}" />
+                    <Property name="Area" value="{{0,326},{0,135},{0,356},{0,167}}" />
                     <Property name="Text" value="/" />
                     <Property name="MaxSize" value="{{1,0},{1,0}}" />
                 </Window>
                 <Window type="Vanilla/StaticText" name="PM_SP_Total_StaticText" >
-                    <Property name="Area" value="{{0,369},{0,134},{0,422},{0,170}}" />
+                    <Property name="Area" value="{{0,356},{0,133},{0,409},{0,169}}" />
                     <Property name="MaxSize" value="{{1,0},{1,0}}" />
                     <Property name="FrameEnabled" value="false" />
                     <Property name="BackgroundEnabled" value="false" />
@@ -233,7 +233,7 @@
                     <Property name="BackgroundEnabled" value="false" />
                 </Window>
                 <Window type="Vanilla/StaticText" name="PM_HP_Left_StaticText" >
-                    <Property name="Area" value="{{0,285},{0,72},{0,338},{0,108}}" />
+                    <Property name="Area" value="{{0,272},{0,71},{0,325},{0,107}}" />
                     <Property name="MaxSize" value="{{1,0},{1,0}}" />
                     <Property name="FrameEnabled" value="false" />
                     <Property name="BackgroundEnabled" value="false" />
@@ -241,12 +241,12 @@
                     <Property name="VertScrollPageSize" value="36" />
                 </Window>
                 <Window type="Vanilla/Label" name="PM_HP_Divider_Label" >
-                    <Property name="Area" value="{{0,339},{0,74},{0,369},{0,106}}" />
+                    <Property name="Area" value="{{0,326},{0,73},{0,356},{0,105}}" />
                     <Property name="Text" value="/" />
                     <Property name="MaxSize" value="{{1,0},{1,0}}" />
                 </Window>
                 <Window type="Vanilla/StaticText" name="PM_HP_Total_StaticText" >
-                    <Property name="Area" value="{{0,369},{0,72},{0,422},{0,108}}" />
+                    <Property name="Area" value="{{0,356},{0,71},{0,409},{0,107}}" />
                     <Property name="MaxSize" value="{{1,0},{1,0}}" />
                     <Property name="FrameEnabled" value="false" />
                     <Property name="BackgroundEnabled" value="false" />
@@ -254,7 +254,7 @@
                     <Property name="VertScrollPageSize" value="36" />
                 </Window>
                 <Window type="Vanilla/StaticText" name="PM_SP_Left_StaticText" >
-                    <Property name="Area" value="{{0,285},{0,134},{0,338},{0,170}}" />
+                    <Property name="Area" value="{{0,272},{0,133},{0,325},{0,169}}" />
                     <Property name="MaxSize" value="{{1,0},{1,0}}" />
                     <Property name="FrameEnabled" value="false" />
                     <Property name="BackgroundEnabled" value="false" />
@@ -262,12 +262,12 @@
                     <Property name="VertScrollPageSize" value="36" />
                 </Window>
                 <Window type="Vanilla/Label" name="PM_SP_Divider_Label" >
-                    <Property name="Area" value="{{0,339},{0,136},{0,369},{0,168}}" />
+                    <Property name="Area" value="{{0,327},{0,135},{0,357},{0,167}}" />
                     <Property name="Text" value="/" />
                     <Property name="MaxSize" value="{{1,0},{1,0}}" />
                 </Window>
                 <Window type="Vanilla/StaticText" name="PM_SP_Total_StaticText" >
-                    <Property name="Area" value="{{0,369},{0,134},{0,422},{0,170}}" />
+                    <Property name="Area" value="{{0,357},{0,133},{0,410},{0,169}}" />
                     <Property name="MaxSize" value="{{1,0},{1,0}}" />
                     <Property name="FrameEnabled" value="false" />
                     <Property name="BackgroundEnabled" value="false" />

@@ -13,7 +13,8 @@ http://www.ogre3d.org/tikiwiki/tiki-index.php?page=MinimalOgre-h&structure=Devel
 #include "BaseGame.h"
 #include "HUD.h"
 
-class SingleplayerGame : public BaseGame
+class SingleplayerGame : public BaseGame,
+                         public HUDListener
 {
 public:
     SingleplayerGame(RenderingEngine* renderer, GUISystem* gui, SoundBank* soundBank);
@@ -33,6 +34,11 @@ private:
 
     // gui
     HUD* mHUD;
+    void onHUDPhysicalSelect();
+    void onHUDSpecialSelect();
+    void onHUDItemSelect();
+    void onHUDGuardSelect();
+
 
     /*
     bool guiCbStart(const CEGUI::EventArgs& e);

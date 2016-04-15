@@ -5,6 +5,7 @@
 #include <OgreSceneNode.h>
 #include <OgreEntity.h>
 #include <OgreVector3.h>
+#include <OgreParticleSystem.h>
 
 class GameObject
 {

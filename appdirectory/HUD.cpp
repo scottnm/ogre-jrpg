@@ -21,7 +21,7 @@ HUD::HUD(GUISystem& gui, HUDListener& listener) : mGUI(gui), mListener(listener)
 
 
     CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
-    mRoot = wmgr.loadLayoutFromFile("menu.layout");
+    mRoot = wmgr.loadLayoutFromFile("scaling_menu.layout");
 
     auto MenuFrame = mRoot->getChild("Menu_Frame");
 

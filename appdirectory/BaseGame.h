@@ -15,10 +15,11 @@ http://www.ogre3d.org/tikiwiki/tiki-index.php?page=MinimalOgre-h&structure=Devel
 #include "RenderingEngine.h"
 #include "Plane.h"
 #include "Player.h"
+#include "Character.h"
 
 #include "OgreParticleSystem.h"
-#include "OgreParticleSystemManager.h"
-#include "OgreParticle.h"
+
+// #include "OgreMath.h"
 
 #include <vector>
 

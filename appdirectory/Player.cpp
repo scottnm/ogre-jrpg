@@ -2,7 +2,6 @@
 
 Player::Player(Ogre::SceneManager* _scnmgr, Ogre::SceneNode* _scnnode) :
 GameObject(_scnmgr) {
-	GameObject::sceneManager = _scnmgr;
 	entity = _scnmgr->createEntity("sphere.mesh");
 	entity->setMaterialName("Examples/Rocky");
 	entity->setCastShadows(true);

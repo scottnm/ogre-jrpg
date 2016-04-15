@@ -4,9 +4,16 @@
 const Ogre::String HUD::windowName = "HUD";
 const Ogre::String HUD::mockItems[4] = {"Apple", "Cool thing", "jimjam", "sweater"};
 
-HUD::HUD(GUISystem& gui) : mGUI(gui) {
+enum HUD_ID {
+    PHYSICAL_ID = 0,
+    SPECIAL_ID,
+    ITEMS_ID,
+    GUARD_ID
+};
 
-    mOptionSelected = 3;
+HUD::HUD(GUISystem& gui, HUDListener& listener) : mGUI(gui), mListener(listener) {
+
+    mOptionSelected = 0;
     mItemsMenuVisible = false;
     mItemsFocused = true;
     mItemsTotal = 4;
@@ -18,10 +25,10 @@ HUD::HUD(GUISystem& gui) : mGUI(gui) {
 
     auto MenuFrame = mRoot->getChild("Menu_Frame");
 
-    mOptionSelects[3] = MenuFrame->getChild("Physical_select");
-    mOptionSelects[2] = MenuFrame->getChild("Special_select");
-    mOptionSelects[1] = MenuFrame->getChild("Items_select");
-    mOptionSelects[0] = MenuFrame->getChild("Guard_select");
+    mOptionSelects[PHYSICAL_ID] = MenuFrame->getChild("Physical_select");
+    mOptionSelects[SPECIAL_ID] = MenuFrame->getChild("Special_select");
+    mOptionSelects[ITEMS_ID] = MenuFrame->getChild("Items_select");
+    mOptionSelects[GUARD_ID] = MenuFrame->getChild("Guard_select");
 
 
     mRoot->getChild("Item_Frame")->getChild("Items_StaticText")->
@@ -30,27 +37,40 @@ HUD::HUD(GUISystem& gui) : mGUI(gui) {
     mGUI.addAndSetWindowGroup(HUD::windowName, mRoot);
 }
 
+HUD::~HUD() {
+    mGUI.destroyWindowGroup(HUD::windowName);
+}
+
 void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
     if (!mItemsMenuVisible) {
         int oldOption = mOptionSelected;
         switch(arg.key) {
             case OIS::KC_UP:
-                mOptionSelected = std::min(3, mOptionSelected + 1);
-                break;
-            case OIS::KC_DOWN:
                 mOptionSelected = std::max(0, mOptionSelected - 1);
                 break;
-            case OIS::KC_RETURN: {
-                if (mOptionSelected != 1) {
-                    break;
-                }
-                mItemsMenuVisible = true;
-                mRoot->getChild("Menu_Frame")->hide();
-                auto itemFrame = mRoot->getChild("Item_Frame");
-                itemFrame->show();
-                itemFrame->activate();
+            case OIS::KC_DOWN:
+                mOptionSelected = std::min(3, mOptionSelected + 1);
                 break;
-             }
+            case OIS::KC_RETURN:
+                switch (mOptionSelected) {
+                    case PHYSICAL_ID:
+                        mListener.onHUDPhysicalSelect();
+                        break;
+                    case SPECIAL_ID:
+                        mListener.onHUDSpecialSelect();
+                        break;
+                    case ITEMS_ID: {
+                        mItemsMenuVisible = true;
+                        mRoot->getChild("Menu_Frame")->hide();
+                        auto itemFrame = mRoot->getChild("Item_Frame");
+                        itemFrame->show();
+                        itemFrame->activate();
+                        break;
+                    }
+                    case GUARD_ID:
+                        mListener.onHUDGuardSelect();
+                        break;
+                }
             default:
                 return;
         }
@@ -75,6 +95,9 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
                     itemFrame->getChild("Back_select")->activate();
                     break;
                 }
+                case OIS::KC_RETURN:
+                    mListener.onHUDItemSelect();
+                    break;
                 default:
                     return;
             }

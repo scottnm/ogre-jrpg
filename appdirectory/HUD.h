@@ -7,12 +7,25 @@
 #include <OISKeyboard.h>
 #include <CEGUI/CEGUI.h>
 
+class HUDListener {
+public:
+    virtual void onHUDPhysicalSelect() = 0;
+    virtual void onHUDSpecialSelect() = 0;
+    virtual void onHUDItemSelect() = 0;
+    virtual void onHUDGuardSelect() = 0;
+};
+
 class HUD {
 public:
-    HUD(GUISystem& gui);
+    HUD(GUISystem& gui, HUDListener& listener);
+    ~HUD(void);
+
     void injectKeyDown(const OIS::KeyEvent& arg);
     void injectKeyUp(const OIS::KeyEvent& arg);
 
+    static const Ogre::String windowName;
+
+private:
     GUISystem& mGUI;
     CEGUI::Window* mRoot;
     int mOptionSelected;
@@ -23,8 +36,9 @@ public:
     int mItemsTotal;
     int mItemSelected;
 
-    static const Ogre::String windowName;
     static const Ogre::String mockItems[4];
+
+    HUDListener& mListener;
 };
 
 #endif // __HUD_H__

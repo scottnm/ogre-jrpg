@@ -32,6 +32,9 @@ private:
     virtual bool mouseReleased(const OIS::MouseEvent &arg, OIS::MouseButtonID id);
     virtual bool mouseMoved(const OIS::MouseEvent &arg);
 
+    void cycleActiveCharacter(void);
+    void dequeueActiveCharacter(void);
+
     // gui
     HUD* mHUD;
     void onHUDPhysicalSelect();
@@ -39,8 +42,7 @@ private:
     void onHUDItemSelect();
     void onHUDGuardSelect();
 
-    int currentCharacterId;
-
+    unsigned int focusedCharacterId;
 
     /*
     bool guiCbStart(const CEGUI::EventArgs& e);

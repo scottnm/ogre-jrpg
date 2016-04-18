@@ -14,7 +14,7 @@ http://www.ogre3d.org/tikiwiki/tiki-index.php?page=MinimalOgre-cpp
 SingleplayerGame::SingleplayerGame(RenderingEngine* renderer, GUISystem* gui,
         SoundBank* soundBank, PlayerBank* playerBank)
     : BaseGame(renderer, gui, soundBank, playerBank) {
-    currentCharacterId = 0;
+    focusedCharacterId = 0;
 }
 
 SingleplayerGame::~SingleplayerGame(void) {
@@ -49,17 +49,18 @@ void SingleplayerGame::createScene(void){
     Player* p = new Player(scnMgr, mRoomRoot,
             mPlayerBank->getPlayerInfo("Chester"));
     p->setPosition(Ogre::Vector3(500, 50, 0));
-    player_list.push_back(p);
+    players.push_back(p);
 
     Player* p2 = new Player(scnMgr, mRoomRoot,
             mPlayerBank->getPlayerInfo("Scoot"));
     p2->setPosition(Ogre::Vector3(500, 50, 200));
-    player_list.push_back(p2);
+    players.push_back(p2);
 
     Player* p3 = new Player(scnMgr, mRoomRoot,
             mPlayerBank->getPlayerInfo("Sygmund"));
     p3->setPosition(Ogre::Vector3(500, 50, -200));
-    player_list.push_back(p3);
+    players.push_back(p3);
+    
 
     Player* p4 = new Player(scnMgr, mRoomRoot,
             mPlayerBank->getPlayerInfo("Mecha-Scoot"));
@@ -76,14 +77,14 @@ void SingleplayerGame::destroyScene(void) {
 
 void SingleplayerGame::initGUI(void)
 {
-    mHUD = new HUD(*mGUI, *this, player_list[0]->info, player_list[1]->info,
-        player_list[2]->info);
+    mHUD = new HUD(*mGUI, *this, players);
 }
 
 bool SingleplayerGame::go(void)
 {
     // Create the scene
     createScene();
+    playersWaiting = players;
     initGUI();
 
     // setup listeners
@@ -97,11 +98,17 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
     {
         return true;
     }
+
+    if (playersWaiting.size() == 0) {
+        playersWaiting = players;
+    }
     return true;
 }
 
 bool SingleplayerGame::keyPressed(const OIS::KeyEvent &arg) {
-    mHUD->injectKeyDown(arg);
+    if (playersWaiting.size() > 0) {
+        mHUD->injectKeyDown(arg);
+    }
     switch(arg.key) {
         case OIS::KC_1:
             mSoundBank->play("1");
@@ -112,13 +119,17 @@ bool SingleplayerGame::keyPressed(const OIS::KeyEvent &arg) {
         case OIS::KC_3:
             mSoundBank->play("3");
             break;
+        case OIS::KC_TAB:
+            cycleActiveCharacter();
         default:
             break;
     }
     return true;
 }
 bool SingleplayerGame::keyReleased(const OIS::KeyEvent &arg) {
-    mHUD->injectKeyUp(arg);
+    if (playersWaiting.size() > 0) {
+        mHUD->injectKeyUp(arg);
+    }
     return true;
 }
 bool SingleplayerGame::mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonID id) {
@@ -131,28 +142,43 @@ bool SingleplayerGame::mouseMoved(const OIS::MouseEvent &arg) {
     return true;
 }
 
+void SingleplayerGame::cycleActiveCharacter() {
+    focusedCharacterId = (focusedCharacterId + 1) % playersWaiting.size();
+    mHUD->updateFocusedCharacter(playersWaiting.at(focusedCharacterId)->id);
+}
+
+void SingleplayerGame::dequeueActiveCharacter() {
+    playersWaiting.erase(playersWaiting.begin() + focusedCharacterId);
+    if (playersWaiting.size() <= focusedCharacterId) {
+        focusedCharacterId = 0;
+    }
+
+    if (playersWaiting.size() > 0) {
+        mHUD->updateFocusedCharacter(playersWaiting.at(focusedCharacterId)->id);
+    }
+    else {
+        mHUD->updateFocusedCharacter(0);
+    }
+}
+
 void SingleplayerGame::onHUDPhysicalSelect() {
-    std::cout << "Attack " << currentCharacterId << std::endl;
-    currentCharacterId = (currentCharacterId + 1) % player_list.size();
-    mHUD->updateFocusedCharacter(currentCharacterId);
+    std::cout << "Attack " << std::endl;
+    dequeueActiveCharacter();
 }
 
 void SingleplayerGame::onHUDSpecialSelect() {
-    std::cout << "Special " << currentCharacterId << std::endl;
-    currentCharacterId = (currentCharacterId + 1) % player_list.size();
-    mHUD->updateFocusedCharacter(currentCharacterId);
+    std::cout << "Special " << std::endl;
+    dequeueActiveCharacter();
 }
 
 void SingleplayerGame::onHUDItemSelect() {
-    std::cout << "Item " << currentCharacterId << std::endl;
-    currentCharacterId = (currentCharacterId + 1) % player_list.size();
-    mHUD->updateFocusedCharacter(currentCharacterId);
+    std::cout << "Item " << std::endl;
+    dequeueActiveCharacter();
 }
 
 void SingleplayerGame::onHUDGuardSelect() {
-    std::cout << "Guard " << currentCharacterId << std::endl;
-    currentCharacterId = (currentCharacterId + 1) % player_list.size();
-    mHUD->updateFocusedCharacter(currentCharacterId);
+    std::cout << "Guard " << std::endl;
+    dequeueActiveCharacter();
 }
 
 /*

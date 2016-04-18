@@ -1,7 +1,11 @@
 #include "Player.h"
 
+static int idGenerator = 0;
+
 Player::Player(Ogre::SceneManager* _scnmgr, Ogre::SceneNode* _scnnode,
-        const PlayerInfo& i) : GameObject(_scnmgr), info(i) {
+        const PlayerInfo& i)
+    : GameObject(_scnmgr), id(idGenerator++), info(i) {
+
 	GameObject::sceneManager = _scnmgr;
 	entity = _scnmgr->createEntity("sphere.mesh");
 	entity->setMaterialName("Examples/Rocky");

@@ -12,8 +12,7 @@ enum HUD_ID {
     GUARD_ID
 };
 
-HUD::HUD(GUISystem& gui, HUDListener& listener,
-        const PlayerInfo& p1, const PlayerInfo& p2, const PlayerInfo& p3)
+HUD::HUD(GUISystem& gui, HUDListener& listener, std::vector<Player*> players) 
     : mGUI(gui), mListener(listener) {
 
     mOptionSelected = 0;
@@ -41,19 +40,18 @@ HUD::HUD(GUISystem& gui, HUDListener& listener,
     auto p1Frame = mRoot->getChild("Party_Frame")->getChild("PartyMember1_Frame");
     auto p2Frame = mRoot->getChild("Party_Frame")->getChild("PartyMember2_Frame");
     CEGUI::Window* frames[3] = {p0Frame, p1Frame, p2Frame};
-    PlayerInfo players[3] = {p1, p2, p3};
-    for(int i = 0; i < 3; ++i) {
-        auto frame = frames[i];
-        auto player = players[i];
-        frame->getChild("PM_Name_StaticText")->setText(player.name);
+    for(Player* player : players) { 
+        PlayerInfo& info = player->info;
+        CEGUI::Window* frame = frames[player->id]; 
+        frame->getChild("PM_Name_StaticText")->setText(info.name);
         frame->getChild("PM_HP_Left_StaticText")->setText(
-                Ogre::StringConverter::toString(player.health));
+                Ogre::StringConverter::toString(info.health));
         frame->getChild("PM_HP_Total_StaticText")->setText(
-                Ogre::StringConverter::toString(player.healthMax));
+                Ogre::StringConverter::toString(info.healthMax));
         frame->getChild("PM_SP_Left_StaticText")->setText(
-                Ogre::StringConverter::toString(player.specialPoints));
+                Ogre::StringConverter::toString(info.specialPoints));
         frame->getChild("PM_SP_Total_StaticText")->setText(
-                Ogre::StringConverter::toString(player.specialPointsMax));
+                Ogre::StringConverter::toString(info.specialPointsMax));
     }
 
     charSelected = p0Frame;

@@ -10,6 +10,7 @@ GameManager::GameManager()
     SDLNet_Init();
 
     mSoundBank.loadAudioDatabase("assets/audio/AudioSources.xml");
+    mPlayerBank.loadPlayerDatabase("assets/characters/characters.xml");
 }
 
 GameManager::~GameManager(void) {

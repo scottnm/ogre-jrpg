@@ -12,8 +12,8 @@ http://www.ogre3d.org/tikiwiki/tiki-index.php?page=MinimalOgre-cpp
 #include <string>
 
 SingleplayerGame::SingleplayerGame(RenderingEngine* renderer, GUISystem* gui,
-        SoundBank* soundBank)
-    : BaseGame(renderer, gui, soundBank) {
+        SoundBank* soundBank, PlayerBank* playerBank)
+    : BaseGame(renderer, gui, soundBank, playerBank) {
 }
 
 SingleplayerGame::~SingleplayerGame(void) {

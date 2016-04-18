@@ -7,9 +7,11 @@
 class Player : public GameObject
 {
 public:
-	Player(Ogre::SceneManager* _scnmgr, Ogre::SceneNode* _scnnode, const PlayerInfo& i);
+	Player(Ogre::SceneManager* _scnmgr, Ogre::SceneNode* _scnnode,
+           const PlayerInfo& i);
 	virtual ~Player(void) {};
 
+    const int id;
 	Ogre::Entity* entity;
     PlayerInfo info;
 };

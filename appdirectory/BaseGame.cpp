@@ -13,7 +13,8 @@ http://www.ogre3d.org/tikiwiki/tiki-index.php?page=MinimalOgre-cpp
 
 Ogre::String BaseGame::mainLightName = "MainLight";
 
-BaseGame::BaseGame(RenderingEngine* renderer, GUISystem* gui, SoundBank* soundBank, PlayerBank* playerBank)
+BaseGame::BaseGame(RenderingEngine* renderer, GUISystem* gui,
+                   SoundBank* soundBank, PlayerBank* playerBank)
     : mRenderer(renderer),
     mGUI(gui),
     mSoundBank(soundBank),

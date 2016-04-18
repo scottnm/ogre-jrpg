@@ -2,11 +2,13 @@
 #define __HUD_H__
 
 #include "GUISystem.h"
-#include "PlayerInfo.h"
+#include "Player.h"
 
 #include <OgreString.h>
 #include <OISKeyboard.h>
 #include <CEGUI/CEGUI.h>
+
+#include <vector>
 
 class HUDListener {
 public:
@@ -18,8 +20,7 @@ public:
 
 class HUD {
 public:
-    HUD(GUISystem& gui, HUDListener& listener,
-            const PlayerInfo& p1, const PlayerInfo& p2, const PlayerInfo& p3);
+    HUD(GUISystem& gui, HUDListener& listener, std::vector<Player*> players);
     ~HUD(void);
 
     void injectKeyDown(const OIS::KeyEvent& arg);

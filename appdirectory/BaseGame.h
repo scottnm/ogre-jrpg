@@ -23,6 +23,7 @@ http://www.ogre3d.org/tikiwiki/tiki-index.php?page=MinimalOgre-h&structure=Devel
 #include <vector>
 
 #include "SoundBank.h"
+#include "PlayerBank.h"
 
 #include <SDL/SDL.h>
 #include <SDL/SDL_net.h>
@@ -40,7 +41,7 @@ http://www.ogre3d.org/tikiwiki/tiki-index.php?page=MinimalOgre-h&structure=Devel
 class BaseGame : public Ogre::FrameListener
 {
 public:
-    BaseGame(RenderingEngine* renderer, GUISystem* gui, SoundBank* soundBank);
+    BaseGame(RenderingEngine* renderer, GUISystem* gui, SoundBank* soundBank, PlayerBank* playerBank);
     virtual ~BaseGame(void);
     virtual bool go(void) = 0;
     virtual bool isShutDown(void) { return mShutDown; }
@@ -48,6 +49,7 @@ public:
     RenderingEngine* mRenderer;
     GUISystem* mGUI;
     SoundBank* mSoundBank;
+    PlayerBank* mPlayerBank;
     bool mShutDown;
 
     // Ogre Bites

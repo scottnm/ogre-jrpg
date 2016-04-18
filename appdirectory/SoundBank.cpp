@@ -21,18 +21,9 @@ void SoundBank::loadAudioDatabase(const std::string& _fn) {
 
     using boost::property_tree::ptree;
     ptree pt;
-
-    // Load the XML file into the property tree. If reading fails
-    // (cannot open file, parse error), an exception is thrown.
     read_xml(_fn, pt);
 
     std::string srcdir = pt.get<std::string>("audioDatabase.sourcedir") + "/";
-
-    // Iterate over the debug.modules section and store all found
-    // modules in the m_modules set. The get_child() function
-    // returns a reference to the child at the specified path; if
-    // there is no such child, it throws. Property tree iterators
-    // are models of BidirectionalIterator.
     BOOST_FOREACH(ptree::value_type &v, pt.get_child("audioDatabase.sources")) {
         std::string id = v.second.get<std::string>("id");
         std::string fname = srcdir + v.second.get<std::string>("filename");

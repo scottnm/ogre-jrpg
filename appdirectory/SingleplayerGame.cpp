@@ -12,9 +12,9 @@ http://www.ogre3d.org/tikiwiki/tiki-index.php?page=MinimalOgre-cpp
 #include <string>
 
 SingleplayerGame::SingleplayerGame(RenderingEngine* renderer, GUISystem* gui,
-        SoundBank* soundBank)
-    : BaseGame(renderer, gui, soundBank) {
-        currentCharacterId = 0;
+        SoundBank* soundBank, PlayerBank* playerBank)
+    : BaseGame(renderer, gui, soundBank, playerBank) {
+    currentCharacterId = 0;
 }
 
 SingleplayerGame::~SingleplayerGame(void) {
@@ -47,22 +47,22 @@ void SingleplayerGame::createScene(void){
 
     // Add test objects
     Player* p = new Player(scnMgr, mRoomRoot,
-            PlayerInfo("p1", 100, 20, 10, 10, 0.5f));
+            mPlayerBank->getPlayerInfo("Chester"));
     p->setPosition(Ogre::Vector3(500, 50, 0));
     player_list.push_back(p);
 
     Player* p2 = new Player(scnMgr, mRoomRoot,
-            PlayerInfo("p2", 100, 20, 10, 10, 0.5f));
+            mPlayerBank->getPlayerInfo("Scoot"));
     p2->setPosition(Ogre::Vector3(500, 50, 200));
     player_list.push_back(p2);
 
     Player* p3 = new Player(scnMgr, mRoomRoot,
-            PlayerInfo("p3", 100, 20, 10, 10, 0.5f));
+            mPlayerBank->getPlayerInfo("Sygmund"));
     p3->setPosition(Ogre::Vector3(500, 50, -200));
     player_list.push_back(p3);
 
     Player* p4 = new Player(scnMgr, mRoomRoot,
-            PlayerInfo("p4", 100, 20, 10, 10, 0.5f));
+            mPlayerBank->getPlayerInfo("Mecha-Scoot"));
     p4->setPosition(Ogre::Vector3(-500, 50, 0));
 
     // Set Camera Position

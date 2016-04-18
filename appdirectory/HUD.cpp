@@ -82,14 +82,9 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
                     case SPECIAL_ID:
                         mListener.onHUDSpecialSelect();
                         break;
-                    case ITEMS_ID: {
-                        mItemsMenuVisible = true;
-                        mRoot->getChild("Menu_Frame")->hide();
-                        auto itemFrame = mRoot->getChild("Item_Frame");
-                        itemFrame->show();
-                        itemFrame->activate();
+                    case ITEMS_ID:
+                        switchToItemMenu();
                         break;
-                    }
                     case GUARD_ID:
                         mListener.onHUDGuardSelect();
                         break;
@@ -120,6 +115,7 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
                 }
                 case OIS::KC_RETURN:
                     mListener.onHUDItemSelect();
+                    switchToActionMenu(); 
                     break;
                 default:
                     return;
@@ -130,15 +126,7 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
         else {
             switch(arg.key) {
                 case OIS::KC_RETURN: {
-                    mItemsMenuVisible = false;
-                    mItemsFocused = true;
-                    mRoot->getChild("Menu_Frame")->show();
-                    mRoot->getChild("Menu_Frame")->activate();
-                    auto itemFrame = mRoot->getChild("Item_Frame");
-                    itemFrame->hide();
-                    itemFrame->getChild("Items_select")->show();
-                    itemFrame->getChild("Items_select")->activate();
-                    itemFrame->getChild("Back_select")->hide();
+                    switchToActionMenu();
                     break;
                 }
                 case OIS::KC_UP: {
@@ -154,6 +142,26 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
             }
         }
     }
+}
+
+void HUD::switchToItemMenu(void) {
+    mItemsMenuVisible = true;
+    mRoot->getChild("Menu_Frame")->hide();
+    auto itemFrame = mRoot->getChild("Item_Frame");
+    itemFrame->show();
+    itemFrame->activate();
+}
+
+void HUD::switchToActionMenu(void) {
+    mItemsMenuVisible = false;
+    mItemsFocused = true;
+    mRoot->getChild("Menu_Frame")->show();
+    mRoot->getChild("Menu_Frame")->activate();
+    auto itemFrame = mRoot->getChild("Item_Frame");
+    itemFrame->hide();
+    itemFrame->getChild("Items_select")->show();
+    itemFrame->getChild("Items_select")->activate();
+    itemFrame->getChild("Back_select")->hide();
 }
 
 void HUD::injectKeyUp(const OIS::KeyEvent& arg) {

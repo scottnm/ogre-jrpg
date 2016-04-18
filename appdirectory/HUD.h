@@ -28,6 +28,9 @@ public:
     static const Ogre::String windowName;
 
 private:
+    void switchToItemMenu(void);
+    void switchToActionMenu(void);
+
     GUISystem& mGUI;
     CEGUI::Window* mRoot;
     int mOptionSelected;

@@ -22,7 +22,6 @@ HUD::HUD(GUISystem& gui, HUDListener& listener,
     mItemsTotal = 4;
     mItemSelected = 0;
 
-
     CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
     mRoot = wmgr.loadLayoutFromFile("scaling_menu.layout");
 
@@ -38,10 +37,10 @@ HUD::HUD(GUISystem& gui, HUDListener& listener,
     mRoot->getChild("Item_Frame")->getChild("Items_StaticText")->
         setText(mockItems[mItemSelected]);
 
+    auto p0Frame = mRoot->getChild("Party_Frame")->getChild("PartyMember0_Frame");
     auto p1Frame = mRoot->getChild("Party_Frame")->getChild("PartyMember1_Frame");
     auto p2Frame = mRoot->getChild("Party_Frame")->getChild("PartyMember2_Frame");
-    auto p3Frame = mRoot->getChild("Party_Frame")->getChild("PartyMember3_Frame");
-    CEGUI::Window* frames[3] = {p1Frame, p2Frame, p3Frame};
+    CEGUI::Window* frames[3] = {p0Frame, p1Frame, p2Frame};
     PlayerInfo players[3] = {p1, p2, p3};
     for(int i = 0; i < 3; ++i) {
         auto frame = frames[i];
@@ -57,6 +56,8 @@ HUD::HUD(GUISystem& gui, HUDListener& listener,
                 Ogre::StringConverter::toString(player.specialPointsMax));
     }
 
+    charSelected = p0Frame;
+    updateFocusedCharacter(0);
     mGUI.addAndSetWindowGroup(HUD::windowName, mRoot);
 }
 
@@ -162,6 +163,21 @@ void HUD::switchToActionMenu(void) {
     itemFrame->getChild("Items_select")->show();
     itemFrame->getChild("Items_select")->activate();
     itemFrame->getChild("Back_select")->hide();
+}
+
+void HUD::updateFocusedCharacter(int charId) {
+    charSelected->setProperty("Colour",
+            "tl:0000000 tr:00000000 bl:00000000 br:00000000");
+
+    static const CEGUI::String tmpStart = "PartyMember";
+    static const CEGUI::String tmpEnd = "_Frame";
+    Ogre::String id = Ogre::StringConverter::toString(charId);
+    auto focusedChildFrame = mRoot->getChild("Party_Frame")->getChild(
+            tmpStart + CEGUI::String(id.c_str()) + tmpEnd);
+
+    focusedChildFrame->setProperty("Colour",
+            "tl:FFFF0000 tr:FFFF0000 bl:FFFF0000 br:FFFF0000");
+    charSelected = focusedChildFrame;
 }
 
 void HUD::injectKeyUp(const OIS::KeyEvent& arg) {

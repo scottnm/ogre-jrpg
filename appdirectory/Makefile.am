@@ -1,4 +1,4 @@
-noinst_HEADERS = BaseGame.h GameManager.h GUISystem.h HUD.h RenderingEngine.h SingleplayerGame.h Plane.h Player.h GameObject.h SoundBank.h PlayerBank.h
+noinst_HEADERS = BaseGame.h GameManager.h GUISystem.h HUD.h RenderingEngine.h SingleplayerGame.h Plane.h Player.h PlayerBank.h PlayerInfo.h GameObject.h SoundBank.h
 
 bin_PROGRAMS = Battle
 Battle_SOURCES = BaseGame.cpp GameManager.cpp GUISystem.cpp HUD.cpp Main.cpp RenderingEngine.cpp SingleplayerGame.cpp Plane.cpp Player.cpp GameObject.cpp SoundBank.cpp PlayerBank.cpp

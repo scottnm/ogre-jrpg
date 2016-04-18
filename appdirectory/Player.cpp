@@ -1,7 +1,7 @@
 #include "Player.h"
 
-Player::Player(Ogre::SceneManager* _scnmgr, Ogre::SceneNode* _scnnode) :
-GameObject(_scnmgr) {
+Player::Player(Ogre::SceneManager* _scnmgr, Ogre::SceneNode* _scnnode,
+        const PlayerInfo& i) : GameObject(_scnmgr), info(i) {
 	GameObject::sceneManager = _scnmgr;
 	entity = _scnmgr->createEntity("sphere.mesh");
 	entity->setMaterialName("Examples/Rocky");

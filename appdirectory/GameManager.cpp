@@ -182,7 +182,7 @@ void GameManager::closeGame(void) {
 
 bool GameManager::guiCbInitSinglePlayer(const CEGUI::EventArgs& e) {
     if (mGame != nullptr) delete mGame;
-    mGame = new SingleplayerGame(mRenderer, mGUI, &mSoundBank);
+    mGame = new SingleplayerGame(mRenderer, mGUI, &mSoundBank, &mPlayerBank);
     mGame->go();
     return true;
 }

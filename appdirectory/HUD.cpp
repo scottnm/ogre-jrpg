@@ -1,5 +1,6 @@
 #include "HUD.h"
 #include <algorithm>
+#include <OgreStringConverter.h>
 
 const Ogre::String HUD::windowName = "HUD";
 const Ogre::String HUD::mockItems[4] = {"Apple", "Cool thing", "jimjam", "sweater"};
@@ -11,7 +12,9 @@ enum HUD_ID {
     GUARD_ID
 };
 
-HUD::HUD(GUISystem& gui, HUDListener& listener) : mGUI(gui), mListener(listener) {
+HUD::HUD(GUISystem& gui, HUDListener& listener,
+        const PlayerInfo& p1, const PlayerInfo& p2, const PlayerInfo& p3)
+    : mGUI(gui), mListener(listener) {
 
     mOptionSelected = 0;
     mItemsMenuVisible = false;
@@ -21,7 +24,7 @@ HUD::HUD(GUISystem& gui, HUDListener& listener) : mGUI(gui), mListener(listener)
 
 
     CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
-    mRoot = wmgr.loadLayoutFromFile("menu.layout");
+    mRoot = wmgr.loadLayoutFromFile("scaling_menu.layout");
 
     auto MenuFrame = mRoot->getChild("Menu_Frame");
 
@@ -30,9 +33,29 @@ HUD::HUD(GUISystem& gui, HUDListener& listener) : mGUI(gui), mListener(listener)
     mOptionSelects[ITEMS_ID] = MenuFrame->getChild("Items_select");
     mOptionSelects[GUARD_ID] = MenuFrame->getChild("Guard_select");
 
+    // prep gui with info
 
     mRoot->getChild("Item_Frame")->getChild("Items_StaticText")->
         setText(mockItems[mItemSelected]);
+
+    auto p1Frame = mRoot->getChild("Party_Frame")->getChild("PartyMember1_Frame");
+    auto p2Frame = mRoot->getChild("Party_Frame")->getChild("PartyMember2_Frame");
+    auto p3Frame = mRoot->getChild("Party_Frame")->getChild("PartyMember3_Frame");
+    CEGUI::Window* frames[3] = {p1Frame, p2Frame, p3Frame};
+    PlayerInfo players[3] = {p1, p2, p3};
+    for(int i = 0; i < 3; ++i) {
+        auto frame = frames[i];
+        auto player = players[i];
+        frame->getChild("PM_Name_StaticText")->setText(player.name);
+        frame->getChild("PM_HP_Left_StaticText")->setText(
+                Ogre::StringConverter::toString(player.health));
+        frame->getChild("PM_HP_Total_StaticText")->setText(
+                Ogre::StringConverter::toString(player.healthMax));
+        frame->getChild("PM_SP_Left_StaticText")->setText(
+                Ogre::StringConverter::toString(player.specialPoints));
+        frame->getChild("PM_SP_Total_StaticText")->setText(
+                Ogre::StringConverter::toString(player.specialPointsMax));
+    }
 
     mGUI.addAndSetWindowGroup(HUD::windowName, mRoot);
 }

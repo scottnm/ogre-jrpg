@@ -45,25 +45,28 @@ void SingleplayerGame::createScene(void){
     ground = new Plane(scnMgr, mRoomRoot);
 
     // Add test objects
-    Player* p = new Player(scnMgr, mRoomRoot);
+    Player* p = new Player(scnMgr, mRoomRoot,
+            PlayerInfo("p1", 100, 20, 10, 10, 0.5f));
     p->setPosition(Ogre::Vector3(500, 50, 0));
     player_list.push_back(p);
 
-    Player* p2 = new Player(scnMgr, mRoomRoot);
+    Player* p2 = new Player(scnMgr, mRoomRoot,
+            PlayerInfo("p2", 100, 20, 10, 10, 0.5f));
     p2->setPosition(Ogre::Vector3(500, 50, 200));
     player_list.push_back(p2);
 
-    Player* p3 = new Player(scnMgr, mRoomRoot);
+    Player* p3 = new Player(scnMgr, mRoomRoot,
+            PlayerInfo("p3", 100, 20, 10, 10, 0.5f));
     p3->setPosition(Ogre::Vector3(500, 50, -200));
     player_list.push_back(p3);
 
-    Player* p4 = new Player(scnMgr, mRoomRoot);
+    Player* p4 = new Player(scnMgr, mRoomRoot,
+            PlayerInfo("p4", 100, 20, 10, 10, 0.5f));
     p4->setPosition(Ogre::Vector3(-500, 50, 0));
 
     // Set Camera Position
     camera->setPosition(Ogre::Vector3(-1000, 250, -1000));
     camera->lookAt(Ogre::Vector3(0, 0, 0));
-
 }
 
 void SingleplayerGame::destroyScene(void) {
@@ -72,14 +75,15 @@ void SingleplayerGame::destroyScene(void) {
 
 void SingleplayerGame::initGUI(void)
 {
-    mHUD = new HUD(*mGUI, *this);
+    mHUD = new HUD(*mGUI, *this, player_list[0]->info, player_list[1]->info,
+        player_list[2]->info);
 }
 
 bool SingleplayerGame::go(void)
 {
     // Create the scene
-    initGUI();
     createScene();
+    initGUI();
 
     // setup listeners
     mRenderer->addFrameListener(this);

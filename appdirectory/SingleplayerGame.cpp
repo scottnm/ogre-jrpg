@@ -134,21 +134,25 @@ bool SingleplayerGame::mouseMoved(const OIS::MouseEvent &arg) {
 void SingleplayerGame::onHUDPhysicalSelect() {
     std::cout << "Attack " << currentCharacterId << std::endl;
     currentCharacterId = (currentCharacterId + 1) % player_list.size();
+    mHUD->updateFocusedCharacter(currentCharacterId);
 }
 
 void SingleplayerGame::onHUDSpecialSelect() {
     std::cout << "Special " << currentCharacterId << std::endl;
     currentCharacterId = (currentCharacterId + 1) % player_list.size();
+    mHUD->updateFocusedCharacter(currentCharacterId);
 }
 
 void SingleplayerGame::onHUDItemSelect() {
     std::cout << "Item " << currentCharacterId << std::endl;
     currentCharacterId = (currentCharacterId + 1) % player_list.size();
+    mHUD->updateFocusedCharacter(currentCharacterId);
 }
 
 void SingleplayerGame::onHUDGuardSelect() {
     std::cout << "Guard " << currentCharacterId << std::endl;
     currentCharacterId = (currentCharacterId + 1) % player_list.size();
+    mHUD->updateFocusedCharacter(currentCharacterId);
 }
 
 /*

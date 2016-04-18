@@ -65,7 +65,7 @@
             <Property name="Area" value="{{0,549.999},{0,1.79147},{1,-4.00067},{1,1.79147}}" />
             <Property name="Colour" value="tl:00000000 tr:00000000 bl:00000000 br:00000000" />
             <Property name="MaxSize" value="{{1,0},{1,0}}" />
-            <Window type="Vanilla/FrameColourRect" name="PartyMember1_Frame" >
+            <Window type="Vanilla/FrameColourRect" name="PartyMember0_Frame" >
                 <Property name="Area" value="{{0.000732064,0},{0,0},{1.00073,-920},{1,0}}" />
                 <Property name="Colour" value="tl:00000000 tr:00000000 bl:00000000 br:00000000" />
                 <Property name="MaxSize" value="{{1,0},{1,0}}" />
@@ -135,7 +135,7 @@
                     <Property name="VertScrollPageSize" value="36" />
                 </Window>
             </Window>
-            <Window type="Vanilla/FrameColourRect" name="PartyMember2_Frame" >
+            <Window type="Vanilla/FrameColourRect" name="PartyMember1_Frame" >
                 <Property name="Area" value="{{0.331625,0},{0.00473934,0},{1.33163,-920},{1.00474,0}}" />
                 <Property name="Colour" value="tl:00000000 tr:00000000 bl:00000000 br:00000000" />
                 <Property name="MaxSize" value="{{1,0},{1,0}}" />
@@ -205,7 +205,7 @@
                     <Property name="VertScrollPageSize" value="36" />
                 </Window>
             </Window>
-            <Window type="Vanilla/FrameColourRect" name="PartyMember3_Frame" >
+            <Window type="Vanilla/FrameColourRect" name="PartyMember2_Frame" >
                 <Property name="Area" value="{{0.661786,0},{0.00473934,0},{1.66179,-920},{1.00474,0}}" />
                 <Property name="Colour" value="tl:00000000 tr:00000000 bl:00000000 br:00000000" />
                 <Property name="MaxSize" value="{{1,0},{1,0}}" />

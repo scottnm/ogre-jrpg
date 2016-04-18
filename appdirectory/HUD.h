@@ -24,6 +24,7 @@ public:
 
     void injectKeyDown(const OIS::KeyEvent& arg);
     void injectKeyUp(const OIS::KeyEvent& arg);
+    void updateFocusedCharacter(int characterId);
 
     static const Ogre::String windowName;
 
@@ -35,6 +36,7 @@ private:
     CEGUI::Window* mRoot;
     int mOptionSelected;
     CEGUI::Window* mOptionSelects[4];
+    CEGUI::Window* charSelected;
 
     bool mItemsMenuVisible; 
     bool mItemsFocused;

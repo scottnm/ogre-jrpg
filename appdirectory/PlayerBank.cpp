@@ -5,15 +5,15 @@
 #include <boost/foreach.hpp>
 
 PlayerBank::PlayerBank() {
-    Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096);
+    
 }
 
 PlayerBank::~PlayerBank() {
     // iterate over chunkbank and free all of the chunks
-    for(auto pair : mPlayerBank) {
+    for(auto pair : mCharacterBank) {
         delete pair.second;
     }
-     mPlayerBank.clear();
+     mCharacterBank.clear();
 }
 
 void PlayerBank::loadPlayerDatabase(const std::string& _fn) {
@@ -41,6 +41,17 @@ void PlayerBank::loadPlayerDatabase(const std::string& _fn) {
         int armor = v.second.get<int>("armor");
         float accuracy = v.second.get<float>("accuracy");
         PlayerInfo* player = new PlayerInfo(name, health, special, damage, armor, accuracy);
-        mPlayerBank.emplace(id, player);
+        mCharacterBank.emplace(name, player);
+    }
+
+    for (auto pair : mCharacterBank) {
+        std::string info;
+        info += pair.second->name + " | "; 
+        info += "He(" + std::to_string(pair.second->health)   + ") ";
+        info += "AP(" + std::to_string(pair.second->specialPoints)  + ") ";
+        info += "Da(" + std::to_string(pair.second->damage)   + ") ";
+        info += "Ar(" + std::to_string(pair.second->armor)    + ") ";
+        info += "Ac(" + std::to_string(pair.second->accuracy) + ") ";
+        std::cout << info << std::endl;
     }
 }

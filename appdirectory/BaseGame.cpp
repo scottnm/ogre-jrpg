@@ -17,7 +17,7 @@ BaseGame::BaseGame(RenderingEngine* renderer, GUISystem* gui, SoundBank* soundBa
     : mRenderer(renderer),
     mGUI(gui),
     mSoundBank(soundBank),
-    mPlayerBank(playerBank)
+    mPlayerBank(playerBank),
     mShutDown(false),
     mCursorWasVisible(false),
     mRoomRoot(nullptr) {

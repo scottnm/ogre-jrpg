@@ -2,6 +2,7 @@
 #define __HUD_H__
 
 #include "GUISystem.h"
+#include "PlayerInfo.h"
 
 #include <OgreString.h>
 #include <OISKeyboard.h>
@@ -17,7 +18,8 @@ public:
 
 class HUD {
 public:
-    HUD(GUISystem& gui, HUDListener& listener);
+    HUD(GUISystem& gui, HUDListener& listener,
+            const PlayerInfo& p1, const PlayerInfo& p2, const PlayerInfo& p3);
     ~HUD(void);
 
     void injectKeyDown(const OIS::KeyEvent& arg);
@@ -36,9 +38,9 @@ private:
     int mItemsTotal;
     int mItemSelected;
 
-    static const Ogre::String mockItems[4];
-
     HUDListener& mListener;
+
+    static const Ogre::String mockItems[4];
 };
 
 #endif // __HUD_H__

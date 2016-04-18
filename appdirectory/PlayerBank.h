@@ -4,6 +4,8 @@
 #include <string>
 #include <unordered_map>
 
+#include "PlayerInfo.h"
+
 class PlayerBank {
 public:
     PlayerBank();
@@ -16,7 +18,7 @@ public:
     void loadPlayerDatabase(const std::string& xmlDbFilename);
 
 private:
-    std::unordered_map<std::string, PlayerInfo*> mPlayerBank;
+    std::unordered_map<std::string, PlayerInfo*> mCharacterBank;
 };
 
 #endif // __PLAYERBANK_H__

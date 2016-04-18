@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout version="4" >
+    <Window type="Vanilla/FrameColourRect" name="Info_Frame" >
+        <Property name="Area" value="{{0,0},{0,890.1},{1,0},{1.09074,-98.8996}}" />
+        <Property name="Colour" value="tl:C8000000 tr:C8000000 bl:C8000000 br:C8000000" />
+        <Property name="MaxSize" value="{{1,0},{1,0}}" />
+        <Window type="Vanilla/FrameColourRect" name="Menu_Frame" >
+            <Property name="Area" value="{{0,57.9999},{0,3.58293},{1,-1480},{1,-0.41707}}" />
+            <Property name="Colour" value="tl:00000000 tr:00000000 bl:00000000 br:00000000" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            <Window type="Vanilla/Label" name="Physical_label" >
+                <Property name="Area" value="{{0.272251,0},{0.0531401,0},{0.272251,162},{0.0531401,46}}" />
+                <Property name="Font" value="Jura-18" />
+                <Property name="Text" value="Physical" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            </Window>
+            <Window type="Vanilla/Label" name="Special_label" >
+                <Property name="Area" value="{{0.272251,0},{0.270531,0},{0.272251,142},{0.270531,46}}" />
+                <Property name="Font" value="Jura-18" />
+                <Property name="Text" value="Special" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            </Window>
+            <Window type="Vanilla/Label" name="Items_label" >
+                <Property name="Area" value="{{0.274869,0},{0.502415,0},{0.274869,104},{0.502415,46}}" />
+                <Property name="Font" value="Jura-18" />
+                <Property name="Text" value="Items" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            </Window>
+            <Window type="Vanilla/Label" name="Guard_label" >
+                <Property name="Area" value="{{0.272251,0},{0.724638,0},{0.272251,113},{0.724638,46}}" />
+                <Property name="Font" value="Jura-18" />
+                <Property name="Text" value="Guard" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            </Window>
+            <Window type="Vanilla/Label" name="Physical_select" >
+                <Property name="Area" value="{{0.15445,0},{0.0724638,0},{0.15445,34},{0.0724638,32}}" />
+                <Property name="Font" value="Jura-18" />
+                <Property name="Text" value="&gt;" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            </Window>
+            <Window type="Vanilla/Label" name="Special_select" >
+                <Property name="Area" value="{{0.151832,0},{0.309179,0},{0.151832,34},{0.309179,32}}" />
+                <Property name="Font" value="Jura-18" />
+                <Property name="Text" value="&gt;" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="Visible" value="false" />
+            </Window>
+            <Window type="Vanilla/Label" name="Items_select" >
+                <Property name="Area" value="{{0.151832,0},{0.52657,0},{0.151832,34},{0.52657,32}}" />
+                <Property name="Font" value="Jura-18" />
+                <Property name="Text" value="&gt;" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="Visible" value="false" />
+            </Window>
+            <Window type="Vanilla/Label" name="Guard_select" >
+                <Property name="Area" value="{{0.149215,0},{0.763285,0},{0.149215,34},{0.763285,32}}" />
+                <Property name="Font" value="Jura-18" />
+                <Property name="Text" value="&gt;" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="Visible" value="false" />
+            </Window>
+        </Window>
+        <Window type="Vanilla/FrameColourRect" name="Party_Frame" >
+            <Property name="Area" value="{{0,549.999},{0,1.79147},{1,-4.00067},{1,1.79147}}" />
+            <Property name="Colour" value="tl:00000000 tr:00000000 bl:00000000 br:00000000" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            <Window type="Vanilla/FrameColourRect" name="PartyMember1_Frame" >
+                <Property name="Area" value="{{0.000732064,0},{0,0},{1.00073,-920},{1,0}}" />
+                <Property name="Colour" value="tl:00000000 tr:00000000 bl:00000000 br:00000000" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Window type="Vanilla/StaticText" name="PM_Name_StaticText" >
+                    <Property name="Area" value="{{0.426009,0},{0,0},{0.426009,256},{0,35}}" />
+                    <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                    <Property name="FrameEnabled" value="false" />
+                    <Property name="BackgroundEnabled" value="false" />
+                    <Property name="HorzScrollPageSize" value="256" />
+                    <Property name="VertScrollPageSize" value="35" />
+                </Window>
+                <Window type="Vanilla/Label" name="PM_HP_Label" >
+                    <Property name="Area" value="{{0.44843,0},{0.350711,0},{0.44843,71},{0.350711,32}}" />
+                    <Property name="Text" value="HP:" />
+                    <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                </Window>
+                <Window type="Vanilla/Label" name="PM_SP_Label" >
+                    <Property name="Area" value="{{0.44843,0},{0.649289,0},{0.44843,72},{0.649289,32}}" />
+                    <Property name="Text" value="SP:" />
+                    <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                </Window>
+                <Window type="Vanilla/StaticImage" name="PM_Pic_StaticImage" >
+                    <Property name="Area" value="{{-0.00224215,0},{0.235989,0},{-0.00224215,189},{0.140751,204}}" />
+                    <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                    <Property name="BackgroundEnabled" value="false" />
+                </Window>
+                <Window type="Vanilla/StaticText" name="PM_HP_Left_StaticText" >
+                    <Property name="Area" value="{{0.609865,0},{0.341232,0},{0.609865,53},{0.341232,36}}" />
+                    <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                    <Property name="FrameEnabled" value="false" />
+                    <Property name="BackgroundEnabled" value="false" />
+                    <Property name="HorzScrollPageSize" value="53" />
+                    <Property name="VertScrollPageSize" value="36" />
+                </Window>
+                <Window type="Vanilla/Label" name="PM_HP_Divider_Label" >
+                    <Property name="Area" value="{{0.730942,0},{0.350711,0},{0.730942,30},{0.350711,32}}" />
+                    <Property name="Text" value="/" />
+                    <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                </Window>
+                <Window type="Vanilla/StaticText" name="PM_HP_Total_StaticText" >
+                    <Property name="Area" value="{{0.798206,0},{0.341232,0},{0.798206,53},{0.341232,36}}" />
+                    <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                    <Property name="FrameEnabled" value="false" />
+                    <Property name="BackgroundEnabled" value="false" />
+                    <Property name="HorzScrollPageSize" value="53" />
+                    <Property name="VertScrollPageSize" value="36" />
+                </Window>
+                <Window type="Vanilla/StaticText" name="PM_SP_Left_StaticText" >
+                    <Property name="Area" value="{{0.609865,0},{0.635071,0},{0.609865,53},{0.635071,36}}" />
+                    <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                    <Property name="FrameEnabled" value="false" />
+                    <Property name="BackgroundEnabled" value="false" />
+                    <Property name="HorzScrollPageSize" value="53" />
+                    <Property name="VertScrollPageSize" value="36" />
+                </Window>
+                <Window type="Vanilla/Label" name="PM_SP_Divider_Label" >
+                    <Property name="Area" value="{{0.730942,0},{0.64455,0},{0.730942,30},{0.64455,32}}" />
+                    <Property name="Text" value="/" />
+                    <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                </Window>
+                <Window type="Vanilla/StaticText" name="PM_SP_Total_StaticText" >
+                    <Property name="Area" value="{{0.798206,0},{0.635071,0},{0.798206,53},{0.635071,36}}" />
+                    <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                    <Property name="FrameEnabled" value="false" />
+                    <Property name="BackgroundEnabled" value="false" />
+                    <Property name="HorzScrollPageSize" value="53" />
+                    <Property name="VertScrollPageSize" value="36" />
+                </Window>
+            </Window>
+            <Window type="Vanilla/FrameColourRect" name="PartyMember2_Frame" >
+                <Property name="Area" value="{{0.331625,0},{0.00473934,0},{1.33163,-920},{1.00474,0}}" />
+                <Property name="Colour" value="tl:00000000 tr:00000000 bl:00000000 br:00000000" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Window type="Vanilla/StaticText" name="PM_Name_StaticText" >
+                    <Property name="Area" value="{{0.426009,0},{0,0},{0.426009,256},{0,35}}" />
+                    <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                    <Property name="FrameEnabled" value="false" />
+                    <Property name="BackgroundEnabled" value="false" />
+                    <Property name="HorzScrollPageSize" value="256" />
+                    <Property name="VertScrollPageSize" value="35" />
+                </Window>
+                <Window type="Vanilla/Label" name="PM_HP_Label" >
+                    <Property name="Area" value="{{0.44843,0},{0.350711,0},{0.44843,71},{0.350711,32}}" />
+                    <Property name="Text" value="HP:" />
+                    <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                </Window>
+                <Window type="Vanilla/Label" name="PM_SP_Label" >
+                    <Property name="Area" value="{{0.44843,0},{0.649289,0},{0.44843,72},{0.649289,32}}" />
+                    <Property name="Text" value="SP:" />
+                    <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                </Window>
+                <Window type="Vanilla/StaticImage" name="PM_Pic_StaticImage" >
+                    <Property name="Area" value="{{0,0},{0.25625,0},{0,189},{0.161012,204}}" />
+                    <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                    <Property name="BackgroundEnabled" value="false" />
+                </Window>
+                <Window type="Vanilla/StaticText" name="PM_HP_Left_StaticText" >
+                    <Property name="Area" value="{{0.609865,0},{0.341232,0},{0.609865,53},{0.341232,36}}" />
+                    <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                    <Property name="FrameEnabled" value="false" />
+                    <Property name="BackgroundEnabled" value="false" />
+                    <Property name="HorzScrollPageSize" value="53" />
+                    <Property name="VertScrollPageSize" value="36" />
+                </Window>
+                <Window type="Vanilla/Label" name="PM_HP_Divider_Label" >
+                    <Property name="Area" value="{{0.730942,0},{0.350711,0},{0.730942,30},{0.350711,32}}" />
+                    <Property name="Text" value="/" />
+                    <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                </Window>
+                <Window type="Vanilla/StaticText" name="PM_HP_Total_StaticText" >
+                    <Property name="Area" value="{{0.798206,0},{0.341232,0},{0.798206,53},{0.341232,36}}" />
+                    <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                    <Property name="FrameEnabled" value="false" />
+                    <Property name="BackgroundEnabled" value="false" />
+                    <Property name="HorzScrollPageSize" value="53" />
+                    <Property name="VertScrollPageSize" value="36" />
+                </Window>
+                <Window type="Vanilla/StaticText" name="PM_SP_Left_StaticText" >
+                    <Property name="Area" value="{{0.609865,0},{0.630332,0},{0.609865,53},{0.630332,36}}" />
+                    <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                    <Property name="FrameEnabled" value="false" />
+                    <Property name="BackgroundEnabled" value="false" />
+                    <Property name="HorzScrollPageSize" value="53" />
+                    <Property name="VertScrollPageSize" value="36" />
+                </Window>
+                <Window type="Vanilla/Label" name="PM_SP_Divider_Label" >
+                    <Property name="Area" value="{{0.730942,0},{0.63981,0},{0.730942,30},{0.63981,32}}" />
+                    <Property name="Text" value="/" />
+                    <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                </Window>
+                <Window type="Vanilla/StaticText" name="PM_SP_Total_StaticText" >
+                    <Property name="Area" value="{{0.798206,0},{0.630332,0},{0.798206,53},{0.630332,36}}" />
+                    <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                    <Property name="FrameEnabled" value="false" />
+                    <Property name="BackgroundEnabled" value="false" />
+                    <Property name="HorzScrollPageSize" value="53" />
+                    <Property name="VertScrollPageSize" value="36" />
+                </Window>
+            </Window>
+            <Window type="Vanilla/FrameColourRect" name="PartyMember3_Frame" >
+                <Property name="Area" value="{{0.661786,0},{0.00473934,0},{1.66179,-920},{1.00474,0}}" />
+                <Property name="Colour" value="tl:00000000 tr:00000000 bl:00000000 br:00000000" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Window type="Vanilla/StaticText" name="PM_Name_StaticText" >
+                    <Property name="Area" value="{{0.426009,0},{0,0},{0.426009,256},{0,35}}" />
+                    <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                    <Property name="FrameEnabled" value="false" />
+                    <Property name="BackgroundEnabled" value="false" />
+                    <Property name="HorzScrollPageSize" value="256" />
+                    <Property name="VertScrollPageSize" value="35" />
+                </Window>
+                <Window type="Vanilla/Label" name="PM_HP_Label" >
+                    <Property name="Area" value="{{0.44843,0},{0.350711,0},{0.44843,71},{0.350711,32}}" />
+                    <Property name="Text" value="HP:" />
+                    <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                </Window>
+                <Window type="Vanilla/Label" name="PM_SP_Label" >
+                    <Property name="Area" value="{{0.44843,0},{0.649289,0},{0.44843,72},{0.649289,32}}" />
+                    <Property name="Text" value="SP:" />
+                    <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                </Window>
+                <Window type="Vanilla/StaticImage" name="PM_Pic_StaticImage" >
+                    <Property name="Area" value="{{-0.00448431,0},{0.25625,0},{-0.00448431,189},{0.176885,204}}" />
+                    <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                    <Property name="BackgroundEnabled" value="false" />
+                </Window>
+                <Window type="Vanilla/StaticText" name="PM_HP_Left_StaticText" >
+                    <Property name="Area" value="{{0.609865,0},{0.336493,0},{0.609865,53},{0.336493,36}}" />
+                    <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                    <Property name="FrameEnabled" value="false" />
+                    <Property name="BackgroundEnabled" value="false" />
+                    <Property name="HorzScrollPageSize" value="53" />
+                    <Property name="VertScrollPageSize" value="36" />
+                </Window>
+                <Window type="Vanilla/Label" name="PM_HP_Divider_Label" >
+                    <Property name="Area" value="{{0.730942,0},{0.345972,0},{0.730942,30},{0.345972,32}}" />
+                    <Property name="Text" value="/" />
+                    <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                </Window>
+                <Window type="Vanilla/StaticText" name="PM_HP_Total_StaticText" >
+                    <Property name="Area" value="{{0.798206,0},{0.336493,0},{0.798206,53},{0.336493,36}}" />
+                    <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                    <Property name="FrameEnabled" value="false" />
+                    <Property name="BackgroundEnabled" value="false" />
+                    <Property name="HorzScrollPageSize" value="53" />
+                    <Property name="VertScrollPageSize" value="36" />
+                </Window>
+                <Window type="Vanilla/StaticText" name="PM_SP_Left_StaticText" >
+                    <Property name="Area" value="{{0.609865,0},{0.630332,0},{0.609865,53},{0.630332,36}}" />
+                    <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                    <Property name="FrameEnabled" value="false" />
+                    <Property name="BackgroundEnabled" value="false" />
+                    <Property name="HorzScrollPageSize" value="53" />
+                    <Property name="VertScrollPageSize" value="36" />
+                </Window>
+                <Window type="Vanilla/Label" name="PM_SP_Divider_Label" >
+                    <Property name="Area" value="{{0.733184,0},{0.63981,0},{0.733184,30},{0.63981,32}}" />
+                    <Property name="Text" value="/" />
+                    <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                </Window>
+                <Window type="Vanilla/StaticText" name="PM_SP_Total_StaticText" >
+                    <Property name="Area" value="{{0.800448,0},{0.630332,0},{0.800448,53},{0.630332,36}}" />
+                    <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                    <Property name="FrameEnabled" value="false" />
+                    <Property name="BackgroundEnabled" value="false" />
+                    <Property name="HorzScrollPageSize" value="53" />
+                    <Property name="VertScrollPageSize" value="36" />
+                </Window>
+            </Window>
+        </Window>
+        <Window type="Vanilla/FrameColourRect" name="Item_Frame" >
+            <Property name="Area" value="{{0,57.9999},{0,3.58293},{1,-1480},{1,-0.41707}}" />
+            <Property name="Colour" value="tl:00000000 tr:00000000 bl:00000000 br:00000000" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            <Property name="Visible" value="false" />
+            <Window type="Vanilla/Label" name="Items_Label" >
+                <Property name="Area" value="{{0.157068,0},{0.135266,0},{0.157068,256},{0.135266,39}}" />
+                <Property name="Font" value="Jura-18" />
+                <Property name="Text" value="Items" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            </Window>
+            <Window type="Vanilla/StaticText" name="Items_StaticText" >
+                <Property name="Area" value="{{0.157068,0},{0.318841,0},{0.157068,255},{0.318841,57}}" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="BackgroundEnabled" value="false" />
+                <Property name="HorzScrollPageSize" value="235" />
+                <Property name="VertScrollPageSize" value="37" />
+            </Window>
+            <Window type="Vanilla/Label" name="Back_Label" >
+                <Property name="Area" value="{{0.15445,0},{0.594203,0},{0.15445,256},{0.594203,39}}" />
+                <Property name="Font" value="Jura-18" />
+                <Property name="Text" value="back" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            </Window>
+            <Window type="Vanilla/Label" name="Items_select" >
+                <Property name="Area" value="{{0.0602094,0},{0.36715,0},{0.0602094,34},{0.36715,32}}" />
+                <Property name="Font" value="Jura-18" />
+                <Property name="Text" value="&gt;" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            </Window>
+            <Window type="Vanilla/Label" name="Back_select" >
+                <Property name="Area" value="{{0.0628272,0},{0.628019,0},{0.0628272,34},{0.628019,32}}" />
+                <Property name="Font" value="Jura-18" />
+                <Property name="Text" value="&gt;" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="Visible" value="false" />
+            </Window>
+        </Window>
+    </Window>
+</GUILayout>

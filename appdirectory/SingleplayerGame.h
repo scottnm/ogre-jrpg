@@ -39,6 +39,8 @@ private:
     void onHUDItemSelect();
     void onHUDGuardSelect();
 
+    int currentCharacterId;
+
 
     /*
     bool guiCbStart(const CEGUI::EventArgs& e);

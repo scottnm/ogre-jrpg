@@ -14,6 +14,7 @@ http://www.ogre3d.org/tikiwiki/tiki-index.php?page=MinimalOgre-cpp
 SingleplayerGame::SingleplayerGame(RenderingEngine* renderer, GUISystem* gui,
         SoundBank* soundBank)
     : BaseGame(renderer, gui, soundBank) {
+        currentCharacterId = 0;
 }
 
 SingleplayerGame::~SingleplayerGame(void) {
@@ -131,19 +132,23 @@ bool SingleplayerGame::mouseMoved(const OIS::MouseEvent &arg) {
 }
 
 void SingleplayerGame::onHUDPhysicalSelect() {
-    std::cout << "Attack" << std::endl;
+    std::cout << "Attack " << currentCharacterId << std::endl;
+    currentCharacterId = (currentCharacterId + 1) % player_list.size();
 }
 
 void SingleplayerGame::onHUDSpecialSelect() {
-    std::cout << "Special" << std::endl;
+    std::cout << "Special " << currentCharacterId << std::endl;
+    currentCharacterId = (currentCharacterId + 1) % player_list.size();
 }
 
 void SingleplayerGame::onHUDItemSelect() {
-    std::cout << "Item" << std::endl;
+    std::cout << "Item " << currentCharacterId << std::endl;
+    currentCharacterId = (currentCharacterId + 1) % player_list.size();
 }
 
 void SingleplayerGame::onHUDGuardSelect() {
-    std::cout << "Guard" << std::endl;
+    std::cout << "Guard " << currentCharacterId << std::endl;
+    currentCharacterId = (currentCharacterId + 1) % player_list.size();
 }
 
 /*

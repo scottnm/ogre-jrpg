@@ -101,6 +101,7 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
 
     if (playersWaiting.size() == 0) {
         playersWaiting = players;
+        std::cout << "Enemy turn" << std::endl;
     }
     return true;
 }

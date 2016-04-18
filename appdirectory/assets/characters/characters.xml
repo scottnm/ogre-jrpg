@@ -1,0 +1,36 @@
+<characterDatabase>
+    <characters>
+        <character>
+            <name>Chester</name>
+            <health>15</health>
+            <special>2</special>
+            <damage>3</damage>
+            <armor>4</armor>
+            <accuracy>0.80</accuracy>
+        </character>
+        <character>
+            <name>Scoot</name>
+            <health>10</health>
+            <special>4</special>
+            <damage>2</damage>
+            <armor>2</armor>
+            <accuracy>0.90</accuracy>
+        </character>
+        <character>
+            <name>Sygmund</name>
+            <health>20</health>
+            <special>1</special>
+            <damage>5</damage>
+            <armor>6</armor>
+            <accuracy>0.70</accuracy>
+        </character>
+        <character>
+            <name>Mecha-Scoot</name>
+            <health>100</health>
+            <special>40</special>
+            <damage>6</damage>
+            <armor>5</armor>
+            <accuracy>0.85</accuracy>
+        </character>
+    </characters>
+</characterDatabase>

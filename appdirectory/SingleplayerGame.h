@@ -17,7 +17,7 @@ class SingleplayerGame : public BaseGame,
                          public HUDListener
 {
 public:
-    SingleplayerGame(RenderingEngine* renderer, GUISystem* gui, SoundBank* soundBank);
+    SingleplayerGame(RenderingEngine* renderer, GUISystem* gui, SoundBank* soundBank, PlayerBank* playerBank);
     virtual ~SingleplayerGame(void);
     bool go(void);
 

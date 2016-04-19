@@ -20,7 +20,6 @@ SingleplayerGame::SingleplayerGame(RenderingEngine* renderer, GUISystem* gui,
 SingleplayerGame::~SingleplayerGame(void) {
     destroyScene();
     if (mHUD) delete mHUD;
-    mRenderer->mSceneManager->setSkyBoxEnabled(false);
     mRenderer->mRoot->removeFrameListener(this);
 }
 
@@ -65,6 +64,17 @@ void SingleplayerGame::createScene(void){
     Player* p4 = new Player(scnMgr, mRoomRoot,
             mPlayerBank->getPlayerInfo("Mecha-Scoot"));
     p4->setPosition(Ogre::Vector3(-500, 50, 0));
+    enemies.push_back(p4);
+
+    Player* p5 = new Player(scnMgr, mRoomRoot,
+            mPlayerBank->getPlayerInfo("SSJVirginia"));
+    p5->setPosition(Ogre::Vector3(-500, 50, 200));
+    enemies.push_back(p5);
+
+    Player* p6 = new Player(scnMgr, mRoomRoot,
+            mPlayerBank->getPlayerInfo("SSJVirginia"));
+    p6->setPosition(Ogre::Vector3(-500, 50, -200));
+    enemies.push_back(p6);
 
     // Set Camera Position
     camera->setPosition(Ogre::Vector3(-1000, 250, -1000));
@@ -73,6 +83,13 @@ void SingleplayerGame::createScene(void){
 
 void SingleplayerGame::destroyScene(void) {
     if (mMainLight) mRenderer->mSceneManager->destroyLight(BaseGame::mainLightName);
+    mRenderer->mSceneManager->setSkyBoxEnabled(false);
+    for (auto p : players) {
+        delete p;
+    }
+    for (auto p : enemies) {
+        delete p;
+    }
 }
 
 void SingleplayerGame::initGUI(void)

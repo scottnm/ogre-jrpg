@@ -12,6 +12,7 @@ http://www.ogre3d.org/tikiwiki/tiki-index.php?page=MinimalOgre-h&structure=Devel
  
 #include "BaseGame.h"
 #include "HUD.h"
+#include "HUDListener.h"
 
 class SingleplayerGame : public BaseGame,
                          public HUDListener

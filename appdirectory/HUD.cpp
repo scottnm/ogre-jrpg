@@ -88,6 +88,10 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
                         mListener.onHUDGuardSelect();
                         break;
                 }
+                break;
+            case OIS::KC_TAB:
+                mListener.onHUDCycleCharacter();
+                break;
             default:
                 return;
         }

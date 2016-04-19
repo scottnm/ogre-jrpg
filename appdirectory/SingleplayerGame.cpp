@@ -137,8 +137,6 @@ bool SingleplayerGame::keyPressed(const OIS::KeyEvent &arg) {
         case OIS::KC_3:
             mSoundBank->play("3");
             break;
-        case OIS::KC_TAB:
-            cycleActiveCharacter();
         default:
             break;
     }
@@ -160,7 +158,7 @@ bool SingleplayerGame::mouseMoved(const OIS::MouseEvent &arg) {
     return true;
 }
 
-void SingleplayerGame::cycleActiveCharacter() {
+void SingleplayerGame::onHUDCycleCharacter() {
     focusedCharacterId = (focusedCharacterId + 1) % playersWaiting.size();
     mHUD->updateFocusedCharacter(playersWaiting.at(focusedCharacterId)->id);
 }

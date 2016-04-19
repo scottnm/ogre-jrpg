@@ -2,6 +2,8 @@
 #define __HUD_H__
 
 #include "GUISystem.h"
+#include "HUDListener.h"
+#include "HUDTargetable.h"
 #include "Player.h"
 
 #include <OgreString.h>
@@ -9,15 +11,6 @@
 #include <CEGUI/CEGUI.h>
 
 #include <vector>
-
-class HUDListener {
-public:
-    virtual void onHUDPhysicalSelect() = 0;
-    virtual void onHUDSpecialSelect() = 0;
-    virtual void onHUDItemSelect() = 0;
-    virtual void onHUDGuardSelect() = 0;
-    virtual void onHUDCycleCharacter() = 0;
-};
 
 class HUD {
 public:

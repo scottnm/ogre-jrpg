@@ -12,7 +12,7 @@ Player::Player(Ogre::SceneManager* _scnmgr, Ogre::SceneNode* _scnnode,
 	entity->setCastShadows(true);
 
     auto targetBillboardSet = _scnmgr->createBillboardSet();
-	targetBillboardSet->setMaterialName("Examples/Rockwall");
+	targetBillboardSet->setMaterialName("pixeltarget");
     targetBillboardSet->createBillboard(Ogre::Vector3::ZERO);
 
 	sceneNode = _scnnode->createChildSceneNode();
@@ -20,4 +20,5 @@ Player::Player(Ogre::SceneManager* _scnmgr, Ogre::SceneNode* _scnnode,
 	sceneNode->scale(0.5f, 0.5f, 0.5f);
     targetSceneNode = sceneNode->createChildSceneNode(Ogre::Vector3(0, 200, 0));
     targetSceneNode->attachObject(targetBillboardSet);
+    targetSceneNode->getAttachedObject(0)->setRenderQueueGroup(Ogre::RENDER_QUEUE_MAX);
 }

@@ -4,9 +4,7 @@
 #include <boost/property_tree/xml_parser.hpp>
 #include <boost/foreach.hpp>
 
-PlayerBank::PlayerBank() {
-    
-}
+#include <iostream> // cerr
 
 PlayerBank::~PlayerBank() {
     for(auto pair : mCharacterBank) {
@@ -45,5 +43,10 @@ void PlayerBank::loadPlayerDatabase(const std::string& _fn) {
 }
 
 const PlayerInfo& PlayerBank::getPlayerInfo(const std::string& _n) {
-    return *(mCharacterBank.find(_n)->second);
+    auto pair = mCharacterBank.find(_n);
+    if (pair == mCharacterBank.end()) {
+        std::cerr << "\n**** ERROR **** Could not find character <" << _n << ">\n" << std::endl;
+    }
+
+    return *(pair->second);
 }

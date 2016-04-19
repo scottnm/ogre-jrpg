@@ -8,7 +8,6 @@
 
 class PlayerBank {
 public:
-    PlayerBank();
     ~PlayerBank();
 
     /**

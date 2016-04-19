@@ -32,7 +32,7 @@ private:
     virtual bool mouseReleased(const OIS::MouseEvent &arg, OIS::MouseButtonID id);
     virtual bool mouseMoved(const OIS::MouseEvent &arg);
 
-    void cycleActiveCharacter(void);
+    void onHUDCycleCharacter(void);
     void dequeueActiveCharacter(void);
 
     // gui

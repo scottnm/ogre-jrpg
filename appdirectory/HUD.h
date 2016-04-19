@@ -16,6 +16,7 @@ public:
     virtual void onHUDSpecialSelect() = 0;
     virtual void onHUDItemSelect() = 0;
     virtual void onHUDGuardSelect() = 0;
+    virtual void onHUDCycleCharacter() = 0;
 };
 
 class HUD {

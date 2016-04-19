@@ -13,10 +13,9 @@ enum HUD_ID {
 };
 
 HUD::HUD(GUISystem& gui, HUDListener& listener, std::vector<Player*> players) 
-    : mGUI(gui), mListener(listener) {
+    : mGUI(gui), mListener(listener), mState(HUD_STATE::ACTION_MENU_ACTIVE) {
 
     mOptionSelected = 0;
-    mItemsMenuVisible = false;
     mItemsFocused = true;
     mItemsTotal = 4;
     mItemSelected = 0;
@@ -64,7 +63,7 @@ HUD::~HUD() {
 }
 
 void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
-    if (!mItemsMenuVisible) {
+    if (mState == HUD_STATE::ACTION_MENU_ACTIVE) {
         int oldOption = mOptionSelected;
         switch(arg.key) {
             case OIS::KC_UP:
@@ -99,7 +98,7 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
         mOptionSelects[mOptionSelected]->show();
         mOptionSelects[mOptionSelected]->activate();
     }
-    else {
+    else if (mState == HUD_STATE::ITEMS_MENU_ACTIVE) {
         if (mItemsFocused) {
             switch(arg.key) {
                 case OIS::KC_LEFT:
@@ -145,10 +144,12 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
             }
         }
     }
+    else if (mState == HUD_STATE::TARGETING_MENU_ACTIVE) {
+    }
 }
 
 void HUD::switchToItemMenu(void) {
-    mItemsMenuVisible = true;
+    mState = HUD_STATE::ITEMS_MENU_ACTIVE;
     mRoot->getChild("Menu_Frame")->hide();
     auto itemFrame = mRoot->getChild("Item_Frame");
     itemFrame->show();
@@ -156,7 +157,7 @@ void HUD::switchToItemMenu(void) {
 }
 
 void HUD::switchToActionMenu(void) {
-    mItemsMenuVisible = false;
+    mState = HUD_STATE::ACTION_MENU_ACTIVE;
     mItemsFocused = true;
     mRoot->getChild("Menu_Frame")->show();
     mRoot->getChild("Menu_Frame")->activate();
@@ -165,6 +166,10 @@ void HUD::switchToActionMenu(void) {
     itemFrame->getChild("Items_select")->show();
     itemFrame->getChild("Items_select")->activate();
     itemFrame->getChild("Back_select")->hide();
+}
+
+void HUD::switchToTargetMenu(void) {
+    mState = HUD_STATE::TARGETING_MENU_ACTIVE;
 }
 
 void HUD::updateFocusedCharacter(int charId) {

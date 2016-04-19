@@ -12,6 +12,12 @@
 
 #include <vector>
 
+enum class HUD_STATE {
+    ACTION_MENU_ACTIVE,
+    ITEMS_MENU_ACTIVE,
+    TARGETING_MENU_ACTIVE
+};
+
 class HUD {
 public:
     HUD(GUISystem& gui, HUDListener& listener, std::vector<Player*> players);
@@ -26,19 +32,21 @@ public:
 private:
     void switchToItemMenu(void);
     void switchToActionMenu(void);
+    void switchToTargetMenu(void);
 
     GUISystem& mGUI;
+    HUDListener& mListener;
     CEGUI::Window* mRoot;
     int mOptionSelected;
     CEGUI::Window* mOptionSelects[4];
     CEGUI::Window* charSelected;
 
     bool mItemsMenuVisible; 
+    HUD_STATE mState;
     bool mItemsFocused;
     int mItemsTotal;
     int mItemSelected;
 
-    HUDListener& mListener;
 
     static const Ogre::String mockItems[4];
 };

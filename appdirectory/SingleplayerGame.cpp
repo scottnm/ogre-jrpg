@@ -66,19 +66,19 @@ void SingleplayerGame::createScene(void){
 
     // Add test particle system
 
-    Ogre::ParticleSystem* fire = scnMgr->createParticleSystem("Fire", "Examples/Smoke");
+    Ogre::ParticleSystem* fire = scnMgr->createParticleSystem("Fire", "Fire");
     Ogre::SceneNode* fireNode = p->sceneNode->createChildSceneNode();
     fireNode->setPosition(Ogre::Vector3(0, 100, 0));
     fireNode->attachObject(fire);
     // std::cout << "HAHAHAHAHAHHAHA" << fire->getKeepParticlesInLocalSpace() << std::endl;
     // std::cout << std::endl << std::endl << fire->getNumParticles() << std::endl << std::endl;
 
-    Ogre::ParticleSystem* testParticle = scnMgr->createParticleSystem("test", "Example/Test");
+    Ogre::ParticleSystem* testParticle = scnMgr->createParticleSystem("test", "Physical");
     Ogre::SceneNode* testNode = p2->sceneNode->createChildSceneNode();
-    testNode->setPosition(0, 100, 0);
+    testNode->setPosition(-1000, 100, 0);
     testNode->attachObject(testParticle);
 
-    Ogre::ParticleSystem* aureola = scnMgr->createParticleSystem("Aureola", "Aureola");
+    Ogre::ParticleSystem* aureola = scnMgr->createParticleSystem("Aureola", "Ice");
     Ogre::SceneNode* aureolaNode = p3->sceneNode->createChildSceneNode();
     // aureolaNode->setPosition(Ogre::Vector3(0, 100, 0));
     aureolaNode->attachObject(aureola);

@@ -22,6 +22,12 @@ HUD::HUD(GUISystem& gui, HUDListener& listener, std::vector<Player*> players)
 
     CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
     mRoot = wmgr.loadLayoutFromFile("scaling_menu.layout");
+    auto targetWindow = wmgr.createWindow("TaharezLook/Button", "TargetingIcon");
+    targetWindow->setText("Targeting");
+    targetWindow->setSize(CEGUI::USize(CEGUI::UDim(0.10, 0), CEGUI::UDim(0.05, 0)));
+    targetWindow->setPosition(CEGUI::UVector2(CEGUI::UDim(0, 0), CEGUI::UDim(0, 0)));
+    targetWindow->hide();
+    mRoot->addChild(targetWindow);
 
     auto MenuFrame = mRoot->getChild("Menu_Frame");
 
@@ -75,10 +81,12 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
             case OIS::KC_RETURN:
                 switch (mOptionSelected) {
                     case PHYSICAL_ID:
-                        mListener.onHUDPhysicalSelect();
+                        //mListener.onHUDPhysicalSelect();
+                        switchToTargetMenu();
                         break;
                     case SPECIAL_ID:
-                        mListener.onHUDSpecialSelect();
+                        //mListener.onHUDSpecialSelect();
+                        switchToTargetMenu();
                         break;
                     case ITEMS_ID:
                         switchToItemMenu();
@@ -116,8 +124,9 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
                     break;
                 }
                 case OIS::KC_RETURN:
-                    mListener.onHUDItemSelect();
-                    switchToActionMenu(); 
+                    //mListener.onHUDItemSelect();
+                    //switchToActionMenu(); 
+                    switchToTargetMenu();
                     break;
                 default:
                     return;
@@ -145,10 +154,23 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
         }
     }
     else if (mState == HUD_STATE::TARGETING_MENU_ACTIVE) {
+        switch(arg.key) {
+            case OIS::KC_Q:
+                if (mPrevState == HUD_STATE::ACTION_MENU_ACTIVE) {
+                    switchToActionMenu();
+                }
+                else {
+                    switchToItemMenu();
+                }
+            default:
+                break;
+        }
     }
 }
 
 void HUD::switchToItemMenu(void) {
+    mRoot->getChild("TargetingIcon")->hide();
+    mPrevState = mState;
     mState = HUD_STATE::ITEMS_MENU_ACTIVE;
     mRoot->getChild("Menu_Frame")->hide();
     auto itemFrame = mRoot->getChild("Item_Frame");
@@ -157,6 +179,8 @@ void HUD::switchToItemMenu(void) {
 }
 
 void HUD::switchToActionMenu(void) {
+    mRoot->getChild("TargetingIcon")->hide();
+    mPrevState = mState;
     mState = HUD_STATE::ACTION_MENU_ACTIVE;
     mItemsFocused = true;
     mRoot->getChild("Menu_Frame")->show();
@@ -169,7 +193,11 @@ void HUD::switchToActionMenu(void) {
 }
 
 void HUD::switchToTargetMenu(void) {
+    mPrevState = mState;
     mState = HUD_STATE::TARGETING_MENU_ACTIVE;
+    auto targetIcon = mRoot->getChild("TargetingIcon");
+    targetIcon->show();
+    targetIcon->activate();
 }
 
 void HUD::updateFocusedCharacter(int charId) {

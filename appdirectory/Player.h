@@ -15,6 +15,9 @@ public:
            const PlayerInfo& i);
 	virtual ~Player(void) {};
 
+	void hideTargetArrow();
+	void showTargetArrow();
+
     const int id;
 	Ogre::Entity* entity;
     PlayerInfo info;

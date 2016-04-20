@@ -72,7 +72,7 @@ void SingleplayerGame::createScene(void){
     enemies.push_back(p5);
 
     Player* p6 = new Player(scnMgr, mRoomRoot,
-            mPlayerBank->getPlayerInfo("SSJVirginia"));
+            mPlayerBank->getPlayerInfo("Metal Scoot"));
     p6->setPosition(Ogre::Vector3(-500, 50, -200));
     enemies.push_back(p6);
 
@@ -102,6 +102,7 @@ bool SingleplayerGame::go(void)
     // Create the scene
     createScene();
     playersWaiting = players;
+    playersWaiting.at(focusedCharacterId)->showTargetArrow();
     initGUI();
 
     // setup listeners
@@ -159,15 +160,19 @@ bool SingleplayerGame::mouseMoved(const OIS::MouseEvent &arg) {
 }
 
 void SingleplayerGame::onHUDCycleCharacter() {
+    playersWaiting.at(focusedCharacterId)->hideTargetArrow();
     focusedCharacterId = (focusedCharacterId + 1) % playersWaiting.size();
+    playersWaiting.at(focusedCharacterId)->showTargetArrow();
     mHUD->updateFocusedCharacter(playersWaiting.at(focusedCharacterId)->id);
 }
 
-void SingleplayerGame::dequeueActiveCharacter() {
+void SingleplayerGame::dequeueActiveCharacter() {\
+    playersWaiting.at(focusedCharacterId)->hideTargetArrow();
     playersWaiting.erase(playersWaiting.begin() + focusedCharacterId);
     if (playersWaiting.size() <= focusedCharacterId) {
         focusedCharacterId = 0;
     }
+    playersWaiting.at(focusedCharacterId)->showTargetArrow();
 
     if (playersWaiting.size() > 0) {
         mHUD->updateFocusedCharacter(playersWaiting.at(focusedCharacterId)->id);

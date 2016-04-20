@@ -33,17 +33,13 @@ private:
     virtual bool mouseReleased(const OIS::MouseEvent &arg, OIS::MouseButtonID id);
     virtual bool mouseMoved(const OIS::MouseEvent &arg);
 
-    void onHUDCycleCharacter(void);
-    void dequeueActiveCharacter(void);
-
     // gui
     HUD* mHUD;
     void onHUDPhysicalSelect();
     void onHUDSpecialSelect();
     void onHUDItemSelect();
     void onHUDGuardSelect();
-
-    unsigned int focusedCharacterId;
+    void onHUDCycleCharacter() {} // empty
 
     /*
     bool guiCbStart(const CEGUI::EventArgs& e);

@@ -1,14 +1,15 @@
-#ifndef _PLAYER_H_
-#define _PLAYER_H_
+#ifndef __PLAYER_H__
+#define __PLAYER_H__
 
 #include "GameObject.h"
-// #include "HUDTargetable.h"
+#include "HUDTargetable.h"
 #include "PlayerInfo.h"
 
 #include <OgreBillboardSet.h>
 #include <OgreBillboard.h>
 
-class Player : public GameObject
+class Player : public GameObject,
+               public HUDTargetable
 {
 public:
 	Player(Ogre::SceneManager* _scnmgr, Ogre::SceneNode* _scnnode,
@@ -24,4 +25,4 @@ public:
     Ogre::SceneNode* targetSceneNode;
 };
 
-#endif	// ifndef _PLAYER_H_
+#endif	// __PLAYER_H__

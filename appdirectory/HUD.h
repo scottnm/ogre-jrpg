@@ -35,6 +35,8 @@ private:
     void switchToActionMenu(void);
     void switchToTargetMenu(void);
 
+    void cycleTargetCharacter();
+
     GUISystem& mGUI;
     HUDListener& mListener;
     CEGUI::Window* mRoot;
@@ -50,7 +52,9 @@ private:
     int mItemSelected;
 
     std::vector<Player*>& myParty;
+    int myPartyActiveTarget;
     std::vector<Player*>& enemyParty;
+    int enemyPartyActiveTarget;
 
     static const Ogre::String mockItems[4];
 };

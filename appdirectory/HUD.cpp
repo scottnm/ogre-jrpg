@@ -22,6 +22,9 @@ HUD::HUD(GUISystem& gui, HUDListener& listener,
     mItemsTotal = 4;
     mItemSelected = 0;
 
+    myPartyActiveTarget = 0;
+    enemyPartyActiveTarget = 0;
+
     CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
     mRoot = wmgr.loadLayoutFromFile("scaling_menu.layout");
     auto targetWindow = wmgr.createWindow("TaharezLook/Button", "TargetingIcon");
@@ -152,6 +155,7 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
     else if (mState == HUD_STATE::TARGETING_MENU_ACTIVE) {
         switch(arg.key) {
             case OIS::KC_Q:
+                enemyParty.at(enemyPartyActiveTarget)->hideTargetArrow();
                 if (mPrevState == HUD_STATE::ACTION_MENU_ACTIVE) {
                     switchToActionMenu();
                 }
@@ -160,6 +164,7 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
                 }
                 break;
             case OIS::KC_RETURN:
+                enemyParty.at(enemyPartyActiveTarget)->hideTargetArrow();
                 switch(mOptionSelected) {
                     case PHYSICAL_ID:
                         mListener.onHUDPhysicalSelect();
@@ -174,6 +179,9 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
                         break;
                 }
                 switchToActionMenu(); 
+                break;
+            case OIS::KC_TAB:
+                cycleTargetCharacter();
                 break;
             default:
                 break;
@@ -211,6 +219,9 @@ void HUD::switchToTargetMenu(void) {
     auto targetIcon = mRoot->getChild("TargetingIcon");
     targetIcon->show();
     targetIcon->activate();
+    enemyParty.at(enemyPartyActiveTarget)->hideTargetArrow();
+    enemyPartyActiveTarget = 0;
+    enemyParty.at(enemyPartyActiveTarget)->showTargetArrow();
 }
 
 void HUD::updateFocusedCharacter(int charId) {
@@ -231,4 +242,10 @@ void HUD::updateFocusedCharacter(int charId) {
 void HUD::injectKeyUp(const OIS::KeyEvent& arg) {
     // pass
     (void) arg;
+}
+
+void HUD::cycleTargetCharacter(void) {
+    enemyParty.at(enemyPartyActiveTarget)->hideTargetArrow();
+    enemyPartyActiveTarget = (enemyPartyActiveTarget + 1) % enemyParty.size();
+    enemyParty.at(enemyPartyActiveTarget)->showTargetArrow();
 }

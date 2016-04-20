@@ -21,4 +21,13 @@ Player::Player(Ogre::SceneManager* _scnmgr, Ogre::SceneNode* _scnnode,
     targetSceneNode = sceneNode->createChildSceneNode(Ogre::Vector3(0, 200, 0));
     targetSceneNode->attachObject(targetBillboardSet);
     targetSceneNode->getAttachedObject(0)->setRenderQueueGroup(Ogre::RENDER_QUEUE_MAX);
+    targetSceneNode->setVisible(false);
+}
+
+void Player::hideTargetArrow() {
+	targetSceneNode->setVisible(false);
+}
+
+void Player::showTargetArrow() {
+	targetSceneNode->setVisible(true);
 }

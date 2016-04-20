@@ -40,5 +40,13 @@
             <armor>5</armor>
             <accuracy>0.85</accuracy>
         </character>
+        <character>
+            <name>Metal Scoot</name>
+            <health>100</health>
+            <special>40</special>
+            <damage>6</damage>
+            <armor>5</armor>
+            <accuracy>0.85</accuracy>
+        </character>
     </characters>
 </characterDatabase>

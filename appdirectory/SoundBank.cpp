@@ -4,6 +4,8 @@
 #include <boost/property_tree/xml_parser.hpp>
 #include <boost/foreach.hpp>
 
+#include <iostream>
+
 SoundBank::SoundBank() {
     Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096);
 }

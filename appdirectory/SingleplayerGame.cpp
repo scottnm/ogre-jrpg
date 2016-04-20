@@ -18,6 +18,8 @@ SingleplayerGame::SingleplayerGame(RenderingEngine* renderer, GUISystem* gui,
 
 SingleplayerGame::~SingleplayerGame(void) {
     destroyScene();
+    if (mHUD) delete mHUD;
+    mRenderer->mSceneManager->setSkyBoxEnabled(false);
     mRenderer->mRoot->removeFrameListener(this);
 }
 
@@ -117,7 +119,7 @@ void SingleplayerGame::destroyScene(void) {
 
 void SingleplayerGame::initGUI(void)
 {
-    BaseGame::initGUI();
+    mHUD = new HUD(*mGUI, *this);
 }
 
 bool SingleplayerGame::go(void)
@@ -147,6 +149,7 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
 }
 
 bool SingleplayerGame::keyPressed(const OIS::KeyEvent &arg) {
+    mHUD->injectKeyDown(arg);
     switch(arg.key) {
         case OIS::KC_1:
             mSoundBank->play("1");
@@ -163,6 +166,7 @@ bool SingleplayerGame::keyPressed(const OIS::KeyEvent &arg) {
     return true;
 }
 bool SingleplayerGame::keyReleased(const OIS::KeyEvent &arg) {
+    mHUD->injectKeyUp(arg);
     return true;
 }
 bool SingleplayerGame::mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonID id) {
@@ -173,6 +177,22 @@ bool SingleplayerGame::mouseReleased(const OIS::MouseEvent &arg, OIS::MouseButto
 }
 bool SingleplayerGame::mouseMoved(const OIS::MouseEvent &arg) {
     return true;
+}
+
+void SingleplayerGame::onHUDPhysicalSelect() {
+    std::cout << "Attack" << std::endl;
+}
+
+void SingleplayerGame::onHUDSpecialSelect() {
+    std::cout << "Special" << std::endl;
+}
+
+void SingleplayerGame::onHUDItemSelect() {
+    std::cout << "Item" << std::endl;
+}
+
+void SingleplayerGame::onHUDGuardSelect() {
+    std::cout << "Guard" << std::endl;
 }
 
 /*

@@ -48,33 +48,33 @@ void SingleplayerGame::createScene(void){
     Player* p = new Player(scnMgr, mRoomRoot,
             mPlayerBank->getPlayerInfo("Chester"));
     p->setPosition(Ogre::Vector3(500, 50, 200));
-    players.push_back(p);
+    myParty.push_back(p);
 
     Player* p2 = new Player(scnMgr, mRoomRoot,
             mPlayerBank->getPlayerInfo("Scoot"));
     p2->setPosition(Ogre::Vector3(500, 50, 0));
-    players.push_back(p2);
+    myParty.push_back(p2);
 
     Player* p3 = new Player(scnMgr, mRoomRoot,
             mPlayerBank->getPlayerInfo("Sygmund"));
     p3->setPosition(Ogre::Vector3(500, 50, -200));
-    players.push_back(p3);
+    myParty.push_back(p3);
     
 
     Player* p4 = new Player(scnMgr, mRoomRoot,
             mPlayerBank->getPlayerInfo("Mecha-Scoot"));
     p4->setPosition(Ogre::Vector3(-500, 50, 200));
-    enemies.push_back(p4);
+    enemyParty.push_back(p4);
 
     Player* p5 = new Player(scnMgr, mRoomRoot,
             mPlayerBank->getPlayerInfo("SSJVirginia"));
     p5->setPosition(Ogre::Vector3(-500, 50, 0));
-    enemies.push_back(p5);
+    enemyParty.push_back(p5);
 
     Player* p6 = new Player(scnMgr, mRoomRoot,
             mPlayerBank->getPlayerInfo("Metal Scoot"));
     p6->setPosition(Ogre::Vector3(-500, 50, -200));
-    enemies.push_back(p6);
+    enemyParty.push_back(p6);
 
     // Set Camera Position
     camera->setPosition(Ogre::Vector3(-1000, 250, -1000));
@@ -84,25 +84,25 @@ void SingleplayerGame::createScene(void){
 void SingleplayerGame::destroyScene(void) {
     if (mMainLight) mRenderer->mSceneManager->destroyLight(BaseGame::mainLightName);
     mRenderer->mSceneManager->setSkyBoxEnabled(false);
-    for (auto p : players) {
+    for (auto p : myParty) {
         delete p;
     }
-    for (auto p : enemies) {
+    for (auto p : enemyParty) {
         delete p;
     }
 }
 
 void SingleplayerGame::initGUI(void)
 {
-    mHUD = new HUD(*mGUI, *this, players);
+    mHUD = new HUD(*mGUI, *this, myParty, enemyParty);
 }
 
 bool SingleplayerGame::go(void)
 {
     // Create the scene
     createScene();
-    playersWaiting = players;
-    playersWaiting.at(focusedCharacterId)->showTargetArrow();
+    myPartyWaiting = myParty;
+    myPartyWaiting.at(focusedCharacterId)->showTargetArrow();
     initGUI();
 
     // setup listeners
@@ -117,15 +117,15 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
         return true;
     }
 
-    if (playersWaiting.size() == 0) {
-        playersWaiting = players;
+    if (myPartyWaiting.size() == 0) {
+        myPartyWaiting = myParty;
         std::cout << "Enemy turn" << std::endl;
     }
     return true;
 }
 
 bool SingleplayerGame::keyPressed(const OIS::KeyEvent &arg) {
-    if (playersWaiting.size() > 0) {
+    if (myPartyWaiting.size() > 0) {
         mHUD->injectKeyDown(arg);
     }
     switch(arg.key) {
@@ -143,44 +143,48 @@ bool SingleplayerGame::keyPressed(const OIS::KeyEvent &arg) {
     }
     return true;
 }
+
 bool SingleplayerGame::keyReleased(const OIS::KeyEvent &arg) {
-    if (playersWaiting.size() > 0) {
+    if (myPartyWaiting.size() > 0) {
         mHUD->injectKeyUp(arg);
     }
     return true;
 }
+
 bool SingleplayerGame::mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonID id) {
     return true;
 }
+
 bool SingleplayerGame::mouseReleased(const OIS::MouseEvent &arg, OIS::MouseButtonID id) {
     return true;
 }
+
 bool SingleplayerGame::mouseMoved(const OIS::MouseEvent &arg) {
     return true;
 }
 
 void SingleplayerGame::onHUDCycleCharacter() {
-    playersWaiting.at(focusedCharacterId)->hideTargetArrow();
-    focusedCharacterId = (focusedCharacterId + 1) % playersWaiting.size();
-    playersWaiting.at(focusedCharacterId)->showTargetArrow();
-    mHUD->updateFocusedCharacter(playersWaiting.at(focusedCharacterId)->id);
+    myPartyWaiting.at(focusedCharacterId)->hideTargetArrow();
+    focusedCharacterId = (focusedCharacterId + 1) % myPartyWaiting.size();
+    myPartyWaiting.at(focusedCharacterId)->showTargetArrow();
+    mHUD->updateFocusedCharacter(myPartyWaiting.at(focusedCharacterId)->id);
 }
 
 void SingleplayerGame::dequeueActiveCharacter() {
-    playersWaiting.at(focusedCharacterId)->hideTargetArrow();
-    playersWaiting.erase(playersWaiting.begin() + focusedCharacterId);
-    if (playersWaiting.size() <= focusedCharacterId) {
+    myPartyWaiting.at(focusedCharacterId)->hideTargetArrow();
+    myPartyWaiting.erase(myPartyWaiting.begin() + focusedCharacterId);
+    if (myPartyWaiting.size() <= focusedCharacterId) {
         focusedCharacterId = 0;
     }
 
-    if (playersWaiting.size() > 0) {
-        mHUD->updateFocusedCharacter(playersWaiting.at(focusedCharacterId)->id);
-        playersWaiting.at(focusedCharacterId)->showTargetArrow();
+    if (myPartyWaiting.size() > 0) {
+        mHUD->updateFocusedCharacter(myPartyWaiting.at(focusedCharacterId)->id);
+        myPartyWaiting.at(focusedCharacterId)->showTargetArrow();
     }
     else {
-        // have to use the players queue since the players waiting queue is empty
-        mHUD->updateFocusedCharacter(players.at(0)->id);
-        players.at(0)->showTargetArrow();
+        // have to use the myParty queue since the myParty waiting queue is empty
+        mHUD->updateFocusedCharacter(myParty.at(0)->id);
+        myParty.at(0)->showTargetArrow();
     }
 }
 

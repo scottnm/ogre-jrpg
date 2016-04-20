@@ -35,7 +35,7 @@ private:
     void switchToActionMenu(void);
     void switchToTargetMenu(void);
 
-    void cycleTargetCharacter();
+    void cycleTargetCharacter(void);
 
     GUISystem& mGUI;
     HUDListener& mListener;

@@ -81,11 +81,7 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
             case OIS::KC_RETURN:
                 switch (mOptionSelected) {
                     case PHYSICAL_ID:
-                        //mListener.onHUDPhysicalSelect();
-                        switchToTargetMenu();
-                        break;
                     case SPECIAL_ID:
-                        //mListener.onHUDSpecialSelect();
                         switchToTargetMenu();
                         break;
                     case ITEMS_ID:
@@ -124,8 +120,6 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
                     break;
                 }
                 case OIS::KC_RETURN:
-                    //mListener.onHUDItemSelect();
-                    //switchToActionMenu(); 
                     switchToTargetMenu();
                     break;
                 default:
@@ -162,6 +156,21 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
                 else {
                     switchToItemMenu();
                 }
+            case OIS::KC_RETURN:
+                switch(mOptionSelected) {
+                    case PHYSICAL_ID:
+                        mListener.onHUDPhysicalSelect();
+                        break;
+                    case SPECIAL_ID:
+                        mListener.onHUDSpecialSelect();
+                        break;
+                    case ITEMS_ID:
+                        mListener.onHUDItemSelect();
+                        break;
+                    default:
+                        break;
+                }
+                switchToActionMenu(); 
             default:
                 break;
         }

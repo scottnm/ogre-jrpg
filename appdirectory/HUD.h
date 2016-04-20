@@ -43,6 +43,7 @@ private:
 
     bool mItemsMenuVisible; 
     HUD_STATE mState;
+    HUD_STATE mPrevState;
     bool mItemsFocused;
     int mItemsTotal;
     int mItemSelected;

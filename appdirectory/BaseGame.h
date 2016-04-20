@@ -41,14 +41,13 @@ http://www.ogre3d.org/tikiwiki/tiki-index.php?page=MinimalOgre-h&structure=Devel
 class BaseGame : public Ogre::FrameListener
 {
 public:
-    BaseGame(RenderingEngine* renderer, GUISystem* gui, SoundBank* soundBank, PlayerBank* playerBank);
+    BaseGame(RenderingEngine* renderer, GUISystem* gui, PlayerBank* playerBank);
     virtual ~BaseGame(void);
     virtual bool go(void) = 0;
     virtual bool isShutDown(void) { return mShutDown; }
 
     RenderingEngine* mRenderer;
     GUISystem* mGUI;
-    SoundBank* mSoundBank;
     PlayerBank* mPlayerBank;
     bool mShutDown;
 

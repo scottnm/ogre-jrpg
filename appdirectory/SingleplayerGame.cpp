@@ -47,12 +47,12 @@ void SingleplayerGame::createScene(void){
     // Add test objects
     Player* p = new Player(scnMgr, mRoomRoot,
             mPlayerBank->getPlayerInfo("Chester"));
-    p->setPosition(Ogre::Vector3(500, 50, 0));
+    p->setPosition(Ogre::Vector3(500, 50, 200));
     players.push_back(p);
 
     Player* p2 = new Player(scnMgr, mRoomRoot,
             mPlayerBank->getPlayerInfo("Scoot"));
-    p2->setPosition(Ogre::Vector3(500, 50, 200));
+    p2->setPosition(Ogre::Vector3(500, 50, 0));
     players.push_back(p2);
 
     Player* p3 = new Player(scnMgr, mRoomRoot,
@@ -63,12 +63,12 @@ void SingleplayerGame::createScene(void){
 
     Player* p4 = new Player(scnMgr, mRoomRoot,
             mPlayerBank->getPlayerInfo("Mecha-Scoot"));
-    p4->setPosition(Ogre::Vector3(-500, 50, 0));
+    p4->setPosition(Ogre::Vector3(-500, 50, 200));
     enemies.push_back(p4);
 
     Player* p5 = new Player(scnMgr, mRoomRoot,
             mPlayerBank->getPlayerInfo("SSJVirginia"));
-    p5->setPosition(Ogre::Vector3(-500, 50, 200));
+    p5->setPosition(Ogre::Vector3(-500, 50, 0));
     enemies.push_back(p5);
 
     Player* p6 = new Player(scnMgr, mRoomRoot,

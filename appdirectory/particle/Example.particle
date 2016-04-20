@@ -82,7 +82,6 @@ particle_system Guard
     billboard_origin    center
     common_direction    0 1 0
     common_up_vector    0 0 1
-    // local_space         true
 
     emitter Box
     {
@@ -134,7 +133,7 @@ particle_system Fire
         width               250
         height              250
         depth               250
-        duration            1
+//        duration            1
     }
 }
 
@@ -160,7 +159,7 @@ particle_system Ice
         width               50
         height              50
         depth               50
-        duration            1
+//        duration            1
     }
     
 }
@@ -178,7 +177,7 @@ particle_system Item
     // Point emitter
     emitter Point
     {
-        angle               15
+        angle               20
         emission_rate       25
         time_to_live        2
         direction           0 1 0
@@ -187,7 +186,7 @@ particle_system Item
         width               5
         height              5
         depth               5
-        duration            2
+//        duration            2
     }
  
     // Colour Fader
@@ -197,36 +196,81 @@ particle_system Item
         green -0.05
         blue -0.05
     }
-    
 }
 
 particle_system Flare
 {
-    
-}
-
-particle_system Physical
-{
-    material            spark
-    particle_width      50
-    particle_height     50
+    material            Examples/Flare
+    particle_width      250
+    particle_height     250
     cull_each           true
-    quota               20
+    quota               1
     billboard_type      point
     local_space         true
  
     // Point emitter
     emitter Point
     {
-        angle               5
-        emission_rate       20
+        emission_rate       1
+        time_to_live        1
+        direction           -1 0 0
+        velocity            2000
+        colour              1 1 1
+        width               250
+        height              250
+        depth               250
+//        duration            1
+    }
+}
+
+particle_system Physical2
+{
+    material            Examples/Flare
+    particle_width      25
+    particle_height     25
+    cull_each           true
+    quota               25
+    billboard_type      point
+    local_space         true
+
+    emitter Point
+    {
+        emission_rate   25
+        time_to_live    1
+        colour          1 1 1
+        direction       -1 -.25 0
+        velocity        100
+//        duration 1
+    }
+
+    affector LinearForce
+    {
+        force_vector        0 -100 0
+        force_application   add
+    }
+}
+
+particle_system Physical
+{
+    material            Examples/Flare
+    particle_width      200
+    particle_height     200
+    cull_each           true
+    quota               1
+    billboard_type      point
+    local_space         true
+ 
+    // Point emitter
+    emitter Point
+    {
+        emission_rate       1
         time_to_live        2
         direction           -1 0 0
+        colour              1 1 1
         velocity            50
-        colour              0.15 0.15 0.15
-        width               50
-        height              50
-        depth               50
+        width               100
+        height              100
+        depth               100
     }
  
     // Colour Fader

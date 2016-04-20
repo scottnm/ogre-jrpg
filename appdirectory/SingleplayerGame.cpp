@@ -73,15 +73,20 @@ void SingleplayerGame::createScene(void){
     // std::cout << "HAHAHAHAHAHHAHA" << fire->getKeepParticlesInLocalSpace() << std::endl;
     // std::cout << std::endl << std::endl << fire->getNumParticles() << std::endl << std::endl;
 
-    Ogre::ParticleSystem* testParticle = scnMgr->createParticleSystem("test", "Physical");
+    Ogre::ParticleSystem* testParticle = scnMgr->createParticleSystem("test", "Flare");
     Ogre::SceneNode* testNode = p2->sceneNode->createChildSceneNode();
-    testNode->setPosition(-1000, 100, 0);
+    testNode->setPosition(0, 100, 0);
     testNode->attachObject(testParticle);
 
     Ogre::ParticleSystem* aureola = scnMgr->createParticleSystem("Aureola", "Ice");
     Ogre::SceneNode* aureolaNode = p3->sceneNode->createChildSceneNode();
     // aureolaNode->setPosition(Ogre::Vector3(0, 100, 0));
     aureolaNode->attachObject(aureola);
+
+    Ogre::ParticleSystem* psTest = scnMgr->createParticleSystem("test2", "Physical2");
+    Ogre::SceneNode* psTestNode2 = mRoomRoot->createChildSceneNode();
+    psTestNode2->attachObject(psTest);
+    psTestNode2->setPosition(-50, 250, 0);
 
     // Ogre::ParticleSystem* blank = scnMgr->createParticleSystem("test", 500,
     //     Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);

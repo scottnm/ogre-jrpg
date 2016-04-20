@@ -156,6 +156,7 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
                 else {
                     switchToItemMenu();
                 }
+                break;
             case OIS::KC_RETURN:
                 switch(mOptionSelected) {
                     case PHYSICAL_ID:
@@ -171,6 +172,7 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
                         break;
                 }
                 switchToActionMenu(); 
+                break;
             default:
                 break;
         }

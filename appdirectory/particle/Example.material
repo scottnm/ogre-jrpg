@@ -1,0 +1,39 @@
+material Droplet
+{
+		technique
+		{
+				pass
+				{
+						emissive 	1.0 0.0 0.0
+						scene_blend colour_blend
+						depth_write	off
+						diffuse		vertexcolour
+						lighting	off
+
+						texture_unit
+						{
+								texture droplet.png
+						}
+				}
+		}
+}
+
+material spark
+{
+		technique
+		{
+				pass
+				{
+						emissive 	0.3 0.3 0.3
+						scene_blend colour_blend
+						depth_write	off
+						diffuse		vertexcolour
+						lighting	off
+
+						texture_unit
+						{
+								texture spark.png
+						}
+				}
+		}
+}

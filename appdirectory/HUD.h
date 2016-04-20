@@ -20,7 +20,8 @@ enum class HUD_STATE {
 
 class HUD {
 public:
-    HUD(GUISystem& gui, HUDListener& listener, std::vector<Player*> players);
+    HUD(GUISystem& gui, HUDListener& listener,
+        std::vector<Player*>& myParty, std::vector<Player*>& enemyParty);
     ~HUD(void);
 
     void injectKeyDown(const OIS::KeyEvent& arg);
@@ -48,6 +49,8 @@ private:
     int mItemsTotal;
     int mItemSelected;
 
+    std::vector<Player*>& myParty;
+    std::vector<Player*>& enemyParty;
 
     static const Ogre::String mockItems[4];
 };

@@ -60,9 +60,9 @@ public:
     Ogre::Light* mMainLight;
     static Ogre::String mainLightName;
     Plane* ground;
-    std::vector<Player*> players;
-    std::vector<Player*> enemies;
-    std::vector<Player*> playersWaiting;
+    std::vector<Player*> myParty;
+    std::vector<Player*> enemyParty;
+    std::vector<Player*> myPartyWaiting;
 
     std::vector<std::string> windowNames;
 

@@ -12,8 +12,10 @@ enum HUD_ID {
     GUARD_ID
 };
 
-HUD::HUD(GUISystem& gui, HUDListener& listener, std::vector<Player*> players) 
-    : mGUI(gui), mListener(listener), mState(HUD_STATE::ACTION_MENU_ACTIVE) {
+HUD::HUD(GUISystem& gui, HUDListener& listener,
+         std::vector<Player*>& myParty, std::vector<Player*>& enemyParty) 
+    : mGUI(gui), mListener(listener), mState(HUD_STATE::ACTION_MENU_ACTIVE),
+      myParty(myParty), enemyParty(enemyParty) {
 
     mOptionSelected = 0;
     mItemsFocused = true;
@@ -45,7 +47,7 @@ HUD::HUD(GUISystem& gui, HUDListener& listener, std::vector<Player*> players)
     auto p1Frame = mRoot->getChild("Party_Frame")->getChild("PartyMember1_Frame");
     auto p2Frame = mRoot->getChild("Party_Frame")->getChild("PartyMember2_Frame");
     CEGUI::Window* frames[3] = {p0Frame, p1Frame, p2Frame};
-    for(Player* player : players) { 
+    for(Player* player : myParty) { 
         PlayerInfo& info = player->info;
         CEGUI::Window* frame = frames[player->id]; 
         frame->getChild("PM_Name_StaticText")->setText(info.name);

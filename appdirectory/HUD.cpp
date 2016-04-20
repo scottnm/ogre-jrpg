@@ -13,15 +13,17 @@ enum HUD_ID {
 };
 
 HUD::HUD(GUISystem& gui, HUDListener& listener,
-         std::vector<Player*>& myParty, std::vector<Player*>& enemyParty) 
+         std::vector<Player*>& myParty, std::vector<Player*>& enemyParty,
+         std::vector<Player*>& myPartyWaiting) 
     : mGUI(gui), mListener(listener), mState(HUD_STATE::ACTION_MENU_ACTIVE),
-      myParty(myParty), enemyParty(enemyParty) {
+      myParty(myParty), myPartyWaiting(myPartyWaiting), enemyParty(enemyParty) {
 
     mOptionSelected = 0;
     mItemsFocused = true;
     mItemsTotal = 4;
     mItemSelected = 0;
 
+    myPartyFocused = 0;
     myPartyActiveTarget = 0;
     enemyPartyActiveTarget = 0;
 
@@ -66,6 +68,7 @@ HUD::HUD(GUISystem& gui, HUDListener& listener,
 
     charSelected = p0Frame;
     updateFocusedCharacter(0);
+    myPartyWaiting.at(0)->showTargetArrow();
     mGUI.addAndSetWindowGroup(HUD::windowName, mRoot);
 }
 
@@ -94,11 +97,13 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
                         break;
                     case GUARD_ID:
                         mListener.onHUDGuardSelect();
+                        dequeueActiveCharacter();
                         break;
                 }
                 break;
             case OIS::KC_TAB:
                 mListener.onHUDCycleCharacter();
+                cycleActiveCharacter();
                 break;
             default:
                 return;
@@ -164,6 +169,7 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
                 }
                 break;
             case OIS::KC_RETURN:
+                dequeueActiveCharacter();
                 enemyParty.at(enemyPartyActiveTarget)->hideTargetArrow();
                 switch(mOptionSelected) {
                     case PHYSICAL_ID:
@@ -242,6 +248,32 @@ void HUD::updateFocusedCharacter(int charId) {
 void HUD::injectKeyUp(const OIS::KeyEvent& arg) {
     // pass
     (void) arg;
+}
+
+void HUD::cycleActiveCharacter(void) {
+    myPartyWaiting.at(myPartyFocused)->hideTargetArrow();
+    myPartyFocused = (myPartyFocused + 1) % myPartyWaiting.size();
+    myPartyWaiting.at(myPartyFocused)->showTargetArrow();
+    updateFocusedCharacter(myPartyWaiting.at(myPartyFocused)->id);
+}
+
+void HUD::dequeueActiveCharacter(void) {
+    myPartyWaiting.at(myPartyFocused)->hideTargetArrow();
+    myPartyWaiting.erase(myPartyWaiting.begin() + myPartyFocused);
+
+    if (myPartyWaiting.size() <= myPartyFocused) {
+        myPartyFocused = 0;
+    }
+
+    if (myPartyWaiting.size() > 0) {
+        updateFocusedCharacter(myPartyWaiting.at(myPartyFocused)->id);
+        myPartyWaiting.at(myPartyFocused)->showTargetArrow();
+    }
+    else {
+        // have to use the myParty queue since the myParty waiting queue is empty
+        updateFocusedCharacter(myParty.at(0)->id);
+        myParty.at(0)->showTargetArrow();
+    }
 }
 
 void HUD::cycleTargetCharacter(void) {

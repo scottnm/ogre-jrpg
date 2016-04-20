@@ -21,7 +21,8 @@ enum class HUD_STATE {
 class HUD {
 public:
     HUD(GUISystem& gui, HUDListener& listener,
-        std::vector<Player*>& myParty, std::vector<Player*>& enemyParty);
+        std::vector<Player*>& myParty, std::vector<Player*>& enemyParty,
+        std::vector<Player*>& myPartyWaiting);
     ~HUD(void);
 
     void injectKeyDown(const OIS::KeyEvent& arg);
@@ -35,6 +36,8 @@ private:
     void switchToActionMenu(void);
     void switchToTargetMenu(void);
 
+    void cycleActiveCharacter(void);
+    void dequeueActiveCharacter(void);
     void cycleTargetCharacter(void);
 
     GUISystem& mGUI;
@@ -52,6 +55,8 @@ private:
     int mItemSelected;
 
     std::vector<Player*>& myParty;
+    std::vector<Player*>& myPartyWaiting;
+    unsigned int myPartyFocused;
     int myPartyActiveTarget;
     std::vector<Player*>& enemyParty;
     int enemyPartyActiveTarget;

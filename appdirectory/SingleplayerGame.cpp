@@ -14,7 +14,6 @@ http://www.ogre3d.org/tikiwiki/tiki-index.php?page=MinimalOgre-cpp
 SingleplayerGame::SingleplayerGame(RenderingEngine* renderer, GUISystem* gui,
         SoundBank* soundBank, PlayerBank* playerBank)
     : BaseGame(renderer, gui, soundBank, playerBank) {
-    focusedCharacterId = 0;
 }
 
 SingleplayerGame::~SingleplayerGame(void) {
@@ -94,7 +93,7 @@ void SingleplayerGame::destroyScene(void) {
 
 void SingleplayerGame::initGUI(void)
 {
-    mHUD = new HUD(*mGUI, *this, myParty, enemyParty);
+    mHUD = new HUD(*mGUI, *this, myParty, enemyParty, myPartyWaiting);
 }
 
 bool SingleplayerGame::go(void)
@@ -102,7 +101,6 @@ bool SingleplayerGame::go(void)
     // Create the scene
     createScene();
     myPartyWaiting = myParty;
-    myPartyWaiting.at(focusedCharacterId)->showTargetArrow();
     initGUI();
 
     // setup listeners
@@ -163,49 +161,20 @@ bool SingleplayerGame::mouseMoved(const OIS::MouseEvent &arg) {
     return true;
 }
 
-void SingleplayerGame::onHUDCycleCharacter() {
-    myPartyWaiting.at(focusedCharacterId)->hideTargetArrow();
-    focusedCharacterId = (focusedCharacterId + 1) % myPartyWaiting.size();
-    myPartyWaiting.at(focusedCharacterId)->showTargetArrow();
-    mHUD->updateFocusedCharacter(myPartyWaiting.at(focusedCharacterId)->id);
-}
-
-void SingleplayerGame::dequeueActiveCharacter() {
-    myPartyWaiting.at(focusedCharacterId)->hideTargetArrow();
-    myPartyWaiting.erase(myPartyWaiting.begin() + focusedCharacterId);
-    if (myPartyWaiting.size() <= focusedCharacterId) {
-        focusedCharacterId = 0;
-    }
-
-    if (myPartyWaiting.size() > 0) {
-        mHUD->updateFocusedCharacter(myPartyWaiting.at(focusedCharacterId)->id);
-        myPartyWaiting.at(focusedCharacterId)->showTargetArrow();
-    }
-    else {
-        // have to use the myParty queue since the myParty waiting queue is empty
-        mHUD->updateFocusedCharacter(myParty.at(0)->id);
-        myParty.at(0)->showTargetArrow();
-    }
-}
-
 void SingleplayerGame::onHUDPhysicalSelect() {
     std::cout << "Attack " << std::endl;
-    dequeueActiveCharacter();
 }
 
 void SingleplayerGame::onHUDSpecialSelect() {
     std::cout << "Special " << std::endl;
-    dequeueActiveCharacter();
 }
 
 void SingleplayerGame::onHUDItemSelect() {
     std::cout << "Item " << std::endl;
-    dequeueActiveCharacter();
 }
 
 void SingleplayerGame::onHUDGuardSelect() {
     std::cout << "Guard " << std::endl;
-    dequeueActiveCharacter();
 }
 
 /*

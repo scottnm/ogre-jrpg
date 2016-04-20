@@ -166,19 +166,21 @@ void SingleplayerGame::onHUDCycleCharacter() {
     mHUD->updateFocusedCharacter(playersWaiting.at(focusedCharacterId)->id);
 }
 
-void SingleplayerGame::dequeueActiveCharacter() {\
+void SingleplayerGame::dequeueActiveCharacter() {
     playersWaiting.at(focusedCharacterId)->hideTargetArrow();
     playersWaiting.erase(playersWaiting.begin() + focusedCharacterId);
     if (playersWaiting.size() <= focusedCharacterId) {
         focusedCharacterId = 0;
     }
-    playersWaiting.at(focusedCharacterId)->showTargetArrow();
 
     if (playersWaiting.size() > 0) {
         mHUD->updateFocusedCharacter(playersWaiting.at(focusedCharacterId)->id);
+        playersWaiting.at(focusedCharacterId)->showTargetArrow();
     }
     else {
-        mHUD->updateFocusedCharacter(0);
+        // have to use the players queue since the players waiting queue is empty
+        mHUD->updateFocusedCharacter(players.at(0)->id);
+        players.at(0)->showTargetArrow();
     }
 }
 

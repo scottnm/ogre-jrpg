@@ -10,6 +10,7 @@
 #include <OISKeyboard.h>
 #include <CEGUI/CEGUI.h>
 
+#include <unordered_set>
 #include <vector>
 
 enum class HUD_STATE {
@@ -20,14 +21,14 @@ enum class HUD_STATE {
 
 class HUD {
 public:
-    HUD(GUISystem& gui, HUDListener& listener,
-        std::vector<Player*>& myParty, std::vector<Player*>& enemyParty,
+    HUD(GUISystem& gui, std::vector<Player*>& myParty, std::vector<Player*>& enemyParty,
         std::vector<Player*>& myPartyWaiting);
     ~HUD(void);
 
     void injectKeyDown(const OIS::KeyEvent& arg);
     void injectKeyUp(const OIS::KeyEvent& arg);
     void updateFocusedCharacter(int characterId);
+    void registerListener(HUDListener* hl);
 
     static const Ogre::String windowName;
 
@@ -41,7 +42,7 @@ private:
     void cycleTargetCharacter(void);
 
     GUISystem& mGUI;
-    HUDListener& mListener;
+    std::unordered_set<HUDListener*> mListeners;
     CEGUI::Window* mRoot;
     int mOptionSelected;
     CEGUI::Window* mOptionSelects[4];

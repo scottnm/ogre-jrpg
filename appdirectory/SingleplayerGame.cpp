@@ -93,7 +93,7 @@ void SingleplayerGame::destroyScene(void) {
 
 void SingleplayerGame::initGUI(void)
 {
-    mHUD = new HUD(*mGUI, *this, myParty, enemyParty, myPartyWaiting);
+    mHUD = new HUD(*mGUI, myParty, enemyParty, myPartyWaiting);
 }
 
 bool SingleplayerGame::go(void)
@@ -102,6 +102,8 @@ bool SingleplayerGame::go(void)
     createScene();
     myPartyWaiting = myParty;
     initGUI();
+    mHUD->registerListener(this);
+    mHUD->registerListener(&mSoundController);
 
     // setup listeners
     mRenderer->addFrameListener(this);

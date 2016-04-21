@@ -5,6 +5,7 @@
 #include <boost/foreach.hpp>
 
 #include <iostream> // cerr
+#include <cstdlib>
 
 PlayerBank::~PlayerBank() {
     for(auto pair : mCharacterBank) {
@@ -45,7 +46,9 @@ void PlayerBank::loadPlayerDatabase(const std::string& _fn) {
 const PlayerInfo& PlayerBank::getPlayerInfo(const std::string& _n) {
     auto pair = mCharacterBank.find(_n);
     if (pair == mCharacterBank.end()) {
-        std::cerr << "\n**** ERROR **** Could not find character <" << _n << ">\n" << std::endl;
+        std::cerr << "\n***** Could not find character <" << _n << ">";
+        std::cerr << "\b***** Terminating.... " << std::endl;
+        exit(EXIT_FAILURE);
     }
 
     return *(pair->second);

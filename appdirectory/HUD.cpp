@@ -12,10 +12,9 @@ enum HUD_ID {
     GUARD_ID
 };
 
-HUD::HUD(GUISystem& gui, HUDListener& listener,
-         std::vector<Player*>& myParty, std::vector<Player*>& enemyParty,
+HUD::HUD(GUISystem& gui, std::vector<Player*>& myParty, std::vector<Player*>& enemyParty,
          std::vector<Player*>& myPartyWaiting) 
-    : mGUI(gui), mListener(listener), mState(HUD_STATE::ACTION_MENU_ACTIVE),
+    : mGUI(gui), mState(HUD_STATE::ACTION_MENU_ACTIVE),
       myParty(myParty), myPartyWaiting(myPartyWaiting), enemyParty(enemyParty) {
 
     mOptionSelected = 0;
@@ -96,13 +95,19 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
                         switchToItemMenu();
                         break;
                     case GUARD_ID:
-                        mListener.onHUDGuardSelect();
+                        // mListener.onHUDGuardSelect();
+                        for(auto hl : mListeners) {
+                            hl->onHUDGuardSelect();
+                        }
                         dequeueActiveCharacter();
                         break;
                 }
                 break;
             case OIS::KC_TAB:
-                mListener.onHUDCycleCharacter();
+                //mListener.onHUDCycleCharacter();
+                for(auto hl : mListeners) {
+                    hl->onHUDCycleCharacter();
+                }
                 cycleActiveCharacter();
                 break;
             default:
@@ -173,13 +178,22 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
                 enemyParty.at(enemyPartyActiveTarget)->hideTargetArrow();
                 switch(mOptionSelected) {
                     case PHYSICAL_ID:
-                        mListener.onHUDPhysicalSelect();
+                        //mListener.onHUDPhysicalSelect();
+                        for (auto hl : mListeners) {
+                            hl->onHUDPhysicalSelect();
+                        }
                         break;
                     case SPECIAL_ID:
-                        mListener.onHUDSpecialSelect();
+                        // mListener.onHUDSpecialSelect();
+                        for (auto hl : mListeners) {
+                            hl->onHUDSpecialSelect();
+                        }
                         break;
                     case ITEMS_ID:
-                        mListener.onHUDItemSelect();
+                        //mListener.onHUDItemSelect();
+                        for (auto hl : mListeners) {
+                            hl->onHUDItemSelect();
+                        }
                         break;
                     default:
                         break;
@@ -280,4 +294,8 @@ void HUD::cycleTargetCharacter(void) {
     enemyParty.at(enemyPartyActiveTarget)->hideTargetArrow();
     enemyPartyActiveTarget = (enemyPartyActiveTarget + 1) % enemyParty.size();
     enemyParty.at(enemyPartyActiveTarget)->showTargetArrow();
+}
+
+void HUD::registerListener(HUDListener* hl) {
+    mListeners.emplace(hl);
 }

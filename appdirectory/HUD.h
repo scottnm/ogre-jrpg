@@ -41,6 +41,14 @@ private:
     void dequeueActiveCharacter(void);
     void cycleTargetCharacter(void);
 
+    void notifyPhysicalSelect(void);
+    void notifySpecialSelect(void);
+    void notifyItemSelect(void);
+    void notifyGuardSelect(void);
+    void notifyCharacterCycle(void);
+    void notifyHUDOptionSelect(void);
+    void notifyHUDNavigation(void);
+
     GUISystem& mGUI;
     std::unordered_set<HUDListener*> mListeners;
     CEGUI::Window* mRoot;

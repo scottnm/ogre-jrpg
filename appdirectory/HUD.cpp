@@ -80,34 +80,32 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
         int oldOption = mOptionSelected;
         switch(arg.key) {
             case OIS::KC_UP:
+                notifyHUDNavigation();
                 mOptionSelected = std::max(0, mOptionSelected - 1);
                 break;
             case OIS::KC_DOWN:
+                notifyHUDNavigation();
                 mOptionSelected = std::min(3, mOptionSelected + 1);
                 break;
             case OIS::KC_RETURN:
                 switch (mOptionSelected) {
                     case PHYSICAL_ID:
                     case SPECIAL_ID:
+                        notifyHUDOptionSelect();
                         switchToTargetMenu();
                         break;
                     case ITEMS_ID:
+                        notifyHUDOptionSelect();
                         switchToItemMenu();
                         break;
                     case GUARD_ID:
-                        // mListener.onHUDGuardSelect();
-                        for(auto hl : mListeners) {
-                            hl->onHUDGuardSelect();
-                        }
+                        notifyGuardSelect();
                         dequeueActiveCharacter();
                         break;
                 }
                 break;
             case OIS::KC_TAB:
-                //mListener.onHUDCycleCharacter();
-                for(auto hl : mListeners) {
-                    hl->onHUDCycleCharacter();
-                }
+                notifyCharacterCycle();
                 cycleActiveCharacter();
                 break;
             default:
@@ -121,12 +119,15 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
         if (mItemsFocused) {
             switch(arg.key) {
                 case OIS::KC_LEFT:
+                    notifyHUDNavigation();
                     mItemSelected = mItemSelected == 0 ? mItemsTotal : mItemSelected - 1;
                     break;
                 case OIS::KC_RIGHT:
+                    notifyHUDNavigation();
                     mItemSelected = (mItemSelected + 1) % mItemsTotal;
                     break;
                 case OIS::KC_DOWN: {
+                    notifyHUDNavigation();
                     mItemsFocused = false;
                     auto itemFrame = mRoot->getChild("Item_Frame");
                     itemFrame->getChild("Items_select")->hide();
@@ -135,6 +136,7 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
                     break;
                 }
                 case OIS::KC_RETURN:
+                    notifyHUDOptionSelect(); 
                     switchToTargetMenu();
                     break;
                 default:
@@ -145,11 +147,12 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
         }
         else {
             switch(arg.key) {
-                case OIS::KC_RETURN: {
+                case OIS::KC_RETURN:
+                    notifyHUDOptionSelect();
                     switchToActionMenu();
                     break;
-                }
                 case OIS::KC_UP: {
+                    notifyHUDNavigation();
                     mItemsFocused = true;
                     auto itemFrame = mRoot->getChild("Item_Frame");
                     itemFrame->getChild("Back_select")->hide();
@@ -165,6 +168,7 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
     else if (mState == HUD_STATE::TARGETING_MENU_ACTIVE) {
         switch(arg.key) {
             case OIS::KC_Q:
+                notifyHUDOptionSelect();
                 enemyParty.at(enemyPartyActiveTarget)->hideTargetArrow();
                 if (mPrevState == HUD_STATE::ACTION_MENU_ACTIVE) {
                     switchToActionMenu();
@@ -178,22 +182,13 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
                 enemyParty.at(enemyPartyActiveTarget)->hideTargetArrow();
                 switch(mOptionSelected) {
                     case PHYSICAL_ID:
-                        //mListener.onHUDPhysicalSelect();
-                        for (auto hl : mListeners) {
-                            hl->onHUDPhysicalSelect();
-                        }
+                        notifyPhysicalSelect();
                         break;
                     case SPECIAL_ID:
-                        // mListener.onHUDSpecialSelect();
-                        for (auto hl : mListeners) {
-                            hl->onHUDSpecialSelect();
-                        }
+                        notifySpecialSelect();
                         break;
                     case ITEMS_ID:
-                        //mListener.onHUDItemSelect();
-                        for (auto hl : mListeners) {
-                            hl->onHUDItemSelect();
-                        }
+                        notifyItemSelect();
                         break;
                     default:
                         break;
@@ -201,6 +196,7 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
                 switchToActionMenu(); 
                 break;
             case OIS::KC_TAB:
+                notifyCharacterCycle();
                 cycleTargetCharacter();
                 break;
             default:
@@ -299,3 +295,46 @@ void HUD::cycleTargetCharacter(void) {
 void HUD::registerListener(HUDListener* hl) {
     mListeners.emplace(hl);
 }
+
+void HUD::notifyPhysicalSelect(void){
+    for(auto hl : mListeners) {
+        hl->onHUDPhysicalSelect();
+    }
+}
+
+void HUD::notifySpecialSelect(void){
+    for(auto hl : mListeners) {
+        hl->onHUDSpecialSelect();
+    }
+}
+
+void HUD::notifyItemSelect(void){
+    for(auto hl : mListeners) {
+        hl->onHUDItemSelect();
+    }
+}
+
+void HUD::notifyGuardSelect(void){
+    for(auto hl : mListeners) {
+        hl->onHUDGuardSelect();
+    }
+}
+
+void HUD::notifyCharacterCycle(void){
+    for(auto hl : mListeners) {
+        hl->onHUDCycleCharacter();
+    }
+}
+
+void HUD::notifyHUDOptionSelect(void){
+    for(auto hl : mListeners) {
+        hl->onHUDOptionSelect();
+    }
+}
+
+void HUD::notifyHUDNavigation(void){
+    for(auto hl : mListeners) {
+        hl->onHUDNavigation();
+    }
+}
+

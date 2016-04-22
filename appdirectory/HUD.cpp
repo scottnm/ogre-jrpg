@@ -129,6 +129,10 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
                     case GUARD_ID:
                         notifyGuardSelect();
                         dequeueActiveCharacter();
+                        mOptionSelects[mOptionSelected]->hide();
+                        mOptionSelected = 0;
+                        mOptionSelects[0]->show();
+                        mOptionSelects[0]->activate();
                         break;
                 }
                 break;
@@ -221,6 +225,10 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
                     default:
                         break;
                 }
+                mOptionSelects[mOptionSelected]->hide();
+                mOptionSelected = 0;
+                mOptionSelects[0]->show();
+                mOptionSelects[0]->activate();
                 switchToActionMenu(); 
                 break;
             case OIS::KC_TAB:

@@ -209,8 +209,6 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
                 }
                 break;
             case OIS::KC_RETURN:
-                dequeueActiveCharacter();
-                setTargetArrowVisible(enemyParty.at(enemyPartyActiveTarget), false);
                 switch(mOptionSelected) {
                     case PHYSICAL_ID:
                         notifyPhysicalSelect();
@@ -224,6 +222,8 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
                     default:
                         break;
                 }
+                dequeueActiveCharacter();
+                setTargetArrowVisible(enemyParty.at(enemyPartyActiveTarget), false);
                 mOptionSelects[mOptionSelected]->hide();
                 mOptionSelected = 0;
                 mOptionSelects[0]->show();
@@ -324,7 +324,7 @@ void HUD::registerListener(HUDListener* hl) {
     mListeners.emplace(hl);
 }
 
-void HUD::frameUpdate(void) {
+void HUD::update(void) {
     for(auto character : myParty) {
         auto infoWindow = characterInfoWindows.find(character)->second;
         PlayerInfo& info = character->info;

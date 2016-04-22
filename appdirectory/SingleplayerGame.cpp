@@ -148,7 +148,8 @@ bool SingleplayerGame::mouseMoved(const OIS::MouseEvent &arg) {
 }
 
 void SingleplayerGame::onHUDPhysicalSelect(Player* attacker, Player* target) {
-    std::cout << "Attack " << std::endl;
+    attacker->physicalAttack(*target);
+    std::cout << target->info.name << ": " << target->info.health << std::endl;
 }
 
 void SingleplayerGame::onHUDSpecialSelect(Player* attacker, Player* target) {

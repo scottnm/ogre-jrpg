@@ -93,7 +93,7 @@ void SingleplayerGame::destroyScene(void) {
 
 void SingleplayerGame::initGUI(void)
 {
-    mHUD = new HUD(*mGUI, myParty, enemyParty, myPartyWaiting);
+    mHUD = new HUD(*(mRenderer->mSceneManager), *mGUI, myParty, enemyParty, myPartyWaiting);
 }
 
 bool SingleplayerGame::go(void)
@@ -132,9 +132,6 @@ bool SingleplayerGame::keyPressed(const OIS::KeyEvent &arg) {
 }
 
 bool SingleplayerGame::keyReleased(const OIS::KeyEvent &arg) {
-    if (myPartyWaiting.size() > 0) {
-        mHUD->injectKeyUp(arg);
-    }
     return true;
 }
 

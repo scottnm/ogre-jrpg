@@ -112,9 +112,12 @@ bool SingleplayerGame::go(void)
     return true;
 }
 
+/*
 static bool characterDead(Player* p) {
-    return p->info.health == 0;
+    //return p->info.health == 0;
+    return false;
 }
+*/
 
 bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
@@ -123,24 +126,37 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
         return true;
     }
 
+    if (playerTurn) {
+        playerTurn = myPartyWaiting.size() != 0;
+    }
+    else {
+        if (activeEnemy < enemyParty.size()) {
+            // enemy action
+            enemyParty.at(activeEnemy)->physicalAttack(*myParty.at(activeEnemy /* place holder so attacks are spaced out */));
+            // queue next enemy
+            ++activeEnemy;
+            mHUD->update();
+        }
+        else {
+            // enemy turns over
+            activeEnemy = 0;
+            myPartyWaiting = myParty;
+            playerTurn = true;
+        }
+    }
+
     if (myPartyWaiting.size() == 0) {
         std::cout << "Enemy turn" << std::endl;
         playerTurn = false;
     }
-    else if (activeEnemy < enemyParty.size()) {
-        // enemy action
-        // queue next enemy
-    }
-    else {
-        // enemy turns over
-        myPartyWaiting = myParty;
-    }
 
     // remove all of the dead characters
+    /*
     myParty.erase(std::remove_if(myParty.begin(), myParty.end(), characterDead));
     myPartyWaiting.erase(std::remove_if(myPartyWaiting.begin(), myPartyWaiting.end(),
                 characterDead));
     enemyParty.erase(std::remove_if(enemyParty.begin(), enemyParty.end(), characterDead));
+    */
 
     return true;
 }
@@ -152,15 +168,16 @@ bool SingleplayerGame::keyPressed(const OIS::KeyEvent &arg) {
     return true;
 }
 
-void SingleplayerGame::onHUDPhysicalSelect() {
-    std::cout << "Attack " << std::endl;
+void SingleplayerGame::onHUDPhysicalSelect(Player* attacker, Player* target) {
+    attacker->physicalAttack(*target);
+    std::cout << target->info.name << ": " << target->info.health << std::endl;
 }
 
-void SingleplayerGame::onHUDSpecialSelect() {
+void SingleplayerGame::onHUDSpecialSelect(Player* attacker, Player* target) {
     std::cout << "Special " << std::endl;
 }
 
-void SingleplayerGame::onHUDItemSelect() {
+void SingleplayerGame::onHUDItemSelect(Player* user, Player* target) {
     std::cout << "Item " << std::endl;
 }
 

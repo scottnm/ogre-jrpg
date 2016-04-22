@@ -1,6 +1,5 @@
 #include "HUD.h"
 #include <algorithm>
-#include <OgreStringConverter.h>
 
 const Ogre::String HUD::windowName = "HUD";
 const Ogre::String HUD::mockItems[4] = {"Apple", "Cool thing", "jimjam", "sweater"};
@@ -12,10 +11,11 @@ enum HUD_ID {
     GUARD_ID
 };
 
-HUD::HUD(GUISystem& gui, std::vector<Player*>& myParty, std::vector<Player*>& enemyParty,
+HUD::HUD(Ogre::SceneManager& scnMgr, GUISystem& gui, std::vector<Player*>& myParty, std::vector<Player*>& enemyParty,
          std::vector<Player*>& myPartyWaiting) 
     : mGUI(gui), mState(HUD_STATE::ACTION_MENU_ACTIVE),
       myParty(myParty), myPartyWaiting(myPartyWaiting), enemyParty(enemyParty) {
+
 
     mOptionSelected = 0;
     mItemsFocused = true;
@@ -23,7 +23,6 @@ HUD::HUD(GUISystem& gui, std::vector<Player*>& myParty, std::vector<Player*>& en
     mItemSelected = 0;
 
     myPartyFocused = 0;
-    myPartyActiveTarget = 0;
     enemyPartyActiveTarget = 0;
 
     CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
@@ -51,9 +50,13 @@ HUD::HUD(GUISystem& gui, std::vector<Player*>& myParty, std::vector<Player*>& en
     auto p1Frame = mRoot->getChild("Party_Frame")->getChild("PartyMember1_Frame");
     auto p2Frame = mRoot->getChild("Party_Frame")->getChild("PartyMember2_Frame");
     CEGUI::Window* frames[3] = {p0Frame, p1Frame, p2Frame};
-    for(Player* player : myParty) { 
-        PlayerInfo& info = player->info;
-        CEGUI::Window* frame = frames[player->id]; 
+
+    for(int i = 0; i < 3; ++i) {
+        Player* character = myParty[i];
+        CEGUI::Window* frame = frames[i]; 
+        characterInfoWindows.emplace(character, frame);
+
+        PlayerInfo& info = character->info;
         frame->getChild("PM_Name_StaticText")->setText(info.name);
         frame->getChild("PM_HP_Left_StaticText")->setText(
                 Ogre::StringConverter::toString(info.health));
@@ -63,11 +66,36 @@ HUD::HUD(GUISystem& gui, std::vector<Player*>& myParty, std::vector<Player*>& en
                 Ogre::StringConverter::toString(info.specialPoints));
         frame->getChild("PM_SP_Total_StaticText")->setText(
                 Ogre::StringConverter::toString(info.specialPointsMax));
+
+        auto targetBillboardSet = scnMgr.createBillboardSet();
+        targetBillboardSet->setMaterialName("pixeltarget");
+        targetBillboardSet->createBillboard(Ogre::Vector3::ZERO);
+
+        auto targetSceneNode = character->sceneNode->
+            createChildSceneNode(Ogre::Vector3(0, 200, 0));
+        targetSceneNode->attachObject(targetBillboardSet);
+        targetSceneNode->getAttachedObject(0)->setRenderQueueGroup(Ogre::RENDER_QUEUE_MAX);
+        targetSceneNode->setVisible(false);
+
+        characterTargetArrows.emplace(character, targetSceneNode);
     }
 
+    for (Player* e : enemyParty) {
+        auto targetBillboardSet = scnMgr.createBillboardSet();
+        targetBillboardSet->setMaterialName("pixeltarget");
+        targetBillboardSet->createBillboard(Ogre::Vector3::ZERO);
+        auto targetSceneNode = e->sceneNode->
+            createChildSceneNode(Ogre::Vector3(0, 200, 0));
+        targetSceneNode->attachObject(targetBillboardSet);
+        targetSceneNode->getAttachedObject(0)->setRenderQueueGroup(Ogre::RENDER_QUEUE_MAX);
+        targetSceneNode->setVisible(false);
+        characterTargetArrows.emplace(e, targetSceneNode);
+    }
+
+
     charSelected = p0Frame;
-    updateFocusedCharacter(0);
-    myPartyWaiting.at(0)->showTargetArrow();
+    updateFocusedCharacter(myParty.at(0));
+    setTargetArrowVisible(myParty.at(0), true);
     mGUI.addAndSetWindowGroup(HUD::windowName, mRoot);
 }
 
@@ -169,7 +197,7 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
         switch(arg.key) {
             case OIS::KC_Q:
                 notifyHUDOptionSelect();
-                enemyParty.at(enemyPartyActiveTarget)->hideTargetArrow();
+                setTargetArrowVisible(enemyParty.at(enemyPartyActiveTarget), false);
                 if (mPrevState == HUD_STATE::ACTION_MENU_ACTIVE) {
                     switchToActionMenu();
                 }
@@ -179,7 +207,7 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
                 break;
             case OIS::KC_RETURN:
                 dequeueActiveCharacter();
-                enemyParty.at(enemyPartyActiveTarget)->hideTargetArrow();
+                setTargetArrowVisible(enemyParty.at(enemyPartyActiveTarget), false);
                 switch(mOptionSelected) {
                     case PHYSICAL_ID:
                         notifyPhysicalSelect();
@@ -235,40 +263,33 @@ void HUD::switchToTargetMenu(void) {
     auto targetIcon = mRoot->getChild("TargetingIcon");
     targetIcon->show();
     targetIcon->activate();
-    enemyParty.at(enemyPartyActiveTarget)->hideTargetArrow();
+    setTargetArrowVisible(enemyParty.at(enemyPartyActiveTarget), false);
     enemyPartyActiveTarget = 0;
-    enemyParty.at(enemyPartyActiveTarget)->showTargetArrow();
+    setTargetArrowVisible(enemyParty.at(enemyPartyActiveTarget), true);
 }
 
-void HUD::updateFocusedCharacter(int charId) {
+void HUD::updateFocusedCharacter(Player* character) {
     charSelected->setProperty("Colour",
             "tl:0000000 tr:00000000 bl:00000000 br:00000000");
-
-    static const CEGUI::String tmpStart = "PartyMember";
-    static const CEGUI::String tmpEnd = "_Frame";
-    Ogre::String id = Ogre::StringConverter::toString(charId);
-    auto focusedChildFrame = mRoot->getChild("Party_Frame")->getChild(
-            tmpStart + CEGUI::String(id.c_str()) + tmpEnd);
-
+    auto focusedChildFrame = characterInfoWindows.find(character)->second;
     focusedChildFrame->setProperty("Colour",
             "tl:FFFF0000 tr:FFFF0000 bl:FFFF0000 br:FFFF0000");
     charSelected = focusedChildFrame;
 }
 
-void HUD::injectKeyUp(const OIS::KeyEvent& arg) {
-    // pass
-    (void) arg;
+void HUD::setTargetArrowVisible(Player* character, bool visible) {
+    characterTargetArrows.find(character)->second->setVisible(visible);
 }
 
 void HUD::cycleActiveCharacter(void) {
-    myPartyWaiting.at(myPartyFocused)->hideTargetArrow();
+    setTargetArrowVisible(myPartyWaiting.at(myPartyFocused), false);
     myPartyFocused = (myPartyFocused + 1) % myPartyWaiting.size();
-    myPartyWaiting.at(myPartyFocused)->showTargetArrow();
-    updateFocusedCharacter(myPartyWaiting.at(myPartyFocused)->id);
+    setTargetArrowVisible(myPartyWaiting.at(myPartyFocused), true);
+    updateFocusedCharacter(myPartyWaiting.at(myPartyFocused));
 }
 
 void HUD::dequeueActiveCharacter(void) {
-    myPartyWaiting.at(myPartyFocused)->hideTargetArrow();
+    setTargetArrowVisible(myPartyWaiting.at(myPartyFocused), false);
     myPartyWaiting.erase(myPartyWaiting.begin() + myPartyFocused);
 
     if (myPartyWaiting.size() <= myPartyFocused) {
@@ -276,20 +297,20 @@ void HUD::dequeueActiveCharacter(void) {
     }
 
     if (myPartyWaiting.size() > 0) {
-        updateFocusedCharacter(myPartyWaiting.at(myPartyFocused)->id);
-        myPartyWaiting.at(myPartyFocused)->showTargetArrow();
+        updateFocusedCharacter(myPartyWaiting.at(myPartyFocused));
+        setTargetArrowVisible(myPartyWaiting.at(myPartyFocused), true);
     }
     else {
         // have to use the myParty queue since the myParty waiting queue is empty
-        updateFocusedCharacter(myParty.at(0)->id);
-        myParty.at(0)->showTargetArrow();
+        updateFocusedCharacter(myParty.at(0));
+        setTargetArrowVisible(myParty.at(0), true);
     }
 }
 
 void HUD::cycleTargetCharacter(void) {
-    enemyParty.at(enemyPartyActiveTarget)->hideTargetArrow();
+    setTargetArrowVisible(enemyParty.at(enemyPartyActiveTarget), false);
     enemyPartyActiveTarget = (enemyPartyActiveTarget + 1) % enemyParty.size();
-    enemyParty.at(enemyPartyActiveTarget)->showTargetArrow();
+    setTargetArrowVisible(enemyParty.at(enemyPartyActiveTarget), true);
 }
 
 void HUD::registerListener(HUDListener* hl) {

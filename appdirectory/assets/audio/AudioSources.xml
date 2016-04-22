@@ -2,16 +2,20 @@
     <sourcedir>assets/audio</sourcedir>
     <sources>
         <source>
-            <id>1</id>
-            <filename>1.wav</filename>
+            <id>guard_fx</id>
+            <filename>guard_fx.wav</filename>
         </source>
         <source>
-            <id>2</id>
-            <filename>2.wav</filename>
+            <id>hud_cycle_fx</id>
+            <filename>hud_cycle_fx.wav</filename>
         </source>
         <source>
-            <id>3</id>
-            <filename>3.wav</filename>
+            <id>option_nav_fx</id>
+            <filename>option_nav_fx.wav</filename>
+        </source>
+        <source>
+            <id>option_select_fx</id>
+            <filename>option_select_fx.wav</filename>
         </source>
     </sources>
 </audioDatabase>

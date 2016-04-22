@@ -13,12 +13,13 @@ http://www.ogre3d.org/tikiwiki/tiki-index.php?page=MinimalOgre-h&structure=Devel
 #include "BaseGame.h"
 #include "HUD.h"
 #include "HUDListener.h"
+#include "SoundController.h"
 
 class SingleplayerGame : public BaseGame,
                          public HUDListener
 {
 public:
-    SingleplayerGame(RenderingEngine* renderer, GUISystem* gui, SoundBank* soundBank, PlayerBank* playerBank);
+    SingleplayerGame(RenderingEngine* renderer, GUISystem* gui, PlayerBank* playerBank, SoundBank* soundBank);
     virtual ~SingleplayerGame(void);
     bool go(void);
 
@@ -39,13 +40,14 @@ private:
     void onHUDSpecialSelect();
     void onHUDItemSelect();
     void onHUDGuardSelect();
-    void onHUDCycleCharacter() {} // empty
 
     /*
     bool guiCbStart(const CEGUI::EventArgs& e);
     bool guiCbResume(const CEGUI::EventArgs& e);
     bool guiCbQuit(const CEGUI::EventArgs& e);
     */
+
+    SoundController mSoundController;
 };
  
 #endif // __SINGLE_PLAYER_GAME_H__

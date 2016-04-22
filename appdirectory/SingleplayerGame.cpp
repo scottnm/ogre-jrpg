@@ -12,8 +12,8 @@ http://www.ogre3d.org/tikiwiki/tiki-index.php?page=MinimalOgre-cpp
 #include <string>
 
 SingleplayerGame::SingleplayerGame(RenderingEngine* renderer, GUISystem* gui,
-        SoundBank* soundBank, PlayerBank* playerBank)
-    : BaseGame(renderer, gui, soundBank, playerBank) {
+    PlayerBank* playerBank, SoundBank* soundBank)
+    : BaseGame(renderer, gui, playerBank), mSoundController(soundBank) {
 }
 
 SingleplayerGame::~SingleplayerGame(void) {
@@ -93,7 +93,7 @@ void SingleplayerGame::destroyScene(void) {
 
 void SingleplayerGame::initGUI(void)
 {
-    mHUD = new HUD(*mGUI, *this, myParty, enemyParty, myPartyWaiting);
+    mHUD = new HUD(*mGUI, myParty, enemyParty, myPartyWaiting);
 }
 
 bool SingleplayerGame::go(void)
@@ -102,6 +102,8 @@ bool SingleplayerGame::go(void)
     createScene();
     myPartyWaiting = myParty;
     initGUI();
+    mHUD->registerListener(this);
+    mHUD->registerListener(&mSoundController);
 
     // setup listeners
     mRenderer->addFrameListener(this);
@@ -125,19 +127,6 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
 bool SingleplayerGame::keyPressed(const OIS::KeyEvent &arg) {
     if (myPartyWaiting.size() > 0) {
         mHUD->injectKeyDown(arg);
-    }
-    switch(arg.key) {
-        case OIS::KC_1:
-            mSoundBank->play("1");
-            break;
-        case OIS::KC_2:
-            mSoundBank->play("2");
-            break;
-        case OIS::KC_3:
-            mSoundBank->play("3");
-            break;
-        default:
-            break;
     }
     return true;
 }

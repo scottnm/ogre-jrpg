@@ -5,6 +5,7 @@
 #include <boost/foreach.hpp>
 
 #include <iostream>
+#include <cstdlib>
 
 SoundBank::SoundBank() {
     Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096);
@@ -31,8 +32,10 @@ void SoundBank::loadAudioDatabase(const std::string& _fn) {
         std::string fname = srcdir + v.second.get<std::string>("filename");
         Mix_Chunk* chunk = Mix_LoadWAV(fname.c_str());
         if (chunk == nullptr) {
-            std::cout << "Audio failed to load: " << fname;
-            std::cout << "\t::\t" << Mix_GetError() << std::endl;
+            std::cerr << "\n***** Audio failed to load: " << fname;
+            std::cerr << "\n***** " << Mix_GetError();
+            std::cerr << "\n***** Terminating...\n" << std::endl;
+            exit(EXIT_FAILURE);
         }
         else {
             mChunkBank.emplace(id, chunk);
@@ -43,5 +46,10 @@ void SoundBank::loadAudioDatabase(const std::string& _fn) {
 #define FIRST_FREE_CHANNEL -1
 #define NO_LOOPS 0
 void SoundBank::play(const std::string& id) {
+    auto chunkpair = mChunkBank.find(id);
+    if (chunkpair == mChunkBank.end()) {
+        std::cerr << "\n***** Could not find sound <" << id << ">\n***** Terminating..." << std::endl;
+        exit(EXIT_FAILURE);
+    }
     Mix_PlayChannel(FIRST_FREE_CHANNEL, mChunkBank.find(id)->second, NO_LOOPS);
 }

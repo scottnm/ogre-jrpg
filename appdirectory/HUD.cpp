@@ -41,8 +41,6 @@ HUD::HUD(Ogre::SceneManager& scnMgr, GUISystem& gui, std::vector<Player*>& myPar
     mOptionSelects[ITEMS_ID] = MenuFrame->getChild("Items_select");
     mOptionSelects[GUARD_ID] = MenuFrame->getChild("Guard_select");
 
-    // prep gui with info
-
     mRoot->getChild("Item_Frame")->getChild("Items_StaticText")->
         setText(mockItems[mItemSelected]);
 
@@ -59,7 +57,6 @@ HUD::HUD(Ogre::SceneManager& scnMgr, GUISystem& gui, std::vector<Player*>& myPar
         PlayerInfo& info = character->info;
         frame->getChild("PM_Name_StaticText")->setText(info.name);
         frame->getChild("PM_Pic_StaticImage")->setProperty("Image", info.img);
-        std::cout << frame->getChild("PM_Pic_StaticImage")->getProperty("Image") << std::endl;
         frame->getChild("PM_HP_Left_StaticText")->setText(
                 Ogre::StringConverter::toString(info.health));
         frame->getChild("PM_HP_Total_StaticText")->setText(
@@ -325,6 +322,17 @@ void HUD::cycleTargetCharacter(void) {
 
 void HUD::registerListener(HUDListener* hl) {
     mListeners.emplace(hl);
+}
+
+void HUD::frameUpdate(void) {
+    for(auto character : myParty) {
+        auto infoWindow = characterInfoWindows.find(character)->second;
+        PlayerInfo& info = character->info;
+        infoWindow->getChild("PM_HP_Left_StaticText")->setText(
+                Ogre::StringConverter::toString(info.health));
+        infoWindow->getChild("PM_SP_Left_StaticText")->setText(
+                Ogre::StringConverter::toString(info.specialPoints));
+    }
 }
 
 void HUD::notifyPhysicalSelect(void){

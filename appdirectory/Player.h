@@ -14,6 +14,8 @@ public:
            const PlayerInfo& i);
 	virtual ~Player(void) {};
 
+    void physicalAttack(Player& target);
+
 	Ogre::Entity* entity;
     PlayerInfo info;
 };

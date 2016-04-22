@@ -13,3 +13,7 @@ Player::Player(Ogre::SceneManager* _scnmgr, Ogre::SceneNode* _scnnode,
 	sceneNode->attachObject(entity);
 	sceneNode->scale(0.5f, 0.5f, 0.5f);
 }
+
+void Player::physicalAttack(Player& target) {
+    target.info.health -= this->info.damage;
+}

@@ -328,20 +328,26 @@ void HUD::registerListener(HUDListener* hl) {
 }
 
 void HUD::notifyPhysicalSelect(void){
+    Player* attacker = myPartyWaiting.at(myPartyFocused);
+    Player* target = enemyParty.at(enemyPartyActiveTarget);
     for(auto hl : mListeners) {
-        hl->onHUDPhysicalSelect();
+        hl->onHUDPhysicalSelect(attacker, target);
     }
 }
 
 void HUD::notifySpecialSelect(void){
+    Player* attacker = myPartyWaiting.at(myPartyFocused);
+    Player* target = enemyParty.at(enemyPartyActiveTarget);
     for(auto hl : mListeners) {
-        hl->onHUDSpecialSelect();
+        hl->onHUDSpecialSelect(attacker, target);
     }
 }
 
 void HUD::notifyItemSelect(void){
+    Player* user = myPartyWaiting.at(myPartyFocused);
+    Player* target = enemyParty.at(enemyPartyActiveTarget);
     for(auto hl : mListeners) {
-        hl->onHUDItemSelect();
+        hl->onHUDItemSelect(user, target);
     }
 }
 

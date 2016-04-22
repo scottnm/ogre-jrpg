@@ -36,9 +36,9 @@ private:
 
     // gui
     HUD* mHUD;
-    void onHUDPhysicalSelect();
-    void onHUDSpecialSelect();
-    void onHUDItemSelect();
+    void onHUDPhysicalSelect(Player* attacker, Player* target);
+    void onHUDSpecialSelect(Player* attacker, Player* target);
+    void onHUDItemSelect(Player* user, Player* target);
     void onHUDGuardSelect();
 
     /*

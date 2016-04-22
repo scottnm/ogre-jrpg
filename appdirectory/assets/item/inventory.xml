@@ -1,0 +1,34 @@
+<inventoryDatabase>
+    <item-pair>
+        <item>
+            <name>Homemade Potion</name>
+            <type>Defensive</type>
+            <description>A weak healing item (+5hp)</description>
+        </item>
+        <quantity>3</quantity>
+    </item-pair>
+    <item-pair>
+        <item>
+            <name>Murderhorn</name>
+            <type>Offensive</type>
+            <description>A weak healing item (+5hp)</description>
+        </item>
+        <quantity>5</quantity>
+    </item-pair>
+    <item-pair>
+        <item>
+            <name>Pentagram</name>
+            <type>Offensive</type>
+            <description>A weak healing item (+5hp)</description>
+        </item>
+        <quantity>2</quantity>
+    </item-pair>
+    <item-pair>
+        <item>
+            <name>Guppy's Collar</name>
+            <type>Defensive</type>
+            <description>A weak healing item (+5hp)</description>
+        </item>
+        <quantity>1</quantity>
+    </item-pair>
+</inventoryDatabase>

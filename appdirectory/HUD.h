@@ -27,6 +27,7 @@ public:
     ~HUD(void);
 
     void injectKeyDown(const OIS::KeyEvent& arg);
+    void update(void);
     void registerListener(HUDListener* hl);
 
     static const Ogre::String windowName;

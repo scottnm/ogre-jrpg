@@ -1,0 +1,5 @@
+<Imageset autoScaled="" imagefile="ProfilePicturesPlaceholder.png" name="CharacterProfiles" nativeHorzRes="600" nativeVertRes="600" version="2">
+    <Image height="193" name="Rattlebones" width="197" xPos="2" yPos="3" />
+    <Image height="197" name="SpookyBoo" width="198" xPos="201" yPos="0" />
+    <Image height="194" name="CannibalCorpse" width="196" xPos="2" yPos="202" />
+</Imageset>

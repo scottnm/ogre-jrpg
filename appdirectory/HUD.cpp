@@ -56,6 +56,8 @@ HUD::HUD(GUISystem& gui, HUDListener& listener,
         PlayerInfo& info = player->info;
         CEGUI::Window* frame = frames[player->id]; 
         frame->getChild("PM_Name_StaticText")->setText(info.name);
+        frame->getChild("PM_Pic_StaticImage")->setProperty("Image", info.img);
+        std::cout << frame->getChild("PM_Pic_StaticImage")->getProperty("Image") << std::endl;
         frame->getChild("PM_HP_Left_StaticText")->setText(
                 Ogre::StringConverter::toString(info.health));
         frame->getChild("PM_HP_Total_StaticText")->setText(

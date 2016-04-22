@@ -1,7 +1,8 @@
 <characterDatabase>
     <characters>
         <character>
-            <name>Chester</name>
+            <name>Cannibal Corpse</name>
+            <img>CharacterProfiles/CannibalCorpse</img>
             <health>15</health>
             <special>2</special>
             <damage>3</damage>
@@ -9,7 +10,8 @@
             <accuracy>0.80</accuracy>
         </character>
         <character>
-            <name>Scoot</name>
+            <name>Spooky Boo</name>
+            <img>CharacterProfiles/SpookyBoo</img>
             <health>10</health>
             <special>4</special>
             <damage>2</damage>
@@ -17,7 +19,8 @@
             <accuracy>0.90</accuracy>
         </character>
         <character>
-            <name>Sygmund</name>
+            <name>Rattlebones</name>
+            <img>CharacterProfiles/Rattlebones</img>
             <health>20</health>
             <special>1</special>
             <damage>5</damage>
@@ -26,6 +29,7 @@
         </character>
         <character>
             <name>Mecha-Scoot</name>
+            <img>CharacterProfiles/CannibalCorpse</img>
             <health>100</health>
             <special>40</special>
             <damage>6</damage>
@@ -34,6 +38,7 @@
         </character>
         <character>
             <name>SSJVirginia</name>
+            <img>CharacterProfiles/CannibalCorpse</img>
             <health>100</health>
             <special>40</special>
             <damage>6</damage>
@@ -42,6 +47,7 @@
         </character>
         <character>
             <name>Metal Scoot</name>
+            <img>CharacterProfiles/CannibalCorpse</img>
             <health>100</health>
             <special>40</special>
             <damage>6</damage>

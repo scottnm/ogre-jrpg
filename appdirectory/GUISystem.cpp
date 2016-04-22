@@ -3,6 +3,7 @@
 GUISystem::GUISystem() {
     mGUIRenderer = &CEGUI::OgreRenderer::bootstrapSystem();
     CEGUI::ImageManager::setImagesetDefaultResourceGroup("Imagesets");
+    CEGUI::ImageManager::getSingleton().loadImageset("CharacterProfiles.imageset");
     CEGUI::Font::setDefaultResourceGroup("Fonts");
     CEGUI::Scheme::setDefaultResourceGroup("Schemes");
     CEGUI::WidgetLookManager::setDefaultResourceGroup("LookNFeel");

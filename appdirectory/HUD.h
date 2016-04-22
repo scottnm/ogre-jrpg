@@ -3,14 +3,15 @@
 
 #include "GUISystem.h"
 #include "HUDListener.h"
-#include "HUDTargetable.h"
 #include "Player.h"
 
 #include <OgreString.h>
+#include <OgreSceneManager.h>
 #include <OISKeyboard.h>
 #include <CEGUI/CEGUI.h>
 
 #include <unordered_set>
+#include <unordered_map>
 #include <vector>
 
 enum class HUD_STATE {
@@ -21,13 +22,11 @@ enum class HUD_STATE {
 
 class HUD {
 public:
-    HUD(GUISystem& gui, std::vector<Player*>& myParty, std::vector<Player*>& enemyParty,
-        std::vector<Player*>& myPartyWaiting);
+    HUD(Ogre::SceneManager& scnMgr, GUISystem& gui, std::vector<Player*>& myParty,
+            std::vector<Player*>& enemyParty, std::vector<Player*>& myPartyWaiting);
     ~HUD(void);
 
     void injectKeyDown(const OIS::KeyEvent& arg);
-    void injectKeyUp(const OIS::KeyEvent& arg);
-    void updateFocusedCharacter(int characterId);
     void registerListener(HUDListener* hl);
 
     static const Ogre::String windowName;
@@ -40,6 +39,8 @@ private:
     void cycleActiveCharacter(void);
     void dequeueActiveCharacter(void);
     void cycleTargetCharacter(void);
+    void updateFocusedCharacter(Player* character);
+    void setTargetArrowVisible(Player* character, bool visible);
 
     void notifyPhysicalSelect(void);
     void notifySpecialSelect(void);
@@ -66,7 +67,8 @@ private:
     std::vector<Player*>& myParty;
     std::vector<Player*>& myPartyWaiting;
     unsigned int myPartyFocused;
-    int myPartyActiveTarget;
+    std::unordered_map<Player*, CEGUI::Window*> characterInfoWindows;
+    std::unordered_map<Player*, Ogre::SceneNode*> characterTargetArrows;
     std::vector<Player*>& enemyParty;
     int enemyPartyActiveTarget;
 

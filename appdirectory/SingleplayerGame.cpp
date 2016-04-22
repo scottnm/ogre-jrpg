@@ -45,67 +45,23 @@ void SingleplayerGame::createScene(void){
     ground = new Plane(scnMgr, mRoomRoot);
 
     // Add test objects
-    Player* p = new Player(scnMgr, mRoomRoot);
-    p->setPosition(Ogre::Vector3(500, 50, 0));
-    player_list.push_back(p);
 
-    Player* p2 = new Player(scnMgr, mRoomRoot);
-    p2->setPosition(Ogre::Vector3(500, 50, 200));
-    player_list.push_back(p2);
-
-    Player* p3 = new Player(scnMgr, mRoomRoot);
-    p3->setPosition(Ogre::Vector3(500, 50, -200));
-    player_list.push_back(p3);
+    n = new Ninja(scnMgr, mRoomRoot, 0);
+    n->setPosition(Ogre::Vector3(500, 0, 250));
+    player_list.push_back(n);
 
     Player* p4 = new Player(scnMgr, mRoomRoot);
     p4->setPosition(Ogre::Vector3(-500, 50, 0));
+    player_list.push_back(p4);
 
-    Character* char1 = new Character(scnMgr, mRoomRoot);
-    char1->setPosition(Ogre::Vector3(0, 100, 0));
+    n->lookAt(p4);
+    // for (int i = 0; i < player_list.size(); ++i)
+    //     player_list[i]->sceneNode->showBoundingBox(true);
+    n->startGuardSystem(true);
+    n->startFireSystem(true);
+    n->startIceSystem(true);
+    n->startFlareSystem(true);
 
-    // char1->addParticleSystem("Guard", 1);
-    // char1->addParticleSystem("Item", 0);
-
-    // Add test particle system
-
-    Ogre::ParticleSystem* fire = scnMgr->createParticleSystem("Fire", "Fire");
-    Ogre::SceneNode* fireNode = p->sceneNode->createChildSceneNode();
-    fireNode->setPosition(Ogre::Vector3(0, 100, 0));
-    fireNode->attachObject(fire);
-    // std::cout << "HAHAHAHAHAHHAHA" << fire->getKeepParticlesInLocalSpace() << std::endl;
-    // std::cout << std::endl << std::endl << fire->getNumParticles() << std::endl << std::endl;
-
-    Ogre::ParticleSystem* testParticle = scnMgr->createParticleSystem("test", "Flare");
-    Ogre::SceneNode* testNode = p2->sceneNode->createChildSceneNode();
-    testNode->setPosition(0, 100, 0);
-    testNode->attachObject(testParticle);
-
-    Ogre::ParticleSystem* aureola = scnMgr->createParticleSystem("Aureola", "Ice");
-    Ogre::SceneNode* aureolaNode = p3->sceneNode->createChildSceneNode();
-    // aureolaNode->setPosition(Ogre::Vector3(0, 100, 0));
-    aureolaNode->attachObject(aureola);
-
-    Ogre::ParticleSystem* psTest = scnMgr->createParticleSystem("test2", "Physical2");
-    Ogre::SceneNode* psTestNode2 = mRoomRoot->createChildSceneNode();
-    psTestNode2->attachObject(psTest);
-    psTestNode2->setPosition(-50, 250, 0);
-
-    // Ogre::ParticleSystem* blank = scnMgr->createParticleSystem("test", 500,
-    //     Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
-    // Ogre::SceneNode* blankNode = p2->sceneNode->createChildSceneNode();
-    // blankNode->setPosition(Ogre::Vector3(0, 100, 0));
-    // blankNode->attachObject(blank);
-    // Ogre::ParticleEmitter* emitterA = new Ogre::ParticleEmitter(blank);
-    // Ogre::Particle* emitterA = blank->createEmitterParticle("test_emitter");
-    // emitterA->particleType = Ogre::Particle::Emitter;
-    // emitterA->setEmissionRate(10);
-    // emitterA->setDirection(Ogre::Vector3(0, 1, 0));
-    // emitterA->setDimensions(50, 50);
-    // emitterA->setColour(Ogre::ColourValue::Black, Ogre::ColourValue::Blue);
-    // emitterA->_getEmissionCount(100);
-    // Ogre::Particle* tParticle = new Ogre::Particle();
-    // emitterA->_initParticle(tParticle);
-    // (Ogre::ParticleEmitter*)emitterA->addBaseParameters();
 
     // Set Camera Position
     camera->setPosition(Ogre::Vector3(-1000, 250, -1000));
@@ -139,12 +95,63 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
     {
         return true;
     }
-    // for (unsigned i = 0; i < player_list.size(); ++i)
-    // {
-    //     Player* p = player_list[i];
-    //     Ogre::Radian k = Ogre::Radian(Ogre::Degree(5));
-    //     p->sceneNode->rotate(Ogre::Vector3(0, 0, 1), k);
-    // }
+    GameObject* player = player_list[1];
+    // player->sceneNode->showBoundingBox(true);
+    if(n)
+    {
+        for (auto i = 0; i < n->particleSystemList.size(); ++i)
+        {
+            Ogre::ParticleSystem* ps = n->particleSystemList[i];
+            if(ps->getEmitting() && i > 2)
+            {
+                int numParticles = ps->getNumParticles();
+                for (int j = 0; j < numParticles; ++j)
+                {
+                    Ogre::Particle* p = ps->getParticle(j);
+                    if(p)
+                    {
+                        Ogre::Vector3 pPos = p->position;
+                        Ogre::SceneNode* sn = n->particleNodeList[j];
+                        Ogre::Quaternion orientation = sn->_getDerivedOrientation();
+                        Ogre::Vector3 possiblePos = orientation * pPos;
+                        Ogre::Vector3 snPos = sn->_getDerivedPosition();
+                        Ogre::Vector3 worldPos = Ogre::Vector3(snPos.x + possiblePos.x,
+                                                               snPos.y + possiblePos.y,
+                                                               snPos.z + possiblePos.z);
+                        Ogre::AxisAlignedBox boundingBox = player->sceneNode->_getWorldAABB();
+                        bool hit = boundingBox.intersects(worldPos);
+                        if(hit)
+                        {
+                            // std::cout << "hit" << std::endl;
+                            switch (i)
+                            {
+                                case 3:
+                                    if(j == numParticles - 1)
+                                        n->visibilityFireSystem(false);
+                                    n->startFireSystem(false);
+                                    // std::cout << "ajaja" << std::endl;
+                                    break;
+                                case 4:
+                                    if(j == numParticles - 1)
+                                        n->visibilityIceSystem(false);
+                                    n->startIceSystem(false);
+                                    // std::cout << "ajajajajaja" << std::endl;
+                                    break;
+                                case 5:
+                                    if(j == numParticles - 1)
+                                        n->visibilityFlareSystem(false);
+                                    n->startFlareSystem(false);
+                                    // std::cout << std::endl << std::endl << std::endl;
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
     return true;
 }
 

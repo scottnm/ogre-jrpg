@@ -16,6 +16,7 @@ http://www.ogre3d.org/tikiwiki/tiki-index.php?page=MinimalOgre-h&structure=Devel
 #include "Plane.h"
 #include "Player.h"
 #include "Character.h"
+#include "Ninja.h"
 
 #include "OgreParticleSystem.h"
 
@@ -59,7 +60,8 @@ public:
     Ogre::Light* mMainLight;
     static Ogre::String mainLightName;
     Plane* ground;
-    std::vector<Player*> player_list;
+    std::vector<GameObject*> player_list;
+    Ninja* n;
 
     std::vector<std::string> windowNames;
 

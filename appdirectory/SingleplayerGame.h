@@ -29,25 +29,16 @@ private:
     void initGUI(void);
     bool frameRenderingQueued(const Ogre::FrameEvent& evt);
     virtual bool keyPressed(const OIS::KeyEvent &arg);
-    virtual bool keyReleased(const OIS::KeyEvent &arg);
-    virtual bool mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonID id);
-    virtual bool mouseReleased(const OIS::MouseEvent &arg, OIS::MouseButtonID id);
-    virtual bool mouseMoved(const OIS::MouseEvent &arg);
 
-    // gui
-    HUD* mHUD;
     void onHUDPhysicalSelect();
     void onHUDSpecialSelect();
     void onHUDItemSelect();
     void onHUDGuardSelect();
 
-    /*
-    bool guiCbStart(const CEGUI::EventArgs& e);
-    bool guiCbResume(const CEGUI::EventArgs& e);
-    bool guiCbQuit(const CEGUI::EventArgs& e);
-    */
-
+    HUD* mHUD;
     SoundController mSoundController;
+    bool playerTurn;
+    unsigned int activeEnemy;
 };
  
 #endif // __SINGLE_PLAYER_GAME_H__

@@ -45,17 +45,17 @@ void SingleplayerGame::createScene(void){
 
     // Add test objects
     Player* p = new Player(scnMgr, mRoomRoot,
-            mPlayerBank->getPlayerInfo("Chester"));
+            mPlayerBank->getPlayerInfo("Cannibal Corpse"));
     p->setPosition(Ogre::Vector3(500, 50, 200));
     myParty.push_back(p);
 
     Player* p2 = new Player(scnMgr, mRoomRoot,
-            mPlayerBank->getPlayerInfo("Scoot"));
+            mPlayerBank->getPlayerInfo("Spooky Boo"));
     p2->setPosition(Ogre::Vector3(500, 50, 0));
     myParty.push_back(p2);
 
     Player* p3 = new Player(scnMgr, mRoomRoot,
-            mPlayerBank->getPlayerInfo("Sygmund"));
+            mPlayerBank->getPlayerInfo("Rattlebones"));
     p3->setPosition(Ogre::Vector3(500, 50, -200));
     myParty.push_back(p3);
     

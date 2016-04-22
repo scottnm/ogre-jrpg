@@ -21,12 +21,13 @@ void PlayerBank::loadPlayerDatabase(const std::string& _fn) {
     read_xml(_fn, pt);
     BOOST_FOREACH(ptree::value_type &v, pt.get_child("characterDatabase.characters")) {
         std::string name = v.second.get<std::string>("name");
+        std::string img = v.second.get<std::string>("img");
         int health = v.second.get<int>("health");
         int special = v.second.get<int>("special");
         int damage = v.second.get<int>("damage");
         int armor = v.second.get<int>("armor");
         float accuracy = v.second.get<float>("accuracy");
-        PlayerInfo* player = new PlayerInfo(name, health, special, damage, armor, accuracy);
+        PlayerInfo* player = new PlayerInfo(name, img, health, special, damage, armor, accuracy);
         mCharacterBank.emplace(name, player);
     }
 

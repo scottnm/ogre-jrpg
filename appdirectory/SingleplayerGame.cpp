@@ -10,10 +10,12 @@ http://www.ogre3d.org/tikiwiki/tiki-index.php?page=MinimalOgre-cpp
 
 #include "SingleplayerGame.h"
 #include <string>
+#include <algorithm>
 
 SingleplayerGame::SingleplayerGame(RenderingEngine* renderer, GUISystem* gui,
     PlayerBank* playerBank, SoundBank* soundBank)
-    : BaseGame(renderer, gui, playerBank), mSoundController(soundBank) {
+    : BaseGame(renderer, gui, playerBank), mSoundController(soundBank),
+      playerTurn(true), activeEnemy(0) {
 }
 
 SingleplayerGame::~SingleplayerGame(void) {
@@ -110,6 +112,10 @@ bool SingleplayerGame::go(void)
     return true;
 }
 
+static bool characterDead(Player* p) {
+    return p->info.health == 0;
+}
+
 bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
     if(mShutDown)
@@ -118,32 +124,31 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
     }
 
     if (myPartyWaiting.size() == 0) {
-        myPartyWaiting = myParty;
         std::cout << "Enemy turn" << std::endl;
+        playerTurn = false;
     }
+    else if (activeEnemy < enemyParty.size()) {
+        // enemy action
+        // queue next enemy
+    }
+    else {
+        // enemy turns over
+        myPartyWaiting = myParty;
+    }
+
+    // remove all of the dead characters
+    myParty.erase(std::remove_if(myParty.begin(), myParty.end(), characterDead));
+    myPartyWaiting.erase(std::remove_if(myPartyWaiting.begin(), myPartyWaiting.end(),
+                characterDead));
+    enemyParty.erase(std::remove_if(enemyParty.begin(), enemyParty.end(), characterDead));
+
     return true;
 }
 
 bool SingleplayerGame::keyPressed(const OIS::KeyEvent &arg) {
-    if (myPartyWaiting.size() > 0) {
+    if (playerTurn && myPartyWaiting.size() > 0) {
         mHUD->injectKeyDown(arg);
     }
-    return true;
-}
-
-bool SingleplayerGame::keyReleased(const OIS::KeyEvent &arg) {
-    return true;
-}
-
-bool SingleplayerGame::mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonID id) {
-    return true;
-}
-
-bool SingleplayerGame::mouseReleased(const OIS::MouseEvent &arg, OIS::MouseButtonID id) {
-    return true;
-}
-
-bool SingleplayerGame::mouseMoved(const OIS::MouseEvent &arg) {
     return true;
 }
 
@@ -162,24 +167,3 @@ void SingleplayerGame::onHUDItemSelect() {
 void SingleplayerGame::onHUDGuardSelect() {
     std::cout << "Guard " << std::endl;
 }
-
-/*
-bool SingleplayerGame::guiCbStart(const CEGUI::EventArgs& e)
-{
-    guiSys->switchToWindowGroup("SPDisplay");
-    return true;
-}
-
-bool SingleplayerGame::guiCbResume(const CEGUI::EventArgs& e)
-{
-    mGamePaused = false;
-    guiSys->switchToWindowGroup("SPDisplay");
-    return true;
-}
-
-bool SingleplayerGame::guiCbQuit(const CEGUI::EventArgs& e)
-{
-    mShutDown = true;
-    return true;
-}
-*/

@@ -125,25 +125,21 @@ bool GameManager::keyPressed( const OIS::KeyEvent &arg ) {
 
 bool GameManager::keyReleased( const OIS::KeyEvent &arg ) {
     mGUI->keyReleased(arg);
-    if (mGame && !mGame->isShutDown()) { mGame->keyReleased(arg); }
     return true;
 }
 
 bool GameManager::mouseMoved( const OIS::MouseEvent &arg ) {
     mGUI->mouseMoved(arg);
-    if (mGame && !mGame->isShutDown()) { mGame->mouseMoved(arg); }
     return true;
 }
 
 bool GameManager::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id ) {
     mGUI->mousePressed(arg, id);
-    if (mGame && !mGame->isShutDown()) { mGame->mousePressed(arg, id); }
     return true;
 }
 
 bool GameManager::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id ) {
     mGUI->mouseReleased(arg, id);
-    if (mGame && !mGame->isShutDown()) { mGame->mouseReleased(arg, id); }
     return true;
 }
 

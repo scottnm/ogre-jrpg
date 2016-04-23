@@ -1,7 +1,7 @@
 #include "HUD.h"
 #include <algorithm>
 
-const Ogre::String HUD::windowName = "HUD";
+const Ogre::String HUD::windowName = "HUDRoot";
 const Ogre::String HUD::mockItems[4] = {"Apple", "Cool thing", "jimjam", "sweater"};
 
 enum HUD_ID {
@@ -26,8 +26,11 @@ HUD::HUD(Ogre::SceneManager& scnMgr, GUISystem& gui, std::vector<Player*>& myPar
     enemyPartyActiveTarget = 0;
 
     CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
+    auto root = wmgr.createWindow("DefaultWindow", "HUDRoot");
     mMenuRoot = wmgr.loadLayoutFromFile("scaling_menu.layout");
+    root->addChild(mMenuRoot);
     mEndStateRoot = wmgr.loadLayoutFromFile("end_state.layout");
+    root->addChild(mEndStateRoot);
     mEndStateRoot->hide();
     auto targetWindow = wmgr.createWindow("TaharezLook/Button", "TargetingIcon");
     targetWindow->setText("Targeting");
@@ -96,7 +99,7 @@ HUD::HUD(Ogre::SceneManager& scnMgr, GUISystem& gui, std::vector<Player*>& myPar
 
     charSelected = p0Frame;
     updateFocusedCharacter(myParty.at(0));
-    mGUI.addAndSetWindowGroup(HUD::windowName, mMenuRoot);
+    mGUI.addAndSetWindowGroup(HUD::windowName, root);
 }
 
 HUD::~HUD() {
@@ -251,7 +254,7 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
         else if (arg.key == OIS::KC_UP || arg.key == OIS::KC_DOWN) {
             mPlayAgainOptionFocused = !mPlayAgainOptionFocused;
             mEndStateRoot->getChild("PlayAgain_select")->setVisible(mPlayAgainOptionFocused);
-            mEndStateRoot->getChild("Quit_select")->setVisible(mPlayAgainOptionFocused);
+            mEndStateRoot->getChild("Quit_select")->setVisible(!mPlayAgainOptionFocused);
         }
     }
 }

@@ -29,6 +29,9 @@ public:
     void injectKeyDown(const OIS::KeyEvent& arg);
     void update(void);
     void registerListener(HUDListener* hl);
+    void updateFocusedCharacter(Player* character);
+    void setTargetArrowVisible(Player* character, bool visible);
+    void refocusAfterCharacterDeath(void);
 
     static const Ogre::String windowName;
 
@@ -40,8 +43,6 @@ private:
     void cycleActiveCharacter(void);
     void dequeueActiveCharacter(void);
     void cycleTargetCharacter(void);
-    void updateFocusedCharacter(Player* character);
-    void setTargetArrowVisible(Player* character, bool visible);
 
     void notifyPhysicalSelect(void);
     void notifySpecialSelect(void);
@@ -56,7 +57,6 @@ private:
     CEGUI::Window* mRoot;
     int mOptionSelected;
     CEGUI::Window* mOptionSelects[4];
-    CEGUI::Window* charSelected;
 
     bool mItemsMenuVisible; 
     HUD_STATE mState;
@@ -67,7 +67,8 @@ private:
 
     std::vector<Player*>& myParty;
     std::vector<Player*>& myPartyWaiting;
-    unsigned int myPartyFocused;
+    long unsigned int myPartyFocused;
+    CEGUI::Window* charSelected;
     std::unordered_map<Player*, CEGUI::Window*> characterInfoWindows;
     std::unordered_map<Player*, Ogre::SceneNode*> characterTargetArrows;
     std::vector<Player*>& enemyParty;

@@ -30,28 +30,28 @@
         <character>
             <name>Mecha-Scoot</name>
             <img>CharacterProfiles/CannibalCorpse</img>
-            <health>100</health>
-            <special>40</special>
-            <damage>6</damage>
-            <armor>5</armor>
+            <health>15</health>
+            <special>2</special>
+            <damage>3</damage>
+            <armor>4</armor>
             <accuracy>0.85</accuracy>
         </character>
         <character>
             <name>SSJVirginia</name>
             <img>CharacterProfiles/CannibalCorpse</img>
-            <health>100</health>
-            <special>40</special>
-            <damage>6</damage>
-            <armor>5</armor>
+            <health>15</health>
+            <special>2</special>
+            <damage>3</damage>
+            <armor>4</armor>
             <accuracy>0.85</accuracy>
         </character>
         <character>
             <name>Metal Scoot</name>
             <img>CharacterProfiles/CannibalCorpse</img>
-            <health>100</health>
-            <special>40</special>
-            <damage>6</damage>
-            <armor>5</armor>
+            <health>15</health>
+            <special>2</special>
+            <damage>3</damage>
+            <armor>4</armor>
             <accuracy>0.85</accuracy>
         </character>
     </characters>

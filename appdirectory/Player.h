@@ -15,6 +15,7 @@ public:
 	virtual ~Player(void) {};
 
     void physicalAttack(Player& target);
+    bool isDead(void);
 
 	Ogre::Entity* entity;
     PlayerInfo info;

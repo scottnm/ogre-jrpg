@@ -15,5 +15,13 @@ Player::Player(Ogre::SceneManager* _scnmgr, Ogre::SceneNode* _scnnode,
 }
 
 void Player::physicalAttack(Player& target) {
-    target.info.health -= this->info.damage;
+    int& targetHealth = target.info.health;
+    targetHealth -= this->info.damage;
+    if (targetHealth < 0) {
+        targetHealth = 0;
+    }
+}
+
+bool Player::isDead(void) {
+    return info.health == 0;
 }

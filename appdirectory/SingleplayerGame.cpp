@@ -14,7 +14,7 @@ http://www.ogre3d.org/tikiwiki/tiki-index.php?page=MinimalOgre-cpp
 
 SingleplayerGame::SingleplayerGame(RenderingEngine* renderer, GUISystem* gui,
     PlayerBank* playerBank, SoundBank* soundBank)
-    : BaseGame(renderer, gui, playerBank), mSoundController(soundBank),
+    : BaseGame(renderer, gui, playerBank), mGameOver(false), mSoundController(soundBank),
       playerTurn(true), activeEnemy(0) {
 }
 
@@ -112,51 +112,49 @@ bool SingleplayerGame::go(void)
     return true;
 }
 
-/*
-static bool characterDead(Player* p) {
-    //return p->info.health == 0;
-    return false;
-}
-*/
+static bool characterDead(Player* p) { return p->isDead(); }
 
 bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
-    if(mShutDown)
+    if(mShutDown || mGameOver)
     {
         return true;
     }
 
     if (playerTurn) {
-        playerTurn = myPartyWaiting.size() != 0;
+        if (myPartyWaiting.size() == 0) {
+            playerTurn = false;
+            myPartyWaiting = myParty;
+        }
     }
     else {
         if (activeEnemy < enemyParty.size()) {
             // enemy action
-            enemyParty.at(activeEnemy)->physicalAttack(*myParty.at(activeEnemy /* place holder so attacks are spaced out */));
+            enemyParty.at(activeEnemy)->physicalAttack(*myParty.at(0/* place holder*/));
             // queue next enemy
             ++activeEnemy;
-            mHUD->update();
         }
         else {
             // enemy turns over
             activeEnemy = 0;
-            myPartyWaiting = myParty;
             playerTurn = true;
         }
     }
 
-    if (myPartyWaiting.size() == 0) {
-        std::cout << "Enemy turn" << std::endl;
-        playerTurn = false;
-    }
+    mHUD->update();
 
     // remove all of the dead characters
-    /*
-    myParty.erase(std::remove_if(myParty.begin(), myParty.end(), characterDead));
+    myParty.erase(std::remove_if(myParty.begin(), myParty.end(), characterDead), myParty.end());
     myPartyWaiting.erase(std::remove_if(myPartyWaiting.begin(), myPartyWaiting.end(),
-                characterDead));
-    enemyParty.erase(std::remove_if(enemyParty.begin(), enemyParty.end(), characterDead));
-    */
+                characterDead), myPartyWaiting.end());
+    enemyParty.erase(std::remove_if(enemyParty.begin(), enemyParty.end(), characterDead), enemyParty.end());
+    mHUD->refocusAfterCharacterDeath();
+
+    if (myParty.empty()) {
+        mGameOver = true;
+        // throw up lose game gui
+        std::cout << "You lose" << std::endl;
+    }
 
     return true;
 }

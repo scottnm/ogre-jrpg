@@ -94,7 +94,6 @@ HUD::HUD(Ogre::SceneManager& scnMgr, GUISystem& gui, std::vector<Player*>& myPar
 
     charSelected = p0Frame;
     updateFocusedCharacter(myParty.at(0));
-    setTargetArrowVisible(myParty.at(0), true);
     mGUI.addAndSetWindowGroup(HUD::windowName, mRoot);
 }
 
@@ -275,6 +274,17 @@ void HUD::switchToTargetMenu(void) {
     setTargetArrowVisible(enemyParty.at(enemyPartyActiveTarget), true);
 }
 
+void HUD::refocusAfterCharacterDeath(void) {
+    if (myParty.size() == 0) {
+        charSelected->setProperty("Colour",
+            "tl:0000000 tr:00000000 bl:00000000 br:00000000");
+    }
+    else {
+        myPartyFocused = std::min(myPartyFocused, myPartyWaiting.size());
+        updateFocusedCharacter(myPartyWaiting.at(myPartyFocused));
+    }
+}
+
 void HUD::updateFocusedCharacter(Player* character) {
     charSelected->setProperty("Colour",
             "tl:0000000 tr:00000000 bl:00000000 br:00000000");
@@ -289,14 +299,11 @@ void HUD::setTargetArrowVisible(Player* character, bool visible) {
 }
 
 void HUD::cycleActiveCharacter(void) {
-    setTargetArrowVisible(myPartyWaiting.at(myPartyFocused), false);
     myPartyFocused = (myPartyFocused + 1) % myPartyWaiting.size();
-    setTargetArrowVisible(myPartyWaiting.at(myPartyFocused), true);
     updateFocusedCharacter(myPartyWaiting.at(myPartyFocused));
 }
 
 void HUD::dequeueActiveCharacter(void) {
-    setTargetArrowVisible(myPartyWaiting.at(myPartyFocused), false);
     myPartyWaiting.erase(myPartyWaiting.begin() + myPartyFocused);
 
     if (myPartyWaiting.size() <= myPartyFocused) {
@@ -305,12 +312,10 @@ void HUD::dequeueActiveCharacter(void) {
 
     if (myPartyWaiting.size() > 0) {
         updateFocusedCharacter(myPartyWaiting.at(myPartyFocused));
-        setTargetArrowVisible(myPartyWaiting.at(myPartyFocused), true);
     }
     else {
         // have to use the myParty queue since the myParty waiting queue is empty
         updateFocusedCharacter(myParty.at(0));
-        setTargetArrowVisible(myParty.at(0), true);
     }
 }
 

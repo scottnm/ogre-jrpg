@@ -35,6 +35,7 @@ private:
     void onHUDItemSelect(Player* user, Player* target);
     void onHUDGuardSelect();
 
+    bool mGameOver;
     HUD* mHUD;
     SoundController mSoundController;
     bool playerTurn;

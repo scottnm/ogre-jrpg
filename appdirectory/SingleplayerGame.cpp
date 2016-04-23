@@ -85,24 +85,28 @@ void SingleplayerGame::createScene(void){
 void SingleplayerGame::destroyScene(void) {
     if (mMainLight) mRenderer->mSceneManager->destroyLight(BaseGame::mainLightName);
     mRenderer->mSceneManager->setSkyBoxEnabled(false);
-    for (auto p : myParty) {
+    for (auto p : myPartyAlive) {
         delete p;
     }
-    for (auto p : enemyParty) {
+    for (auto p : enemyPartyAlive) {
         delete p;
     }
 }
 
 void SingleplayerGame::initGUI(void)
 {
-    mHUD = new HUD(*(mRenderer->mSceneManager), *mGUI, myParty, enemyParty, myPartyWaiting);
+    mHUD = new HUD(*(mRenderer->mSceneManager), *mGUI, myPartyAlive,
+            enemyPartyAlive, myPartyWaiting);
 }
 
 bool SingleplayerGame::go(void)
 {
     // Create the scene
     createScene();
+    myPartyAlive = myParty;
     myPartyWaiting = myParty;
+    enemyPartyAlive = enemyParty;
+
     initGUI();
     mHUD->registerListener(this);
     mHUD->registerListener(&mSoundController);
@@ -123,14 +127,14 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
     if (playerTurn) {
         if (myPartyWaiting.size() == 0) {
             playerTurn = false;
-            myPartyWaiting = myParty;
+            myPartyWaiting = myPartyAlive;
         }
     }
     else {
-        if (activeEnemy < enemyParty.size()) {
-            // enemy action
-            enemyParty.at(activeEnemy)->physicalAttack(*myParty.at(0/* place holder*/));
-            // queue next enemy
+        if (activeEnemy < enemyPartyAlive.size()) {
+            // placeholder enemy action
+            enemyPartyAlive.at(activeEnemy)->physicalAttack(
+                    *myPartyAlive.at(0/* place holder*/));
             ++activeEnemy;
         }
         else {
@@ -143,17 +147,19 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
     mHUD->update();
 
     // remove all of the dead characters
-    myParty.erase(std::remove_if(myParty.begin(), myParty.end(), characterDead), myParty.end());
+    myPartyAlive.erase(std::remove_if(myPartyAlive.begin(), myPartyAlive.end(), characterDead),
+            myPartyAlive.end());
     myPartyWaiting.erase(std::remove_if(myPartyWaiting.begin(), myPartyWaiting.end(),
                 characterDead), myPartyWaiting.end());
-    enemyParty.erase(std::remove_if(enemyParty.begin(), enemyParty.end(), characterDead), enemyParty.end());
+    enemyPartyAlive.erase(std::remove_if(enemyPartyAlive.begin(), enemyPartyAlive.end(),
+                characterDead), enemyPartyAlive.end());
     mHUD->refocusAfterCharacterDeath();
 
-    if (myParty.empty() || enemyParty.empty()) {
+    if (myPartyAlive.empty() || enemyPartyAlive.empty()) {
         mGameOver = true;
         // throw up lose game gui
-        std::cout << (enemyParty.empty() ? "You win" : "You lose") << std::endl;
-        mHUD->alertGameOver(enemyParty.empty());
+        std::cout << (enemyPartyAlive.empty() ? "You win" : "You lose") << std::endl;
+        mHUD->alertGameOver(enemyPartyAlive.empty());
     }
 
     return true;
@@ -168,7 +174,7 @@ bool SingleplayerGame::keyPressed(const OIS::KeyEvent &arg) {
 
 void SingleplayerGame::onHUDPhysicalSelect(Player* attacker, Player* target) {
     attacker->physicalAttack(*target);
-    std::cout << target->info.name << ": " << target->info.health << std::endl;
+    std::cout << target->info().name << ": " << target->info().health << std::endl;
 }
 
 void SingleplayerGame::onHUDSpecialSelect(Player* attacker, Player* target) {
@@ -184,6 +190,22 @@ void SingleplayerGame::onHUDGuardSelect() {
 }
 
 void SingleplayerGame::onHUDPlayAgain() {
+    // reset game state, i.e. iterate over each player reseting hp, sp, and then reset HUD
+    for (Player* p : myParty) {
+        p->reset();
+    }
+    myPartyAlive = myParty;
+    myPartyWaiting = myParty;
+
+    for (Player* p : enemyParty) {
+        p->reset();
+    }
+    enemyPartyAlive = enemyParty;
+
+    mGameOver = false;
+    playerTurn = true;
+
+    mHUD->update();
 }
 
 void SingleplayerGame::onHUDQuit() {

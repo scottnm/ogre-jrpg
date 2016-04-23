@@ -59,7 +59,7 @@ HUD::HUD(Ogre::SceneManager& scnMgr, GUISystem& gui, std::vector<Player*>& myPar
         CEGUI::Window* frame = frames[i]; 
         characterInfoWindows.emplace(character, frame);
 
-        PlayerInfo& info = character->info;
+        const PlayerInfo& info = character->info();
         frame->getChild("PM_Name_StaticText")->setText(info.name);
         frame->getChild("PM_Pic_StaticImage")->setProperty("Image", info.img);
         frame->getChild("PM_HP_Left_StaticText")->setText(
@@ -244,11 +244,14 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
     }
     else if (mState == HUD_STATE::GAME_OVER) {
         if (arg.key == OIS::KC_RETURN) {
+            mEndStateRoot->hide();
             if (mPlayAgainOptionFocused) {
                 notifyPlayAgain();
+                switchToActionMenu();
             }
             else {
                 notifyQuit();
+                switchToActionMenu();
             }
         }
         else if (arg.key == OIS::KC_UP || arg.key == OIS::KC_DOWN) {
@@ -352,7 +355,7 @@ void HUD::registerListener(HUDListener* hl) {
 void HUD::update(void) {
     for(auto character : myParty) {
         auto infoWindow = characterInfoWindows.find(character)->second;
-        PlayerInfo& info = character->info;
+        const PlayerInfo& info = character->info();
         infoWindow->getChild("PM_HP_Left_StaticText")->setText(
                 Ogre::StringConverter::toString(info.health));
         infoWindow->getChild("PM_SP_Left_StaticText")->setText(

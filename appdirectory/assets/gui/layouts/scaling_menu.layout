@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <GUILayout version="4" >
-    <Window type="Vanilla/FrameColourRect" name="Info_Frame" >
+    <Window type="Vanilla/FrameColourRect" name="HUD" >
         <Property name="Area" value="{{0,0},{0,890.1},{1,0},{1.09074,-98.8996}}" />
         <Property name="Colour" value="tl:C8000000 tr:C8000000 bl:C8000000 br:C8000000" />
         <Property name="MaxSize" value="{{1,0},{1,0}}" />

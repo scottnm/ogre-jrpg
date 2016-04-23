@@ -17,7 +17,7 @@ HUD::HUD(Ogre::SceneManager& scnMgr, GUISystem& gui, std::vector<Player*>& myPar
       myParty(myParty), myPartyWaiting(myPartyWaiting), enemyParty(enemyParty) {
 
 
-    mOptionSelected = 0;
+    mActionOptionFocused = 0;
     mItemsFocused = true;
     mItemsTotal = 4;
     mItemSelected = 0;
@@ -26,27 +26,29 @@ HUD::HUD(Ogre::SceneManager& scnMgr, GUISystem& gui, std::vector<Player*>& myPar
     enemyPartyActiveTarget = 0;
 
     CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
-    mRoot = wmgr.loadLayoutFromFile("scaling_menu.layout");
+    mMenuRoot = wmgr.loadLayoutFromFile("scaling_menu.layout");
+    mEndStateRoot = wmgr.loadLayoutFromFile("end_state.layout");
+    mEndStateRoot->hide();
     auto targetWindow = wmgr.createWindow("TaharezLook/Button", "TargetingIcon");
     targetWindow->setText("Targeting");
     targetWindow->setSize(CEGUI::USize(CEGUI::UDim(0.10, 0), CEGUI::UDim(0.05, 0)));
     targetWindow->setPosition(CEGUI::UVector2(CEGUI::UDim(0, 0), CEGUI::UDim(0, 0)));
     targetWindow->hide();
-    mRoot->addChild(targetWindow);
+    mMenuRoot->addChild(targetWindow);
 
-    auto MenuFrame = mRoot->getChild("Menu_Frame");
+    auto MenuFrame = mMenuRoot->getChild("Menu_Frame");
 
-    mOptionSelects[PHYSICAL_ID] = MenuFrame->getChild("Physical_select");
-    mOptionSelects[SPECIAL_ID] = MenuFrame->getChild("Special_select");
-    mOptionSelects[ITEMS_ID] = MenuFrame->getChild("Items_select");
-    mOptionSelects[GUARD_ID] = MenuFrame->getChild("Guard_select");
+    mActionOptions[PHYSICAL_ID] = MenuFrame->getChild("Physical_select");
+    mActionOptions[SPECIAL_ID] = MenuFrame->getChild("Special_select");
+    mActionOptions[ITEMS_ID] = MenuFrame->getChild("Items_select");
+    mActionOptions[GUARD_ID] = MenuFrame->getChild("Guard_select");
 
-    mRoot->getChild("Item_Frame")->getChild("Items_StaticText")->
+    mMenuRoot->getChild("Item_Frame")->getChild("Items_StaticText")->
         setText(mockItems[mItemSelected]);
 
-    auto p0Frame = mRoot->getChild("Party_Frame")->getChild("PartyMember0_Frame");
-    auto p1Frame = mRoot->getChild("Party_Frame")->getChild("PartyMember1_Frame");
-    auto p2Frame = mRoot->getChild("Party_Frame")->getChild("PartyMember2_Frame");
+    auto p0Frame = mMenuRoot->getChild("Party_Frame")->getChild("PartyMember0_Frame");
+    auto p1Frame = mMenuRoot->getChild("Party_Frame")->getChild("PartyMember1_Frame");
+    auto p2Frame = mMenuRoot->getChild("Party_Frame")->getChild("PartyMember2_Frame");
     CEGUI::Window* frames[3] = {p0Frame, p1Frame, p2Frame};
 
     for(int i = 0; i < 3; ++i) {
@@ -94,7 +96,7 @@ HUD::HUD(Ogre::SceneManager& scnMgr, GUISystem& gui, std::vector<Player*>& myPar
 
     charSelected = p0Frame;
     updateFocusedCharacter(myParty.at(0));
-    mGUI.addAndSetWindowGroup(HUD::windowName, mRoot);
+    mGUI.addAndSetWindowGroup(HUD::windowName, mMenuRoot);
 }
 
 HUD::~HUD() {
@@ -103,18 +105,18 @@ HUD::~HUD() {
 
 void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
     if (mState == HUD_STATE::ACTION_MENU_ACTIVE) {
-        int oldOption = mOptionSelected;
+        int oldOption = mActionOptionFocused;
         switch(arg.key) {
             case OIS::KC_UP:
                 notifyHUDNavigation();
-                mOptionSelected = std::max(0, mOptionSelected - 1);
+                mActionOptionFocused = std::max(0, mActionOptionFocused - 1);
                 break;
             case OIS::KC_DOWN:
                 notifyHUDNavigation();
-                mOptionSelected = std::min(3, mOptionSelected + 1);
+                mActionOptionFocused = std::min(3, mActionOptionFocused + 1);
                 break;
             case OIS::KC_RETURN:
-                switch (mOptionSelected) {
+                switch (mActionOptionFocused) {
                     case PHYSICAL_ID:
                     case SPECIAL_ID:
                         notifyHUDOptionSelect();
@@ -127,10 +129,10 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
                     case GUARD_ID:
                         notifyGuardSelect();
                         dequeueActiveCharacter();
-                        mOptionSelects[mOptionSelected]->hide();
-                        mOptionSelected = 0;
-                        mOptionSelects[0]->show();
-                        mOptionSelects[0]->activate();
+                        mActionOptions[mActionOptionFocused]->hide();
+                        mActionOptionFocused = 0;
+                        mActionOptions[0]->show();
+                        mActionOptions[0]->activate();
                         break;
                 }
                 break;
@@ -141,9 +143,9 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
             default:
                 return;
         }
-        mOptionSelects[oldOption]->hide();
-        mOptionSelects[mOptionSelected]->show();
-        mOptionSelects[mOptionSelected]->activate();
+        mActionOptions[oldOption]->hide();
+        mActionOptions[mActionOptionFocused]->show();
+        mActionOptions[mActionOptionFocused]->activate();
     }
     else if (mState == HUD_STATE::ITEMS_MENU_ACTIVE) {
         if (mItemsFocused) {
@@ -159,7 +161,7 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
                 case OIS::KC_DOWN: {
                     notifyHUDNavigation();
                     mItemsFocused = false;
-                    auto itemFrame = mRoot->getChild("Item_Frame");
+                    auto itemFrame = mMenuRoot->getChild("Item_Frame");
                     itemFrame->getChild("Items_select")->hide();
                     itemFrame->getChild("Back_select")->show();
                     itemFrame->getChild("Back_select")->activate();
@@ -172,7 +174,7 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
                 default:
                     return;
             }
-            mRoot->getChild("Item_Frame")->getChild("Items_StaticText")->
+            mMenuRoot->getChild("Item_Frame")->getChild("Items_StaticText")->
                 setText(mockItems[mItemSelected]);
         }
         else {
@@ -184,7 +186,7 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
                 case OIS::KC_UP: {
                     notifyHUDNavigation();
                     mItemsFocused = true;
-                    auto itemFrame = mRoot->getChild("Item_Frame");
+                    auto itemFrame = mMenuRoot->getChild("Item_Frame");
                     itemFrame->getChild("Back_select")->hide();
                     itemFrame->getChild("Items_select")->show();
                     itemFrame->getChild("Items_select")->activate();
@@ -208,7 +210,7 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
                 }
                 break;
             case OIS::KC_RETURN:
-                switch(mOptionSelected) {
+                switch(mActionOptionFocused) {
                     case PHYSICAL_ID:
                         notifyPhysicalSelect();
                         break;
@@ -223,10 +225,10 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
                 }
                 dequeueActiveCharacter();
                 setTargetArrowVisible(enemyParty.at(enemyPartyActiveTarget), false);
-                mOptionSelects[mOptionSelected]->hide();
-                mOptionSelected = 0;
-                mOptionSelects[0]->show();
-                mOptionSelects[0]->activate();
+                mActionOptions[mActionOptionFocused]->hide();
+                mActionOptionFocused = 0;
+                mActionOptions[0]->show();
+                mActionOptions[0]->activate();
                 switchToActionMenu(); 
                 break;
             case OIS::KC_TAB:
@@ -237,26 +239,41 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
                 break;
         }
     }
+    else if (mState == HUD_STATE::GAME_OVER) {
+        if (arg.key == OIS::KC_RETURN) {
+            if (mPlayAgainOptionFocused) {
+                //notifyPlayAgain();
+            }
+            else {
+                //notifyQuit();
+            }
+        }
+        else if (arg.key == OIS::KC_UP || arg.key == OIS::KC_DOWN) {
+            mPlayAgainOptionFocused = !mPlayAgainOptionFocused;
+            mEndStateRoot->getChild("PlayAgain_select")->setVisible(mPlayAgainOptionFocused);
+            mEndStateRoot->getChild("Quit_select")->setVisible(mPlayAgainOptionFocused);
+        }
+    }
 }
 
 void HUD::switchToItemMenu(void) {
-    mRoot->getChild("TargetingIcon")->hide();
+    mMenuRoot->getChild("TargetingIcon")->hide();
     mPrevState = mState;
     mState = HUD_STATE::ITEMS_MENU_ACTIVE;
-    mRoot->getChild("Menu_Frame")->hide();
-    auto itemFrame = mRoot->getChild("Item_Frame");
+    mMenuRoot->getChild("Menu_Frame")->hide();
+    auto itemFrame = mMenuRoot->getChild("Item_Frame");
     itemFrame->show();
     itemFrame->activate();
 }
 
 void HUD::switchToActionMenu(void) {
-    mRoot->getChild("TargetingIcon")->hide();
+    mMenuRoot->getChild("TargetingIcon")->hide();
     mPrevState = mState;
     mState = HUD_STATE::ACTION_MENU_ACTIVE;
     mItemsFocused = true;
-    mRoot->getChild("Menu_Frame")->show();
-    mRoot->getChild("Menu_Frame")->activate();
-    auto itemFrame = mRoot->getChild("Item_Frame");
+    mMenuRoot->getChild("Menu_Frame")->show();
+    mMenuRoot->getChild("Menu_Frame")->activate();
+    auto itemFrame = mMenuRoot->getChild("Item_Frame");
     itemFrame->hide();
     itemFrame->getChild("Items_select")->show();
     itemFrame->getChild("Items_select")->activate();
@@ -266,7 +283,7 @@ void HUD::switchToActionMenu(void) {
 void HUD::switchToTargetMenu(void) {
     mPrevState = mState;
     mState = HUD_STATE::TARGETING_MENU_ACTIVE;
-    auto targetIcon = mRoot->getChild("TargetingIcon");
+    auto targetIcon = mMenuRoot->getChild("TargetingIcon");
     targetIcon->show();
     targetIcon->activate();
     setTargetArrowVisible(enemyParty.at(enemyPartyActiveTarget), false);
@@ -338,6 +355,16 @@ void HUD::update(void) {
         infoWindow->getChild("PM_SP_Left_StaticText")->setText(
                 Ogre::StringConverter::toString(info.specialPoints));
     }
+}
+
+void HUD::alertGameOver(bool userWins) {
+    mPrevState = mState;
+    mState = HUD_STATE::GAME_OVER;
+    mPlayAgainOptionFocused = true;
+    mEndStateRoot->show();
+    mEndStateRoot->activate();
+    mEndStateRoot->getChild("Win_label")->setVisible(userWins);
+    mEndStateRoot->getChild("Lose_label")->setVisible(!userWins);
 }
 
 void HUD::notifyPhysicalSelect(void){

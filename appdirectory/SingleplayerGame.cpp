@@ -116,8 +116,7 @@ static bool characterDead(Player* p) { return p->isDead(); }
 
 bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
-    if(mShutDown || mGameOver)
-    {
+    if(mGameOver || mShutDown) {
         return true;
     }
 
@@ -154,6 +153,12 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
         mGameOver = true;
         // throw up lose game gui
         std::cout << "You lose" << std::endl;
+    }
+
+    else if (enemyParty.empty()) {
+        mGameOver = true;
+        // throw up you win gui
+        std::cout << "You win" << std::endl;
     }
 
     return true;

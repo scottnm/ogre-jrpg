@@ -37,9 +37,7 @@ bool GameManager::runGame(void) {
         return false;
     }
 
-    //
     // Create startup menu
-    //
     CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor()
         .setDefaultImage("WindowsLook/MouseArrow");
 
@@ -172,10 +170,7 @@ void GameManager::closeGame(void) {
     mGUI->switchToWindowGroup("StartMenuGUI");
 }
 
-//
 // STARTUP MENU CALLBACKS
-// 
-
 bool GameManager::guiCbInitSinglePlayer(const CEGUI::EventArgs& e) {
     if (mGame != nullptr) delete mGame;
     mGame = new SingleplayerGame(mRenderer, mGUI, &mPlayerBank, &mSoundBank);

@@ -53,6 +53,8 @@ private:
     void notifyCharacterCycle(void);
     void notifyHUDOptionSelect(void);
     void notifyHUDNavigation(void);
+    void notifyPlayAgain(void);
+    void notifyQuit(void);
 
     GUISystem& mGUI;
     std::unordered_set<HUDListener*> mListeners;

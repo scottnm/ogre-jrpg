@@ -27,6 +27,14 @@ struct PlayerInfo {
 
     float accuracy;
     const float baseAccuracy;
+
+    void reset(void) {
+        health = healthMax;
+        specialPoints = specialPointsMax;
+        damage = baseDamage;
+        armor = baseArmor;
+        accuracy = baseAccuracy;
+    }
 };
 
 #endif // __PLAYER_INFO_H__

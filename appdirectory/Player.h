@@ -16,9 +16,12 @@ public:
 
     void physicalAttack(Player& target);
     bool isDead(void);
+    void reset(void);
+    const PlayerInfo& info(void);
 
-	Ogre::Entity* entity;
-    PlayerInfo info;
+private:
+	Ogre::Entity* mEntity;
+    PlayerInfo mInfo;
 };
 
 #endif	// __PLAYER_H__

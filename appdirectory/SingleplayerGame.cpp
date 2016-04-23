@@ -149,23 +149,18 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
     enemyParty.erase(std::remove_if(enemyParty.begin(), enemyParty.end(), characterDead), enemyParty.end());
     mHUD->refocusAfterCharacterDeath();
 
-    if (myParty.empty()) {
+    if (myParty.empty() || enemyParty.empty()) {
         mGameOver = true;
         // throw up lose game gui
-        std::cout << "You lose" << std::endl;
-    }
-
-    else if (enemyParty.empty()) {
-        mGameOver = true;
-        // throw up you win gui
-        std::cout << "You win" << std::endl;
+        std::cout << (enemyParty.empty() ? "You win" : "You lose") << std::endl;
+        mHUD->alertGameOver(enemyParty.empty());
     }
 
     return true;
 }
 
 bool SingleplayerGame::keyPressed(const OIS::KeyEvent &arg) {
-    if (playerTurn && myPartyWaiting.size() > 0) {
+    if (mGameOver || playerTurn) {
         mHUD->injectKeyDown(arg);
     }
     return true;

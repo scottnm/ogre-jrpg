@@ -245,10 +245,10 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
     else if (mState == HUD_STATE::GAME_OVER) {
         if (arg.key == OIS::KC_RETURN) {
             if (mPlayAgainOptionFocused) {
-                //notifyPlayAgain();
+                notifyPlayAgain();
             }
             else {
-                //notifyQuit();
+                notifyQuit();
             }
         }
         else if (arg.key == OIS::KC_UP || arg.key == OIS::KC_DOWN) {
@@ -370,7 +370,7 @@ void HUD::alertGameOver(bool userWins) {
     mEndStateRoot->getChild("Lose_label")->setVisible(!userWins);
 }
 
-void HUD::notifyPhysicalSelect(void){
+void HUD::notifyPhysicalSelect(void) {
     Player* attacker = myPartyWaiting.at(myPartyFocused);
     Player* target = enemyParty.at(enemyPartyActiveTarget);
     for(auto hl : mListeners) {
@@ -378,7 +378,7 @@ void HUD::notifyPhysicalSelect(void){
     }
 }
 
-void HUD::notifySpecialSelect(void){
+void HUD::notifySpecialSelect(void) {
     Player* attacker = myPartyWaiting.at(myPartyFocused);
     Player* target = enemyParty.at(enemyPartyActiveTarget);
     for(auto hl : mListeners) {
@@ -386,7 +386,7 @@ void HUD::notifySpecialSelect(void){
     }
 }
 
-void HUD::notifyItemSelect(void){
+void HUD::notifyItemSelect(void) {
     Player* user = myPartyWaiting.at(myPartyFocused);
     Player* target = enemyParty.at(enemyPartyActiveTarget);
     for(auto hl : mListeners) {
@@ -394,27 +394,38 @@ void HUD::notifyItemSelect(void){
     }
 }
 
-void HUD::notifyGuardSelect(void){
+void HUD::notifyGuardSelect(void) {
     for(auto hl : mListeners) {
         hl->onHUDGuardSelect();
     }
 }
 
-void HUD::notifyCharacterCycle(void){
+void HUD::notifyCharacterCycle(void) {
     for(auto hl : mListeners) {
         hl->onHUDCycleCharacter();
     }
 }
 
-void HUD::notifyHUDOptionSelect(void){
+void HUD::notifyHUDOptionSelect(void) {
     for(auto hl : mListeners) {
         hl->onHUDOptionSelect();
     }
 }
 
-void HUD::notifyHUDNavigation(void){
+void HUD::notifyHUDNavigation(void) {
     for(auto hl : mListeners) {
         hl->onHUDNavigation();
     }
 }
 
+void HUD::notifyPlayAgain(void) {
+    for(auto hl : mListeners) {
+        hl->onHUDPlayAgain();
+    }
+}
+
+void HUD::notifyQuit(void) {
+    for(auto hl : mListeners) {
+        hl->onHUDQuit();
+    }
+}

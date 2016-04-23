@@ -34,6 +34,8 @@ private:
     void onHUDSpecialSelect(Player* attacker, Player* target);
     void onHUDItemSelect(Player* user, Player* target);
     void onHUDGuardSelect();
+    void onHUDPlayAgain();
+    void onHUDQuit();
 
     bool mGameOver;
     HUD* mHUD;

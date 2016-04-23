@@ -182,3 +182,10 @@ void SingleplayerGame::onHUDItemSelect(Player* user, Player* target) {
 void SingleplayerGame::onHUDGuardSelect() {
     std::cout << "Guard " << std::endl;
 }
+
+void SingleplayerGame::onHUDPlayAgain() {
+}
+
+void SingleplayerGame::onHUDQuit() {
+    mShutDown = true;
+}

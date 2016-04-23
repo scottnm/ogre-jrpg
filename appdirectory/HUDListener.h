@@ -12,6 +12,8 @@ public:
     virtual void onHUDCycleCharacter() {};
     virtual void onHUDOptionSelect() {};
     virtual void onHUDNavigation() {};
+    virtual void onHUDPlayAgain() {};
+    virtual void onHUDQuit() {};
 };
 
 #endif // __HUD_LISTENER_H__

@@ -64,7 +64,7 @@ public:
     std::vector<Player*> myParty;
     std::vector<Player*> enemyParty;
     std::vector<Player*> myPartyWaiting;
-    //Inventory inventory;
+    Inventory inventory;
 
     std::vector<std::string> windowNames;
 

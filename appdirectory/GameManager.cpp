@@ -5,8 +5,8 @@ GameManager::GameManager()
     : mRenderer(RenderingEngine::getSingleton()),
       mGUI(new GUISystem()),
       mGame(nullptr),
-      mShutDown(false),
-      inventory("assets/item/inventory.xml") {
+      mShutDown(false)
+       {
     SDL_Init(SDL_INIT_EVERYTHING);
     SDLNet_Init();
 

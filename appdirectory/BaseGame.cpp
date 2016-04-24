@@ -19,6 +19,7 @@ BaseGame::BaseGame(RenderingEngine* renderer, GUISystem* gui,
     mGUI(gui),
     mSoundBank(soundBank),
     mPlayerBank(playerBank),
+    inventory("assets/item/inventory.xml"),
     mShutDown(false),
     mCursorWasVisible(false),
     mRoomRoot(nullptr) {

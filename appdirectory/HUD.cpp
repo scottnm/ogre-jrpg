@@ -3,7 +3,7 @@
 #include <OgreStringConverter.h>
 
 const Ogre::String HUD::windowName = "HUD";
-const Ogre::String HUD::mockItems[4] = {"Apple", "Cool thing", "jimjam", "sweater"};
+// const Ogre::String HUD::items[4] = {"Apple", "Cool thing", "jimjam", "sweater"};
 
 enum HUD_ID {
     PHYSICAL_ID = 0,
@@ -13,9 +13,9 @@ enum HUD_ID {
 };
 
 HUD::HUD(GUISystem& gui, HUDListener& listener,
-         std::vector<Player*>& myParty, std::vector<Player*>& enemyParty) 
+         std::vector<Player*>& myParty, std::vector<Player*>& enemyParty, std::vector<std::pair<Item,int>> items) 
     : mGUI(gui), mListener(listener), mState(HUD_STATE::ACTION_MENU_ACTIVE),
-      myParty(myParty), enemyParty(enemyParty) {
+      myParty(myParty), enemyParty(enemyParty), items(items) {
 
     mOptionSelected = 0;
     mItemsFocused = true;
@@ -44,7 +44,7 @@ HUD::HUD(GUISystem& gui, HUDListener& listener,
     // prep gui with info
 
     mRoot->getChild("Item_Frame")->getChild("Items_StaticText")->
-        setText(mockItems[mItemSelected]);
+        setText(items[mItemSelected].first.name + " (" + std::to_string(items[mItemSelected].second) + ")");
 
     auto p0Frame = mRoot->getChild("Party_Frame")->getChild("PartyMember0_Frame");
     auto p1Frame = mRoot->getChild("Party_Frame")->getChild("PartyMember1_Frame");
@@ -131,7 +131,7 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
                     return;
             }
             mRoot->getChild("Item_Frame")->getChild("Items_StaticText")->
-                setText(mockItems[mItemSelected]);
+                setText(items[mItemSelected].first.name + " (" + std::to_string(items[mItemSelected].second) + ")");
         }
         else {
             switch(arg.key) {

@@ -9,11 +9,12 @@
 *   - See "Notes" on: http://www.ogre3d.org/tikiwiki/tiki-editpage.php?page=MovableText
 */
  
+#include "MovableText.h"
  
-#include <stdafx.h>
-#include "OGRE/Ogre.h"
-#include "OGRE/OgreFontManager.h"
-#include "movableText.h"
+#include <OgrePrerequisites.h>
+#include <OgreCommon.h>
+#include <Overlay/OgreFontManager.h>
+#include <Ogre.h>
  
 using namespace Ogre;
  
@@ -21,23 +22,23 @@ using namespace Ogre;
 #define COLOUR_BINDING     1
  
 MovableText::MovableText(const String &name, const String &caption, const String &fontName, Real charHeight, const ColourValue &color)
-: mpCam(NULL)
-, mpWin(NULL)
-, mpFont(NULL)
+: mFontName(fontName)
+, mType("MovableText")
 , mName(name)
 , mCaption(caption)
-, mFontName(fontName)
-, mCharHeight(charHeight)
+, mHorizontalAlignment(H_LEFT)
+, mVerticalAlignment(V_BELOW)
 , mColor(color)
-, mType("MovableText")
-, mTimeUntilNextToggle(0)
+, mCharHeight(charHeight)
 , mSpaceWidth(0)
 , mUpdateColors(true)
 , mOnTop(false)
-, mHorizontalAlignment(H_LEFT)
-, mVerticalAlignment(V_BELOW)
+, mTimeUntilNextToggle(0)
 , mGlobalTranslation(0.0)
 , mLocalTranslation(0.0)
+, mpCam(NULL)
+, mpWin(NULL)
+, mpFont(NULL)
 {
     assert(name != "" && "Trying to create MovableText without name");
  
@@ -218,7 +219,7 @@ void MovableText::_setupGeometry()
         HardwareBuffer::HBU_DYNAMIC_WRITE_ONLY);
     bind->setBinding(COLOUR_BINDING, cbuf);
  
-    size_t charlen = mCaption.size();
+    //size_t charlen = mCaption.size();
     float *pPCBuff = static_cast<float*>(ptbuf->lock(HardwareBuffer::HBL_DISCARD));
  
     float largestWidth = 0;

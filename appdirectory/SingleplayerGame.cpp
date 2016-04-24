@@ -145,6 +145,7 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
     }
 
     mHUD->update();
+    mDAS.updateAlerts(evt.timeSinceLastFrame);
 
     // remove all of the dead characters
     myPartyAlive.erase(std::remove_if(myPartyAlive.begin(), myPartyAlive.end(), characterDead),
@@ -175,6 +176,7 @@ bool SingleplayerGame::keyPressed(const OIS::KeyEvent &arg) {
 void SingleplayerGame::onHUDPhysicalSelect(Player* attacker, Player* target) {
     attacker->physicalAttack(*target);
     std::cout << target->info().name << ": " << target->info().health << std::endl;
+    mDAS.addAlert(target, attacker->info().damage);
 }
 
 void SingleplayerGame::onHUDSpecialSelect(Player* attacker, Player* target) {

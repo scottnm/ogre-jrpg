@@ -11,6 +11,9 @@
  
 #ifndef __include_MovableText_H__
 #define __include_MovableText_H__
+
+#include <OgreMovableObject.h>
+#include <Overlay/OgreFont.h>
  
 namespace Ogre {
  

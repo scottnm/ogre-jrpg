@@ -14,6 +14,7 @@ http://www.ogre3d.org/tikiwiki/tiki-index.php?page=MinimalOgre-h&structure=Devel
 #include "HUD.h"
 #include "HUDListener.h"
 #include "SoundController.h"
+#include "DamageAlertSystem.h"
 
 class SingleplayerGame : public BaseGame,
                          public HUDListener
@@ -42,6 +43,7 @@ private:
     SoundController mSoundController;
     bool playerTurn;
     unsigned int activeEnemy;
+    DamageAlertSystem mDAS;
 };
  
 #endif // __SINGLE_PLAYER_GAME_H__

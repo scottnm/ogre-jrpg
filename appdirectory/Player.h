@@ -19,8 +19,9 @@ public:
     void reset(void);
     const PlayerInfo& info(void);
 
-private:
 	Ogre::Entity* mEntity;
+
+private:
     PlayerInfo mInfo;
 };
 

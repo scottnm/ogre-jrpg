@@ -15,7 +15,7 @@ http://www.ogre3d.org/tikiwiki/tiki-index.php?page=MinimalOgre-cpp
 SingleplayerGame::SingleplayerGame(RenderingEngine* renderer, GUISystem* gui,
     PlayerBank* playerBank, SoundBank* soundBank)
     : BaseGame(renderer, gui, playerBank), mGameOver(false), mSoundController(soundBank),
-      playerTurn(true), activeEnemy(0) {
+      playerTurn(true), activeEnemy(0), mDAS(*renderer->mCamera) {
 }
 
 SingleplayerGame::~SingleplayerGame(void) {
@@ -113,6 +113,7 @@ bool SingleplayerGame::go(void)
 
     // setup listeners
     mRenderer->addFrameListener(this);
+    mRenderer->addFrameListener(&mDAS);
     return true;
 }
 

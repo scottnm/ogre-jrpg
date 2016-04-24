@@ -5,11 +5,13 @@
 #include "HUDListener.h"
 #include "HUDTargetable.h"
 #include "Player.h"
+#include "Item.h"
 
 #include <OgreString.h>
 #include <OISKeyboard.h>
 #include <CEGUI/CEGUI.h>
 
+#include <utility>
 #include <vector>
 
 enum class HUD_STATE {
@@ -21,7 +23,7 @@ enum class HUD_STATE {
 class HUD {
 public:
     HUD(GUISystem& gui, HUDListener& listener,
-        std::vector<Player*>& myParty, std::vector<Player*>& enemyParty);
+        std::vector<Player*>& myParty, std::vector<Player*>& enemyParty, std::vector<std::pair<Item,int>> items);
     ~HUD(void);
 
     void injectKeyDown(const OIS::KeyEvent& arg);
@@ -55,6 +57,7 @@ private:
     int myPartyActiveTarget;
     std::vector<Player*>& enemyParty;
     int enemyPartyActiveTarget;
+    std::vector<std::pair<Item,int>>& items;
 
     static const Ogre::String mockItems[4];
 };

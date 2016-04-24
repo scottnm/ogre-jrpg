@@ -41,7 +41,7 @@ private:
     GUISystem* mGUI;
     SoundBank mSoundBank;
     PlayerBank mPlayerBank;
-    Inventory inventory;
+    //Inventory inventory;
     BaseGame* mGame;
     bool mShutDown;
     

@@ -27,5 +27,10 @@ Inventory::Inventory(const std::string& _fn) {
 }
 
 void Inventory::useItem(int index) {
+    //items[index].first.use();
 
+    items[index].second--;
+    if (items[index].second == 0) {
+        items.erase(items.begin() + index);
+    }
 }

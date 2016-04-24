@@ -94,7 +94,7 @@ void SingleplayerGame::destroyScene(void) {
 
 void SingleplayerGame::initGUI(void)
 {
-    mHUD = new HUD(*mGUI, *this, myParty, enemyParty);
+    mHUD = new HUD(*mGUI, *this, myParty, enemyParty, inventory.items);
 }
 
 bool SingleplayerGame::go(void)

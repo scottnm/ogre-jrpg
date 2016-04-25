@@ -49,33 +49,33 @@ void SingleplayerGame::createScene(void){
 // <<<<<<< HEAD
     Player* p = new Player(scnMgr, mRoomRoot,
             mPlayerBank->getPlayerInfo("Cannibal Corpse"),
-            Ogre::Vector3(500, 50, 200));
+            Ogre::Vector3(500, 0, 200));
     myParty.push_back(p);
 
     Player* p2 = new Player(scnMgr, mRoomRoot,
             mPlayerBank->getPlayerInfo("Spooky Boo"),
-            Ogre::Vector3(500, 50, 0));
+            Ogre::Vector3(500, 0, 0));
     myParty.push_back(p2);
 
     Player* p3 = new Player(scnMgr, mRoomRoot,
             mPlayerBank->getPlayerInfo("Rattlebones"),
-            Ogre::Vector3(500, 50, -200));
+            Ogre::Vector3(500, 0, -200));
     myParty.push_back(p3);
     
 
     Player* p4 = new Player(scnMgr, mRoomRoot,
             mPlayerBank->getPlayerInfo("Mecha-Scoot"),
-            Ogre::Vector3(-500, 50, 200));
+            Ogre::Vector3(-500, 0, 200));
     enemyParty.push_back(p4);
 
     Player* p5 = new Player(scnMgr, mRoomRoot,
             mPlayerBank->getPlayerInfo("SSJVirginia"),
-            Ogre::Vector3(-500, 50, 0));
+            Ogre::Vector3(-500, 0, 0));
     enemyParty.push_back(p5);
 
     Player* p6 = new Player(scnMgr, mRoomRoot,
             mPlayerBank->getPlayerInfo("Metal Scoot"),
-            Ogre::Vector3(-500, 50, -200));
+            Ogre::Vector3(-500, 0, -200));
     enemyParty.push_back(p6);
 /*
 =======

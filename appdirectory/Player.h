@@ -19,9 +19,20 @@ public:
     void reset(void);
     const PlayerInfo& info(void);
 
+    void setEmitting(ParticleType pt, bool emitting);
+    void lookAt(GameObject* targetObject);
+
 private:
 	Ogre::Entity* mEntity;
     PlayerInfo mInfo;
+
+    std::unordered_map<ParticleType,
+                       Ogre::ParticleSystem*,
+                       ParticleTypeHash> mParticleSystemMap;
+
+    std::unordered_map<ParticleType,
+                       Ogre::SceneNode*,
+                       ParticleTypeHash> mParticleNodeMap;
 };
 
 #endif	// __PLAYER_H__

@@ -11,7 +11,7 @@ class Player : public GameObject
 {
 public:
 	Player(Ogre::SceneManager* _scnmgr, Ogre::SceneNode* _scnnode,
-           const PlayerInfo& i);
+           const PlayerInfo& i, const Ogre::Vector3& pos);
 	virtual ~Player(void) {};
 
     void physicalAttack(Player& target);

@@ -8,17 +8,55 @@ Player::Player(Ogre::SceneManager* _scnmgr, Ogre::SceneNode* _scnnode,
         const PlayerInfo& i, const Ogre::Vector3& pos)
     : GameObject(_scnmgr), mInfo(i) {
 
-    const int id = idGenerator++;
+    const Ogre::String id = Ogre::StringConverter::toString(idGenerator++);
 
     // create the base representable object
 
 	mEntity = _scnmgr->createEntity("ninja.mesh");
 	mEntity->setCastShadows(true);
-	sceneNode = _scnnode->createChildSceneNode("Player" + Ogre::StringConverter::toString(id));
+	sceneNode = _scnnode->createChildSceneNode("Player" + id);
 	sceneNode->attachObject(mEntity);
     sceneNode->setPosition(pos);
     sceneNode->lookAt(Ogre::Vector3::ZERO, Ogre::Node::TS_WORLD);
     sceneNode->lookAt(Ogre::Vector3(0, pos.y, pos.z), Ogre::Node::TS_WORLD);
+
+    auto guardParticles = _scnmgr->createParticleSystem("Guard_P" + id, "Guard"); 
+    auto guardNode = sceneNode->createChildSceneNode("Guard_N" + id);
+    guardNode->attachObject(guardParticles);
+    mParticleSystemMap.emplace(ParticleType::Guard, guardParticles);
+    mParticleNodeMap.emplace(ParticleType::Guard, guardNode);
+
+    /*
+    auto physicalParticles = _scnmgr->createParticleSystem("Physical_P" + id, "Physical2"); 
+    auto physicalNode = sceneNode->createChildSceneNode("Physical_N" + id);
+    physicalNode->attachObject(physicalParticles);
+    mParticleSystemMap.emplace(ParticleType::Physical, physicalParticles);
+    mParticleNodeMap.emplace(ParticleType::Physical, physicalNode);
+
+    auto itemParticles = _scnmgr->createParticleSystem("Item_P" + id, "Item"); 
+    auto itemNode = sceneNode->createChildSceneNode("Item_N" + id);
+    itemNode->attachObject(itemParticles);
+    mParticleSystemMap.emplace(ParticleType::Item, itemParticles);
+    mParticleNodeMap.emplace(ParticleType::Item, itemNode);
+
+    auto fireParticles = _scnmgr->createParticleSystem("Fire_P" + id, "Fire"); 
+    auto fireNode = sceneNode->createChildSceneNode("Fire_N" + id);
+    fireNode->attachObject(fireParticles);
+    mParticleSystemMap.emplace(ParticleType::Fire, fireParticles);
+    mParticleNodeMap.emplace(ParticleType::Fire, fireNode);
+
+    auto iceParticles = _scnmgr->createParticleSystem("Ice_P" + id, "Ice"); 
+    auto iceNode = sceneNode->createChildSceneNode("Ice_N" + id);
+    iceNode->attachObject(iceParticles);
+    mParticleSystemMap.emplace(ParticleType::Ice, iceParticles);
+    mParticleNodeMap.emplace(ParticleType::Ice, iceNode);
+
+    auto flareParticles = _scnmgr->createParticleSystem("Flare_P" + id, "Flare"); 
+    auto flareNode = sceneNode->createChildSceneNode("Flare_N" + id);
+    flareNode->attachObject(flareParticles);
+    mParticleSystemMap.emplace(ParticleType::Flare, flareParticles);
+    mParticleNodeMap.emplace(ParticleType::Flare, flareNode);
+    */
 }
 
 void Player::physicalAttack(Player& target) {
@@ -39,4 +77,18 @@ void Player::reset(void) {
 
 const PlayerInfo& Player::info(void) {
     return mInfo;
+}
+
+void Player::setEmitting(ParticleType pt, bool emitting) {
+    mParticleSystemMap.find(pt)->second->setEmitting(emitting);
+}
+
+void Player::lookAt(GameObject* targetObject) {
+    GameObject::lookAt(targetObject);
+    auto targetNode = targetObject->sceneNode;
+    for(auto particleNodePair : mParticleNodeMap) {
+        auto psNode = particleNodePair.second;
+		psNode->lookAt(psNode->convertWorldToLocalPosition(targetNode->_getDerivedPosition()),
+	        Ogre::Node::TransformSpace::TS_LOCAL, Ogre::Vector3::NEGATIVE_UNIT_Z);
+    }
 }

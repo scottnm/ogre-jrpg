@@ -185,6 +185,7 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
         mHUD->alertGameOver(enemyPartyAlive.empty());
     }
 
+
 /*
 =======
     GameObject* player = player_list[1];

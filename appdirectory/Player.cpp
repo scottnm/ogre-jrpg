@@ -18,7 +18,7 @@ Player::Player(Ogre::SceneManager* _scnmgr, Ogre::SceneNode* _scnnode,
 	sceneNode->attachObject(mEntity);
     sceneNode->setPosition(pos);
     sceneNode->lookAt(Ogre::Vector3::ZERO, Ogre::Node::TS_WORLD);
-    sceneNode->lookAt(Ogre::Vector3(0, pos.y, 0), Ogre::Node::TS_WORLD);
+    sceneNode->lookAt(Ogre::Vector3(0, pos.y, pos.z), Ogre::Node::TS_WORLD);
 }
 
 void Player::physicalAttack(Player& target) {

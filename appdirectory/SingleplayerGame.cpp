@@ -48,34 +48,34 @@ void SingleplayerGame::createScene(void){
     // Add test objects
 // <<<<<<< HEAD
     Player* p = new Player(scnMgr, mRoomRoot,
-            mPlayerBank->getPlayerInfo("Cannibal Corpse"));
-    p->setPosition(Ogre::Vector3(500, 50, 200));
+            mPlayerBank->getPlayerInfo("Cannibal Corpse"),
+            Ogre::Vector3(500, 50, 200));
     myParty.push_back(p);
 
     Player* p2 = new Player(scnMgr, mRoomRoot,
-            mPlayerBank->getPlayerInfo("Spooky Boo"));
-    p2->setPosition(Ogre::Vector3(500, 50, 0));
+            mPlayerBank->getPlayerInfo("Spooky Boo"),
+            Ogre::Vector3(500, 50, 0));
     myParty.push_back(p2);
 
     Player* p3 = new Player(scnMgr, mRoomRoot,
-            mPlayerBank->getPlayerInfo("Rattlebones"));
-    p3->setPosition(Ogre::Vector3(500, 50, -200));
+            mPlayerBank->getPlayerInfo("Rattlebones"),
+            Ogre::Vector3(500, 50, -200));
     myParty.push_back(p3);
     
 
     Player* p4 = new Player(scnMgr, mRoomRoot,
-            mPlayerBank->getPlayerInfo("Mecha-Scoot"));
-    p4->setPosition(Ogre::Vector3(-500, 50, 200));
+            mPlayerBank->getPlayerInfo("Mecha-Scoot"),
+            Ogre::Vector3(-500, 50, 200));
     enemyParty.push_back(p4);
 
     Player* p5 = new Player(scnMgr, mRoomRoot,
-            mPlayerBank->getPlayerInfo("SSJVirginia"));
-    p5->setPosition(Ogre::Vector3(-500, 50, 0));
+            mPlayerBank->getPlayerInfo("SSJVirginia"),
+            Ogre::Vector3(-500, 50, 0));
     enemyParty.push_back(p5);
 
     Player* p6 = new Player(scnMgr, mRoomRoot,
-            mPlayerBank->getPlayerInfo("Metal Scoot"));
-    p6->setPosition(Ogre::Vector3(-500, 50, -200));
+            mPlayerBank->getPlayerInfo("Metal Scoot"),
+            Ogre::Vector3(-500, 50, -200));
     enemyParty.push_back(p6);
 /*
 =======

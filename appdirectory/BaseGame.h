@@ -10,23 +10,14 @@ http://www.ogre3d.org/tikiwiki/tiki-index.php?page=MinimalOgre-h&structure=Devel
 #ifndef __BASE_GAME_H__
 #define __BASE_GAME_H__
  
-#include "GameObject.h"
 #include "GUISystem.h"
 #include "RenderingEngine.h"
 #include "Plane.h"
 #include "Player.h"
-
-#include "OgreParticleSystem.h"
-#include "OgreParticleSystemManager.h"
-#include "OgreParticle.h"
-
-#include <vector>
-
 #include "SoundBank.h"
 #include "PlayerBank.h"
 
-#include <SDL/SDL.h>
-#include <SDL/SDL_net.h>
+#include <OgreParticleSystem.h>
 
 #include <OISEvents.h>
 #include <OISInputManager.h>
@@ -36,7 +27,12 @@ http://www.ogre3d.org/tikiwiki/tiki-index.php?page=MinimalOgre-h&structure=Devel
 #include <SdkCameraMan.h>
 #include <SdkTrays.h>
 
+#include <SDL/SDL.h>
+#include <SDL/SDL_net.h>
+
 #include <CEGUI/CEGUI.h>
+
+#include <vector>
  
 class BaseGame : public Ogre::FrameListener
 {
@@ -59,6 +55,7 @@ public:
     Ogre::Light* mMainLight;
     static Ogre::String mainLightName;
     Plane* ground;
+
     std::vector<Player*> myParty;
     std::vector<Player*> myPartyAlive;
     std::vector<Player*> enemyParty;

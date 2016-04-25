@@ -5,6 +5,7 @@
 #include <OgreSceneNode.h>
 #include <OgreEntity.h>
 #include <OgreVector3.h>
+#include <OgreParticleSystem.h>
 
 class GameObject
 {
@@ -13,9 +14,12 @@ public:
     virtual ~GameObject(void) {}
 
     void setPosition(Ogre::Vector3 position);
+    void lookAt(GameObject* targetObject);
 
     Ogre::SceneManager* sceneManager;
     Ogre::SceneNode* sceneNode;
+    std::vector<Ogre::ParticleSystem*> particleSystemList;
+    std::vector<Ogre::SceneNode*> particleNodeList;
 };
 
 #endif // __GAME_OBJECT_H__

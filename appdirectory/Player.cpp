@@ -1,17 +1,20 @@
 #include "Player.h"
 
+#include <OgreStringConverter.h>
+
+static int idGenerator = 0;
+
 Player::Player(Ogre::SceneManager* _scnmgr, Ogre::SceneNode* _scnnode,
         const PlayerInfo& i)
     : GameObject(_scnmgr), mInfo(i) {
 
-	sceneManager = _scnmgr;
-	mEntity = _scnmgr->createEntity("sphere.mesh");
-	mEntity->setMaterialName("Examples/Rocky");
+    const int id = idGenerator++;
+
+	mEntity = _scnmgr->createEntity("ninja.mesh");
 	mEntity->setCastShadows(true);
 
-	sceneNode = _scnnode->createChildSceneNode();
+	sceneNode = _scnnode->createChildSceneNode("Player" + Ogre::StringConverter::toString(id));
 	sceneNode->attachObject(mEntity);
-	sceneNode->scale(0.5f, 0.5f, 0.5f);
 }
 
 void Player::physicalAttack(Player& target) {

@@ -79,7 +79,7 @@ void SingleplayerGame::createScene(void){
     enemyParty.push_back(p6);
 
     // Set Camera Position
-    camera->setPosition(Ogre::Vector3(-1000, 250, -1000));
+    camera->setPosition(Ogre::Vector3(1000, 450, 1000));
     camera->lookAt(Ogre::Vector3(0, 0, 0));
 }
 

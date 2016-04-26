@@ -1,5 +1,5 @@
 # OGRE JRPG :: Team 5
-### Scott Munro, Daniel Purdes, Patrick Liu
+##### Scott Munro, Daniel Purdes, Patrick Liu
 
 ## To Build
 ```

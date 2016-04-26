@@ -6,6 +6,7 @@
 
 #include <OgreBillboardSet.h>
 #include <OgreBillboard.h>
+#include <random>
 
 class Player : public GameObject
 {
@@ -15,6 +16,7 @@ public:
 	virtual ~Player(void) {};
 
     void physicalAttack(Player& target);
+    bool attemptPhysicalAttack(void);
     bool isDead(void);
     void reset(void);
     const PlayerInfo& info(void);
@@ -33,6 +35,8 @@ private:
     std::unordered_map<ParticleType,
                        Ogre::SceneNode*,
                        ParticleTypeHash> mParticleNodeMap;
+    static std::default_random_engine rand_generator;
+    static std::uniform_real_distribution<float> rand_dist;
 };
 
 #endif	// __PLAYER_H__

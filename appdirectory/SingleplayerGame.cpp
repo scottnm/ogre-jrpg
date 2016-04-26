@@ -180,8 +180,15 @@ bool SingleplayerGame::keyPressed(const OIS::KeyEvent &arg) {
 }
 
 void SingleplayerGame::onHUDPhysicalSelect(Player* attacker, Player* target) {
-    attacker->physicalAttack(*target);
-    std::cout << target->info().name << ": " << target->info().health << std::endl;
+    int oldhealth = target->info().health;
+    if (attacker->attemptPhysicalAttack()) {
+        attacker->physicalAttack(*target);
+    }
+    else {
+        // miss logic
+        std::cout << "miss" << std::endl;
+    }
+    std::cout << target->info().name << ": " << oldhealth - target->info().health << std::endl;
 }
 
 void SingleplayerGame::onHUDSpecialSelect(Player* attacker, Player* target) {

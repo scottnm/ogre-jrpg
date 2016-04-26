@@ -113,10 +113,18 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
             case OIS::KC_UP:
                 notifyHUDNavigation();
                 mActionOptionFocused = std::max(0, mActionOptionFocused - 1);
+                if (myPartyWaiting.at(myPartyFocused)->info().specialPoints == 0 &&
+                        mActionOptionFocused == SPECIAL_ID) {
+                    mActionOptionFocused = PHYSICAL_ID;
+                }
                 break;
             case OIS::KC_DOWN:
                 notifyHUDNavigation();
                 mActionOptionFocused = std::min(3, mActionOptionFocused + 1);
+                if (myPartyWaiting.at(myPartyFocused)->info().specialPoints == 0 &&
+                        mActionOptionFocused == SPECIAL_ID) {
+                    mActionOptionFocused = ITEMS_ID;
+                }
                 break;
             case OIS::KC_RETURN:
                 switch (mActionOptionFocused) {
@@ -315,6 +323,12 @@ void HUD::updateFocusedCharacter(Player* character) {
     focusedChildFrame->setProperty("Colour",
             "tl:FFFF0000 tr:FFFF0000 bl:FFFF0000 br:FFFF0000");
     charSelected = focusedChildFrame;
+    if (character->info().specialPoints == 0) {
+        mMenuRoot->getChild("Menu_Frame")->getChild("Special_label")->disable();
+    }
+    else {
+        mMenuRoot->getChild("Menu_Frame")->getChild("Special_label")->enable();
+    }
 }
 
 void HUD::setTargetArrowVisible(Player* character, bool visible) {

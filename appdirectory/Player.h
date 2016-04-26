@@ -16,6 +16,7 @@ public:
 	virtual ~Player(void) {};
 
     void physicalAttack(Player& target);
+    void specialAttack(Player& target);
     bool attemptPhysicalAttack(void);
     bool isDead(void);
     void reset(void);

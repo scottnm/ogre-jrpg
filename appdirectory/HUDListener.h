@@ -8,7 +8,7 @@ public:
     virtual void onHUDPhysicalSelect(Player* attacker, Player* target) {};
     virtual void onHUDSpecialSelect(Player* attacker, Player* target) {};
     virtual void onHUDItemSelect(Player* user, Player* target) {};
-    virtual void onHUDGuardSelect() {};
+    virtual void onHUDGuardSelect(Player* user) {};
     virtual void onHUDCycleCharacter() {};
     virtual void onHUDOptionSelect() {};
     virtual void onHUDNavigation() {};

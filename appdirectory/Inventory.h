@@ -14,6 +14,11 @@ class Inventory {
 public:
 	Inventory(const std::string& fn);
 
+	const Item& getCurrentItem();
+	std::string getCurrentItemMenuTitle();
+	int getCurrentItemCount();
+	void cycleInventoryForward();
+	void cycleInventoryBackward();
 	void useItem(int index);
 
 	/**
@@ -23,6 +28,7 @@ public:
     //void loadInventoryDatabase(const std::string& xmlDbFilename);
 	
 	std::vector<std::pair<Item, int>> items;
+	int currentItemIndex;
 };
 
 #endif // __INVENTORY_H__

@@ -13,14 +13,12 @@ enum HUD_ID {
 };
 
 HUD::HUD(GUISystem& gui, HUDListener& listener,
-         std::vector<Player*>& myParty, std::vector<Player*>& enemyParty, std::vector<std::pair<Item,int>> items) 
+         std::vector<Player*>& myParty, std::vector<Player*>& enemyParty, Inventory& _inventory) 
     : mGUI(gui), mListener(listener), mState(HUD_STATE::ACTION_MENU_ACTIVE),
-      myParty(myParty), enemyParty(enemyParty), items(items) {
+      myParty(myParty), enemyParty(enemyParty), inventory(_inventory) {
 
     mOptionSelected = 0;
     mItemsFocused = true;
-    mItemsTotal = items.size();
-    mItemSelected = 0;
 
     myPartyActiveTarget = 0;
     enemyPartyActiveTarget = 0;
@@ -43,8 +41,7 @@ HUD::HUD(GUISystem& gui, HUDListener& listener,
 
     // prep gui with info
 
-    mRoot->getChild("Item_Frame")->getChild("Items_StaticText")->
-        setText(items[mItemSelected].first.name + " a (" + std::to_string(items[mItemSelected].second) + ")");
+    mRoot->getChild("Item_Frame")->getChild("Items_StaticText")->setText(inventory.getCurrentItemMenuTitle());
 
     auto p0Frame = mRoot->getChild("Party_Frame")->getChild("PartyMember0_Frame");
     auto p1Frame = mRoot->getChild("Party_Frame")->getChild("PartyMember1_Frame");
@@ -110,51 +107,42 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
     else if (mState == HUD_STATE::ITEMS_MENU_ACTIVE) {
         if (mItemsFocused) {
             switch(arg.key) {
+                case OIS::KC_DOWN: {
+                    mItemsFocused = false;
+                    auto itemFrame = mRoot->getChild("Item_Frame");
+                    itemFrame->getChild("Items_select")->hide();
+                    itemFrame->getChild("Back_select")->show();
+                    itemFrame->getChild("Back_select")->activate();
+                    break;
+                }
                 case OIS::KC_LEFT:
-                    //mItemSelected = mItemSelected == 0 ? mItemsTotal : mItemSelected - 1;
+                    inventory.cycleInventoryBackward();
                     break;
                 case OIS::KC_RIGHT:
-                    //mItemSelected = (mItemSelected + 1) % mItemsTotal;
+                    inventory.cycleInventoryForward();
                     break;
-                // case OIS::KC_DOWN: {
-                //     mItemsFocused = false;
-                //     auto itemFrame = mRoot->getChild("Item_Frame");
-                //     itemFrame->getChild("Items_select")->hide();
-                //     itemFrame->getChild("Back_select")->show();
-                //     itemFrame->getChild("Back_select")->activate();
-                //     break;
-                // }
-
-                case OIS::KC_UP:
-                    mOptionSelected = std::max(0, mItemSelected - 1);
-                    break;
-                case OIS::KC_DOWN:
-                    mOptionSelected = std::min((int)items.size() - 1, mItemSelected + 1);
-                    break;
-
                 case OIS::KC_RETURN:
                     switchToTargetMenu();
                     break;
                 default:
                     return;
             }
-            mRoot->getChild("Item_Frame")->getChild("Items_StaticText")->
-        setText(items[mItemSelected].first.name + " a (" + std::to_string(items[mItemSelected].second) + ")");
+            mRoot->getChild("Item_Frame")->getChild("Items_StaticText")->setText(inventory.getCurrentItemMenuTitle());
         }
         else {
             switch(arg.key) {
-                // case OIS::KC_RETURN: {
-                //     switchToActionMenu();
-                //     break;
-                // }
-                // case OIS::KC_UP: {
-                //     mItemsFocused = true;
-                //     auto itemFrame = mRoot->getChild("Item_Frame");
-                //     itemFrame->getChild("Back_select")->hide();
-                //     itemFrame->getChild("Items_select")->show();
-                //     itemFrame->getChild("Items_select")->activate();
-                //     break;
-                // }
+                case OIS::KC_RETURN: {
+                    switchToActionMenu();
+                    break;
+                }
+                case OIS::KC_UP: {
+                    mItemsFocused = true;
+                    auto itemFrame = mRoot->getChild("Item_Frame");
+                    itemFrame->getChild("Back_select")->hide();
+                    itemFrame->getChild("Items_select")->show();
+                    itemFrame->getChild("Items_select")->activate();
+                    break;
+                }
                 default:
                     return;
             }

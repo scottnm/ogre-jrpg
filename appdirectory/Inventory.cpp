@@ -19,9 +19,9 @@ Inventory::Inventory(const std::string& _fn) {
     for (auto pair : items) {
         std::string info;
         info += pair.first.name + " (";
-        info += pair.second + ") | ";
+        info += std::to_string(pair.second) + ") | ";
         info += pair.first.type + " | ";
-        info += pair.first.description + " | ";
+        info += pair.first.description;
         std::cout << info << std::endl;
     }
 }

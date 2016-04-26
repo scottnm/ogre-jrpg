@@ -19,7 +19,7 @@
         <item>
             <name>Pentagram</name>
             <type>Offensive</type>
-            <description>A weak healing item (+5hp)</description>
+            <description>A strong damage item (8dmg)</description>
         </item>
         <quantity>2</quantity>
     </item-pair>

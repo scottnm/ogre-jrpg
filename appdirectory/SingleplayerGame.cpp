@@ -81,7 +81,7 @@ void SingleplayerGame::createScene(void){
     enemyParty.push_back(p6);
 
     // Set Camera Position
-    camera->setPosition(Ogre::Vector3(1000, 450, 1000));
+    camera->setPosition(Ogre::Vector3(1100, 250, 700));
     camera->lookAt(Ogre::Vector3(0, 0, 0));
 }
 
@@ -193,6 +193,7 @@ void SingleplayerGame::onHUDPhysicalSelect(Player* attacker, Player* target) {
 
 void SingleplayerGame::onHUDSpecialSelect(Player* attacker, Player* target) {
     std::cout << "Special " << std::endl;
+    attacker->specialAttack(*target);
 }
 
 void SingleplayerGame::onHUDItemSelect(Player* user, Player* target) {

@@ -75,6 +75,22 @@ bool Player::attemptPhysicalAttack(void) {
     return roll <= mInfo.accuracy;
 }
 
+void Player::specialAttack(Player& target) {
+    --mInfo.specialPoints;
+    std::uniform_int_distribution<int> bonus_dist(0, mInfo.accuracy * mInfo.damage);
+    int dmgBonus = bonus_dist(rand_generator);
+    int totalDamage = std::max(0, mInfo.damage + dmgBonus - target.mInfo.armor);
+    target.mInfo.health = std::max(target.mInfo.health - totalDamage, 0);
+
+    printf("%s hits %s for %d dmg with a bonus of %d\n",
+            mInfo.name.c_str(), target.mInfo.name.c_str(),
+            totalDamage, dmgBonus);
+
+    fflush(stdout);
+
+    std::cout << "health left " << target.mInfo.health << std::endl; 
+}
+
 bool Player::isDead(void) {
     return mInfo.health == 0;
 }

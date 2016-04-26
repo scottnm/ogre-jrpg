@@ -5,6 +5,7 @@
 #include "HUDListener.h"
 #include "HUDTargetable.h"
 #include "Player.h"
+#include "Inventory.h"
 #include "Item.h"
 
 #include <OgreString.h>
@@ -23,7 +24,7 @@ enum class HUD_STATE {
 class HUD {
 public:
     HUD(GUISystem& gui, HUDListener& listener,
-        std::vector<Player*>& myParty, std::vector<Player*>& enemyParty, std::vector<std::pair<Item,int>> items);
+        std::vector<Player*>& myParty, std::vector<Player*>& enemyParty, Inventory& inventory);
     ~HUD(void);
 
     void injectKeyDown(const OIS::KeyEvent& arg);
@@ -50,14 +51,13 @@ private:
     HUD_STATE mState;
     HUD_STATE mPrevState;
     bool mItemsFocused;
-    int mItemsTotal;
-    int mItemSelected;
 
     std::vector<Player*>& myParty;
     int myPartyActiveTarget;
     std::vector<Player*>& enemyParty;
     int enemyPartyActiveTarget;
-    std::vector<std::pair<Item,int>>& items;
+    // std::vector<std::pair<Item,int>>& items;
+    Inventory& inventory;
 
     static const Ogre::String mockItems[4];
 };

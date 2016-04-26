@@ -8,6 +8,7 @@ http://www.ogre3d.org/tikiwiki/tiki-index.php?page=MinimalOgre-cpp
 -----------------------------------------------------------------------------
 */
 
+#include "ParticleType.h"
 #include "SingleplayerGame.h"
 #include <string>
 #include <algorithm>
@@ -46,7 +47,6 @@ void SingleplayerGame::createScene(void){
     ground = new Plane(scnMgr, mRoomRoot);
 
     // Add test objects
-// <<<<<<< HEAD
     Player* p = new Player(scnMgr, mRoomRoot,
             mPlayerBank->getPlayerInfo("Cannibal Corpse"),
             Ogre::Vector3(500, 0, 200));
@@ -77,27 +77,6 @@ void SingleplayerGame::createScene(void){
             mPlayerBank->getPlayerInfo("Metal Scoot"),
             Ogre::Vector3(-500, 0, -200));
     enemyParty.push_back(p6);
-/*
-=======
-
-    n = new Ninja(scnMgr, mRoomRoot, 0);
-    n->setPosition(Ogre::Vector3(500, 0, 250));
-    player_list.push_back(n);
-
-    Player* p4 = new Player(scnMgr, mRoomRoot);
-    p4->setPosition(Ogre::Vector3(-500, 50, 0));
-    player_list.push_back(p4);
-
-    n->lookAt(p4);
-    // for (int i = 0; i < player_list.size(); ++i)
-    //     player_list[i]->sceneNode->showBoundingBox(true);
-    n->startGuardSystem(true);
-    n->startFireSystem(true);
-    n->startIceSystem(true);
-    n->startFlareSystem(true);
-
->>>>>>> particles
-*/
 
     // Set Camera Position
     camera->setPosition(Ogre::Vector3(-1000, 250, -1000));
@@ -145,7 +124,6 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
     if(mGameOver || mShutDown) {
         return true;
     }
-// <<<<<<< HEAD
 
     if (playerTurn) {
         if (myPartyWaiting.size() == 0) {
@@ -164,6 +142,7 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
             // enemy turns over
             activeEnemy = 0;
             playerTurn = true;
+            onRoundOver();
         }
     }
 
@@ -185,68 +164,6 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
         mHUD->alertGameOver(enemyPartyAlive.empty());
     }
 
-
-/*
-=======
-    GameObject* player = player_list[1];
-    // player->sceneNode->showBoundingBox(true);
-    if(n)
-    {
-        for (auto i = 0; i < n->particleSystemList.size(); ++i)
-        {
-            Ogre::ParticleSystem* ps = n->particleSystemList[i];
-            if(ps->getEmitting() && i > 2)
-            {
-                int numParticles = ps->getNumParticles();
-                for (int j = 0; j < numParticles; ++j)
-                {
-                    Ogre::Particle* p = ps->getParticle(j);
-                    if(p)
-                    {
-                        Ogre::Vector3 pPos = p->position;
-                        Ogre::SceneNode* sn = n->particleNodeList[j];
-                        Ogre::Quaternion orientation = sn->_getDerivedOrientation();
-                        Ogre::Vector3 possiblePos = orientation * pPos;
-                        Ogre::Vector3 snPos = sn->_getDerivedPosition();
-                        Ogre::Vector3 worldPos = Ogre::Vector3(snPos.x + possiblePos.x,
-                                                               snPos.y + possiblePos.y,
-                                                               snPos.z + possiblePos.z);
-                        Ogre::AxisAlignedBox boundingBox = player->sceneNode->_getWorldAABB();
-                        bool hit = boundingBox.intersects(worldPos);
-                        if(hit)
-                        {
-                            // std::cout << "hit" << std::endl;
-                            switch (i)
-                            {
-                                case 3:
-                                    if(j == numParticles - 1)
-                                        n->visibilityFireSystem(false);
-                                    n->startFireSystem(false);
-                                    // std::cout << "ajaja" << std::endl;
-                                    break;
-                                case 4:
-                                    if(j == numParticles - 1)
-                                        n->visibilityIceSystem(false);
-                                    n->startIceSystem(false);
-                                    // std::cout << "ajajajajaja" << std::endl;
-                                    break;
-                                case 5:
-                                    if(j == numParticles - 1)
-                                        n->visibilityFlareSystem(false);
-                                    n->startFlareSystem(false);
-                                    // std::cout << std::endl << std::endl << std::endl;
-                                    break;
-                                default:
-                                    break;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
->>>>>>> particles
-*/
     return true;
 }
 
@@ -270,8 +187,9 @@ void SingleplayerGame::onHUDItemSelect(Player* user, Player* target) {
     std::cout << "Item " << std::endl;
 }
 
-void SingleplayerGame::onHUDGuardSelect() {
+void SingleplayerGame::onHUDGuardSelect(Player* user) {
     std::cout << "Guard " << std::endl;
+    user->setEmitting(ParticleType::Guard, true);
 }
 
 void SingleplayerGame::onHUDPlayAgain() {
@@ -295,4 +213,10 @@ void SingleplayerGame::onHUDPlayAgain() {
 
 void SingleplayerGame::onHUDQuit() {
     mShutDown = true;
+}
+
+void SingleplayerGame::onRoundOver(void) {
+    for(auto p : myParty) {
+        p->setEmitting(ParticleType::Guard, false);
+    }
 }

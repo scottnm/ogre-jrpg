@@ -30,10 +30,12 @@ private:
     bool frameRenderingQueued(const Ogre::FrameEvent& evt);
     virtual bool keyPressed(const OIS::KeyEvent &arg);
 
+    void onRoundOver(void);
+
     void onHUDPhysicalSelect(Player* attacker, Player* target);
     void onHUDSpecialSelect(Player* attacker, Player* target);
     void onHUDItemSelect(Player* user, Player* target);
-    void onHUDGuardSelect();
+    void onHUDGuardSelect(Player* user);
     void onHUDPlayAgain();
     void onHUDQuit();
 

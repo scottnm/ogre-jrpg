@@ -399,7 +399,7 @@ void HUD::notifyItemSelect(void) {
 
 void HUD::notifyGuardSelect(void) {
     for(auto hl : mListeners) {
-        hl->onHUDGuardSelect();
+        hl->onHUDGuardSelect(myPartyWaiting.at(myPartyFocused));
     }
 }
 

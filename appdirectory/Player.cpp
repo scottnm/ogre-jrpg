@@ -25,6 +25,7 @@ Player::Player(Ogre::SceneManager* _scnmgr, Ogre::SceneNode* _scnnode,
     guardNode->attachObject(guardParticles);
     mParticleSystemMap.emplace(ParticleType::Guard, guardParticles);
     mParticleNodeMap.emplace(ParticleType::Guard, guardNode);
+    guardParticles->setEmitting(false);
 
     /*
     auto physicalParticles = _scnmgr->createParticleSystem("Physical_P" + id, "Physical2"); 

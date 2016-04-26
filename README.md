@@ -1,11 +1,14 @@
-# To Build
+# OGRE JRPG :: Team 5
+### Scott Munro, Daniel Purdes, Patrick Liu
+
+## To Build
 ```
 cd appdirectory
 ./buildit
 ./Battle
 ```
 
-# To play
+## To play
 
 * UP/DOWN/LEFT/RIGHT - navigate the menus
 * ENTER - select actions

@@ -8,7 +8,7 @@ class SoundController : public HUDListener {
 public:
     SoundController(SoundBank* bank) : mBank(bank) {}
 
-    void onHUDGuardSelect();
+    void onHUDGuardSelect(Player* user);
     void onHUDCycleCharacter();
     void onHUDOptionSelect();
     void onHUDNavigation();

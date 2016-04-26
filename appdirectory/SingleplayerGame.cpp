@@ -20,6 +20,8 @@ SingleplayerGame::SingleplayerGame(RenderingEngine* renderer, GUISystem* gui,
 }
 
 SingleplayerGame::~SingleplayerGame(void) {
+    Mix_FadeOutMusic(1000);
+    Mix_FreeMusic(mMusicTrack);
     destroyScene();
     if (mHUD) delete mHUD;
     mRenderer->mRoot->removeFrameListener(this);
@@ -111,6 +113,9 @@ bool SingleplayerGame::go(void)
     initGUI();
     mHUD->registerListener(this);
     mHUD->registerListener(&mSoundController);
+
+    mMusicTrack = Mix_LoadMUS("assets/audio/castlewall.wav");
+    Mix_FadeInMusic(mMusicTrack, -1, 1000);
 
     // setup listeners
     mRenderer->addFrameListener(this);

@@ -1,6 +1,6 @@
 #include "SoundController.h"
 
-void SoundController::onHUDGuardSelect() {
+void SoundController::onHUDGuardSelect(Player* user) {
     mBank->play("guard_fx");
 }
 

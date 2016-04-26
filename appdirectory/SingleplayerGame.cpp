@@ -134,20 +134,21 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
         if (myPartyWaiting.size() == 0) {
             playerTurn = false;
             myPartyWaiting = myPartyAlive;
+            partyReset(enemyParty);
         }
     }
     else {
         if (activeEnemy < enemyPartyAlive.size()) {
             // placeholder enemy action
             enemyPartyAlive.at(activeEnemy)->physicalAttack(
-                    *myPartyAlive.at(0/* place holder*/));
+                    *myPartyAlive.at(0));
             ++activeEnemy;
         }
         else {
             // enemy turns over
             activeEnemy = 0;
             playerTurn = true;
-            onRoundOver();
+            partyReset(myParty);
         }
     }
 
@@ -202,7 +203,7 @@ void SingleplayerGame::onHUDItemSelect(Player* user, Player* target) {
 
 void SingleplayerGame::onHUDGuardSelect(Player* user) {
     std::cout << "Guard " << std::endl;
-    user->setEmitting(ParticleType::Guard, true);
+    user->guard();
 }
 
 void SingleplayerGame::onHUDPlayAgain() {
@@ -228,8 +229,8 @@ void SingleplayerGame::onHUDQuit() {
     mShutDown = true;
 }
 
-void SingleplayerGame::onRoundOver(void) {
-    for(auto p : myParty) {
-        p->setEmitting(ParticleType::Guard, false);
+void SingleplayerGame::partyReset(std::vector<Player*>& party) {
+    for(auto p : party) {
+        p->unguard();
     }
 }

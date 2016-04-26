@@ -31,7 +31,7 @@ private:
     bool frameRenderingQueued(const Ogre::FrameEvent& evt);
     virtual bool keyPressed(const OIS::KeyEvent &arg);
 
-    void onRoundOver(void);
+    void partyReset(std::vector<Player*>& party);
 
     void onHUDPhysicalSelect(Player* attacker, Player* target);
     void onHUDSpecialSelect(Player* attacker, Player* target);

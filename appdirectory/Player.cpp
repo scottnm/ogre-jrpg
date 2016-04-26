@@ -64,7 +64,7 @@ Player::Player(Ogre::SceneManager* _scnmgr, Ogre::SceneNode* _scnnode,
 
 void Player::physicalAttack(Player& target) {
     int& targetHealth = target.mInfo.health;
-    targetHealth -= this->mInfo.damage;
+    targetHealth -= std::max(0, mInfo.damage - target.mInfo.armor); 
     if (targetHealth < 0) {
         targetHealth = 0;
     }
@@ -73,6 +73,16 @@ void Player::physicalAttack(Player& target) {
 bool Player::attemptPhysicalAttack(void) {
     float roll = rand_dist(rand_generator);
     return roll <= mInfo.accuracy;
+}
+
+void Player::guard(void) {
+    mInfo.armor += std::max(1, (int)(0.5f * mInfo.armor));
+    setEmitting(ParticleType::Guard, true);
+}
+
+void Player::unguard(void) {
+    mInfo.armor = mInfo.baseArmor;
+    setEmitting(ParticleType::Guard, false);
 }
 
 void Player::specialAttack(Player& target) {

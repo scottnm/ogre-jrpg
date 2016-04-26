@@ -2,8 +2,10 @@
 
 #include <OgreStringConverter.h>
 
-static int idGenerator = 0;
+std::default_random_engine Player::rand_generator;
+std::uniform_real_distribution<float> Player::rand_dist(0.f, 1.f);
 
+static int idGenerator = 0;
 Player::Player(Ogre::SceneManager* _scnmgr, Ogre::SceneNode* _scnnode,
         const PlayerInfo& i, const Ogre::Vector3& pos)
     : GameObject(_scnmgr), mInfo(i) {
@@ -66,6 +68,11 @@ void Player::physicalAttack(Player& target) {
     if (targetHealth < 0) {
         targetHealth = 0;
     }
+}
+
+bool Player::attemptPhysicalAttack(void) {
+    float roll = rand_dist(rand_generator);
+    return roll <= mInfo.accuracy;
 }
 
 bool Player::isDead(void) {

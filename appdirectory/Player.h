@@ -17,6 +17,8 @@ public:
 
     void physicalAttack(Player& target);
     void specialAttack(Player& target);
+    void guard(void);
+    void unguard(void);
     bool attemptPhysicalAttack(void);
     bool isDead(void);
     void reset(void);

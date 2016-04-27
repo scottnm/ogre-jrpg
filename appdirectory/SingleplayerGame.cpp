@@ -99,7 +99,7 @@ void SingleplayerGame::destroyScene(void) {
 void SingleplayerGame::initGUI(void)
 {
     mHUD = new HUD(*(mRenderer->mSceneManager), *mGUI, myPartyAlive,
-            enemyPartyAlive, myPartyWaiting);
+            enemyPartyAlive, myPartyWaiting, inventory);
 }
 
 bool SingleplayerGame::go(void)

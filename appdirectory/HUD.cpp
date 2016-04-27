@@ -2,7 +2,6 @@
 #include <algorithm>
 
 const Ogre::String HUD::windowName = "HUDRoot";
-const Ogre::String HUD::mockItems[4] = {"Apple", "Cool thing", "jimjam", "sweater"};
 
 enum HUD_ID {
     PHYSICAL_ID = 0,
@@ -11,16 +10,15 @@ enum HUD_ID {
     GUARD_ID
 };
 
-HUD::HUD(Ogre::SceneManager& scnMgr, GUISystem& gui, std::vector<Player*>& myParty, std::vector<Player*>& enemyParty,
-         std::vector<Player*>& myPartyWaiting) 
+HUD::HUD(Ogre::SceneManager& scnMgr, GUISystem& gui, std::vector<Player*>& myParty,
+         std::vector<Player*>& enemyParty, std::vector<Player*>& myPartyWaiting,
+         Inventory& inventory) 
     : mGUI(gui), mState(HUD_STATE::ACTION_MENU_ACTIVE),
-      myParty(myParty), myPartyWaiting(myPartyWaiting), enemyParty(enemyParty) {
-
+      myParty(myParty), myPartyWaiting(myPartyWaiting), enemyParty(enemyParty),
+      inventory(inventory) {
 
     mActionOptionFocused = 0;
     mItemsFocused = true;
-    mItemsTotal = 4;
-    mItemSelected = 0;
 
     myPartyFocused = 0;
     enemyPartyActiveTarget = 0;
@@ -46,8 +44,8 @@ HUD::HUD(Ogre::SceneManager& scnMgr, GUISystem& gui, std::vector<Player*>& myPar
     mActionOptions[ITEMS_ID] = MenuFrame->getChild("Items_select");
     mActionOptions[GUARD_ID] = MenuFrame->getChild("Guard_select");
 
-    mMenuRoot->getChild("Item_Frame")->getChild("Items_StaticText")->
-        setText(mockItems[mItemSelected]);
+    mMenuRoot->getChild("Item_Frame")->getChild("Items_StaticText")->setText(
+            inventory.getCurrentItemMenuTitle());
 
     auto p0Frame = mMenuRoot->getChild("Party_Frame")->getChild("PartyMember0_Frame");
     auto p1Frame = mMenuRoot->getChild("Party_Frame")->getChild("PartyMember1_Frame");
@@ -161,14 +159,6 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
     else if (mState == HUD_STATE::ITEMS_MENU_ACTIVE) {
         if (mItemsFocused) {
             switch(arg.key) {
-                case OIS::KC_LEFT:
-                    notifyHUDNavigation();
-                    mItemSelected = mItemSelected == 0 ? mItemsTotal : mItemSelected - 1;
-                    break;
-                case OIS::KC_RIGHT:
-                    notifyHUDNavigation();
-                    mItemSelected = (mItemSelected + 1) % mItemsTotal;
-                    break;
                 case OIS::KC_DOWN: {
                     notifyHUDNavigation();
                     mItemsFocused = false;
@@ -178,6 +168,14 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
                     itemFrame->getChild("Back_select")->activate();
                     break;
                 }
+                case OIS::KC_LEFT:
+                    notifyHUDNavigation();
+                    inventory.cycleInventoryBackward();
+                    break;
+                case OIS::KC_RIGHT:
+                    notifyHUDNavigation();
+                    inventory.cycleInventoryForward();
+                    break;
                 case OIS::KC_RETURN:
                     notifyHUDOptionSelect(); 
                     switchToTargetMenu();
@@ -185,8 +183,8 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
                 default:
                     return;
             }
-            mMenuRoot->getChild("Item_Frame")->getChild("Items_StaticText")->
-                setText(mockItems[mItemSelected]);
+            mMenuRoot->getChild("Item_Frame")->getChild("Items_StaticText")->setText(
+                    inventory.getCurrentItemMenuTitle());
         }
         else {
             switch(arg.key) {
@@ -230,6 +228,7 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
                         break;
                     case ITEMS_ID:
                         notifyItemSelect();
+                        inventory.useItem(*enemyParty.at(enemyPartyActiveTarget));
                         break;
                     default:
                         break;
@@ -278,6 +277,7 @@ void HUD::switchToItemMenu(void) {
     auto itemFrame = mMenuRoot->getChild("Item_Frame");
     itemFrame->show();
     itemFrame->activate();
+    mMenuRoot->getChild("Item_Frame")->getChild("Items_StaticText")->setText(inventory.getCurrentItemMenuTitle());
 }
 
 void HUD::switchToActionMenu(void) {

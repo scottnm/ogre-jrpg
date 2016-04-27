@@ -14,6 +14,8 @@ http://www.ogre3d.org/tikiwiki/tiki-index.php?page=MinimalOgre-h&structure=Devel
 #include "RenderingEngine.h"
 #include "Plane.h"
 #include "Player.h"
+#include "Inventory.h"
+
 #include "SoundBank.h"
 #include "PlayerBank.h"
 
@@ -61,6 +63,7 @@ public:
     std::vector<Player*> enemyParty;
     std::vector<Player*> enemyPartyAlive;
     std::vector<Player*> myPartyWaiting;
+    Inventory inventory;
 
     std::vector<std::string> windowNames;
 

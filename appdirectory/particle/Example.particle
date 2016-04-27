@@ -184,7 +184,6 @@ particle_system Item
         width               5
         height              5
         depth               5
-//        duration            2
     }
  
     // Colour Fader
@@ -217,7 +216,6 @@ particle_system Fire
         width               250
         height              250
         depth               250
-//        duration            1
     }
 }
 
@@ -243,7 +241,6 @@ particle_system Ice
         width               50
         height              50
         depth               50
-//        duration            1
     }
     
 }
@@ -269,6 +266,5 @@ particle_system Flare
         width               150
         height              150
         depth               150
-//        duration            1
     }
 }

@@ -156,6 +156,11 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
         player->checkTime();
     }
 
+    for(auto enemy : enemyPartyAlive) {
+        enemy->collision();
+        enemy->checkTime();
+    }
+
     for(auto player : myParty) {
         if(player->isDead()) {
             player->stopEmittingAll();

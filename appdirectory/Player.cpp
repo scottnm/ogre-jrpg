@@ -63,7 +63,7 @@ Player::Player(Ogre::SceneManager* _scnmgr, Ogre::SceneNode* _scnnode,
     mParticleNodeMap.emplace(ParticleType::Ice, iceNode);
     iceParticles->setEmitting(false);
 
-    auto flareParticles = _scnmgr->createParticleSystem("Flare_P" + id, "Flare"); 
+    auto flareParticles = _scnmgr->createParticleSystem("Flare_P" + id, "Flare");
     auto flareNode = sceneNode->createChildSceneNode("Flare_N" + id);
     flareNode->attachObject(flareParticles);
     flareNode->setPosition(0, 100, 0);
@@ -226,7 +226,7 @@ void Player::collision(void) {
                                 setVisible(particleSystemPair.first, false);
                             }
                             setEmitting(particleSystemPair.first, false);
-                            std::cout << "hit" << std::endl;
+                            // play sound
                         }
                     }
                 }

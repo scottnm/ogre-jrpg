@@ -3,13 +3,20 @@
 
 #include <string>
 
+#include "Player.h"
+
 class Item {
 public:
-	Item(std::string name, std::string type, std::string description);
+	Item(std::string name, std::string type, int d_health, int d_armor, int d_damage, int d_special, float d_accuracy);
+	void use(Player& target);
 
 	std::string name;
 	std::string type;
-	std::string description;
+	int delta_health;
+	int delta_armor;
+	int delta_damage;
+	int delta_special;
+	float delta_accuracy;
 };
 
 #endif // __INVENTORY_H__

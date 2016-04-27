@@ -169,7 +169,8 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
                         mListener.onHUDSpecialSelect();
                         break;
                     case ITEMS_ID:
-                        mListener.onHUDItemSelect();
+                        //mListener.onHUDItemSelect();
+                        inventory.useItem(*enemyParty.at(enemyPartyActiveTarget));
                         break;
                     default:
                         break;
@@ -193,6 +194,7 @@ void HUD::switchToItemMenu(void) {
     auto itemFrame = mRoot->getChild("Item_Frame");
     itemFrame->show();
     itemFrame->activate();
+    mRoot->getChild("Item_Frame")->getChild("Items_StaticText")->setText(inventory.getCurrentItemMenuTitle());
 }
 
 void HUD::switchToActionMenu(void) {

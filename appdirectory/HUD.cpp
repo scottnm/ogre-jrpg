@@ -228,7 +228,6 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
                         break;
                     case ITEMS_ID:
                         notifyItemSelect();
-                        inventory.useItem(*enemyParty.at(enemyPartyActiveTarget));
                         break;
                     default:
                         break;
@@ -404,10 +403,9 @@ void HUD::notifySpecialSelect(void) {
 }
 
 void HUD::notifyItemSelect(void) {
-    Player* user = myPartyWaiting.at(myPartyFocused);
     Player* target = enemyParty.at(enemyPartyActiveTarget);
     for(auto hl : mListeners) {
-        hl->onHUDItemSelect(user, target);
+        hl->onHUDItemSelect(target);
     }
 }
 

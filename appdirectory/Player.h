@@ -27,6 +27,7 @@ public:
 
     void setEmitting(ParticleType pt, bool emitting);
     void lookAt(GameObject* targetObject);
+    void updateAnimation(Ogre::Real timeSinceLastFrame);
 
 private:
 	Ogre::Entity* mEntity;

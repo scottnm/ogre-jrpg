@@ -60,6 +60,10 @@ Player::Player(Ogre::SceneManager* _scnmgr, Ogre::SceneNode* _scnnode,
     mParticleSystemMap.emplace(ParticleType::Flare, flareParticles);
     mParticleNodeMap.emplace(ParticleType::Flare, flareNode);
     */
+
+    auto animationState = mEntity->getAnimationState("Idle1");
+    animationState->setLoop(true);
+    animationState->setEnabled(true);
 }
 
 void Player::physicalAttack(Player& target) {
@@ -129,4 +133,8 @@ void Player::lookAt(GameObject* targetObject) {
 		psNode->lookAt(psNode->convertWorldToLocalPosition(targetNode->_getDerivedPosition()),
 	        Ogre::Node::TransformSpace::TS_LOCAL, Ogre::Vector3::NEGATIVE_UNIT_Z);
     }
+}
+
+void Player::updateAnimation(Ogre::Real timeSinceLastFrame) {
+    mEntity->getAnimationState("Idle1")->addTime(timeSinceLastFrame);
 }

@@ -152,6 +152,13 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
         }
     }
 
+    for (auto c : myPartyAlive) {
+        c->updateAnimation(evt.timeSinceLastFrame);
+    }
+    for (auto c : enemyPartyAlive) {
+        c->updateAnimation(evt.timeSinceLastFrame);
+    }
+
     mHUD->update();
 
     // remove all of the dead characters

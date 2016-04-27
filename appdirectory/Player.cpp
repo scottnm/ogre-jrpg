@@ -85,46 +85,10 @@ void Player::physicalAttack(Player& target) {
     setVisible(ParticleType::Physical, true);
 }
 
-// void Player::specialAttack(Player& target) {
-//     int& targetHealth = target.mInfo.health;
-//     targetHealth -= this->mInfo.damage;
-//     if (targetHealth < 0) {
-//         targetHealth = 0;
-//     }
-//     int randNum = rand() % 3;
-//     std::cout << randNum << std::endl << std::endl << std::endl;
-//     ParticleType pt;
-//     switch(randNum) {
-//         case 0:
-//             pt = ParticleType::Fire;
-//             setEmitting(pt, true);
-//             setVisible(pt, true);
-//             break;
-//         case 1:
-//             pt = ParticleType::Ice;
-//             setEmitting(pt, true);
-//             setVisible(pt, true);
-//             break;
-//         case 2:
-//             pt = ParticleType::Flare;
-//             setEmitting(pt, true);
-//             setVisible(pt, true);
-//             break;
-//         default:
-//             break;
-//     }
-// }
-
-void Player::item(Player& target) {
+void Player::item(void) {
     auto pt = ParticleType::Item;
-    target.setEmitting(pt, true);
-    target.setVisible(pt, true);
-    // auto itemSystem = mParticleSystemMap.find(pt)->second;
-    // auto itemNode = mParticleNodeMap.find(pt)->second;
-    // auto targetNode = target.sceneNode;
-    // itemNode->setPosition(GameObject::sceneNode->convertWorldToLocalPosition(targetNode->_getDerivedPosition()) + Ogre::Vector3(0, 200, 0));
-    // target.setEmitting(pt, true);
-    // target.setVisible(pt, true);
+    setEmitting(pt, true);
+    setVisible(pt, true);
     itemStartTime = time(&timer);
 }
 

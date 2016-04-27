@@ -156,6 +156,18 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
         player->checkTime();
     }
 
+    for(auto player : myParty) {
+        if(player->isDead()) {
+            player->stopEmittingAll();
+        }
+    }
+
+    for(auto enemy : enemyParty) {
+        if(enemy->isDead()) {
+            enemy->stopEmittingAll();
+        }
+    }
+
     mHUD->update();
 
     // remove all of the dead characters
@@ -191,10 +203,7 @@ bool SingleplayerGame::keyPressed(const OIS::KeyEvent &arg) {
 }
 
 void SingleplayerGame::onHUDPhysicalSelect(Player* attacker, Player* target) {
-// <<<<<<< HEAD
-    // attacker->physicalAttack(*target);
     std::cout << target->info().name << ": " << target->info().health << std::endl;
-// =======
     int oldhealth = target->info().health;
     if (attacker->attemptPhysicalAttack()) {
         attacker->lookAt(target);
@@ -205,7 +214,6 @@ void SingleplayerGame::onHUDPhysicalSelect(Player* attacker, Player* target) {
         std::cout << "miss" << std::endl;
     }
     std::cout << target->info().name << ": " << oldhealth - target->info().health << std::endl;
-// >>>>>>> origin
 }
 
 void SingleplayerGame::onHUDSpecialSelect(Player* attacker, Player* target) {
@@ -216,29 +224,17 @@ void SingleplayerGame::onHUDSpecialSelect(Player* attacker, Player* target) {
 
 void SingleplayerGame::onHUDItemSelect(Player* target) {
     std::cout << "Item " << std::endl;
-// <<<<<<< HEAD
-    // user->target = target;
-    // user->item(*target);
-    // user->setVisible(ParticleType::Item, true);
-    // user->setEmitting(ParticleType::Item, true);
-// =======
+    target->item();
     const PlayerInfo& pi = target->info();
     int bh = pi.health;
     inventory.useItem(*target);
     int ah = pi.health;
     std::cout << pi.name << ": " << bh << " -> " << ah << std::endl;
-
-// >>>>>>> origin
 }
 
 void SingleplayerGame::onHUDGuardSelect(Player* user) {
     std::cout << "Guard " << std::endl;
-// <<<<<<< HEAD
-//     user->setVisible(ParticleType::Item, true);
-//     user->setEmitting(ParticleType::Guard, true);
-// =======
     user->guard();
-// >>>>>>> origin
 }
 
 void SingleplayerGame::onHUDPlayAgain() {

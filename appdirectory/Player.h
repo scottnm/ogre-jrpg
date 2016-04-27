@@ -22,7 +22,8 @@ public:
     bool attemptPhysicalAttack(void);
     bool isDead(void);
     void reset(void);
-    const PlayerInfo& info(void);
+    const PlayerInfo& info(void) const;
+    PlayerInfo& info(void);
 
     void setEmitting(ParticleType pt, bool emitting);
     void lookAt(GameObject* targetObject);

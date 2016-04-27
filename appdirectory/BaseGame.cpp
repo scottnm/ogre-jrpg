@@ -20,7 +20,8 @@ BaseGame::BaseGame(RenderingEngine* renderer, GUISystem* gui,
     mPlayerBank(playerBank),
     mShutDown(false),
     mCursorWasVisible(false),
-    mRoomRoot(nullptr) {
+    mRoomRoot(nullptr),
+    inventory("assets/item/inventory.xml") {
 }
 
 BaseGame::~BaseGame(void) {

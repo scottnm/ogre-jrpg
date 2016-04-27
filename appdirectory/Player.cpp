@@ -109,7 +109,11 @@ void Player::reset(void) {
     mInfo.reset();
 }
 
-const PlayerInfo& Player::info(void) {
+const PlayerInfo& Player::info(void) const {
+    return mInfo;
+}
+
+PlayerInfo& Player::info(void) {
     return mInfo;
 }
 

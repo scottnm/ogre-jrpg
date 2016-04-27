@@ -197,8 +197,14 @@ void SingleplayerGame::onHUDSpecialSelect(Player* attacker, Player* target) {
     attacker->specialAttack(*target);
 }
 
-void SingleplayerGame::onHUDItemSelect(Player* user, Player* target) {
+void SingleplayerGame::onHUDItemSelect(Player* target) {
     std::cout << "Item " << std::endl;
+    const PlayerInfo& pi = target->info();
+    int bh = pi.health;
+    inventory.useItem(*target);
+    int ah = pi.health;
+    std::cout << pi.name << ": " << bh << " -> " << ah << std::endl;
+
 }
 
 void SingleplayerGame::onHUDGuardSelect(Player* user) {

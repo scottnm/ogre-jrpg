@@ -21,7 +21,7 @@ HUD::HUD(Ogre::SceneManager& scnMgr, GUISystem& gui, std::vector<Player*>& myPar
     mItemsFocused = true;
 
     myPartyFocused = 0;
-    enemyPartyActiveTarget = 0;
+    activeTarget = 0;
 
     CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
     auto root = wmgr.createWindow("DefaultWindow", "HUDRoot");
@@ -207,10 +207,11 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
         }
     }
     else if (mState == HUD_STATE::TARGETING_MENU_ACTIVE) {
+        auto& targetParty = getTargetParty();
         switch(arg.key) {
             case OIS::KC_Q:
                 notifyHUDOptionSelect();
-                setTargetArrowVisible(enemyParty.at(enemyPartyActiveTarget), false);
+                setTargetArrowVisible(targetParty.at(activeTarget), false);
                 if (mPrevState == HUD_STATE::ACTION_MENU_ACTIVE) {
                     switchToActionMenu();
                 }
@@ -233,7 +234,7 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
                         break;
                 }
                 dequeueActiveCharacter();
-                setTargetArrowVisible(enemyParty.at(enemyPartyActiveTarget), false);
+                setTargetArrowVisible(targetParty.at(activeTarget), false);
                 mActionOptions[mActionOptionFocused]->hide();
                 mActionOptionFocused = 0;
                 mActionOptions[0]->show();
@@ -299,9 +300,11 @@ void HUD::switchToTargetMenu(void) {
     auto targetIcon = mMenuRoot->getChild("TargetingIcon");
     targetIcon->show();
     targetIcon->activate();
-    setTargetArrowVisible(enemyParty.at(enemyPartyActiveTarget), false);
-    enemyPartyActiveTarget = 0;
-    setTargetArrowVisible(enemyParty.at(enemyPartyActiveTarget), true);
+
+    auto& party = getTargetParty();
+    setTargetArrowVisible(party.at(activeTarget), false);
+    activeTarget = 0;
+    setTargetArrowVisible(party.at(activeTarget), true);
 }
 
 void HUD::refocusAfterCharacterDeath(void) {
@@ -355,10 +358,11 @@ void HUD::dequeueActiveCharacter(void) {
     }
 }
 
-void HUD::cycleTargetCharacter(void) {
-    setTargetArrowVisible(enemyParty.at(enemyPartyActiveTarget), false);
-    enemyPartyActiveTarget = (enemyPartyActiveTarget + 1) % enemyParty.size();
-    setTargetArrowVisible(enemyParty.at(enemyPartyActiveTarget), true);
+void HUD::cycleTargetCharacter() {
+    auto& targetParty = getTargetParty();
+    setTargetArrowVisible(targetParty.at(activeTarget), false);
+    activeTarget = (activeTarget + 1) % targetParty.size();
+    setTargetArrowVisible(targetParty.at(activeTarget), true);
 }
 
 void HUD::registerListener(HUDListener* hl) {
@@ -388,7 +392,7 @@ void HUD::alertGameOver(bool userWins) {
 
 void HUD::notifyPhysicalSelect(void) {
     Player* attacker = myPartyWaiting.at(myPartyFocused);
-    Player* target = enemyParty.at(enemyPartyActiveTarget);
+    Player* target = enemyParty.at(activeTarget);
     for(auto hl : mListeners) {
         hl->onHUDPhysicalSelect(attacker, target);
     }
@@ -396,14 +400,14 @@ void HUD::notifyPhysicalSelect(void) {
 
 void HUD::notifySpecialSelect(void) {
     Player* attacker = myPartyWaiting.at(myPartyFocused);
-    Player* target = enemyParty.at(enemyPartyActiveTarget);
+    Player* target = enemyParty.at(activeTarget);
     for(auto hl : mListeners) {
         hl->onHUDSpecialSelect(attacker, target);
     }
 }
 
 void HUD::notifyItemSelect(void) {
-    Player* target = enemyParty.at(enemyPartyActiveTarget);
+    Player* target = getTargetParty().at(activeTarget);
     for(auto hl : mListeners) {
         hl->onHUDItemSelect(target);
     }
@@ -444,3 +448,10 @@ void HUD::notifyQuit(void) {
         hl->onHUDQuit();
     }
 }
+
+std::vector<Player*>& HUD::getTargetParty(void) {
+    return mActionOptionFocused == ITEMS_ID &&
+        !inventory.getCurrentItem().isOffensive ?
+        myParty : enemyParty;
+}
+

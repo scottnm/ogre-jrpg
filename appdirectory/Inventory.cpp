@@ -9,14 +9,14 @@ Inventory::Inventory(const std::string& _fn) : currentItemIndex(0) {
 
     BOOST_FOREACH(ptree::value_type &v, pt.get_child("inventoryDatabase")) {
         std::string name = v.second.get<std::string>("item.name");
-        std::string type = v.second.get<std::string>("item.type");
+        bool isOffensive = v.second.get<bool>("item.offensive");
         int deltaHealth = v.second.get<int>("item.delta-health");
         int deltaArmor = v.second.get<int>("item.delta-armor");
         int deltaDamage = v.second.get<int>("item.delta-damage");
         int deltaSpecial = v.second.get<int>("item.delta-special");
         float deltaAccuracy = v.second.get<float>("item.delta-accuracy");
         int quantity = v.second.get<int>("quantity");
-        Item item(name, type, deltaHealth, deltaArmor, deltaDamage, deltaSpecial, deltaAccuracy);
+        Item item(name, isOffensive, deltaHealth, deltaArmor, deltaDamage, deltaSpecial, deltaAccuracy);
         items.push_back(std::pair<Item,int>(item,quantity));
     }
 
@@ -24,7 +24,6 @@ Inventory::Inventory(const std::string& _fn) : currentItemIndex(0) {
         std::string info;
         info += pair.first.name + " (";
         info += std::to_string(pair.second) + ") | ";
-        info += pair.first.type + " | ";
         std::cout << info << std::endl;
     }
 }

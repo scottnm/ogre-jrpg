@@ -2,7 +2,7 @@
     <item-pair>
         <item>
             <name>Potion</name>
-            <type>Defensive</type>
+            <offensive>0</offensive>
             <delta-health>4</delta-health>
             <delta-armor>0</delta-armor>
             <delta-damage>0</delta-damage>
@@ -14,7 +14,7 @@
     <item-pair>
         <item>
             <name>Bomb</name>
-            <type>Offensive</type>
+            <offensive>1</offensive>
             <delta-health>-5</delta-health>
             <delta-armor>0</delta-armor>
             <delta-damage>0</delta-damage>
@@ -26,7 +26,7 @@
     <item-pair>
         <item>
             <name>Eagle Eye</name>
-            <type>Defensive</type>
+            <offensive>0</offensive>
             <delta-health>0</delta-health>
             <delta-armor>0</delta-armor>
             <delta-damage>0</delta-damage>
@@ -38,7 +38,7 @@
     <item-pair>
         <item>
             <name>Shield</name>
-            <type>Defensive</type>
+            <offensive>0</offensive>
             <delta-health>0</delta-health>
             <delta-armor>2</delta-armor>
             <delta-damage>0</delta-damage>
@@ -50,7 +50,7 @@
     <item-pair>
         <item>
             <name>Shovel</name>
-            <type>Offensive</type>
+            <offensive>1</offensive>
             <delta-health>0</delta-health>
             <delta-armor>-2</delta-armor>
             <delta-damage>0</delta-damage>
@@ -62,7 +62,7 @@
     <item-pair>
         <item>
             <name>Smokescreen</name>
-            <type>Defensive</type>
+            <offensive>0</offensive>
             <delta-health>0</delta-health>
             <delta-armor>2</delta-armor>
             <delta-damage>0</delta-damage>
@@ -74,7 +74,7 @@
     <item-pair>
         <item>
             <name>Special Pill</name>
-            <type>Defensive</type>
+            <offensive>0</offensive>
             <delta-health>0</delta-health>
             <delta-armor>0</delta-armor>
             <delta-damage>0</delta-damage>

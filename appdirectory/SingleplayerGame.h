@@ -35,7 +35,7 @@ private:
 
     void onHUDPhysicalSelect(Player* attacker, Player* target);
     void onHUDSpecialSelect(Player* attacker, Player* target);
-    void onHUDItemSelect(Player* user, Player* target);
+    void onHUDItemSelect(Player* target);
     void onHUDGuardSelect(Player* user);
     void onHUDPlayAgain();
     void onHUDQuit();

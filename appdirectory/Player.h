@@ -19,13 +19,8 @@ public:
 
     void physicalAttack(Player& target);
     void specialAttack(Player& target);
-// <<<<<<< HEAD
-    void item(Player& target);
-    // bool isDead(void);
-    // void reset(void);
-    // const PlayerInfo& info(void);
+    void item(void);
     GameObject* target;
-// =======
     void guard(void);
     void unguard(void);
     bool attemptPhysicalAttack(void);
@@ -33,7 +28,6 @@ public:
     void reset(void);
     const PlayerInfo& info(void) const;
     PlayerInfo& info(void);
-// >>>>>>> origin
 
     void setEmitting(ParticleType pt, bool emitting);
     void setVisible(ParticleType pt, bool visible);

@@ -235,6 +235,9 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
                         break;
                     case ITEMS_ID:
                         notifyItemSelect();
+                        if (inventory.items.size() == 0) {
+                            mMenuRoot->getChild("Menu_Frame")->getChild("Items_label")->disable();
+                        }
                         break;
                     default:
                         break;

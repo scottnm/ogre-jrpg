@@ -20,6 +20,7 @@ public:
     const PlayerInfo& info(void);
 
     void setEmitting(ParticleType pt, bool emitting);
+    void setVisible(ParticleType pt, bool visible);
     void lookAt(GameObject* targetObject);
 
 private:

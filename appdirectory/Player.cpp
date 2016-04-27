@@ -84,6 +84,11 @@ void Player::setEmitting(ParticleType pt, bool emitting) {
     mParticleSystemMap.find(pt)->second->setEmitting(emitting);
 }
 
+
+void setVisible(ParticleType pt, bool visible) {
+	mParticleSystemMap.find(pt)->second->setVisible(visible);
+}
+
 void Player::lookAt(GameObject* targetObject) {
     GameObject::lookAt(targetObject);
     auto targetNode = targetObject->sceneNode;

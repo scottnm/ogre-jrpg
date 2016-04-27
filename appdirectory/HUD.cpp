@@ -111,6 +111,9 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
             case OIS::KC_UP:
                 notifyHUDNavigation();
                 mActionOptionFocused = std::max(0, mActionOptionFocused - 1);
+                if (inventory.items.size() == 0 && mActionOptionFocused == ITEMS_ID) {
+                    mActionOptionFocused = SPECIAL_ID;
+                }
                 if (myPartyWaiting.at(myPartyFocused)->info().specialPoints == 0 &&
                         mActionOptionFocused == SPECIAL_ID) {
                     mActionOptionFocused = PHYSICAL_ID;
@@ -122,6 +125,9 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
                 if (myPartyWaiting.at(myPartyFocused)->info().specialPoints == 0 &&
                         mActionOptionFocused == SPECIAL_ID) {
                     mActionOptionFocused = ITEMS_ID;
+                }
+                if (inventory.items.size() == 0 && mActionOptionFocused == ITEMS_ID) {
+                    mActionOptionFocused = GUARD_ID;
                 }
                 break;
             case OIS::KC_RETURN:

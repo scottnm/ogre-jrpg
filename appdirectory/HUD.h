@@ -60,6 +60,8 @@ private:
     void notifyPlayAgain(void);
     void notifyQuit(void);
 
+    std::vector<Player*>& getTargetParty(void);
+
     GUISystem& mGUI;
     std::unordered_set<HUDListener*> mListeners;
     CEGUI::Window* mMenuRoot;
@@ -85,7 +87,7 @@ private:
     std::unordered_map<Player*, CEGUI::Window*> characterInfoWindows;
     std::unordered_map<Player*, Ogre::SceneNode*> characterTargetArrows;
     std::vector<Player*>& enemyParty;
-    int enemyPartyActiveTarget;
+    int activeTarget;
     // std::vector<std::pair<Item,int>>& items;
     Inventory& inventory;
 

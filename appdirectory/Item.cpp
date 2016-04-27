@@ -14,7 +14,7 @@ void Item::use(Player& target) {
     int special = std::max(info.specialPoints + delta_special, 0);
     info.specialPoints = std::min(special, info.specialPointsMax);
 	
-	info.armor += std::max(info.armor + delta_health, 0);
-	info.damage += std::max(info.damage + delta_damage, 0);
-	info.accuracy += std::max(info.accuracy + delta_accuracy, 0.0f);
+	info.armor = std::max(info.armor + delta_armor, 0);
+	info.damage = std::max(info.damage + delta_damage, 0);
+	info.accuracy = std::max(info.accuracy + delta_accuracy, 0.0f);
 }

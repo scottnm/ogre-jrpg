@@ -39,6 +39,7 @@ private:
     void onHUDItemSelect();
     void onHUDGuardSelect();
 
+    int timer = 0;
 
     /*
     bool guiCbStart(const CEGUI::EventArgs& e);

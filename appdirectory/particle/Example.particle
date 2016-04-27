@@ -133,7 +133,7 @@ particle_system Fire
         width               250
         height              250
         depth               250
-        duration            1
+//        duration            1
     }
 }
 

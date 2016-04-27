@@ -152,6 +152,13 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
             }
         }
     }
+    timer++;
+    if(timer % 1500 == 0 && timer > 0)
+    {
+        std::cout << "hi" << std::endl;
+        n->visibilityFireSystem(true);
+        n->startFireSystem(true);
+    }
     return true;
 }
 

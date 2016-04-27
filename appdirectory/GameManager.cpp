@@ -5,7 +5,8 @@ GameManager::GameManager()
     : mRenderer(RenderingEngine::getSingleton()),
       mGUI(new GUISystem()),
       mGame(nullptr),
-      mShutDown(false) {
+      mShutDown(false)
+       {
     SDL_Init(SDL_INIT_EVERYTHING);
     SDLNet_Init();
 

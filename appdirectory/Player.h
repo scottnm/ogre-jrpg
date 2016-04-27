@@ -6,6 +6,7 @@
 
 #include <OgreBillboardSet.h>
 #include <OgreBillboard.h>
+#include <random>
 
 // #include <ctime>
 
@@ -18,11 +19,21 @@ public:
 
     void physicalAttack(Player& target);
     void specialAttack(Player& target);
+// <<<<<<< HEAD
     void item(Player& target);
+    // bool isDead(void);
+    // void reset(void);
+    // const PlayerInfo& info(void);
+    GameObject* target;
+// =======
+    void guard(void);
+    void unguard(void);
+    bool attemptPhysicalAttack(void);
     bool isDead(void);
     void reset(void);
-    const PlayerInfo& info(void);
-    GameObject* target;
+    const PlayerInfo& info(void) const;
+    PlayerInfo& info(void);
+// >>>>>>> origin
 
     void setEmitting(ParticleType pt, bool emitting);
     void setVisible(ParticleType pt, bool visible);
@@ -46,6 +57,8 @@ private:
     std::unordered_map<ParticleType,
                        Ogre::SceneNode*,
                        ParticleTypeHash> mParticleNodeMap;
+    static std::default_random_engine rand_generator;
+    static std::uniform_real_distribution<float> rand_dist;
 };
 
 #endif	// __PLAYER_H__

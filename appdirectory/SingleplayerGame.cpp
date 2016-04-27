@@ -81,7 +81,7 @@ void SingleplayerGame::createScene(void){
     enemyParty.push_back(p6);
 
     // Set Camera Position
-    camera->setPosition(Ogre::Vector3(1000, 450, 1000));
+    camera->setPosition(Ogre::Vector3(1100, 250, 700));
     camera->lookAt(Ogre::Vector3(0, 0, 0));
 }
 
@@ -99,7 +99,7 @@ void SingleplayerGame::destroyScene(void) {
 void SingleplayerGame::initGUI(void)
 {
     mHUD = new HUD(*(mRenderer->mSceneManager), *mGUI, myPartyAlive,
-            enemyPartyAlive, myPartyWaiting);
+            enemyPartyAlive, myPartyWaiting, inventory);
 }
 
 bool SingleplayerGame::go(void)
@@ -134,20 +134,21 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
         if (myPartyWaiting.size() == 0) {
             playerTurn = false;
             myPartyWaiting = myPartyAlive;
+            partyReset(enemyParty);
         }
     }
     else {
         if (activeEnemy < enemyPartyAlive.size()) {
             // placeholder enemy action
             enemyPartyAlive.at(activeEnemy)->physicalAttack(
-                    *myPartyAlive.at(0/* place holder*/));
+                    *myPartyAlive.at(0));
             ++activeEnemy;
         }
         else {
             // enemy turns over
             activeEnemy = 0;
             playerTurn = true;
-            onRoundOver();
+            partyReset(myParty);
         }
     }
     for(auto player : myPartyAlive) {
@@ -190,9 +191,21 @@ bool SingleplayerGame::keyPressed(const OIS::KeyEvent &arg) {
 }
 
 void SingleplayerGame::onHUDPhysicalSelect(Player* attacker, Player* target) {
-    attacker->lookAt(target);
-    attacker->physicalAttack(*target);
+// <<<<<<< HEAD
+    // attacker->physicalAttack(*target);
     std::cout << target->info().name << ": " << target->info().health << std::endl;
+// =======
+    int oldhealth = target->info().health;
+    if (attacker->attemptPhysicalAttack()) {
+        attacker->lookAt(target);
+        attacker->physicalAttack(*target);
+    }
+    else {
+        // miss logic
+        std::cout << "miss" << std::endl;
+    }
+    std::cout << target->info().name << ": " << oldhealth - target->info().health << std::endl;
+// >>>>>>> origin
 }
 
 void SingleplayerGame::onHUDSpecialSelect(Player* attacker, Player* target) {
@@ -201,18 +214,31 @@ void SingleplayerGame::onHUDSpecialSelect(Player* attacker, Player* target) {
     attacker->specialAttack(*target);
 }
 
-void SingleplayerGame::onHUDItemSelect(Player* user, Player* target) {
+void SingleplayerGame::onHUDItemSelect(Player* target) {
     std::cout << "Item " << std::endl;
-    user->target = target;
-    user->item(*target);
+// <<<<<<< HEAD
+    // user->target = target;
+    // user->item(*target);
     // user->setVisible(ParticleType::Item, true);
     // user->setEmitting(ParticleType::Item, true);
+// =======
+    const PlayerInfo& pi = target->info();
+    int bh = pi.health;
+    inventory.useItem(*target);
+    int ah = pi.health;
+    std::cout << pi.name << ": " << bh << " -> " << ah << std::endl;
+
+// >>>>>>> origin
 }
 
 void SingleplayerGame::onHUDGuardSelect(Player* user) {
     std::cout << "Guard " << std::endl;
-    user->setVisible(ParticleType::Item, true);
-    user->setEmitting(ParticleType::Guard, true);
+// <<<<<<< HEAD
+//     user->setVisible(ParticleType::Item, true);
+//     user->setEmitting(ParticleType::Guard, true);
+// =======
+    user->guard();
+// >>>>>>> origin
 }
 
 void SingleplayerGame::onHUDPlayAgain() {
@@ -238,8 +264,8 @@ void SingleplayerGame::onHUDQuit() {
     mShutDown = true;
 }
 
-void SingleplayerGame::onRoundOver(void) {
-    for(auto p : myParty) {
-        p->setEmitting(ParticleType::Guard, false);
+void SingleplayerGame::partyReset(std::vector<Player*>& party) {
+    for(auto p : party) {
+        p->unguard();
     }
 }

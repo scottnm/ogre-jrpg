@@ -4,6 +4,8 @@
 #include "GUISystem.h"
 #include "HUDListener.h"
 #include "Player.h"
+#include "Inventory.h"
+#include "Item.h"
 
 #include <OgreString.h>
 #include <OgreSceneManager.h>
@@ -12,6 +14,7 @@
 
 #include <unordered_set>
 #include <unordered_map>
+#include <utility>
 #include <vector>
 
 enum class HUD_STATE {
@@ -24,7 +27,8 @@ enum class HUD_STATE {
 class HUD {
 public:
     HUD(Ogre::SceneManager& scnMgr, GUISystem& gui, std::vector<Player*>& myParty,
-            std::vector<Player*>& enemyParty, std::vector<Player*>& myPartyWaiting);
+            std::vector<Player*>& enemyParty, std::vector<Player*>& myPartyWaiting,
+            Inventory& inventory);
     ~HUD(void);
 
     void injectKeyDown(const OIS::KeyEvent& arg);
@@ -56,6 +60,8 @@ private:
     void notifyPlayAgain(void);
     void notifyQuit(void);
 
+    std::vector<Player*>& getTargetParty(void);
+
     GUISystem& mGUI;
     std::unordered_set<HUDListener*> mListeners;
     CEGUI::Window* mMenuRoot;
@@ -70,8 +76,6 @@ private:
     // item menu
     bool mItemsMenuVisible; 
     bool mItemsFocused;
-    int mItemsTotal;
-    int mItemSelected;
 
     // end game
     bool mPlayAgainOptionFocused;
@@ -83,7 +87,9 @@ private:
     std::unordered_map<Player*, CEGUI::Window*> characterInfoWindows;
     std::unordered_map<Player*, Ogre::SceneNode*> characterTargetArrows;
     std::vector<Player*>& enemyParty;
-    int enemyPartyActiveTarget;
+    int activeTarget;
+    // std::vector<std::pair<Item,int>>& items;
+    Inventory& inventory;
 
     static const Ogre::String mockItems[4];
 };

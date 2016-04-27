@@ -150,6 +150,9 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
             onRoundOver();
         }
     }
+    for(auto player : myPartyAlive) {
+        player->collision();
+    }
 
     mHUD->update();
 
@@ -164,6 +167,12 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
 
     if (myPartyAlive.empty() || enemyPartyAlive.empty()) {
         mGameOver = true;
+        for(auto player: myParty) {
+            player->stopEmittingAll();
+        }
+        for(auto enemy: enemyParty) {
+            enemy->stopEmittingAll();
+        }
         // throw up lose game gui
         std::cout << (enemyPartyAlive.empty() ? "You win" : "You lose") << std::endl;
         mHUD->alertGameOver(enemyPartyAlive.empty());
@@ -180,20 +189,28 @@ bool SingleplayerGame::keyPressed(const OIS::KeyEvent &arg) {
 }
 
 void SingleplayerGame::onHUDPhysicalSelect(Player* attacker, Player* target) {
+    attacker->lookAt(target);
     attacker->physicalAttack(*target);
     std::cout << target->info().name << ": " << target->info().health << std::endl;
 }
 
 void SingleplayerGame::onHUDSpecialSelect(Player* attacker, Player* target) {
     std::cout << "Special " << std::endl;
+    attacker->lookAt(target);
+    attacker->specialAttack(*target);
 }
 
 void SingleplayerGame::onHUDItemSelect(Player* user, Player* target) {
     std::cout << "Item " << std::endl;
+    user->target = target;
+    user->item(*target);
+    // user->setVisible(ParticleType::Item, true);
+    // user->setEmitting(ParticleType::Item, true);
 }
 
 void SingleplayerGame::onHUDGuardSelect(Player* user) {
     std::cout << "Guard " << std::endl;
+    user->setVisible(ParticleType::Item, true);
     user->setEmitting(ParticleType::Guard, true);
 }
 

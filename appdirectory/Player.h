@@ -15,13 +15,18 @@ public:
 	virtual ~Player(void) {};
 
     void physicalAttack(Player& target);
+    void specialAttack(Player& target);
+    void item(Player& target);
     bool isDead(void);
     void reset(void);
     const PlayerInfo& info(void);
+    GameObject* target;
 
     void setEmitting(ParticleType pt, bool emitting);
     void setVisible(ParticleType pt, bool visible);
     void lookAt(GameObject* targetObject);
+    void stopEmittingAll(void);
+    void collision(void);
 
 private:
 	Ogre::Entity* mEntity;

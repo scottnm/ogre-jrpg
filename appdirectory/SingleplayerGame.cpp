@@ -152,6 +152,7 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
     }
     for(auto player : myPartyAlive) {
         player->collision();
+        player->checkTime();
     }
 
     mHUD->update();

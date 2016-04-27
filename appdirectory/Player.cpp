@@ -2,9 +2,6 @@
 
 #include <OgreStringConverter.h>
 #include <OgreParticle.h>
-// #include <cstdlib>
-
-// static int seed = 0;
 
 static int idGenerator = 0;
 
@@ -124,6 +121,7 @@ void Player::item(Player& target) {
     itemNode->setPosition(GameObject::sceneNode->convertWorldToLocalPosition(targetNode->_getDerivedPosition()) + Ogre::Vector3(0, 200, 0));
     setEmitting(pt, true);
     setVisible(pt, true);
+    itemStartTime = time(&timer);
 }
 
 bool Player::isDead(void) {
@@ -155,6 +153,13 @@ void Player::lookAt(GameObject* targetObject) {
         auto psNode = particleNodePair.second;
 		psNode->lookAt(psNode->convertWorldToLocalPosition(targetNode->_getDerivedPosition() + Ogre::Vector3(0, 100, 0)),
 	        Ogre::Node::TransformSpace::TS_LOCAL, Ogre::Vector3::NEGATIVE_UNIT_Z);
+    }
+}
+
+void Player::checkTime(void) {
+    if(time(&timer) > itemStartTime + 1.5) {
+        setEmitting(ParticleType::Item, false);
+        setVisible(ParticleType::Item, false);
     }
 }
 

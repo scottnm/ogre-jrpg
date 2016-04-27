@@ -7,6 +7,8 @@
 #include <OgreBillboardSet.h>
 #include <OgreBillboard.h>
 
+// #include <ctime>
+
 class Player : public GameObject
 {
 public:
@@ -26,7 +28,12 @@ public:
     void setVisible(ParticleType pt, bool visible);
     void lookAt(GameObject* targetObject);
     void stopEmittingAll(void);
+    void checkTime(void);
     void collision(void);
+
+    double itemStartTime;
+    double itemEndTime;
+    time_t timer;
 
 private:
 	Ogre::Entity* mEntity;

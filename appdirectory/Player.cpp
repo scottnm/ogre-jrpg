@@ -3,8 +3,10 @@
 #include <OgreStringConverter.h>
 #include <OgreParticle.h>
 
-static int idGenerator = 0;
+std::default_random_engine Player::rand_generator;
+std::uniform_real_distribution<float> Player::rand_dist(0.f, 1.f);
 
+static int idGenerator = 0;
 Player::Player(Ogre::SceneManager* _scnmgr, Ogre::SceneNode* _scnnode,
         const PlayerInfo& i, const Ogre::Vector3& pos)
     : GameObject(_scnmgr), mInfo(i) {
@@ -40,7 +42,7 @@ Player::Player(Ogre::SceneManager* _scnmgr, Ogre::SceneNode* _scnnode,
     auto itemParticles = _scnmgr->createParticleSystem("Item_P" + id, "Item"); 
     auto itemNode = sceneNode->createChildSceneNode("Item_N" + id);
     itemNode->attachObject(itemParticles);
-    // itemNode->setPosition(0, 100, -50);
+    itemNode->setPosition(0, 200, 0);
     mParticleSystemMap.emplace(ParticleType::Item, itemParticles);
     mParticleNodeMap.emplace(ParticleType::Item, itemNode);
     itemParticles->setEmitting(false);
@@ -75,7 +77,7 @@ Player::Player(Ogre::SceneManager* _scnmgr, Ogre::SceneNode* _scnnode,
 
 void Player::physicalAttack(Player& target) {
     int& targetHealth = target.mInfo.health;
-    targetHealth -= this->mInfo.damage;
+    targetHealth -= std::max(0, mInfo.damage - target.mInfo.armor); 
     if (targetHealth < 0) {
         targetHealth = 0;
     }
@@ -83,12 +85,71 @@ void Player::physicalAttack(Player& target) {
     setVisible(ParticleType::Physical, true);
 }
 
+// void Player::specialAttack(Player& target) {
+//     int& targetHealth = target.mInfo.health;
+//     targetHealth -= this->mInfo.damage;
+//     if (targetHealth < 0) {
+//         targetHealth = 0;
+//     }
+//     int randNum = rand() % 3;
+//     std::cout << randNum << std::endl << std::endl << std::endl;
+//     ParticleType pt;
+//     switch(randNum) {
+//         case 0:
+//             pt = ParticleType::Fire;
+//             setEmitting(pt, true);
+//             setVisible(pt, true);
+//             break;
+//         case 1:
+//             pt = ParticleType::Ice;
+//             setEmitting(pt, true);
+//             setVisible(pt, true);
+//             break;
+//         case 2:
+//             pt = ParticleType::Flare;
+//             setEmitting(pt, true);
+//             setVisible(pt, true);
+//             break;
+//         default:
+//             break;
+//     }
+// }
+
+void Player::item(Player& target) {
+    auto pt = ParticleType::Item;
+    target.setEmitting(pt, true);
+    target.setVisible(pt, true);
+    // auto itemSystem = mParticleSystemMap.find(pt)->second;
+    // auto itemNode = mParticleNodeMap.find(pt)->second;
+    // auto targetNode = target.sceneNode;
+    // itemNode->setPosition(GameObject::sceneNode->convertWorldToLocalPosition(targetNode->_getDerivedPosition()) + Ogre::Vector3(0, 200, 0));
+    // target.setEmitting(pt, true);
+    // target.setVisible(pt, true);
+    itemStartTime = time(&timer);
+}
+
+bool Player::attemptPhysicalAttack(void) {
+    float roll = rand_dist(rand_generator);
+    return roll <= mInfo.accuracy;
+}
+
+void Player::guard(void) {
+    mInfo.armor += std::max(1, (int)(0.5f * mInfo.armor));
+    setEmitting(ParticleType::Guard, true);
+}
+
+void Player::unguard(void) {
+    mInfo.armor = mInfo.baseArmor;
+    setEmitting(ParticleType::Guard, false);
+}
+
 void Player::specialAttack(Player& target) {
-    int& targetHealth = target.mInfo.health;
-    targetHealth -= this->mInfo.damage;
-    if (targetHealth < 0) {
-        targetHealth = 0;
-    }
+    --mInfo.specialPoints;
+    std::uniform_int_distribution<int> bonus_dist(0, mInfo.accuracy * mInfo.damage);
+    int dmgBonus = bonus_dist(rand_generator);
+    int totalDamage = std::max(0, mInfo.damage + dmgBonus - target.mInfo.armor);
+    target.mInfo.health = std::max(target.mInfo.health - totalDamage, 0);
+
     int randNum = rand() % 3;
     std::cout << randNum << std::endl << std::endl << std::endl;
     ParticleType pt;
@@ -111,17 +172,14 @@ void Player::specialAttack(Player& target) {
         default:
             break;
     }
-}
 
-void Player::item(Player& target) {
-    auto pt = ParticleType::Item;
-    // auto itemSystem = mParticleSystemMap.find(pt)->second;
-    auto itemNode = mParticleNodeMap.find(pt)->second;
-    auto targetNode = target.sceneNode;
-    itemNode->setPosition(GameObject::sceneNode->convertWorldToLocalPosition(targetNode->_getDerivedPosition()) + Ogre::Vector3(0, 200, 0));
-    setEmitting(pt, true);
-    setVisible(pt, true);
-    itemStartTime = time(&timer);
+    printf("%s hits %s for %d dmg with a bonus of %d\n",
+            mInfo.name.c_str(), target.mInfo.name.c_str(),
+            totalDamage, dmgBonus);
+
+    fflush(stdout);
+
+    std::cout << "health left " << target.mInfo.health << std::endl; 
 }
 
 bool Player::isDead(void) {
@@ -132,7 +190,11 @@ void Player::reset(void) {
     mInfo.reset();
 }
 
-const PlayerInfo& Player::info(void) {
+const PlayerInfo& Player::info(void) const {
+    return mInfo;
+}
+
+PlayerInfo& Player::info(void) {
     return mInfo;
 }
 

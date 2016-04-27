@@ -20,6 +20,7 @@ void PlayerBank::loadPlayerDatabase(const std::string& _fn) {
     using boost::property_tree::ptree;
     ptree pt;
     read_xml(_fn, pt);
+    
     BOOST_FOREACH(ptree::value_type &v, pt.get_child("characterDatabase.characters")) {
         std::string name = v.second.get<std::string>("name");
         std::string img = v.second.get<std::string>("img");

@@ -14,24 +14,28 @@
                 <Property name="Font" value="Jura-18" />
                 <Property name="Text" value="Physical" />
                 <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="DisabledTextColour" value="FF777777" />
             </Window>
             <Window type="Vanilla/Label" name="Special_label" >
                 <Property name="Area" value="{{0.272251,0},{0.270531,0},{0.272251,142},{0.270531,46}}" />
                 <Property name="Font" value="Jura-18" />
                 <Property name="Text" value="Special" />
                 <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="DisabledTextColour" value="FF777777" />
             </Window>
             <Window type="Vanilla/Label" name="Items_label" >
                 <Property name="Area" value="{{0.274869,0},{0.502415,0},{0.274869,104},{0.502415,46}}" />
                 <Property name="Font" value="Jura-18" />
                 <Property name="Text" value="Items" />
                 <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="DisabledTextColour" value="FF777777" />
             </Window>
             <Window type="Vanilla/Label" name="Guard_label" >
                 <Property name="Area" value="{{0.272251,0},{0.724638,0},{0.272251,113},{0.724638,46}}" />
                 <Property name="Font" value="Jura-18" />
                 <Property name="Text" value="Guard" />
                 <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="DisabledTextColour" value="FF777777" />
             </Window>
             <Window type="Vanilla/Label" name="Physical_select" >
                 <Property name="Area" value="{{0.15445,0},{0.0724638,0},{0.15445,34},{0.0724638,32}}" />

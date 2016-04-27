@@ -340,6 +340,11 @@ void HUD::setTargetArrowVisible(Player* character, bool visible) {
 void HUD::cycleActiveCharacter(void) {
     myPartyFocused = (myPartyFocused + 1) % myPartyWaiting.size();
     updateFocusedCharacter(myPartyWaiting.at(myPartyFocused));
+    mActionOptions[mActionOptionFocused]->hide();
+    mActionOptionFocused = 0;
+    mActionOptions[0]->show();
+    mActionOptions[0]->activate();
+
 }
 
 void HUD::dequeueActiveCharacter(void) {

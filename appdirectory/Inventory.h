@@ -19,7 +19,7 @@ public:
 	int getCurrentItemCount();
 	void cycleInventoryForward();
 	void cycleInventoryBackward();
-	void useItem(int index);
+	void useItem(Player& target);
 
 	/**
      * load the sounds specified by the xml audio database file

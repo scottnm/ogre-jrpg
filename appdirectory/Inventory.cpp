@@ -10,9 +10,13 @@ Inventory::Inventory(const std::string& _fn) : currentItemIndex(0) {
     BOOST_FOREACH(ptree::value_type &v, pt.get_child("inventoryDatabase")) {
         std::string name = v.second.get<std::string>("item.name");
         std::string type = v.second.get<std::string>("item.type");
-        std::string description = v.second.get<std::string>("item.description");
+        int deltaHealth = v.second.get<int>("item.delta-health");
+        int deltaArmor = v.second.get<int>("item.delta-armor");
+        int deltaDamage = v.second.get<int>("item.delta-damage");
+        int deltaSpecial = v.second.get<int>("item.delta-special");
+        float deltaAccuracy = v.second.get<float>("item.delta-accuracy");
         int quantity = v.second.get<int>("quantity");
-        Item item(name, type, description);
+        Item item(name, type, deltaHealth, deltaArmor, deltaDamage, deltaSpecial, deltaAccuracy);
         items.push_back(std::pair<Item,int>(item,quantity));
     }
 
@@ -21,7 +25,6 @@ Inventory::Inventory(const std::string& _fn) : currentItemIndex(0) {
         info += pair.first.name + " (";
         info += std::to_string(pair.second) + ") | ";
         info += pair.first.type + " | ";
-        info += pair.first.description;
         std::cout << info << std::endl;
     }
 }
@@ -47,11 +50,14 @@ void Inventory::cycleInventoryBackward() {
     currentItemIndex = ind == -1 ? items.size() - 1 : ind;
 }
 
-// void Inventory::itemCallback(int index) {
-//     //items[index].first.use();
+void Inventory::useItem(Player& target) {
+    
+    auto& item = items.at(currentItemIndex);
+    item.first.use(target);
 
-//     items[index].second--;
-//     if (items[index].second == 0) {
-//         items.erase(items.begin() + index);
-//     }
-//}
+    item.second--;
+    if (item.second == 0) {
+        items.erase(items.begin() + currentItemIndex);
+        currentItemIndex = std::min(currentItemIndex, (int)items.size() - 1);
+    }
+}

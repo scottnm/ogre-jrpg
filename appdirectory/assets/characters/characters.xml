@@ -3,62 +3,92 @@
         <character>
             <name>Cannibal Corpse</name>
             <img>CharacterProfiles/CannibalCorpse</img>
-            <mesh>ninja</mesh>
-            <health>15</health>
-            <special>2</special>
-            <damage>7</damage>
-            <armor>5</armor>
-            <accuracy>0.80</accuracy>
+            <meshinfo>
+                <name>ninja</name>
+                <anchor>0</anchor>
+            </meshinfo>
+            <stats>
+                <health>15</health>
+                <special>2</special>
+                <damage>7</damage>
+                <armor>5</armor>
+                <accuracy>0.80</accuracy>
+            </stats>
         </character>
         <character>
             <name>Spooky Boo</name>
             <img>CharacterProfiles/SpookyBoo</img>
-            <mesh>ninja</mesh>
-            <health>10</health>
-            <special>4</special>
-            <damage>10</damage>
-            <armor>2</armor>
-            <accuracy>0.90</accuracy>
+            <meshinfo>
+                <name>ninja</name>
+                <anchor>0</anchor>
+            </meshinfo>
+            <stats>
+                <health>10</health>
+                <special>4</special>
+                <damage>10</damage>
+                <armor>2</armor>
+                <accuracy>0.90</accuracy>
+            </stats>
         </character>
         <character>
             <name>Rattlebones</name>
             <img>CharacterProfiles/Rattlebones</img>
-            <mesh>ninja</mesh>
-            <health>20</health>
-            <special>1</special>
-            <damage>4</damage>
-            <armor>10</armor>
-            <accuracy>0.70</accuracy>
+            <meshinfo>
+                <name>ninja</name>
+                <anchor>0</anchor>
+            </meshinfo>
+            <stats>
+                <health>20</health>
+                <special>1</special>
+                <damage>4</damage>
+                <armor>10</armor>
+                <accuracy>0.70</accuracy>
+            </stats>
         </character>
         <character>
             <name>Mecha-Scoot</name>
             <img>CharacterProfiles/CannibalCorpse</img>
-            <mesh>ninja</mesh>
-            <health>15</health>
-            <special>2</special>
-            <damage>7</damage>
-            <armor>3</armor>
-            <accuracy>0.85</accuracy>
+            <meshinfo>
+                <name>ninja</name>
+                <anchor>0</anchor>
+            </meshinfo>
+            <stats>
+                <health>15</health>
+                <special>2</special>
+                <damage>7</damage>
+                <armor>3</armor>
+                <accuracy>0.85</accuracy>
+            </stats>
         </character>
         <character>
             <name>SSJVirginia</name>
             <img>CharacterProfiles/CannibalCorpse</img>
-            <mesh>ninja</mesh>
-            <health>15</health>
-            <special>2</special>
-            <damage>7</damage>
-            <armor>3</armor>
-            <accuracy>0.85</accuracy>
+            <meshinfo>
+                <name>ninja</name>
+                <anchor>0</anchor>
+            </meshinfo>
+            <stats>
+                <health>15</health>
+                <special>2</special>
+                <damage>7</damage>
+                <armor>3</armor>
+                <accuracy>0.85</accuracy>
+            </stats>
         </character>
         <character>
             <name>Metal Scoot</name>
             <img>CharacterProfiles/CannibalCorpse</img>
-            <mesh>ninja</mesh>
-            <health>15</health>
-            <special>2</special>
-            <damage>7</damage>
-            <armor>3</armor>
-            <accuracy>0.85</accuracy>
+            <meshinfo>
+                <name>ninja</name>
+                <anchor>0</anchor>
+            </meshinfo>
+            <stats>
+                <health>15</health>
+                <special>2</special>
+                <damage>7</damage>
+                <armor>3</armor>
+                <accuracy>0.85</accuracy>
+            </stats>
         </character>
     </characters>
 </characterDatabase>

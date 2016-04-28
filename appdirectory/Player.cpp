@@ -2,19 +2,23 @@
 #include <OgreMeshManager.h>
 #include <OgreStringConverter.h>
 
+static Ogre::Vector3 getTargetArrowOffset(Ogre::Entity* entity, const MeshAnchor anchor);
+static int idGenerator = 0;
+
 std::default_random_engine Player::rand_generator;
 std::uniform_real_distribution<float> Player::rand_dist(0.f, 1.f);
 
-static int idGenerator = 0;
 Player::Player(Ogre::SceneManager* _scnmgr, Ogre::SceneNode* _scnnode,
         const PlayerInfo& i, const Ogre::Vector3& pos)
-    : GameObject(_scnmgr), mInfo(i) {
+    : GameObject(_scnmgr),
+      mEntity(_scnmgr->createEntity("ninja.mesh")),
+      mInfo(i),
+      targetArrowOffset(getTargetArrowOffset(mEntity, i.meshInfo.anchorPoint)) {
 
     const Ogre::String id = Ogre::StringConverter::toString(idGenerator++);
 
     // create the base representable object
 
-	mEntity = _scnmgr->createEntity("ninja.mesh");
 	mEntity->setCastShadows(true);
 	sceneNode = _scnnode->createChildSceneNode("Player" + id);
 	sceneNode->attachObject(mEntity);
@@ -102,7 +106,20 @@ void Player::lookAt(GameObject* targetObject) {
     }
 }
 
-Ogre::Real Player::getHeight(void) {
-    return mEntity->getBoundingBox().getSize().y *
-        (1.0f - Ogre::MeshManager::getSingleton().getBoundsPaddingFactor());
+Ogre::Vector3 getTargetArrowOffset(Ogre::Entity* entity, const MeshAnchor anchor) {
+    Ogre::Vector3 ret;
+    switch (anchor) {
+        case MeshAnchor::BOTTOM:
+            ret.y = entity->getBoundingBox().getSize().y *
+                    (1.0f - Ogre::MeshManager::getSingleton().getBoundsPaddingFactor());
+            break;
+        case MeshAnchor::MIDDLE:
+            ret.y = entity->getBoundingBox().getSize().y / 2 *
+                (1.0f - Ogre::MeshManager::getSingleton().getBoundsPaddingFactor());
+            break;
+        case MeshAnchor::TOP:
+            ret.y = 0.f;
+            break;
+    }
+    return ret;
 }

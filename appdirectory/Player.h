@@ -29,12 +29,15 @@ public:
     void setEmitting(ParticleType pt, bool emitting);
     void lookAt(GameObject* targetObject);
 
-    Ogre::Real getHeight(void);
 
 private:
 	Ogre::Entity* mEntity;
     PlayerInfo mInfo;
 
+public:
+    const Ogre::Vector3 targetArrowOffset;
+
+private:
     std::unordered_map<ParticleType,
                        Ogre::ParticleSystem*,
                        ParticleTypeHash> mParticleSystemMap;

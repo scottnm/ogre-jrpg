@@ -19,14 +19,16 @@ void PlayerBank::loadPlayerDatabase(const std::string& _fn) {
             pt.get_child("characterDatabase.characters")) {
         std::string name = v.second.get<std::string>("name");
         std::string img = v.second.get<std::string>("img");
-        std::string mesh = v.second.get<std::string>("mesh");
-        int health = v.second.get<int>("health");
-        int special = v.second.get<int>("special");
-        int damage = v.second.get<int>("damage");
-        int armor = v.second.get<int>("armor");
-        float accuracy = v.second.get<float>("accuracy");
-        mCharacterBank.emplace(name, PlayerInfo(name, img, mesh, health, special,
-                    damage, armor, accuracy));
+        std::string meshname = v.second.get<std::string>("meshinfo.name");
+        MeshAnchor meshanchor = static_cast<MeshAnchor>(v.second.get<int>("meshinfo.anchor"));
+        int health = v.second.get<int>("stats.health");
+        int special = v.second.get<int>("stats.special");
+        int damage = v.second.get<int>("stats.damage");
+        int armor = v.second.get<int>("stats.armor");
+        float accuracy = v.second.get<float>("stats.accuracy");
+
+        mCharacterBank.emplace(name, PlayerInfo(name, img, meshname, meshanchor,
+                    health, special, damage, armor, accuracy));
     }
 
     for (auto pair : mCharacterBank) {

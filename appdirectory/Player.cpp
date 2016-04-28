@@ -29,37 +29,8 @@ Player::Player(Ogre::SceneManager* _scnmgr, Ogre::SceneNode* _scnnode,
     mParticleNodeMap.emplace(ParticleType::Guard, guardNode);
     guardParticles->setEmitting(false);
 
-    /*
-    auto physicalParticles = _scnmgr->createParticleSystem("Physical_P" + id, "Physical2"); 
-    auto physicalNode = sceneNode->createChildSceneNode("Physical_N" + id);
-    physicalNode->attachObject(physicalParticles);
-    mParticleSystemMap.emplace(ParticleType::Physical, physicalParticles);
-    mParticleNodeMap.emplace(ParticleType::Physical, physicalNode);
-
-    auto itemParticles = _scnmgr->createParticleSystem("Item_P" + id, "Item"); 
-    auto itemNode = sceneNode->createChildSceneNode("Item_N" + id);
-    itemNode->attachObject(itemParticles);
-    mParticleSystemMap.emplace(ParticleType::Item, itemParticles);
-    mParticleNodeMap.emplace(ParticleType::Item, itemNode);
-
-    auto fireParticles = _scnmgr->createParticleSystem("Fire_P" + id, "Fire"); 
-    auto fireNode = sceneNode->createChildSceneNode("Fire_N" + id);
-    fireNode->attachObject(fireParticles);
-    mParticleSystemMap.emplace(ParticleType::Fire, fireParticles);
-    mParticleNodeMap.emplace(ParticleType::Fire, fireNode);
-
-    auto iceParticles = _scnmgr->createParticleSystem("Ice_P" + id, "Ice"); 
-    auto iceNode = sceneNode->createChildSceneNode("Ice_N" + id);
-    iceNode->attachObject(iceParticles);
-    mParticleSystemMap.emplace(ParticleType::Ice, iceParticles);
-    mParticleNodeMap.emplace(ParticleType::Ice, iceNode);
-
-    auto flareParticles = _scnmgr->createParticleSystem("Flare_P" + id, "Flare"); 
-    auto flareNode = sceneNode->createChildSceneNode("Flare_N" + id);
-    flareNode->attachObject(flareParticles);
-    mParticleSystemMap.emplace(ParticleType::Flare, flareParticles);
-    mParticleNodeMap.emplace(ParticleType::Flare, flareNode);
-    */
+    // currently removed all of the other particle systems since they
+    // aren't being used yet
 }
 
 void Player::physicalAttack(Player& target) {

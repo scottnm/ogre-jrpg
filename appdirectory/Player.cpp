@@ -1,5 +1,5 @@
 #include "Player.h"
-
+#include <OgreMeshManager.h>
 #include <OgreStringConverter.h>
 
 std::default_random_engine Player::rand_generator;
@@ -100,4 +100,9 @@ void Player::lookAt(GameObject* targetObject) {
 		psNode->lookAt(psNode->convertWorldToLocalPosition(targetNode->_getDerivedPosition()),
 	        Ogre::Node::TransformSpace::TS_LOCAL, Ogre::Vector3::NEGATIVE_UNIT_Z);
     }
+}
+
+Ogre::Real Player::getHeight(void) {
+    return mEntity->getBoundingBox().getSize().y *
+        (1.0f - Ogre::MeshManager::getSingleton().getBoundsPaddingFactor());
 }

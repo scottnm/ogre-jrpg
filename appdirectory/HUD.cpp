@@ -74,7 +74,7 @@ HUD::HUD(Ogre::SceneManager& scnMgr, GUISystem& gui, std::vector<Player*>& myPar
         targetBillboardSet->createBillboard(Ogre::Vector3::ZERO);
 
         auto targetSceneNode = character->sceneNode->
-            createChildSceneNode(Ogre::Vector3(0, 250, 0));
+            createChildSceneNode(Ogre::Vector3(0, character->getHeight(), 0));
         targetSceneNode->attachObject(targetBillboardSet);
         targetSceneNode->getAttachedObject(0)->setRenderQueueGroup(Ogre::RENDER_QUEUE_MAX);
         targetSceneNode->setVisible(false);

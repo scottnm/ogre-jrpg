@@ -8,8 +8,6 @@
 
 class PlayerBank {
 public:
-    ~PlayerBank();
-
     /**
      * load the sounds specified by the xml audio database file
      * @param xmlDbFilename - the name of the xml audio database file
@@ -18,7 +16,7 @@ public:
     const PlayerInfo& getPlayerInfo(const std::string& name);
 
 private:
-    std::unordered_map<std::string, PlayerInfo*> mCharacterBank;
+    std::unordered_map<std::string, PlayerInfo> mCharacterBank;
 };
 
 #endif // __PLAYERBANK_H__

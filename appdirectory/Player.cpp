@@ -103,6 +103,5 @@ void Player::lookAt(GameObject* targetObject) {
 }
 
 Ogre::Real Player::getHeight(void) {
-    return mEntity->getBoundingBox().getSize().y *
-        (1.0f - Ogre::MeshManager::getSingleton().getBoundsPaddingFactor());
+    return mEntity->getBoundingBox().getSize().y * 1.2;
 }

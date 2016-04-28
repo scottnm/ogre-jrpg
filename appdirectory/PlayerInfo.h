@@ -4,14 +4,15 @@
 #include <string>
 
 struct PlayerInfo {
-    PlayerInfo(const std::string& n, const std::string& img, int hp, int sp,
-            int dmg, int armor, float accuracy)
-        : name(n), img(img), health(hp), healthMax(hp), specialPoints(sp),
+    PlayerInfo(const std::string& name, const std::string& img, const std::string& mesh,
+            int hp, int sp, int dmg, int armor, float accuracy)
+        : name(name), img(img), mesh(mesh), health(hp), healthMax(hp), specialPoints(sp),
           specialPointsMax(sp), damage(dmg), baseDamage(dmg), armor(armor),
           baseArmor(armor), accuracy(accuracy), baseAccuracy(accuracy) {}
 
-    std::string name;
-    std::string img;
+    const std::string name;
+    const std::string img;
+    const std::string mesh;
 
     int health;
     const int healthMax;

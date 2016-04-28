@@ -15,18 +15,21 @@ public:
            const PlayerInfo& i, const Ogre::Vector3& pos);
 	virtual ~Player(void) {};
 
+    bool attemptPhysicalAttack(void);
     void physicalAttack(Player& target);
     void specialAttack(Player& target);
     void guard(void);
     void unguard(void);
-    bool attemptPhysicalAttack(void);
     bool isDead(void);
     void reset(void);
+
     const PlayerInfo& info(void) const;
     PlayerInfo& info(void);
 
     void setEmitting(ParticleType pt, bool emitting);
     void lookAt(GameObject* targetObject);
+
+    Ogre::Real getHeight(void);
 
 private:
 	Ogre::Entity* mEntity;

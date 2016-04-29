@@ -65,6 +65,7 @@ private:
     GUISystem& mGUI;
     std::unordered_set<HUDListener*> mListeners;
     CEGUI::Window* mMenuRoot;
+    CEGUI::Window* mItemRoot;
     CEGUI::Window* mEndStateRoot;
     HUD_STATE mState;
     HUD_STATE mPrevState;

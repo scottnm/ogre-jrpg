@@ -27,6 +27,9 @@ HUD::HUD(Ogre::SceneManager& scnMgr, GUISystem& gui, std::vector<Player*>& myPar
     auto root = wmgr.createWindow("DefaultWindow", "HUDRoot");
     mMenuRoot = wmgr.loadLayoutFromFile("scaling_menu.layout");
     root->addChild(mMenuRoot);
+    mItemRoot = wmgr.loadLayoutFromFile("item_info.layout");
+    root->addChild(mItemRoot);
+    mItemRoot->setVisible(false);
     mEndStateRoot = wmgr.loadLayoutFromFile("end_state.layout");
     root->addChild(mEndStateRoot);
     mEndStateRoot->hide();
@@ -45,7 +48,7 @@ HUD::HUD(Ogre::SceneManager& scnMgr, GUISystem& gui, std::vector<Player*>& myPar
     mActionOptions[GUARD_ID] = MenuFrame->getChild("Guard_select");
 
     mMenuRoot->getChild("Item_Frame")->getChild("Items_StaticText")->setText(
-            inventory.getCurrentItemMenuTitle());
+            inventory.getCurrentItemName());
 
     auto p0Frame = mMenuRoot->getChild("Party_Frame")->getChild("PartyMember0_Frame");
     auto p1Frame = mMenuRoot->getChild("Party_Frame")->getChild("PartyMember1_Frame");
@@ -163,6 +166,8 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
         mActionOptions[mActionOptionFocused]->activate();
     }
     else if (mState == HUD_STATE::ITEMS_MENU_ACTIVE) {
+        
+
         if (mItemsFocused) {
             switch(arg.key) {
                 case OIS::KC_DOWN: {
@@ -177,10 +182,14 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
                 case OIS::KC_LEFT:
                     notifyHUDNavigation();
                     inventory.cycleInventoryBackward();
+                    mItemRoot->getChild("countText")->setText(std::to_string(inventory.getCurrentItemCount()));
+                    mItemRoot->getChild("descriptionText")->setText(inventory.getCurrentItemDescription());
                     break;
                 case OIS::KC_RIGHT:
                     notifyHUDNavigation();
                     inventory.cycleInventoryForward();
+                    mItemRoot->getChild("countText")->setText(std::to_string(inventory.getCurrentItemCount()));
+                    mItemRoot->getChild("descriptionText")->setText(inventory.getCurrentItemDescription());
                     break;
                 case OIS::KC_RETURN:
                     notifyHUDOptionSelect(); 
@@ -190,11 +199,12 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
                     return;
             }
             mMenuRoot->getChild("Item_Frame")->getChild("Items_StaticText")->setText(
-                    inventory.getCurrentItemMenuTitle());
+                    inventory.getCurrentItemName());
         }
         else {
             switch(arg.key) {
                 case OIS::KC_RETURN:
+                    mItemRoot->setVisible(false);
                     notifyHUDOptionSelect();
                     switchToActionMenu();
                     break;
@@ -238,6 +248,7 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
                         if (inventory.items.size() == 0) {
                             mMenuRoot->getChild("Menu_Frame")->getChild("Items_label")->disable();
                         }
+                        mItemRoot->setVisible(false);
                         break;
                     default:
                         break;
@@ -286,7 +297,10 @@ void HUD::switchToItemMenu(void) {
     auto itemFrame = mMenuRoot->getChild("Item_Frame");
     itemFrame->show();
     itemFrame->activate();
-    mMenuRoot->getChild("Item_Frame")->getChild("Items_StaticText")->setText(inventory.getCurrentItemMenuTitle());
+    mMenuRoot->getChild("Item_Frame")->getChild("Items_StaticText")->setText(inventory.getCurrentItemName());
+    mItemRoot->setVisible(true);
+    mItemRoot->getChild("countText")->setText(std::to_string(inventory.getCurrentItemCount()));
+    mItemRoot->getChild("descriptionText")->setText(inventory.getCurrentItemDescription());
 }
 
 void HUD::switchToActionMenu(void) {

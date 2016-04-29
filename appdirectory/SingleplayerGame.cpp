@@ -207,18 +207,20 @@ void SingleplayerGame::onHUDPhysicalSelect(Player* attacker, Player* target) {
 }
 
 void SingleplayerGame::onHUDSpecialSelect(Player* attacker, Player* target) {
-    std::cout << "Special " << std::endl;
-    attacker->specialAttack(*target);
+    mAnimationRunning = true;
+    bool& animationRunning = this->mAnimationRunning;
+    AnimationCallback cb = [&animationRunning, attacker, target](void)-> void{
+        std::cout << "Special " << std::endl;
+        attacker->specialAttack(*target);
+        animationRunning = false;
+        attacker->mAnimationController->runIdleAnimation();
+    };
+    attacker->mAnimationController->runAnimation(AnimationType::Special, cb);
 }
 
 void SingleplayerGame::onHUDItemSelect(Player* target) {
     std::cout << "Item " << std::endl;
-    const PlayerInfo& pi = target->info();
-    int bh = pi.health;
     inventory.useItem(*target);
-    int ah = pi.health;
-    std::cout << pi.name << ": " << bh << " -> " << ah << std::endl;
-
 }
 
 void SingleplayerGame::onHUDGuardSelect(Player* user) {

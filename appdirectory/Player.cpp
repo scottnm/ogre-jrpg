@@ -226,7 +226,7 @@ void Player::collision(void) {
                                 setVisible(particleSystemPair.first, false);
                             }
                             setEmitting(particleSystemPair.first, false);
-                            // play sound
+                            // play sound here
                         }
                     }
                 }

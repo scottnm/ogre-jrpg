@@ -61,16 +61,18 @@ HUD::HUD(Ogre::SceneManager& scnMgr, GUISystem& gui, std::vector<Player*>& myPar
         characterInfoWindows.emplace(character, frame);
 
         const PlayerInfo& info = character->info();
-        frame->getChild("PM_Name_StaticText")->setText(info.name);
+        frame->getChild("PM_Name_Value")->setText(info.name);
         frame->getChild("PM_Pic_StaticImage")->setProperty("Image", info.img);
-        frame->getChild("PM_HP_Left_StaticText")->setText(
-                Ogre::StringConverter::toString(info.health));
-        frame->getChild("PM_HP_Total_StaticText")->setText(
-                Ogre::StringConverter::toString(info.healthMax));
-        frame->getChild("PM_SP_Left_StaticText")->setText(
-                Ogre::StringConverter::toString(info.specialPoints));
-        frame->getChild("PM_SP_Total_StaticText")->setText(
-                Ogre::StringConverter::toString(info.specialPointsMax));
+        std::string hpText = std::to_string(info.health) + "/" + std::to_string(info.healthMax);
+        frame->getChild("PM_HP_Left_StaticText")->setText(hpText);
+        std::string spText = std::to_string(info.specialPoints) + "/" + std::to_string(info.specialPointsMax);
+        frame->getChild("PM_SP_Left_StaticText")->setText(spText);
+        frame->getChild("PM_Damage_Value")->setText(
+                std::to_string(info.damage));
+        frame->getChild("PM_Armor_Value")->setText(
+                std::to_string(info.armor));
+        frame->getChild("PM_Accuracy_Value")->setText(
+                std::to_string((int)(info.accuracy*100)) + "%");
 
         auto targetBillboardSet = scnMgr.createBillboardSet();
         targetBillboardSet->setMaterialName("pixeltarget");
@@ -184,12 +186,14 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
                     inventory.cycleInventoryBackward();
                     mItemRoot->getChild("countText")->setText(std::to_string(inventory.getCurrentItemCount()));
                     mItemRoot->getChild("descriptionText")->setText(inventory.getCurrentItemDescription());
+                    mItemRoot->getChild("nameText")->setText(inventory.getCurrentItemName());
                     break;
                 case OIS::KC_RIGHT:
                     notifyHUDNavigation();
                     inventory.cycleInventoryForward();
                     mItemRoot->getChild("countText")->setText(std::to_string(inventory.getCurrentItemCount()));
                     mItemRoot->getChild("descriptionText")->setText(inventory.getCurrentItemDescription());
+                    mItemRoot->getChild("nameText")->setText(inventory.getCurrentItemName());
                     break;
                 case OIS::KC_RETURN:
                     notifyHUDOptionSelect(); 
@@ -301,6 +305,7 @@ void HUD::switchToItemMenu(void) {
     mItemRoot->setVisible(true);
     mItemRoot->getChild("countText")->setText(std::to_string(inventory.getCurrentItemCount()));
     mItemRoot->getChild("descriptionText")->setText(inventory.getCurrentItemDescription());
+    mItemRoot->getChild("nameText")->setText(inventory.getCurrentItemName());
 }
 
 void HUD::switchToActionMenu(void) {
@@ -401,10 +406,16 @@ void HUD::update(void) {
     for(auto character : myParty) {
         auto infoWindow = characterInfoWindows.find(character)->second;
         const PlayerInfo& info = character->info();
-        infoWindow->getChild("PM_HP_Left_StaticText")->setText(
-                Ogre::StringConverter::toString(info.health));
-        infoWindow->getChild("PM_SP_Left_StaticText")->setText(
-                Ogre::StringConverter::toString(info.specialPoints));
+        std::string hpText = std::to_string(info.health) + "/" + std::to_string(info.healthMax);
+        infoWindow->getChild("PM_HP_Left_StaticText")->setText(hpText);
+        std::string spText = std::to_string(info.specialPoints) + "/" + std::to_string(info.specialPointsMax);
+        infoWindow->getChild("PM_SP_Left_StaticText")->setText(spText);
+        infoWindow->getChild("PM_Damage_Value")->setText(
+                std::to_string(info.damage));
+        infoWindow->getChild("PM_Armor_Value")->setText(
+                std::to_string(info.armor));
+        infoWindow->getChild("PM_Accuracy_Value")->setText(
+                std::to_string((int)(info.accuracy*100)) + "%");
     }
 }
 

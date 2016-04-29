@@ -27,7 +27,7 @@
             <health>20</health>
             <special>1</special>
             <damage>4</damage>
-            <armor>10</armor>
+            <armor>6</armor>
             <accuracy>0.70</accuracy>
         </character>
         <character>

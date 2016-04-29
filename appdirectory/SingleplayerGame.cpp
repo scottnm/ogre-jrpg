@@ -153,10 +153,10 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
     }
 
     for(auto c : myParty) {
-        c->updateAnimation(evt.timeSinceLastFrame);
+        c->mAnimationController->updateAnimationTime(evt.timeSinceLastFrame);
     }
     for(auto c : enemyParty) {
-        c->updateAnimation(evt.timeSinceLastFrame);
+        c->mAnimationController->updateAnimationTime(evt.timeSinceLastFrame);
     }
 
     mHUD->update();

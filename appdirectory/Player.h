@@ -16,8 +16,6 @@ public:
            const PlayerInfo& i, const Ogre::Vector3& pos);
 	virtual ~Player(void) {};
 
-    void updateAnimation(Ogre::Real secondsElapsed);
-
     bool attemptPhysicalAttack(void);
     void physicalAttack(Player& target);
     void specialAttack(Player& target);
@@ -37,7 +35,11 @@ public:
 private:
 	Ogre::Entity* mEntity;
     PlayerInfo mInfo;
+
+public:
     AnimationController* mAnimationController;
+
+private:
 
     std::unordered_map<ParticleType,
                        Ogre::ParticleSystem*,

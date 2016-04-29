@@ -15,8 +15,8 @@ http://www.ogre3d.org/tikiwiki/tiki-index.php?page=MinimalOgre-cpp
 
 SingleplayerGame::SingleplayerGame(RenderingEngine* renderer, GUISystem* gui,
     PlayerBank* playerBank, SoundBank* soundBank)
-    : BaseGame(renderer, gui, playerBank), mGameOver(false), mSoundController(soundBank),
-      playerTurn(true), activeEnemy(0) {
+    : BaseGame(renderer, gui, playerBank), mGameOver(false), mAnimationRunning(false),
+      mSoundController(soundBank), playerTurn(true), activeEnemy(0) {
 }
 
 SingleplayerGame::~SingleplayerGame(void) {
@@ -181,27 +181,29 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
 }
 
 bool SingleplayerGame::keyPressed(const OIS::KeyEvent &arg) {
-    if (mGameOver || playerTurn) {
-        if (arg.key == OIS::KC_SEMICOLON) {
-            auto& controller = myParty.at(0)->mAnimationController;
-            myParty.at(0)->mAnimationController->runAnimation(AnimationType::Item,
-                    [&controller](void)->void{ controller->runIdleAnimation(); });
-        }
+    if (!mAnimationRunning && (mGameOver || playerTurn)) {
         mHUD->injectKeyDown(arg);
     }
     return true;
 }
 
 void SingleplayerGame::onHUDPhysicalSelect(Player* attacker, Player* target) {
-    int oldhealth = target->info().health;
-    if (attacker->attemptPhysicalAttack()) {
-        attacker->physicalAttack(*target);
-    }
-    else {
-        // miss logic
-        std::cout << "miss" << std::endl;
-    }
-    std::cout << target->info().name << ": " << oldhealth - target->info().health << std::endl;
+    mAnimationRunning = true;
+    bool& animationRunning = this->mAnimationRunning;
+    AnimationCallback cb = [&animationRunning, attacker, target](void)-> void{
+        int oldhealth = target->info().health;
+        if (attacker->attemptPhysicalAttack()) {
+            attacker->physicalAttack(*target);
+        }
+        else {
+            // miss logic
+            std::cout << "miss" << std::endl;
+        }
+        std::cout << target->info().name << ": " << oldhealth - target->info().health << std::endl;
+        animationRunning = false;
+        attacker->mAnimationController->runIdleAnimation();
+    };
+    attacker->mAnimationController->runAnimation(AnimationType::Physical, cb);
 }
 
 void SingleplayerGame::onHUDSpecialSelect(Player* attacker, Player* target) {

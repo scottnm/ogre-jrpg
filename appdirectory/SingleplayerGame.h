@@ -41,6 +41,7 @@ private:
     void onHUDQuit();
 
     bool mGameOver;
+    bool mAnimationRunning;
     HUD* mHUD;
     SoundController mSoundController;
     bool playerTurn;

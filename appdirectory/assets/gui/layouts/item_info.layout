@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout version="4" >
+    <Window type="Vanilla/FrameColourRect" name="FrameColourRect" >
+        <Property name="Area" value="{{0,4},{0,749},{1,-1384},{1,-316}}" />
+        <Property name="MaxSize" value="{{1,0},{1,0}}" />
+        <Window type="Vanilla/Label" name="countText" >
+            <Property name="Area" value="{{0,0},{0,0},{0,104},{0,135}}" />
+            <Property name="Font" value="Jura-18" />
+            <Property name="Text" value="0" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            <Property name="NormalTextColour" value="FF000000" />
+        </Window>
+        <Window type="Vanilla/StaticText" name="descriptionText" >
+            <Property name="Area" value="{{0,117},{0,6},{0,525},{0,129}}" />
+            <Property name="Font" value="DejaVuSans-10-NoScale" />
+            <Property name="Text" value="heh" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            <Property name="VertScrollbar" value="true" />
+            <Property name="HorzScrollPageSize" value="388" />
+            <Property name="VertScrollPageSize" value="103" />
+            <Property name="HorzScrollDocumentSize" value="25" />
+            <Property name="VertScrollDocumentSize" value="15.5148" />
+        </Window>
+    </Window>
+</GUILayout>

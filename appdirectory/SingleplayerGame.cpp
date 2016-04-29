@@ -218,9 +218,17 @@ void SingleplayerGame::onHUDSpecialSelect(Player* attacker, Player* target) {
     attacker->mAnimationController->runAnimation(AnimationType::Special, cb);
 }
 
-void SingleplayerGame::onHUDItemSelect(Player* target) {
-    std::cout << "Item " << std::endl;
-    inventory.useItem(*target);
+void SingleplayerGame::onHUDItemSelect(Player* user, Player* target) {
+    mAnimationRunning = true;
+    bool& animationRunning = this->mAnimationRunning;
+    Inventory& inventory = this->inventory;
+    AnimationCallback cb = [&animationRunning, user, target, &inventory](void)-> void{
+        std::cout << "Item " << std::endl;
+        inventory.useItem(*target);
+        animationRunning = false;
+        user->mAnimationController->runIdleAnimation();
+    };
+    user->mAnimationController->runAnimation(AnimationType::Item, cb);
 }
 
 void SingleplayerGame::onHUDGuardSelect(Player* user) {

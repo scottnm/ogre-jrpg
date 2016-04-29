@@ -182,6 +182,10 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
 
 bool SingleplayerGame::keyPressed(const OIS::KeyEvent &arg) {
     if (mGameOver || playerTurn) {
+        if (arg.key == OIS::KC_SEMICOLON) {
+            auto& controller = myParty.at(0)->mAnimationController;
+            myParty.at(0)->mAnimationController->runItemAnimation([&controller](void)->void{ controller->runIdleAnimation(); });
+        }
         mHUD->injectKeyDown(arg);
     }
     return true;

@@ -1,6 +1,7 @@
 #ifndef __ANIMATION_CONTROLLER_H__
 #define __ANIMATION_CONTROLLER_H__
 
+#include "AnimationCallback.h"
 #include "AnimationSpec.h"
 #include <OgreAnimationState.h>
 #include <OgreEntity.h>
@@ -9,6 +10,7 @@ class AnimationController {
 public:
     AnimationController(Ogre::Entity* mesh, const AnimationSpec& spec);
     void runIdleAnimation(void);
+    void runItemAnimation(AnimationCallback cb);
     void updateAnimationTime(Ogre::Real secondsElapsed);
 
 private:
@@ -20,6 +22,8 @@ private:
     Ogre::AnimationState* mDeathState;
 
     Ogre::AnimationState* mActiveState;
+
+    AnimationCallback cb;
 };
 
 #endif // __ANIMATION_CONTROLLER_H__

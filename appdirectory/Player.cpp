@@ -31,10 +31,10 @@ Player::Player(Ogre::SceneManager* _scnmgr, Ogre::SceneNode* _scnnode,
     guardParticles->setEmitting(false);
 
     
-    auto physicalParticles = _scnmgr->createParticleSystem("Physical_P" + id, "Physical2"); 
+    auto physicalParticles = _scnmgr->createParticleSystem("Physical_P" + id, "Physical3"); 
     auto physicalNode = sceneNode->createChildSceneNode("Physical_N" + id);
     physicalNode->attachObject(physicalParticles);
-    physicalNode->setPosition(25, 90, -80);
+    physicalNode->setPosition(-20, 150, 0);
     mParticleSystemMap.emplace(ParticleType::Physical, physicalParticles);
     mParticleNodeMap.emplace(ParticleType::Physical, physicalNode);
     physicalParticles->setEmitting(false);
@@ -81,8 +81,9 @@ void Player::physicalAttack(Player& target) {
     if (targetHealth < 0) {
         targetHealth = 0;
     }
-    setEmitting(ParticleType::Physical, true);
-    setVisible(ParticleType::Physical, true);
+    target.setEmitting(ParticleType::Physical, true);
+    target.setVisible(ParticleType::Physical, true);
+    target.physicalStartTime = time(&target.timer);
 }
 
 void Player::item(void) {
@@ -100,11 +101,13 @@ bool Player::attemptPhysicalAttack(void) {
 void Player::guard(void) {
     mInfo.armor += std::max(1, (int)(0.5f * mInfo.armor));
     setEmitting(ParticleType::Guard, true);
+    // setVisible(ParticleType::Guard, true);
 }
 
 void Player::unguard(void) {
     mInfo.armor = mInfo.baseArmor;
     setEmitting(ParticleType::Guard, false);
+    // setVisible(ParticleType::Guard, false);
 }
 
 void Player::specialAttack(Player& target) {
@@ -186,6 +189,10 @@ void Player::checkTime(void) {
     if(time(&timer) > itemStartTime + 1.5) {
         setEmitting(ParticleType::Item, false);
         setVisible(ParticleType::Item, false);
+    }
+    if(time(&timer) > physicalStartTime + 1.0) {
+        setEmitting(ParticleType::Physical, false);
+        setVisible(ParticleType::Physical, false);
     }
 }
 

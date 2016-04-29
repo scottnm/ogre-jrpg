@@ -122,10 +122,25 @@ bool SingleplayerGame::go(void)
     return true;
 }
 
-static bool characterDead(Player* p) { return p->isDead(); }
+bool characterDead(Player* p) {
+    if (p->isDead()) {
+        AnimationCallback cb = [](void)-> void {};
+        p->mAnimationController->runAnimation(AnimationType::Death, cb);
+        return true;
+    }
+    return false; 
+}
 
 bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
+
+    for(auto c : myParty) {
+        c->mAnimationController->updateAnimationTime(evt.timeSinceLastFrame);
+    }
+    for(auto c : enemyParty) {
+        c->mAnimationController->updateAnimationTime(evt.timeSinceLastFrame);
+    }
+
     if(mGameOver || mShutDown) {
         return true;
     }
@@ -150,13 +165,6 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
             playerTurn = true;
             partyReset(myParty);
         }
-    }
-
-    for(auto c : myParty) {
-        c->mAnimationController->updateAnimationTime(evt.timeSinceLastFrame);
-    }
-    for(auto c : enemyParty) {
-        c->mAnimationController->updateAnimationTime(evt.timeSinceLastFrame);
     }
 
     mHUD->update();
@@ -232,20 +240,29 @@ void SingleplayerGame::onHUDItemSelect(Player* user, Player* target) {
 }
 
 void SingleplayerGame::onHUDGuardSelect(Player* user) {
-    std::cout << "Guard " << std::endl;
-    user->guard();
+    mAnimationRunning = true;
+    bool& animationRunning = this->mAnimationRunning;
+    AnimationCallback cb = [&animationRunning, user](void)-> void{
+        std::cout << "Guard " << std::endl;
+        user->guard();
+        animationRunning = false;
+        user->mAnimationController->runIdleAnimation();
+    };
+    user->mAnimationController->runAnimation(AnimationType::Guard, cb);
 }
 
 void SingleplayerGame::onHUDPlayAgain() {
     // reset game state, i.e. iterate over each player reseting hp, sp, and then reset HUD
     for (Player* p : myParty) {
         p->reset();
+        p->mAnimationController->runIdleAnimation();
     }
     myPartyAlive = myParty;
     myPartyWaiting = myParty;
 
     for (Player* p : enemyParty) {
         p->reset();
+        p->mAnimationController->runIdleAnimation();
     }
     enemyPartyAlive = enemyParty;
 

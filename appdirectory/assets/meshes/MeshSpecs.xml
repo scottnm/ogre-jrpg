@@ -3,7 +3,7 @@
         <name>ninja</name>
         <animationSpec>
             <idle>Idle1</idle>
-            <physical>Attack1</physical>
+            <physical>Attack3</physical>
             <special>Spin</special>
             <item>Crouch</item>
             <guard>Block</guard>

@@ -108,7 +108,3 @@ void Player::lookAt(GameObject* targetObject) {
 Ogre::Real Player::getHeight(void) {
     return mEntity->getBoundingBox().getSize().y * 1.2;
 }
-
-void Player::updateAnimation(Ogre::Real secondsElapsed) {
-    mAnimationController->updateAnimationTime(secondsElapsed);
-}

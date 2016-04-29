@@ -7,9 +7,14 @@ Item::Item(std::string name, bool isOffensive, int d_health, int d_armor,
 
 void Item::use(Player& target) {
     PlayerInfo& info = target.info();
-	info.health += delta_health;
-	info.armor += delta_armor;
-	info.damage += delta_damage;
-	info.specialPoints += delta_special;
-	info.accuracy += delta_accuracy;
+    
+    int health = std::max(info.health + delta_health, 0);
+    info.health = std::min(health, info.healthMax);
+
+    int special = std::max(info.specialPoints + delta_special, 0);
+    info.specialPoints = std::min(special, info.specialPointsMax);
+	
+	info.armor = std::max(info.armor + delta_armor, 0);
+	info.damage = std::max(info.damage + delta_damage, 0);
+	info.accuracy = std::max(info.accuracy + delta_accuracy, 0.0f);
 }

@@ -142,11 +142,10 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
             // placeholder enemy action
             int randomAction = rand() % 3;
             int randomTarget = rand() % myPartyAlive.size();
-            Player* target = myPartyAlive.at(0);
+            Player* target = myPartyAlive.at(randomTarget);
             switch(randomAction) {
                 case 0:
                     onHUDGuardSelect(enemyPartyAlive.at(activeEnemy));
-                    // enemyPartyAlive.at(activeEnemy)->guard();
                     break;
                 case 1:
                     onHUDPhysicalSelect(enemyPartyAlive.at(activeEnemy), target);
@@ -157,8 +156,6 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
                 default:
                     break;
             }
-            // enemyPartyAlive.at(activeEnemy)->physicalAttack(
-            //         *myPartyAlive.at(0));
             ++activeEnemy;
         }
         else {

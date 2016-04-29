@@ -47,8 +47,13 @@ void AnimationController::runAnimation(AnimationType at, AnimationCallback cb) {
 }
 
 void AnimationController::updateAnimationTime(Ogre::Real secondsElapsed) {
-    mActiveState->addTime(secondsElapsed);
-    if (mActiveState->hasEnded()) {
-        cb();
+    if (mActiveState == mIdleState) {
+        mActiveState->addTime(secondsElapsed);
+    }
+    else {
+        mActiveState->addTime(secondsElapsed * 2);
+        if (mActiveState->hasEnded()) {
+            cb();
+        }
     }
 }

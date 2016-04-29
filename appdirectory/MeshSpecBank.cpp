@@ -19,13 +19,20 @@ void MeshSpecBank::loadMeshSpecDatabase(const std::string& _fn) {
             pt.get_child("meshSpecDatabase")) {
         std::cout << "!!!" << std::endl;
         std::string name = v.second.get<std::string>("name");
-        std::string idle = v.second.get<std::string>("animationSpec.idle");
-        std::string phys = v.second.get<std::string>("animationSpec.physical");
-        std::string special = v.second.get<std::string>("animationSpec.special");
-        std::string item = v.second.get<std::string>("animationSpec.item");
-        std::string guard = v.second.get<std::string>("animationSpec.guard");
-        std::string death = v.second.get<std::string>("animationSpec.death");
-        mSpecBank.emplace(name, MeshSpec(name, idle, phys, special, item, guard, death));
+        AnimationSpec as(
+            v.second.get<std::string>("animationSpec.idle.state-name"),
+            v.second.get<float>("animationSpec.idle.speed-scale"),
+            v.second.get<std::string>("animationSpec.physical.state-name"),
+            v.second.get<float>("animationSpec.physical.speed-scale"),
+            v.second.get<std::string>("animationSpec.special.state-name"),
+            v.second.get<float>("animationSpec.special.speed-scale"),
+            v.second.get<std::string>("animationSpec.item.state-name"),
+            v.second.get<float>("animationSpec.item.speed-scale"),
+            v.second.get<std::string>("animationSpec.guard.state-name"),
+            v.second.get<float>("animationSpec.guard.speed-scale"),
+            v.second.get<std::string>("animationSpec.death.state-name"),
+            v.second.get<float>("animationSpec.death.speed-scale"));
+        mSpecBank.emplace(name, MeshSpec(name, as));
     }
 
     for(auto specPair : mSpecBank) {

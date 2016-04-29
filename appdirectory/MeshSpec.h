@@ -5,10 +5,8 @@
 #include <string>
 
 struct MeshSpec {
-    MeshSpec(const std::string& n, const std::string& idle, const std::string& phys,
-            const std::string& special, const std::string& item,
-            const std::string& guard, const std::string& death)
-        : name(n), animationSpec(idle, phys, special, item, guard, death) {}
+    MeshSpec(const std::string& n, const AnimationSpec& as)
+        : name(n), animationSpec(as) {}
 
     const std::string name;
     const AnimationSpec animationSpec;

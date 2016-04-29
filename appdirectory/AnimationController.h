@@ -5,6 +5,7 @@
 #include "AnimationSpec.h"
 #include <OgreAnimationState.h>
 #include <OgreEntity.h>
+#include <utility>
 
 enum class AnimationType {
     Physical,
@@ -14,6 +15,8 @@ enum class AnimationType {
     Death
 };
 
+typedef std::pair<Ogre::AnimationState*, float> Animation;
+
 class AnimationController {
 public:
     AnimationController(Ogre::Entity* mesh, const AnimationSpec& spec);
@@ -22,6 +25,16 @@ public:
     void updateAnimationTime(Ogre::Real secondsElapsed);
 
 private:
+    const Animation idleAnim;
+    const Animation physicalAnim;
+    const Animation specialAnim;
+    const Animation itemAnim;
+    const Animation guardAnim;
+    const Animation deathAnim;
+
+    const Animation* activeAnim;
+
+    /*
     Ogre::AnimationState* mIdleState;
     Ogre::AnimationState* mPhysicalState;
     Ogre::AnimationState* mSpecialState;
@@ -30,6 +43,7 @@ private:
     Ogre::AnimationState* mDeathState;
 
     Ogre::AnimationState* mActiveState;
+    */
 
     AnimationCallback cb;
 };

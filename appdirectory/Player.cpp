@@ -14,7 +14,7 @@ Player::Player(Ogre::SceneManager* _scnmgr, Ogre::SceneNode* _scnnode,
 
     // create the base representable object
 
-	mEntity = _scnmgr->createEntity("ninja.mesh");
+	mEntity = _scnmgr->createEntity(i.mesh.name + ".mesh");
 	mEntity->setCastShadows(true);
 	sceneNode = _scnnode->createChildSceneNode("Player" + id);
 	sceneNode->attachObject(mEntity);

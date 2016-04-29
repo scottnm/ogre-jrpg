@@ -2,9 +2,10 @@
 #define __PLAYER_INFO_H__
 
 #include <string>
+#include "MeshSpec.h"
 
 struct PlayerInfo {
-    PlayerInfo(const std::string& name, const std::string& img, const std::string& mesh,
+    PlayerInfo(const std::string& name, const std::string& img, const MeshSpec& mesh,
             int hp, int sp, int dmg, int armor, float accuracy)
         : name(name), img(img), mesh(mesh), health(hp), healthMax(hp), specialPoints(sp),
           specialPointsMax(sp), damage(dmg), baseDamage(dmg), armor(armor),
@@ -12,7 +13,7 @@ struct PlayerInfo {
 
     const std::string name;
     const std::string img;
-    const std::string mesh;
+    const MeshSpec mesh;
 
     int health;
     const int healthMax;

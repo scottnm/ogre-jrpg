@@ -7,6 +7,10 @@
 #include <iostream> // cerr
 #include <cstdlib>
 
+PlayerBank::PlayerBank() {
+    mMeshSpecBank.loadMeshSpecDatabase("assets/meshes/MeshSpecs.xml");
+}
+
 void PlayerBank::loadPlayerDatabase(const std::string& _fn) {
     // based on xml parser found here
     // http://www.boost.org/doc/libs/1_42_0/doc/html/boost_propertytree/tutorial.html
@@ -19,13 +23,14 @@ void PlayerBank::loadPlayerDatabase(const std::string& _fn) {
             pt.get_child("characterDatabase.characters")) {
         std::string name = v.second.get<std::string>("name");
         std::string img = v.second.get<std::string>("img");
-        std::string mesh = v.second.get<std::string>("mesh");
+        std::string meshname = v.second.get<std::string>("mesh");
+        const MeshSpec& meshspec = mMeshSpecBank.getMeshSpec(meshname);
         int health = v.second.get<int>("health");
         int special = v.second.get<int>("special");
         int damage = v.second.get<int>("damage");
         int armor = v.second.get<int>("armor");
         float accuracy = v.second.get<float>("accuracy");
-        mCharacterBank.emplace(name, PlayerInfo(name, img, mesh, health, special,
+        mCharacterBank.emplace(name, PlayerInfo(name, img, meshspec, health, special,
                     damage, armor, accuracy));
     }
 

@@ -1,7 +1,7 @@
-noinst_HEADERS = BaseGame.h Character.h GameManager.h GUISystem.h HUD.h HUDListener.h Item.h Inventory.h RenderingEngine.h SingleplayerGame.h ParticleType.h Plane.h Player.h PlayerBank.h PlayerInfo.h GameObject.h SoundBank.h SoundController.h
+noinst_HEADERS = AnimationSpec.h BaseGame.h Character.h GameManager.h GUISystem.h HUD.h HUDListener.h Item.h Inventory.h MeshSpec.h MeshSpecBank.h RenderingEngine.h SingleplayerGame.h ParticleType.h Plane.h Player.h PlayerBank.h PlayerInfo.h GameObject.h SoundBank.h SoundController.h
 
 bin_PROGRAMS = Battle
-Battle_SOURCES = BaseGame.cpp Character.cpp GameManager.cpp GameObject.cpp GUISystem.cpp HUD.cpp Item.cpp Inventory.cpp Main.cpp RenderingEngine.cpp SingleplayerGame.cpp Plane.cpp Player.cpp PlayerBank.cpp SoundBank.cpp SoundController.cpp
+Battle_SOURCES = BaseGame.cpp Character.cpp GameManager.cpp GameObject.cpp GUISystem.cpp HUD.cpp Item.cpp Inventory.cpp Main.cpp MeshSpecBank.cpp RenderingEngine.cpp SingleplayerGame.cpp Plane.cpp Player.cpp PlayerBank.cpp SoundBank.cpp SoundController.cpp
 
 Battle_CPPFLAGS = -I$(top_srcdir) -std=c++11 -Wall -Werror -Wfatal-errors 
 Battle_CXXFLAGS = $(OGRE_CFLAGS) $(OIS_CFLAGS) $(shell sdl-config --cflags) $(CEGUI_CFLAGS)

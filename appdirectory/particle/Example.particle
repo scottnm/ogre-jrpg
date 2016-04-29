@@ -168,25 +168,27 @@ particle_system Physical3
 {
     material            Examples/Flare
     particle_width      10
-    particle_height     10
+    particle_height     15
     cull_each           true
-    quota               100
+    quota               50
     billboard_type      point
     local_space         true
 
     emitter Point
     {
-        emission_rate   100
-        time_to_live    1
-        colour          1 1 1
-        width           100
-        height          100
-        depth           199
+        emission_rate   50
+        time_to_live    .7
+        colour          1 0 0
+        velocity        100
+        direction       0.7 -1 -1
+        width           15
+        height          15
+        depth           0
     }
 
     affector LinearForce
     {
-        force_vector        -10 -100 0
+        force_vector        25 -100 75
         force_application   add
     }
 }

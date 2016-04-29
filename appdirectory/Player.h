@@ -37,7 +37,7 @@ public:
     void collision(void);
 
     double itemStartTime;
-    double itemEndTime;
+    double physicalStartTime;
     time_t timer;
 
 private:

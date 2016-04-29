@@ -184,7 +184,8 @@ bool SingleplayerGame::keyPressed(const OIS::KeyEvent &arg) {
     if (mGameOver || playerTurn) {
         if (arg.key == OIS::KC_SEMICOLON) {
             auto& controller = myParty.at(0)->mAnimationController;
-            myParty.at(0)->mAnimationController->runItemAnimation([&controller](void)->void{ controller->runIdleAnimation(); });
+            myParty.at(0)->mAnimationController->runAnimation(AnimationType::Item,
+                    [&controller](void)->void{ controller->runIdleAnimation(); });
         }
         mHUD->injectKeyDown(arg);
     }

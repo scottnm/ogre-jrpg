@@ -6,11 +6,19 @@
 #include <OgreAnimationState.h>
 #include <OgreEntity.h>
 
+enum class AnimationType {
+    Physical,
+    Special,
+    Item,
+    Guard,
+    Death
+};
+
 class AnimationController {
 public:
     AnimationController(Ogre::Entity* mesh, const AnimationSpec& spec);
     void runIdleAnimation(void);
-    void runItemAnimation(AnimationCallback cb);
+    void runAnimation(AnimationType at, AnimationCallback cb);
     void updateAnimationTime(Ogre::Real secondsElapsed);
 
 private:

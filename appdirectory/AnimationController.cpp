@@ -19,13 +19,31 @@ void AnimationController::runIdleAnimation(void) {
     mActiveState = mIdleState;
 }
 
-void AnimationController::runItemAnimation(AnimationCallback cb) {
+void AnimationController::runAnimation(AnimationType at, AnimationCallback cb) {
     mActiveState->setEnabled(false);
     this->cb = cb;
-    mItemState->setEnabled(true);
-    mItemState->setLoop(false);
-    mItemState->setTimePosition(0);
-    mActiveState = mItemState;
+
+    switch (at) {
+        case AnimationType::Physical:
+            mActiveState = mPhysicalState;
+            break;
+        case AnimationType::Special:
+            mActiveState = mSpecialState;
+            break;
+        case AnimationType::Item:
+            mActiveState = mItemState;
+            break;
+        case AnimationType::Guard:
+            mActiveState = mGuardState;
+            break;
+        case AnimationType::Death:
+            mActiveState = mDeathState;
+            break;
+    }
+
+    mActiveState->setEnabled(true);
+    mActiveState->setLoop(false);
+    mActiveState->setTimePosition(0);
 }
 
 void AnimationController::updateAnimationTime(Ogre::Real secondsElapsed) {

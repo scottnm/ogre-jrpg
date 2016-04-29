@@ -421,9 +421,10 @@ void HUD::notifySpecialSelect(void) {
 }
 
 void HUD::notifyItemSelect(void) {
+    Player* user = myPartyWaiting.at(myPartyFocused);
     Player* target = getTargetParty().at(activeTarget);
     for(auto hl : mListeners) {
-        hl->onHUDItemSelect(target);
+        hl->onHUDItemSelect(user, target);
     }
 }
 

@@ -5,8 +5,8 @@
             <idle>Idle1</idle>
             <physical>Attack1</physical>
             <special>Spin</special>
-            <item>JumpNoHeight</item>
-            <guard>Stealth</guard>
+            <item>Crouch</item>
+            <guard>Block</guard>
             <death>Death1</death>
         </animationSpec>
     </meshSpec>

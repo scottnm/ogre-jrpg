@@ -31,6 +31,9 @@ Player::Player(Ogre::SceneManager* _scnmgr, Ogre::SceneNode* _scnnode,
 
     // currently removed all of the other particle systems since they
     // aren't being used yet
+    
+    mAnimationController = new AnimationController(mEntity, i.mesh.animationSpec); 
+    mAnimationController->runIdleAnimation();
 }
 
 void Player::physicalAttack(Player& target) {
@@ -104,4 +107,8 @@ void Player::lookAt(GameObject* targetObject) {
 
 Ogre::Real Player::getHeight(void) {
     return mEntity->getBoundingBox().getSize().y * 1.2;
+}
+
+void Player::updateAnimation(Ogre::Real secondsElapsed) {
+    mAnimationController->updateAnimationTime(secondsElapsed);
 }

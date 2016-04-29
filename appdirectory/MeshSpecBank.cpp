@@ -18,8 +18,14 @@ void MeshSpecBank::loadMeshSpecDatabase(const std::string& _fn) {
     BOOST_FOREACH(ptree::value_type &v,
             pt.get_child("meshSpecDatabase")) {
         std::cout << "!!!" << std::endl;
-        std::string n = v.second.get<std::string>("name");
-        mSpecBank.emplace(n, MeshSpec(n, n, n, n, n, n, n));
+        std::string name = v.second.get<std::string>("name");
+        std::string idle = v.second.get<std::string>("animationSpec.idle");
+        std::string phys = v.second.get<std::string>("animationSpec.physical");
+        std::string special = v.second.get<std::string>("animationSpec.special");
+        std::string item = v.second.get<std::string>("animationSpec.item");
+        std::string guard = v.second.get<std::string>("animationSpec.guard");
+        std::string death = v.second.get<std::string>("animationSpec.death");
+        mSpecBank.emplace(name, MeshSpec(name, idle, phys, special, item, guard, death));
     }
 
     for(auto specPair : mSpecBank) {

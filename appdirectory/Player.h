@@ -3,6 +3,7 @@
 
 #include "GameObject.h"
 #include "PlayerInfo.h"
+#include "AnimationController.h"
 
 #include <OgreBillboardSet.h>
 #include <OgreBillboard.h>
@@ -14,6 +15,8 @@ public:
 	Player(Ogre::SceneManager* _scnmgr, Ogre::SceneNode* _scnnode,
            const PlayerInfo& i, const Ogre::Vector3& pos);
 	virtual ~Player(void) {};
+
+    void updateAnimation(Ogre::Real secondsElapsed);
 
     bool attemptPhysicalAttack(void);
     void physicalAttack(Player& target);
@@ -34,6 +37,7 @@ public:
 private:
 	Ogre::Entity* mEntity;
     PlayerInfo mInfo;
+    AnimationController* mAnimationController;
 
     std::unordered_map<ParticleType,
                        Ogre::ParticleSystem*,

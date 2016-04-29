@@ -162,6 +162,35 @@ particle_system Physical2
     }
 }
 
+// Make a new physical particle system that carves a diagonal line across the target character.
+
+particle_system Physical3
+{
+    material            Examples/Flare
+    particle_width      10
+    particle_height     10
+    cull_each           true
+    quota               100
+    billboard_type      point
+    local_space         true
+
+    emitter Point
+    {
+        emission_rate   100
+        time_to_live    1
+        colour          1 1 1
+        width           100
+        height          100
+        depth           199
+    }
+
+    affector LinearForce
+    {
+        force_vector        -10 -100 0
+        force_application   add
+    }
+}
+
 particle_system Item
 {
     material            Examples/Flare

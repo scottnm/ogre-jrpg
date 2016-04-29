@@ -1,59 +1,51 @@
 #include "AnimationController.h"
 
-AnimationController::AnimationController(Ogre::Entity* mesh, const AnimationSpec& spec) {
-    mIdleState = mesh->getAnimationState(spec.idleState);
-    mPhysicalState = mesh->getAnimationState(spec.physicalAttackState);
-    mSpecialState = mesh->getAnimationState(spec.specialAttackState);
-    mItemState = mesh->getAnimationState(spec.itemState);
-    mGuardState = mesh->getAnimationState(spec.guardState);
-    mDeathState = mesh->getAnimationState(spec.deathState);
-
-    mActiveState = mIdleState;
+AnimationController::AnimationController(Ogre::Entity* mesh, const AnimationSpec& spec)
+    : idleAnim(mesh->getAnimationState(spec.idle.first), spec.idle.second),
+      physicalAnim(mesh->getAnimationState(spec.physical.first), spec.physical.second),
+      specialAnim(mesh->getAnimationState(spec.special.first), spec.special.second),
+      itemAnim(mesh->getAnimationState(spec.item.first), spec.item.second),
+      guardAnim(mesh->getAnimationState(spec.guard.first), spec.guard.second),
+      deathAnim(mesh->getAnimationState(spec.idle.first), spec.idle.second),
+      activeAnim(&idleAnim) {
 }
 
 void AnimationController::runIdleAnimation(void) {
-    mActiveState->setEnabled(false);
-    mIdleState->setEnabled(true);
-    mIdleState->setLoop(true);
-    mIdleState->setTimePosition(0);
-    mActiveState = mIdleState;
+    activeAnim->first->setEnabled(false);
+    activeAnim = &idleAnim;
+    idleAnim.first->setEnabled(true);
+    idleAnim.first->setLoop(true);
+    idleAnim.first->setTimePosition(0);
 }
 
 void AnimationController::runAnimation(AnimationType at, AnimationCallback cb) {
-    mActiveState->setEnabled(false);
+    activeAnim->first->setEnabled(false);
     this->cb = cb;
-
     switch (at) {
         case AnimationType::Physical:
-            mActiveState = mPhysicalState;
+            activeAnim = &physicalAnim;
             break;
         case AnimationType::Special:
-            mActiveState = mSpecialState;
+            activeAnim = &specialAnim;
             break;
         case AnimationType::Item:
-            mActiveState = mItemState;
+            activeAnim = &itemAnim;
             break;
         case AnimationType::Guard:
-            mActiveState = mGuardState;
+            activeAnim = &guardAnim;
             break;
         case AnimationType::Death:
-            mActiveState = mDeathState;
+            activeAnim = &guardAnim;
             break;
     }
-
-    mActiveState->setEnabled(true);
-    mActiveState->setLoop(false);
-    mActiveState->setTimePosition(0);
+    activeAnim->first->setEnabled(true);
+    activeAnim->first->setLoop(false);
+    activeAnim->first->setTimePosition(0);
 }
 
 void AnimationController::updateAnimationTime(Ogre::Real secondsElapsed) {
-    if (mActiveState == mIdleState) {
-        mActiveState->addTime(secondsElapsed);
-    }
-    else {
-        mActiveState->addTime(secondsElapsed * 2);
-        if (mActiveState->hasEnded()) {
-            cb();
-        }
+    activeAnim->first->addTime(secondsElapsed * activeAnim->second);
+    if (activeAnim->first->hasEnded()) {
+        cb();
     }
 }

@@ -224,10 +224,9 @@ bool SingleplayerGame::keyPressed(const OIS::KeyEvent &arg) {
 void SingleplayerGame::onHUDPhysicalSelect(Player* attacker, Player* target) {
     mAnimationRunning = true;
     bool& animationRunning = mAnimationRunning;
-    SoundBank& soundBank = *mSoundBank;
     bool attackSuccessful = attacker->attemptPhysicalAttack();
 
-    AnimationCallback cb = [&soundBank, &animationRunning, attacker, target, 
+    AnimationCallback cb = [&animationRunning, attacker, target,
                       attackSuccessful](void)-> void{
         if (attackSuccessful) {
             attacker->physicalAttack(*target);
@@ -241,11 +240,11 @@ void SingleplayerGame::onHUDPhysicalSelect(Player* attacker, Player* target) {
 
     attacker->mAnimationController->runAnimation(AnimationType::Physical, cb);
     if (attackSuccessful) {
-        soundBank.play("physical_woosh_fx");
-        soundBank.play("physical_impact_fx");
+        mSoundBank->play("physical_woosh_fx");
+        mSoundBank->play("physical_impact_fx");
     }
     else {
-        soundBank.play("physical_miss_fx");
+        mSoundBank->play("physical_miss_fx");
     }
 }
 
@@ -259,6 +258,7 @@ void SingleplayerGame::onHUDSpecialSelect(Player* attacker, Player* target) {
         attacker->mAnimationController->runIdleAnimation();
     };
     attacker->mAnimationController->runAnimation(AnimationType::Special, cb);
+    
 }
 
 void SingleplayerGame::onHUDItemSelect(Player* user, Player* target) {

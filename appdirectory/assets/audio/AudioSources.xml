@@ -18,8 +18,16 @@
             <filename>option_select_fx.wav</filename>
         </source>
         <source>
-            <id>physical_attack_fx</id>
+            <id>physical_woosh_fx</id>
             <filename>woosh-1.ogg</filename>
+        </source>
+        <source>
+            <id>physical_impact_fx</id>
+            <filename>impact-1.ogg</filename>
+        </source>
+        <source>
+            <id>physical_miss_fx</id>
+            <filename>woosh-3.ogg</filename>
         </source>
         <source>
             <id>special_attack_fx</id>

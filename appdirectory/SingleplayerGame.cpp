@@ -258,7 +258,7 @@ void SingleplayerGame::onHUDSpecialSelect(Player* attacker, Player* target) {
         attacker->mAnimationController->runIdleAnimation();
     };
     attacker->mAnimationController->runAnimation(AnimationType::Special, cb);
-    
+    mSoundBank->play("special_attack_fx"); 
 }
 
 void SingleplayerGame::onHUDItemSelect(Player* user, Player* target) {

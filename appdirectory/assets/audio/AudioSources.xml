@@ -17,5 +17,21 @@
             <id>option_select_fx</id>
             <filename>option_select_fx.wav</filename>
         </source>
+        <source>
+            <id>physical_attack_fx</id>
+            <filename>woosh-1.ogg</filename>
+        </source>
+        <source>
+            <id>special_attack_fx</id>
+            <filename>dark-shoot.wav</filename>
+        </source>
+        <source>
+            <id>item_fx</id>
+            <filename>power-up.ogg</filename>
+        </source>
+        <source>
+            <id>game_over_fx</id>
+            <filename>game-over-2.ogg</filename>
+        </source>
     </sources>
 </audioDatabase>

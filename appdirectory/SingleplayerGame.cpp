@@ -16,7 +16,7 @@ http://www.ogre3d.org/tikiwiki/tiki-index.php?page=MinimalOgre-cpp
 SingleplayerGame::SingleplayerGame(RenderingEngine* renderer, GUISystem* gui,
     PlayerBank* playerBank, SoundBank* soundBank)
     : BaseGame(renderer, gui, playerBank), mGameOver(false), mAnimationRunning(false),
-      mSoundController(soundBank), playerTurn(true), activeEnemy(0) {
+      mSoundBank(soundBank), playerTurn(true), activeEnemy(0) {
 }
 
 SingleplayerGame::~SingleplayerGame(void) {
@@ -98,7 +98,7 @@ void SingleplayerGame::destroyScene(void) {
 
 void SingleplayerGame::initGUI(void)
 {
-    mHUD = new HUD(*(mRenderer->mSceneManager), *mGUI, myPartyAlive,
+    mHUD = new HUD(*(mRenderer->mSceneManager), *mGUI, this, myPartyAlive,
             enemyPartyAlive, myPartyWaiting, inventory);
 }
 
@@ -111,8 +111,6 @@ bool SingleplayerGame::go(void)
     enemyPartyAlive = enemyParty;
 
     initGUI();
-    mHUD->registerListener(this);
-    mHUD->registerListener(&mSoundController);
 
     mMusicTrack = Mix_LoadMUS("assets/audio/castlewall.wav");
     Mix_FadeInMusic(mMusicTrack, -1, 1000);
@@ -247,6 +245,19 @@ void SingleplayerGame::onHUDGuardSelect(Player* user) {
         user->mAnimationController->runIdleAnimation();
     };
     user->mAnimationController->runAnimation(AnimationType::Guard, cb);
+    mSoundBank->play("guard_fx");
+}
+
+void SingleplayerGame::onHUDCycleCharacter(void) {
+    mSoundBank->play("hud_cycle_fx");
+}
+
+void SingleplayerGame::onHUDOptionSelect(void) {
+    mSoundBank->play("option_select_fx");
+}
+
+void SingleplayerGame::onHUDNavigation(void) {
+    mSoundBank->play("option_nav_fx");
 }
 
 void SingleplayerGame::onHUDPlayAgain() {

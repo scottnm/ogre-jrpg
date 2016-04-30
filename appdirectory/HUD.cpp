@@ -218,6 +218,7 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
             case OIS::KC_Q:
                 notifyHUDOptionSelect();
                 setTargetArrowVisible(targetParty.at(activeTarget), false);
+                activeTarget = 0;
                 if (mPrevState == HUD_STATE::ACTION_MENU_ACTIVE) {
                     switchToActionMenu();
                 }
@@ -244,6 +245,7 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
                 }
                 dequeueActiveCharacter();
                 setTargetArrowVisible(targetParty.at(activeTarget), false);
+                activeTarget = 0;
                 mActionOptions[mActionOptionFocused]->hide();
                 mActionOptionFocused = 0;
                 mActionOptions[0]->show();
@@ -310,10 +312,8 @@ void HUD::switchToTargetMenu(void) {
     targetIcon->show();
     targetIcon->activate();
 
-    auto& party = getTargetParty();
-    setTargetArrowVisible(party.at(activeTarget), false);
     activeTarget = 0;
-    setTargetArrowVisible(party.at(activeTarget), true);
+    setTargetArrowVisible(getTargetParty().at(activeTarget), true);
 }
 
 void HUD::refocusAfterCharacterDeath(void) {

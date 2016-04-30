@@ -223,21 +223,30 @@ bool SingleplayerGame::keyPressed(const OIS::KeyEvent &arg) {
 
 void SingleplayerGame::onHUDPhysicalSelect(Player* attacker, Player* target) {
     mAnimationRunning = true;
-    bool& animationRunning = this->mAnimationRunning;
-    AnimationCallback cb = [&animationRunning, attacker, target](void)-> void{
-        int oldhealth = target->info().health;
-        if (attacker->attemptPhysicalAttack()) {
+    bool& animationRunning = mAnimationRunning;
+    SoundBank& soundBank = *mSoundBank;
+    bool attackSuccessful = attacker->attemptPhysicalAttack();
+
+    AnimationCallback cb = [&soundBank, &animationRunning, attacker, target, 
+                      attackSuccessful](void)-> void{
+        if (attackSuccessful) {
             attacker->physicalAttack(*target);
         }
         else {
             // miss logic
-            std::cout << "miss" << std::endl;
         }
-        std::cout << target->info().name << ": " << oldhealth - target->info().health << std::endl;
         animationRunning = false;
         attacker->mAnimationController->runIdleAnimation();
     };
+
     attacker->mAnimationController->runAnimation(AnimationType::Physical, cb);
+    if (attackSuccessful) {
+        soundBank.play("physical_woosh_fx");
+        soundBank.play("physical_impact_fx");
+    }
+    else {
+        soundBank.play("physical_miss_fx");
+    }
 }
 
 void SingleplayerGame::onHUDSpecialSelect(Player* attacker, Player* target) {

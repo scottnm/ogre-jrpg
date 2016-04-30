@@ -179,6 +179,14 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
     if (myPartyAlive.empty() || enemyPartyAlive.empty()) {
         mGameOver = true;
         mHUD->alertGameOver(enemyPartyAlive.empty());
+        if (enemyPartyAlive.empty()) {
+            mHUD->alertGameOver(true);
+            mSoundBank->play("game_win_fx");
+        }
+        else {
+            mHUD->alertGameOver(false);
+            mSoundBank->play("game_lose_fx");
+        }
     }
 
     return true;

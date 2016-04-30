@@ -20,7 +20,7 @@
             </item>
             <guard>
                 <state-name>Block</state-name>
-                <speed-scale>1</speed-scale>
+                <speed-scale>0.9</speed-scale>
             </guard>
             <death>
                 <state-name>Death1</state-name>

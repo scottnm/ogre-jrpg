@@ -141,7 +141,7 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
         c->mAnimationController->updateAnimationTime(evt.timeSinceLastFrame);
     }
 
-    if(mGameOver || mShutDown) {
+    if(mAnimationRunning || mGameOver || mShutDown) {
         return true;
     }
 
@@ -180,8 +180,6 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
 
     if (myPartyAlive.empty() || enemyPartyAlive.empty()) {
         mGameOver = true;
-        // throw up lose game gui
-        std::cout << (enemyPartyAlive.empty() ? "You win" : "You lose") << std::endl;
         mHUD->alertGameOver(enemyPartyAlive.empty());
     }
 

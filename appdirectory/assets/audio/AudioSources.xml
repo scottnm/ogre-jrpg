@@ -30,8 +30,20 @@
             <filename>power-up.ogg</filename>
         </source>
         <source>
-            <id>game_over_fx</id>
+            <id>game_win_fx</id>
+            <filename>success-3.ogg</filename>
+        </source>
+        <source>
+            <id>game_lose_fx</id>
             <filename>game-over-2.ogg</filename>
+        </source>
+        <source>
+            <id>death_fx</id>
+            <filename>death.wav</filename>
+        </source>
+        <source>
+            <id>grunt_fx</id>
+            <filename>scream-2.ogg</filename>
         </source>
     </sources>
 </audioDatabase>

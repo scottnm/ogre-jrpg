@@ -92,7 +92,7 @@ private:
     std::vector<Player*>& enemyParty;
     int activeTarget;
     // std::vector<std::pair<Item,int>>& items;
-    Inventory& inventory;
+    Inventory& mInventory;
 
     static const Ogre::String windowName;
     static const Ogre::String mockItems[4];

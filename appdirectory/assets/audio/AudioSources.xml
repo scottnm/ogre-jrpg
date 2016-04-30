@@ -34,7 +34,11 @@
             <filename>dark-shoot.wav</filename>
         </source>
         <source>
-            <id>item_fx</id>
+            <id>item_off_fx</id>
+            <filename>explosion-1.ogg</filename>
+        </source>
+        <source>
+            <id>item_def_fx</id>
             <filename>power-up.ogg</filename>
         </source>
         <source>

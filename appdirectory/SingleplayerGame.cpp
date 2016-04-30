@@ -252,7 +252,6 @@ void SingleplayerGame::onHUDSpecialSelect(Player* attacker, Player* target) {
     mAnimationRunning = true;
     bool& animationRunning = this->mAnimationRunning;
     AnimationCallback cb = [&animationRunning, attacker, target](void)-> void{
-        std::cout << "Special " << std::endl;
         attacker->specialAttack(*target);
         animationRunning = false;
         attacker->mAnimationController->runIdleAnimation();
@@ -266,19 +265,18 @@ void SingleplayerGame::onHUDItemSelect(Player* user, Player* target) {
     bool& animationRunning = this->mAnimationRunning;
     Inventory& inventory = this->inventory;
     AnimationCallback cb = [&animationRunning, user, target, &inventory](void)-> void{
-        std::cout << "Item " << std::endl;
         inventory.useItem(*target);
         animationRunning = false;
         user->mAnimationController->runIdleAnimation();
     };
     user->mAnimationController->runAnimation(AnimationType::Item, cb);
+    mSoundBank->play("item_fx");
 }
 
 void SingleplayerGame::onHUDGuardSelect(Player* user) {
     mAnimationRunning = true;
     bool& animationRunning = this->mAnimationRunning;
     AnimationCallback cb = [&animationRunning, user](void)-> void{
-        std::cout << "Guard " << std::endl;
         user->guard();
         animationRunning = false;
         user->mAnimationController->runIdleAnimation();

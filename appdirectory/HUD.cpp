@@ -23,7 +23,7 @@ HUD::HUD(Ogre::SceneManager& scnMgr,
            myParty(myParty),
            myPartyWaiting(myPartyWaiting),
            enemyParty(enemyParty),
-           inventory(inventory) {
+           mInventory(inventory) {
 
     mActionOptionFocused = 0;
     mItemsFocused = true;
@@ -53,7 +53,7 @@ HUD::HUD(Ogre::SceneManager& scnMgr,
     mActionOptions[GUARD_ID] = MenuFrame->getChild("Guard_select");
 
     mMenuRoot->getChild("Item_Frame")->getChild("Items_StaticText")->setText(
-            inventory.getCurrentItemMenuTitle());
+            mInventory.getCurrentItemMenuTitle());
 
     auto p0Frame = mMenuRoot->getChild("Party_Frame")->getChild("PartyMember0_Frame");
     auto p1Frame = mMenuRoot->getChild("Party_Frame")->getChild("PartyMember1_Frame");
@@ -119,7 +119,7 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
             case OIS::KC_UP:
                 notifyHUDNavigation();
                 mActionOptionFocused = std::max(0, mActionOptionFocused - 1);
-                if (inventory.items.size() == 0 && mActionOptionFocused == ITEMS_ID) {
+                if (mInventory.items.size() == 0 && mActionOptionFocused == ITEMS_ID) {
                     mActionOptionFocused = SPECIAL_ID;
                 }
                 if (myPartyWaiting.at(myPartyFocused)->info().specialPoints == 0 &&
@@ -134,7 +134,7 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
                         mActionOptionFocused == SPECIAL_ID) {
                     mActionOptionFocused = ITEMS_ID;
                 }
-                if (inventory.items.size() == 0 && mActionOptionFocused == ITEMS_ID) {
+                if (mInventory.items.size() == 0 && mActionOptionFocused == ITEMS_ID) {
                     mActionOptionFocused = GUARD_ID;
                 }
                 break;
@@ -184,11 +184,11 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
                 }
                 case OIS::KC_LEFT:
                     notifyHUDNavigation();
-                    inventory.cycleInventoryBackward();
+                    mInventory.cycleInventoryBackward();
                     break;
                 case OIS::KC_RIGHT:
                     notifyHUDNavigation();
-                    inventory.cycleInventoryForward();
+                    mInventory.cycleInventoryForward();
                     break;
                 case OIS::KC_RETURN:
                     notifyHUDOptionSelect(); 
@@ -198,7 +198,7 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
                     return;
             }
             mMenuRoot->getChild("Item_Frame")->getChild("Items_StaticText")->setText(
-                    inventory.getCurrentItemMenuTitle());
+                    mInventory.getCurrentItemMenuTitle());
         }
         else {
             switch(arg.key) {
@@ -244,7 +244,7 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
                         break;
                     case ITEMS_ID:
                         notifyItemSelect();
-                        if (inventory.items.size() == 0) {
+                        if (mInventory.items.size() == 0) {
                             mMenuRoot->getChild("Menu_Frame")->getChild("Items_label")->disable();
                         }
                         break;
@@ -296,7 +296,7 @@ void HUD::switchToItemMenu(void) {
     auto itemFrame = mMenuRoot->getChild("Item_Frame");
     itemFrame->show();
     itemFrame->activate();
-    mMenuRoot->getChild("Item_Frame")->getChild("Items_StaticText")->setText(inventory.getCurrentItemMenuTitle());
+    mMenuRoot->getChild("Item_Frame")->getChild("Items_StaticText")->setText(mInventory.getCurrentItemMenuTitle());
 }
 
 void HUD::switchToActionMenu(void) {
@@ -453,7 +453,7 @@ void HUD::notifyQuit(void) {
 
 std::vector<Player*>& HUD::getTargetParty(void) {
     return mActionOptionFocused == ITEMS_ID &&
-        !inventory.getCurrentItem().isOffensive ?
+        !mInventory.getCurrentItem().isOffensive ?
         myParty : enemyParty;
 }
 

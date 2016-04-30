@@ -99,7 +99,7 @@ void SingleplayerGame::destroyScene(void) {
 void SingleplayerGame::initGUI(void)
 {
     mHUD = new HUD(*(mRenderer->mSceneManager), *mGUI, this, myPartyAlive,
-            enemyPartyAlive, myPartyWaiting, inventory);
+            enemyPartyAlive, myPartyWaiting, mInventory);
 }
 
 bool SingleplayerGame::go(void)
@@ -263,14 +263,19 @@ void SingleplayerGame::onHUDSpecialSelect(Player* attacker, Player* target) {
 void SingleplayerGame::onHUDItemSelect(Player* user, Player* target) {
     mAnimationRunning = true;
     bool& animationRunning = this->mAnimationRunning;
-    Inventory& inventory = this->inventory;
+    Inventory& inventory = mInventory;
     AnimationCallback cb = [&animationRunning, user, target, &inventory](void)-> void{
         inventory.useItem(*target);
         animationRunning = false;
         user->mAnimationController->runIdleAnimation();
     };
     user->mAnimationController->runAnimation(AnimationType::Item, cb);
-    mSoundBank->play("item_fx");
+    if (mInventory.getCurrentItem().isOffensive) {
+        mSoundBank->play("item_off_fx");
+    }
+    else {
+        mSoundBank->play("item_def_fx");
+    }
 }
 
 void SingleplayerGame::onHUDGuardSelect(Player* user) {

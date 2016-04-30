@@ -31,6 +31,7 @@ private:
     virtual bool keyPressed(const OIS::KeyEvent &arg);
 
     void partyReset(std::vector<Player*>& party);
+    void clearDeadCharacters(void);
 
     void onHUDPhysicalSelect(Player* attacker, Player* target);
     void onHUDSpecialSelect(Player* attacker, Player* target);

@@ -6,7 +6,7 @@ AnimationController::AnimationController(Ogre::Entity* mesh, const AnimationSpec
       specialAnim(mesh->getAnimationState(spec.special.first), spec.special.second),
       itemAnim(mesh->getAnimationState(spec.item.first), spec.item.second),
       guardAnim(mesh->getAnimationState(spec.guard.first), spec.guard.second),
-      deathAnim(mesh->getAnimationState(spec.idle.first), spec.idle.second),
+      deathAnim(mesh->getAnimationState(spec.death.first), spec.death.second),
       activeAnim(&idleAnim) {
 }
 
@@ -35,7 +35,7 @@ void AnimationController::runAnimation(AnimationType at, AnimationCallback cb) {
             activeAnim = &guardAnim;
             break;
         case AnimationType::Death:
-            activeAnim = &guardAnim;
+            activeAnim = &deathAnim;
             break;
     }
     activeAnim->first->setEnabled(true);

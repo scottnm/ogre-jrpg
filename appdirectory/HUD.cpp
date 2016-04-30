@@ -10,12 +10,20 @@ enum HUD_ID {
     GUARD_ID
 };
 
-HUD::HUD(Ogre::SceneManager& scnMgr, GUISystem& gui, std::vector<Player*>& myParty,
-         std::vector<Player*>& enemyParty, std::vector<Player*>& myPartyWaiting,
+HUD::HUD(Ogre::SceneManager& scnMgr,
+         GUISystem& gui,
+         HUDListener* listener,
+         std::vector<Player*>& myParty,
+         std::vector<Player*>& enemyParty,
+         std::vector<Player*>& myPartyWaiting,
          Inventory& inventory) 
-    : mGUI(gui), mState(HUD_STATE::ACTION_MENU_ACTIVE),
-      myParty(myParty), myPartyWaiting(myPartyWaiting), enemyParty(enemyParty),
-      inventory(inventory) {
+         : mGUI(gui),
+           mListener(listener),
+           mState(HUD_STATE::ACTION_MENU_ACTIVE),
+           myParty(myParty),
+           myPartyWaiting(myPartyWaiting),
+           enemyParty(enemyParty),
+           inventory(inventory) {
 
     mActionOptionFocused = 0;
     mItemsFocused = true;
@@ -379,10 +387,6 @@ void HUD::cycleTargetCharacter() {
     setTargetArrowVisible(targetParty.at(activeTarget), true);
 }
 
-void HUD::registerListener(HUDListener* hl) {
-    mListeners.emplace(hl);
-}
-
 void HUD::update(void) {
     for(auto character : myParty) {
         auto infoWindow = characterInfoWindows.find(character)->second;
@@ -407,61 +411,44 @@ void HUD::alertGameOver(bool userWins) {
 void HUD::notifyPhysicalSelect(void) {
     Player* attacker = myPartyWaiting.at(myPartyFocused);
     Player* target = enemyParty.at(activeTarget);
-    for(auto hl : mListeners) {
-        hl->onHUDPhysicalSelect(attacker, target);
-    }
+    mListener->onHUDPhysicalSelect(attacker, target);
 }
 
 void HUD::notifySpecialSelect(void) {
     Player* attacker = myPartyWaiting.at(myPartyFocused);
     Player* target = enemyParty.at(activeTarget);
-    for(auto hl : mListeners) {
-        hl->onHUDSpecialSelect(attacker, target);
-    }
+    mListener->onHUDSpecialSelect(attacker, target);
 }
 
 void HUD::notifyItemSelect(void) {
     Player* user = myPartyWaiting.at(myPartyFocused);
     Player* target = getTargetParty().at(activeTarget);
-    for(auto hl : mListeners) {
-        hl->onHUDItemSelect(user, target);
-    }
+    mListener->onHUDItemSelect(user, target);
 }
 
 void HUD::notifyGuardSelect(void) {
-    for(auto hl : mListeners) {
-        hl->onHUDGuardSelect(myPartyWaiting.at(myPartyFocused));
-    }
+    Player* guardingCharacter = myPartyWaiting.at(myPartyFocused);
+    mListener->onHUDGuardSelect(guardingCharacter);
 }
 
 void HUD::notifyCharacterCycle(void) {
-    for(auto hl : mListeners) {
-        hl->onHUDCycleCharacter();
-    }
+    mListener->onHUDCycleCharacter();
 }
 
 void HUD::notifyHUDOptionSelect(void) {
-    for(auto hl : mListeners) {
-        hl->onHUDOptionSelect();
-    }
+    mListener->onHUDOptionSelect();
 }
 
 void HUD::notifyHUDNavigation(void) {
-    for(auto hl : mListeners) {
-        hl->onHUDNavigation();
-    }
+    mListener->onHUDNavigation();
 }
 
 void HUD::notifyPlayAgain(void) {
-    for(auto hl : mListeners) {
-        hl->onHUDPlayAgain();
-    }
+    mListener->onHUDPlayAgain();
 }
 
 void HUD::notifyQuit(void) {
-    for(auto hl : mListeners) {
-        hl->onHUDQuit();
-    }
+    mListener->onHUDQuit();
 }
 
 std::vector<Player*>& HUD::getTargetParty(void) {

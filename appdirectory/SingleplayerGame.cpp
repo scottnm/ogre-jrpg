@@ -120,15 +120,6 @@ bool SingleplayerGame::go(void)
     return true;
 }
 
-bool characterDead(Player* p) {
-    if (p->isDead()) {
-        AnimationCallback cb = [](void)-> void {};
-        p->mAnimationController->runAnimation(AnimationType::Death, cb);
-        return true;
-    }
-    return false; 
-}
-
 bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
 
@@ -166,15 +157,7 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
     }
 
     mHUD->update();
-
-    // remove all of the dead characters
-    myPartyAlive.erase(std::remove_if(myPartyAlive.begin(), myPartyAlive.end(), characterDead),
-            myPartyAlive.end());
-    myPartyWaiting.erase(std::remove_if(myPartyWaiting.begin(), myPartyWaiting.end(),
-                characterDead), myPartyWaiting.end());
-    enemyPartyAlive.erase(std::remove_if(enemyPartyAlive.begin(), enemyPartyAlive.end(),
-                characterDead), enemyPartyAlive.end());
-    mHUD->refocusAfterCharacterDeath();
+    clearDeadCharacters();
 
     if (myPartyAlive.empty() || enemyPartyAlive.empty()) {
         mGameOver = true;
@@ -190,6 +173,45 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
     }
 
     return true;
+}
+
+void SingleplayerGame::clearDeadCharacters(void) {
+    // remove all of the dead characters
+    for(auto citr = myPartyAlive.begin(); citr != myPartyAlive.end(); ++citr) {
+        Player* p = *citr;
+        if (p->isDead()) {
+            AnimationCallback cb = [](void)-> void {};
+            p->mAnimationController->runAnimation(AnimationType::Death, cb);
+            mSoundBank->play("death_fx");
+            mSoundBank->play("grunt_fx");
+
+            citr = myPartyAlive.erase(citr);
+            if (citr == myPartyAlive.end()) {
+                break;
+            }
+        }
+    }
+    for(auto citr = enemyPartyAlive.begin(); citr != enemyPartyAlive.end(); ++citr) {
+        Player* p = *citr;
+        if (p->isDead()) {
+            AnimationCallback cb = [](void)-> void {};
+            p->mAnimationController->runAnimation(AnimationType::Death, cb);
+            mSoundBank->play("death_fx");
+            mSoundBank->play("grunt_fx");
+
+            citr = enemyPartyAlive.erase(citr);
+            if (citr == enemyPartyAlive.end()) {
+                break;
+            }
+        }
+    }
+
+    myPartyWaiting.erase(
+            std::remove_if(myPartyWaiting.begin(), myPartyWaiting.end(),
+                [](Player* p)->bool{ return p->isDead(); }),
+            myPartyWaiting.end());
+
+    mHUD->refocusAfterCharacterDeath();
 }
 
 bool SingleplayerGame::keyPressed(const OIS::KeyEvent &arg) {

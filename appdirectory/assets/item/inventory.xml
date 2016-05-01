@@ -68,7 +68,7 @@
         <item>
             <name>Smokescreen</name>
             <description>Obscure your position with this thick smoke; reduce the enemy's accuracy by 30%</description>
-            <offensive>0</offensive>
+            <offensive>1</offensive>
             <delta-health>0</delta-health>
             <delta-armor>2</delta-armor>
             <delta-damage>0</delta-damage>

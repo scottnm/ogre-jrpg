@@ -7,7 +7,11 @@
 #include <iostream>
 #include <cstdlib>
 
+#include <cassert>
+
 SoundBank::SoundBank() {
+    auto initted = Mix_Init(MIX_INIT_OGG);
+    assert(initted == MIX_INIT_OGG);
     Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096);
 }
 

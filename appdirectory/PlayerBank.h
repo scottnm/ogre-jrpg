@@ -5,10 +5,11 @@
 #include <unordered_map>
 
 #include "PlayerInfo.h"
+#include "MeshSpecBank.h"
 
 class PlayerBank {
 public:
-    ~PlayerBank();
+    PlayerBank(void);
 
     /**
      * load the sounds specified by the xml audio database file
@@ -18,7 +19,8 @@ public:
     const PlayerInfo& getPlayerInfo(const std::string& name);
 
 private:
-    std::unordered_map<std::string, PlayerInfo*> mCharacterBank;
+    MeshSpecBank mMeshSpecBank;
+    std::unordered_map<std::string, PlayerInfo> mCharacterBank;
 };
 
 #endif // __PLAYERBANK_H__

@@ -10,12 +10,20 @@ enum HUD_ID {
     GUARD_ID
 };
 
-HUD::HUD(Ogre::SceneManager& scnMgr, GUISystem& gui, std::vector<Player*>& myParty,
-         std::vector<Player*>& enemyParty, std::vector<Player*>& myPartyWaiting,
+HUD::HUD(Ogre::SceneManager& scnMgr,
+         GUISystem& gui,
+         HUDListener* listener,
+         std::vector<Player*>& myParty,
+         std::vector<Player*>& enemyParty,
+         std::vector<Player*>& myPartyWaiting,
          Inventory& inventory) 
-    : mGUI(gui), mState(HUD_STATE::ACTION_MENU_ACTIVE),
-      myParty(myParty), myPartyWaiting(myPartyWaiting), enemyParty(enemyParty),
-      inventory(inventory) {
+         : mGUI(gui),
+           mListener(listener),
+           mState(HUD_STATE::ACTION_MENU_ACTIVE),
+           myParty(myParty),
+           myPartyWaiting(myPartyWaiting),
+           enemyParty(enemyParty),
+           mInventory(inventory) {
 
     mActionOptionFocused = 0;
     mItemsFocused = true;
@@ -27,6 +35,9 @@ HUD::HUD(Ogre::SceneManager& scnMgr, GUISystem& gui, std::vector<Player*>& myPar
     auto root = wmgr.createWindow("DefaultWindow", "HUDRoot");
     mMenuRoot = wmgr.loadLayoutFromFile("scaling_menu.layout");
     root->addChild(mMenuRoot);
+    mItemRoot = wmgr.loadLayoutFromFile("item_info.layout");
+    root->addChild(mItemRoot);
+    mItemRoot->setVisible(false);
     mEndStateRoot = wmgr.loadLayoutFromFile("end_state.layout");
     root->addChild(mEndStateRoot);
     mEndStateRoot->hide();
@@ -45,7 +56,7 @@ HUD::HUD(Ogre::SceneManager& scnMgr, GUISystem& gui, std::vector<Player*>& myPar
     mActionOptions[GUARD_ID] = MenuFrame->getChild("Guard_select");
 
     mMenuRoot->getChild("Item_Frame")->getChild("Items_StaticText")->setText(
-            inventory.getCurrentItemMenuTitle());
+            mInventory.getCurrentItemName());
 
     auto p0Frame = mMenuRoot->getChild("Party_Frame")->getChild("PartyMember0_Frame");
     auto p1Frame = mMenuRoot->getChild("Party_Frame")->getChild("PartyMember1_Frame");
@@ -58,23 +69,25 @@ HUD::HUD(Ogre::SceneManager& scnMgr, GUISystem& gui, std::vector<Player*>& myPar
         characterInfoWindows.emplace(character, frame);
 
         const PlayerInfo& info = character->info();
-        frame->getChild("PM_Name_StaticText")->setText(info.name);
+        frame->getChild("PM_Name_Value")->setText(info.name);
         frame->getChild("PM_Pic_StaticImage")->setProperty("Image", info.img);
-        frame->getChild("PM_HP_Left_StaticText")->setText(
-                Ogre::StringConverter::toString(info.health));
-        frame->getChild("PM_HP_Total_StaticText")->setText(
-                Ogre::StringConverter::toString(info.healthMax));
-        frame->getChild("PM_SP_Left_StaticText")->setText(
-                Ogre::StringConverter::toString(info.specialPoints));
-        frame->getChild("PM_SP_Total_StaticText")->setText(
-                Ogre::StringConverter::toString(info.specialPointsMax));
+        std::string hpText = std::to_string(info.health) + "/" + std::to_string(info.healthMax);
+        frame->getChild("PM_HP_Left_StaticText")->setText(hpText);
+        std::string spText = std::to_string(info.specialPoints) + "/" + std::to_string(info.specialPointsMax);
+        frame->getChild("PM_SP_Left_StaticText")->setText(spText);
+        frame->getChild("PM_Damage_Value")->setText(
+                std::to_string(info.damage));
+        frame->getChild("PM_Armor_Value")->setText(
+                std::to_string(info.armor));
+        frame->getChild("PM_Accuracy_Value")->setText(
+                std::to_string((int)(info.accuracy*100)) + "%");
 
         auto targetBillboardSet = scnMgr.createBillboardSet();
         targetBillboardSet->setMaterialName("pixeltarget");
         targetBillboardSet->createBillboard(Ogre::Vector3::ZERO);
 
         auto targetSceneNode = character->sceneNode->
-            createChildSceneNode(Ogre::Vector3(0, 250, 0));
+            createChildSceneNode(Ogre::Vector3(0, character->getHeight(), 0));
         targetSceneNode->attachObject(targetBillboardSet);
         targetSceneNode->getAttachedObject(0)->setRenderQueueGroup(Ogre::RENDER_QUEUE_MAX);
         targetSceneNode->setVisible(false);
@@ -87,7 +100,7 @@ HUD::HUD(Ogre::SceneManager& scnMgr, GUISystem& gui, std::vector<Player*>& myPar
         targetBillboardSet->setMaterialName("pixeltarget");
         targetBillboardSet->createBillboard(Ogre::Vector3::ZERO);
         auto targetSceneNode = e->sceneNode->
-            createChildSceneNode(Ogre::Vector3(0, 250, 0));
+            createChildSceneNode(Ogre::Vector3(0, e->getHeight(), 0));
         targetSceneNode->attachObject(targetBillboardSet);
         targetSceneNode->getAttachedObject(0)->setRenderQueueGroup(Ogre::RENDER_QUEUE_MAX);
         targetSceneNode->setVisible(false);
@@ -111,7 +124,7 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
             case OIS::KC_UP:
                 notifyHUDNavigation();
                 mActionOptionFocused = std::max(0, mActionOptionFocused - 1);
-                if (inventory.items.size() == 0 && mActionOptionFocused == ITEMS_ID) {
+                if (mInventory.items.size() == 0 && mActionOptionFocused == ITEMS_ID) {
                     mActionOptionFocused = SPECIAL_ID;
                 }
                 if (myPartyWaiting.at(myPartyFocused)->info().specialPoints == 0 &&
@@ -126,7 +139,7 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
                         mActionOptionFocused == SPECIAL_ID) {
                     mActionOptionFocused = ITEMS_ID;
                 }
-                if (inventory.items.size() == 0 && mActionOptionFocused == ITEMS_ID) {
+                if (mInventory.items.size() == 0 && mActionOptionFocused == ITEMS_ID) {
                     mActionOptionFocused = GUARD_ID;
                 }
                 break;
@@ -163,6 +176,8 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
         mActionOptions[mActionOptionFocused]->activate();
     }
     else if (mState == HUD_STATE::ITEMS_MENU_ACTIVE) {
+        
+
         if (mItemsFocused) {
             switch(arg.key) {
                 case OIS::KC_DOWN: {
@@ -176,11 +191,13 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
                 }
                 case OIS::KC_LEFT:
                     notifyHUDNavigation();
-                    inventory.cycleInventoryBackward();
+                    mInventory.cycleInventoryBackward();
+                    updateItemBox();
                     break;
                 case OIS::KC_RIGHT:
                     notifyHUDNavigation();
-                    inventory.cycleInventoryForward();
+                    mInventory.cycleInventoryForward();
+                    updateItemBox();
                     break;
                 case OIS::KC_RETURN:
                     notifyHUDOptionSelect(); 
@@ -190,11 +207,12 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
                     return;
             }
             mMenuRoot->getChild("Item_Frame")->getChild("Items_StaticText")->setText(
-                    inventory.getCurrentItemMenuTitle());
+                    mInventory.getCurrentItemName());
         }
         else {
             switch(arg.key) {
                 case OIS::KC_RETURN:
+                    mItemRoot->setVisible(false);
                     notifyHUDOptionSelect();
                     switchToActionMenu();
                     break;
@@ -218,6 +236,7 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
             case OIS::KC_Q:
                 notifyHUDOptionSelect();
                 setTargetArrowVisible(targetParty.at(activeTarget), false);
+                activeTarget = 0;
                 if (mPrevState == HUD_STATE::ACTION_MENU_ACTIVE) {
                     switchToActionMenu();
                 }
@@ -235,15 +254,17 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
                         break;
                     case ITEMS_ID:
                         notifyItemSelect();
-                        if (inventory.items.size() == 0) {
+                        if (mInventory.items.size() == 0) {
                             mMenuRoot->getChild("Menu_Frame")->getChild("Items_label")->disable();
                         }
+                        mItemRoot->setVisible(false);
                         break;
                     default:
                         break;
                 }
                 dequeueActiveCharacter();
                 setTargetArrowVisible(targetParty.at(activeTarget), false);
+                activeTarget = 0;
                 mActionOptions[mActionOptionFocused]->hide();
                 mActionOptionFocused = 0;
                 mActionOptions[0]->show();
@@ -286,7 +307,9 @@ void HUD::switchToItemMenu(void) {
     auto itemFrame = mMenuRoot->getChild("Item_Frame");
     itemFrame->show();
     itemFrame->activate();
-    mMenuRoot->getChild("Item_Frame")->getChild("Items_StaticText")->setText(inventory.getCurrentItemMenuTitle());
+    mMenuRoot->getChild("Item_Frame")->getChild("Items_StaticText")->setText(mInventory.getCurrentItemName());
+    mItemRoot->setVisible(true);
+    updateItemBox();
 }
 
 void HUD::switchToActionMenu(void) {
@@ -310,10 +333,8 @@ void HUD::switchToTargetMenu(void) {
     targetIcon->show();
     targetIcon->activate();
 
-    auto& party = getTargetParty();
-    setTargetArrowVisible(party.at(activeTarget), false);
     activeTarget = 0;
-    setTargetArrowVisible(party.at(activeTarget), true);
+    setTargetArrowVisible(getTargetParty().at(activeTarget), true);
 }
 
 void HUD::refocusAfterCharacterDeath(void) {
@@ -379,19 +400,28 @@ void HUD::cycleTargetCharacter() {
     setTargetArrowVisible(targetParty.at(activeTarget), true);
 }
 
-void HUD::registerListener(HUDListener* hl) {
-    mListeners.emplace(hl);
-}
-
-void HUD::update(void) {
+void HUD::updatePartyInfo(void) {
     for(auto character : myParty) {
         auto infoWindow = characterInfoWindows.find(character)->second;
         const PlayerInfo& info = character->info();
-        infoWindow->getChild("PM_HP_Left_StaticText")->setText(
-                Ogre::StringConverter::toString(info.health));
-        infoWindow->getChild("PM_SP_Left_StaticText")->setText(
-                Ogre::StringConverter::toString(info.specialPoints));
+        std::string hpText = std::to_string(info.health) + "/" + std::to_string(info.healthMax);
+        infoWindow->getChild("PM_HP_Left_StaticText")->setText(hpText);
+        std::string spText = std::to_string(info.specialPoints) + "/" + std::to_string(info.specialPointsMax);
+        infoWindow->getChild("PM_SP_Left_StaticText")->setText(spText);
+        infoWindow->getChild("PM_Damage_Value")->setText(
+                std::to_string(info.damage));
+        infoWindow->getChild("PM_Armor_Value")->setText(
+                std::to_string(info.armor));
+        infoWindow->getChild("PM_Accuracy_Value")->setText(
+                std::to_string((int)(info.accuracy*100)) + "%");
     }
+}
+
+
+void HUD::updateItemBox(void) {
+    mItemRoot->getChild("countText")->setText(std::to_string(mInventory.getCurrentItemCount()));
+    mItemRoot->getChild("descriptionText")->setText(mInventory.getCurrentItemDescription());
+    mItemRoot->getChild("nameText")->setText(mInventory.getCurrentItemName());
 }
 
 void HUD::alertGameOver(bool userWins) {
@@ -407,65 +437,49 @@ void HUD::alertGameOver(bool userWins) {
 void HUD::notifyPhysicalSelect(void) {
     Player* attacker = myPartyWaiting.at(myPartyFocused);
     Player* target = enemyParty.at(activeTarget);
-    for(auto hl : mListeners) {
-        hl->onHUDPhysicalSelect(attacker, target);
-    }
+    mListener->onHUDPhysicalSelect(attacker, target);
 }
 
 void HUD::notifySpecialSelect(void) {
     Player* attacker = myPartyWaiting.at(myPartyFocused);
     Player* target = enemyParty.at(activeTarget);
-    for(auto hl : mListeners) {
-        hl->onHUDSpecialSelect(attacker, target);
-    }
+    mListener->onHUDSpecialSelect(attacker, target);
 }
 
 void HUD::notifyItemSelect(void) {
+    Player* user = myPartyWaiting.at(myPartyFocused);
     Player* target = getTargetParty().at(activeTarget);
-    for(auto hl : mListeners) {
-        hl->onHUDItemSelect(target);
-    }
+    mListener->onHUDItemSelect(user, target);
 }
 
 void HUD::notifyGuardSelect(void) {
-    for(auto hl : mListeners) {
-        hl->onHUDGuardSelect(myPartyWaiting.at(myPartyFocused));
-    }
+    Player* guardingCharacter = myPartyWaiting.at(myPartyFocused);
+    mListener->onHUDGuardSelect(guardingCharacter);
 }
 
 void HUD::notifyCharacterCycle(void) {
-    for(auto hl : mListeners) {
-        hl->onHUDCycleCharacter();
-    }
+    mListener->onHUDCycleCharacter();
 }
 
 void HUD::notifyHUDOptionSelect(void) {
-    for(auto hl : mListeners) {
-        hl->onHUDOptionSelect();
-    }
+    mListener->onHUDOptionSelect();
 }
 
 void HUD::notifyHUDNavigation(void) {
-    for(auto hl : mListeners) {
-        hl->onHUDNavigation();
-    }
+    mListener->onHUDNavigation();
 }
 
 void HUD::notifyPlayAgain(void) {
-    for(auto hl : mListeners) {
-        hl->onHUDPlayAgain();
-    }
+    mListener->onHUDPlayAgain();
 }
 
 void HUD::notifyQuit(void) {
-    for(auto hl : mListeners) {
-        hl->onHUDQuit();
-    }
+    mListener->onHUDQuit();
 }
 
 std::vector<Player*>& HUD::getTargetParty(void) {
     return mActionOptionFocused == ITEMS_ID &&
-        !inventory.getCurrentItem().isOffensive ?
+        !mInventory.getCurrentItem().isOffensive ?
         myParty : enemyParty;
 }
 

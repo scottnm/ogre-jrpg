@@ -15,7 +15,8 @@ public:
 	Inventory(const std::string& fn);
 
 	const Item& getCurrentItem();
-	std::string getCurrentItemMenuTitle();
+	std::string getCurrentItemName();
+	std::string getCurrentItemDescription();
 	int getCurrentItemCount();
 	void cycleInventoryForward();
 	void cycleInventoryBackward();

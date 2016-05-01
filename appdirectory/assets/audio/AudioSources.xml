@@ -34,6 +34,18 @@
             <filename>dark-shoot.wav</filename>
         </source>
         <source>
+            <id>fireball_attack_fx</id>
+            <filename>fireball_fx.wav</filename>
+        </source>
+        <source>
+            <id>ice_attack_fx</id>
+            <filename>ice_fx.wav</filename>
+        </source>
+        <source>
+            <id>flare_attack_fx</id>
+            <filename>flare_fx.wav</filename>
+        </source>
+        <source>
             <id>item_off_fx</id>
             <filename>explosion-1.ogg</filename>
         </source>

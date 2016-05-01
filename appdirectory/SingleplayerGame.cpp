@@ -214,7 +214,6 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
 
     if (myPartyAlive.empty() || enemyPartyAlive.empty()) {
         mGameOver = true;
-// <<<<<<< HEAD
         for(auto player: myParty) {
             player->stopEmittingAll();
         }
@@ -223,8 +222,6 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
         }
         // throw up lose game gui
         std::cout << (enemyPartyAlive.empty() ? "You win" : "You lose") << std::endl;
-// =======
-// >>>>>>> 46cea8f3ba94c89ae6d0532c79dcb7229ed0843b
         mHUD->alertGameOver(enemyPartyAlive.empty());
         if (enemyPartyAlive.empty()) {
             mHUD->alertGameOver(true);

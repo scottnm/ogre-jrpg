@@ -28,17 +28,13 @@ Player::Player(Ogre::SceneManager* _scnmgr, Ogre::SceneNode* _scnnode,
     guardNode->attachObject(guardParticles);
     mParticleSystemMap.emplace(ParticleType::Guard, guardParticles);
     mParticleNodeMap.emplace(ParticleType::Guard, guardNode);
-    // guardParticles->setEmitting(false);
 
-// <<<<<<< HEAD
-    
     auto physicalParticles = _scnmgr->createParticleSystem("Physical_P" + id, "Physical3"); 
     auto physicalNode = sceneNode->createChildSceneNode("Physical_N" + id);
     physicalNode->attachObject(physicalParticles);
     physicalNode->setPosition(0, 125, -15);
     mParticleSystemMap.emplace(ParticleType::Physical, physicalParticles);
     mParticleNodeMap.emplace(ParticleType::Physical, physicalNode);
-    // physicalParticles->setEmitting(false);
 
     auto itemParticles = _scnmgr->createParticleSystem("Item_P" + id, "Item"); 
     auto itemNode = sceneNode->createChildSceneNode("Item_N" + id);
@@ -46,7 +42,6 @@ Player::Player(Ogre::SceneManager* _scnmgr, Ogre::SceneNode* _scnnode,
     itemNode->setPosition(0, 200, 0);
     mParticleSystemMap.emplace(ParticleType::Item, itemParticles);
     mParticleNodeMap.emplace(ParticleType::Item, itemNode);
-    // itemParticles->setEmitting(false);
 
     auto fireParticles = _scnmgr->createParticleSystem("Fire_P" + id, "Fire"); 
     auto fireNode = sceneNode->createChildSceneNode("Fire_N" + id);
@@ -54,7 +49,6 @@ Player::Player(Ogre::SceneManager* _scnmgr, Ogre::SceneNode* _scnnode,
     fireNode->setPosition(0, 100, 0);
     mParticleSystemMap.emplace(ParticleType::Fire, fireParticles);
     mParticleNodeMap.emplace(ParticleType::Fire, fireNode);
-    // fireParticles->setEmitting(false);
 
     auto iceParticles = _scnmgr->createParticleSystem("Ice_P" + id, "Ice"); 
     auto iceNode = sceneNode->createChildSceneNode("Ice_N" + id);
@@ -62,7 +56,6 @@ Player::Player(Ogre::SceneManager* _scnmgr, Ogre::SceneNode* _scnnode,
     iceNode->setPosition(0, 100, 0);
     mParticleSystemMap.emplace(ParticleType::Ice, iceParticles);
     mParticleNodeMap.emplace(ParticleType::Ice, iceNode);
-    // iceParticles->setEmitting(false);
 
     auto flareParticles = _scnmgr->createParticleSystem("Flare_P" + id, "Flare");
     auto flareNode = sceneNode->createChildSceneNode("Flare_N" + id);
@@ -70,19 +63,13 @@ Player::Player(Ogre::SceneManager* _scnmgr, Ogre::SceneNode* _scnnode,
     flareNode->setPosition(0, 100, 0);
     mParticleSystemMap.emplace(ParticleType::Flare, flareParticles);
     mParticleNodeMap.emplace(ParticleType::Flare, flareNode);
-    // flareParticles->setEmitting(false);
 
     stopEmittingAll();
 
     target = NULL;
     
-// =======
-    // currently removed all of the other particle systems since they
-    // aren't being used yet
-    
     mAnimationController = new AnimationController(mEntity, i.mesh.animationSpec); 
     mAnimationController->runIdleAnimation();
-// >>>>>>> 46cea8f3ba94c89ae6d0532c79dcb7229ed0843b
 }
 
 void Player::physicalAttack(Player& target) {
@@ -111,22 +98,16 @@ bool Player::attemptPhysicalAttack(void) {
 void Player::guard(void) {
     mInfo.armor += std::max(1, (int)(0.5f * mInfo.armor));
     setEmitting(ParticleType::Guard, true);
-    // setVisible(ParticleType::Guard, true);
+    setVisible(ParticleType::Guard, true);
 }
 
 void Player::unguard(void) {
     mInfo.armor = mInfo.baseArmor;
     setEmitting(ParticleType::Guard, false);
-    // setVisible(ParticleType::Guard, false);
 }
 
 void Player::specialAttack(Player& target) {
     --mInfo.specialPoints;
-    // --mInfo.specialPoints;
-    // std::uniform_int_distribution<int> bonus_dist(0, mInfo.accuracy * mInfo.damage);
-    // int dmgBonus = bonus_dist(rand_generator);
-    // int totalDamage = std::max(0, mInfo.damage + dmgBonus - target.mInfo.armor);
-    // target.mInfo.health = std::max(target.mInfo.health - totalDamage, 0);
     int randNum = rand() % 3;
     std::cout << randNum << std::endl << std::endl << std::endl;
     ParticleType pt;
@@ -150,14 +131,6 @@ void Player::specialAttack(Player& target) {
             break;
     }
     emittingParticles = true;
-
-    // printf("%s hits %s for %d dmg with a bonus of %d\n",
-    //         mInfo.name.c_str(), target.mInfo.name.c_str(),
-    //         totalDamage, dmgBonus);
-
-    // fflush(stdout);
-
-    // std::cout << "health left " << target.mInfo.health << std::endl; 
 }
 
 bool Player::isDead(void) {
@@ -196,7 +169,6 @@ void Player::lookAt(Player* targetObject) {
     }
 }
 
-// <<<<<<< HEAD
 void Player::checkTime(void) {
     if(time(&timer) > itemStartTime + 1.5) {
         setEmitting(ParticleType::Item, false);
@@ -245,7 +217,6 @@ void Player::collision(SoundBank* soundBank) {
                         if(hit) {
                             if(particleNum == numParticles - 1) {
                                 setVisible(particleSystemPair.first, false);
-                                // setEmitting(particleSystemPair.first, false);
                                 emittingParticles = false;
                                 std::uniform_int_distribution<int> bonus_dist(0, mInfo.accuracy * mInfo.damage);
                                 int dmgBonus = bonus_dist(rand_generator);
@@ -260,18 +231,25 @@ void Player::collision(SoundBank* soundBank) {
                                 std::cout << "health left " << target->mInfo.health << std::endl; 
                             }
                             setEmitting(particleSystemPair.first, false);
-                            // play sound here
-                            soundBank->play("special_attack_fx");
+
+                            // play sound
+                            if(particleSystemPair.first == ParticleType::Fire) {
+                                soundBank->play("fireball_attack_fx");
+                            }
+                            if(particleSystemPair.first == ParticleType::Ice) {
+                                soundBank->play("ice_attack_fx");
+                            }
+                            if(particleSystemPair.first == ParticleType::Flare) {
+                                soundBank->play("flare_attack_fx");
+                            }
                         }
                     }
                 }
             }
         }
     }
-    // return particlesEmitting;
 }
-// =======
+
 Ogre::Real Player::getHeight(void) {
     return mEntity->getBoundingBox().getSize().y * 1.2;
-// >>>>>>> 46cea8f3ba94c89ae6d0532c79dcb7229ed0843b
 }

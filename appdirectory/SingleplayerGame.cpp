@@ -156,7 +156,7 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
         }
     }
 
-    mHUD->update();
+    mHUD->updatePartyInfo();
     clearDeadCharacters();
 
     if (myPartyAlive.empty() || enemyPartyAlive.empty()) {
@@ -320,7 +320,7 @@ void SingleplayerGame::onHUDPlayAgain() {
     mGameOver = false;
     playerTurn = true;
 
-    mHUD->update();
+    mHUD->updatePartyInfo();
 }
 
 void SingleplayerGame::onHUDQuit() {

@@ -36,7 +36,7 @@ public:
     ~HUD(void);
 
     void injectKeyDown(const OIS::KeyEvent& arg);
-    void update(void);
+    void updatePartyInfo(void);
     void refocusAfterCharacterDeath(void);
     void alertGameOver(bool userWins);
 
@@ -52,6 +52,7 @@ private:
 
     void updateFocusedCharacter(Player* character);
     void setTargetArrowVisible(Player* character, bool visible);
+    void updateItemBox(void);
 
     void notifyPhysicalSelect(void);
     void notifySpecialSelect(void);
@@ -71,6 +72,7 @@ private:
     HUD_STATE mPrevState;
     CEGUI::Window* mMenuRoot;
     CEGUI::Window* mEndStateRoot;
+    CEGUI::Window* mItemRoot;
 
     // action menu
     int mActionOptionFocused; // mActionOptionFocused

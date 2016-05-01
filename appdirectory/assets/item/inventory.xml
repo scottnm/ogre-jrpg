@@ -2,6 +2,7 @@
     <item-pair>
         <item>
             <name>Potion</name>
+            <description>A curative mixture that grants 4hp to the user</description>
             <offensive>0</offensive>
             <delta-health>4</delta-health>
             <delta-armor>0</delta-armor>
@@ -14,6 +15,7 @@
     <item-pair>
         <item>
             <name>Bomb</name>
+            <description>An explosive projectile that deals 5 damage</description>
             <offensive>1</offensive>
             <delta-health>-5</delta-health>
             <delta-armor>0</delta-armor>
@@ -25,19 +27,21 @@
     </item-pair>
     <item-pair>
         <item>
-            <name>Eagle Eye</name>
+            <name>Lucky Mitts</name>
+            <description>These boxing gloves wrapped in barbed wire boost your damage by 3 points</description>
             <offensive>0</offensive>
             <delta-health>0</delta-health>
             <delta-armor>0</delta-armor>
-            <delta-damage>0</delta-damage>
+            <delta-damage>3</delta-damage>
             <delta-special>0</delta-special>
-            <delta-accuracy>0.25</delta-accuracy>
+            <delta-accuracy>0</delta-accuracy>
         </item>
         <quantity>1</quantity>
     </item-pair>
     <item-pair>
         <item>
             <name>Shield</name>
+            <description>Increase your defense by 2 armor points</description>
             <offensive>0</offensive>
             <delta-health>0</delta-health>
             <delta-armor>2</delta-armor>
@@ -49,7 +53,8 @@
     </item-pair>
     <item-pair>
         <item>
-            <name>Shovel</name>
+            <name>Jar of Rustmites</name>
+            <description>Bred by a mad wizard, these bugs eat away 2 armor points</description>
             <offensive>1</offensive>
             <delta-health>0</delta-health>
             <delta-armor>-2</delta-armor>
@@ -62,6 +67,7 @@
     <item-pair>
         <item>
             <name>Smokescreen</name>
+            <description>Obscure your position with this thick smoke; reduce the enemy's accuracy by 30%</description>
             <offensive>0</offensive>
             <delta-health>0</delta-health>
             <delta-armor>2</delta-armor>
@@ -73,7 +79,8 @@
     </item-pair>
     <item-pair>
         <item>
-            <name>Special Pill</name>
+            <name>Special Sauce</name>
+            <description>Bred by a mad wizard, this trademarked blend of 7 types of ketchup gives you 3 special points</description>
             <offensive>0</offensive>
             <delta-health>0</delta-health>
             <delta-armor>0</delta-armor>
@@ -81,6 +88,6 @@
             <delta-special>3</delta-special>
             <delta-accuracy>0.0</delta-accuracy>
         </item>
-        <quantity>1</quantity>
+        <quantity>2</quantity>
     </item-pair>
 </inventoryDatabase>

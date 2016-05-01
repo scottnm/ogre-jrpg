@@ -35,6 +35,9 @@ HUD::HUD(Ogre::SceneManager& scnMgr,
     auto root = wmgr.createWindow("DefaultWindow", "HUDRoot");
     mMenuRoot = wmgr.loadLayoutFromFile("scaling_menu.layout");
     root->addChild(mMenuRoot);
+    mItemRoot = wmgr.loadLayoutFromFile("item_info.layout");
+    root->addChild(mItemRoot);
+    mItemRoot->setVisible(false);
     mEndStateRoot = wmgr.loadLayoutFromFile("end_state.layout");
     root->addChild(mEndStateRoot);
     mEndStateRoot->hide();
@@ -53,7 +56,7 @@ HUD::HUD(Ogre::SceneManager& scnMgr,
     mActionOptions[GUARD_ID] = MenuFrame->getChild("Guard_select");
 
     mMenuRoot->getChild("Item_Frame")->getChild("Items_StaticText")->setText(
-            mInventory.getCurrentItemMenuTitle());
+            mInventory.getCurrentItemName());
 
     auto p0Frame = mMenuRoot->getChild("Party_Frame")->getChild("PartyMember0_Frame");
     auto p1Frame = mMenuRoot->getChild("Party_Frame")->getChild("PartyMember1_Frame");
@@ -66,16 +69,18 @@ HUD::HUD(Ogre::SceneManager& scnMgr,
         characterInfoWindows.emplace(character, frame);
 
         const PlayerInfo& info = character->info();
-        frame->getChild("PM_Name_StaticText")->setText(info.name);
+        frame->getChild("PM_Name_Value")->setText(info.name);
         frame->getChild("PM_Pic_StaticImage")->setProperty("Image", info.img);
-        frame->getChild("PM_HP_Left_StaticText")->setText(
-                Ogre::StringConverter::toString(info.health));
-        frame->getChild("PM_HP_Total_StaticText")->setText(
-                Ogre::StringConverter::toString(info.healthMax));
-        frame->getChild("PM_SP_Left_StaticText")->setText(
-                Ogre::StringConverter::toString(info.specialPoints));
-        frame->getChild("PM_SP_Total_StaticText")->setText(
-                Ogre::StringConverter::toString(info.specialPointsMax));
+        std::string hpText = std::to_string(info.health) + "/" + std::to_string(info.healthMax);
+        frame->getChild("PM_HP_Left_StaticText")->setText(hpText);
+        std::string spText = std::to_string(info.specialPoints) + "/" + std::to_string(info.specialPointsMax);
+        frame->getChild("PM_SP_Left_StaticText")->setText(spText);
+        frame->getChild("PM_Damage_Value")->setText(
+                std::to_string(info.damage));
+        frame->getChild("PM_Armor_Value")->setText(
+                std::to_string(info.armor));
+        frame->getChild("PM_Accuracy_Value")->setText(
+                std::to_string((int)(info.accuracy*100)) + "%");
 
         auto targetBillboardSet = scnMgr.createBillboardSet();
         targetBillboardSet->setMaterialName("pixeltarget");
@@ -171,6 +176,8 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
         mActionOptions[mActionOptionFocused]->activate();
     }
     else if (mState == HUD_STATE::ITEMS_MENU_ACTIVE) {
+        
+
         if (mItemsFocused) {
             switch(arg.key) {
                 case OIS::KC_DOWN: {
@@ -185,10 +192,12 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
                 case OIS::KC_LEFT:
                     notifyHUDNavigation();
                     mInventory.cycleInventoryBackward();
+                    updateItemBox();
                     break;
                 case OIS::KC_RIGHT:
                     notifyHUDNavigation();
                     mInventory.cycleInventoryForward();
+                    updateItemBox();
                     break;
                 case OIS::KC_RETURN:
                     notifyHUDOptionSelect(); 
@@ -198,11 +207,12 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
                     return;
             }
             mMenuRoot->getChild("Item_Frame")->getChild("Items_StaticText")->setText(
-                    mInventory.getCurrentItemMenuTitle());
+                    mInventory.getCurrentItemName());
         }
         else {
             switch(arg.key) {
                 case OIS::KC_RETURN:
+                    mItemRoot->setVisible(false);
                     notifyHUDOptionSelect();
                     switchToActionMenu();
                     break;
@@ -247,6 +257,7 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
                         if (mInventory.items.size() == 0) {
                             mMenuRoot->getChild("Menu_Frame")->getChild("Items_label")->disable();
                         }
+                        mItemRoot->setVisible(false);
                         break;
                     default:
                         break;
@@ -296,7 +307,9 @@ void HUD::switchToItemMenu(void) {
     auto itemFrame = mMenuRoot->getChild("Item_Frame");
     itemFrame->show();
     itemFrame->activate();
-    mMenuRoot->getChild("Item_Frame")->getChild("Items_StaticText")->setText(mInventory.getCurrentItemMenuTitle());
+    mMenuRoot->getChild("Item_Frame")->getChild("Items_StaticText")->setText(mInventory.getCurrentItemName());
+    mItemRoot->setVisible(true);
+    updateItemBox();
 }
 
 void HUD::switchToActionMenu(void) {
@@ -387,15 +400,28 @@ void HUD::cycleTargetCharacter() {
     setTargetArrowVisible(targetParty.at(activeTarget), true);
 }
 
-void HUD::update(void) {
+void HUD::updatePartyInfo(void) {
     for(auto character : myParty) {
         auto infoWindow = characterInfoWindows.find(character)->second;
         const PlayerInfo& info = character->info();
-        infoWindow->getChild("PM_HP_Left_StaticText")->setText(
-                Ogre::StringConverter::toString(info.health));
-        infoWindow->getChild("PM_SP_Left_StaticText")->setText(
-                Ogre::StringConverter::toString(info.specialPoints));
+        std::string hpText = std::to_string(info.health) + "/" + std::to_string(info.healthMax);
+        infoWindow->getChild("PM_HP_Left_StaticText")->setText(hpText);
+        std::string spText = std::to_string(info.specialPoints) + "/" + std::to_string(info.specialPointsMax);
+        infoWindow->getChild("PM_SP_Left_StaticText")->setText(spText);
+        infoWindow->getChild("PM_Damage_Value")->setText(
+                std::to_string(info.damage));
+        infoWindow->getChild("PM_Armor_Value")->setText(
+                std::to_string(info.armor));
+        infoWindow->getChild("PM_Accuracy_Value")->setText(
+                std::to_string((int)(info.accuracy*100)) + "%");
     }
+}
+
+
+void HUD::updateItemBox(void) {
+    mItemRoot->getChild("countText")->setText(std::to_string(mInventory.getCurrentItemCount()));
+    mItemRoot->getChild("descriptionText")->setText(mInventory.getCurrentItemDescription());
+    mItemRoot->getChild("nameText")->setText(mInventory.getCurrentItemName());
 }
 
 void HUD::alertGameOver(bool userWins) {

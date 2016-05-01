@@ -177,10 +177,10 @@ particle_system Physical3
     emitter Point
     {
         emission_rate   50
-        time_to_live    .7
+        time_to_live    .4
         colour          1 0 0
         velocity        100
-        direction       0.7 -1 -1
+        direction       0 -1 .5
         width           15
         height          15
         depth           0
@@ -188,7 +188,7 @@ particle_system Physical3
 
     affector LinearForce
     {
-        force_vector        25 -100 75
+        force_vector        0 -100 -50
         force_application   add
     }
 }

@@ -254,9 +254,6 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
                         break;
                     case ITEMS_ID:
                         notifyItemSelect();
-                        if (mInventory.items.size() == 0) {
-                            mMenuRoot->getChild("Menu_Frame")->getChild("Items_label")->disable();
-                        }
                         mItemRoot->setVisible(false);
                         break;
                     default:
@@ -400,7 +397,7 @@ void HUD::cycleTargetCharacter() {
     setTargetArrowVisible(targetParty.at(activeTarget), true);
 }
 
-void HUD::updatePartyInfo(void) {
+void HUD::update(void) {
     for(auto character : myParty) {
         auto infoWindow = characterInfoWindows.find(character)->second;
         const PlayerInfo& info = character->info();
@@ -414,6 +411,10 @@ void HUD::updatePartyInfo(void) {
                 std::to_string(info.armor));
         infoWindow->getChild("PM_Accuracy_Value")->setText(
                 std::to_string((int)(info.accuracy*100)) + "%");
+    }
+
+    if (mInventory.items.size() == 0) {
+        mMenuRoot->getChild("Menu_Frame")->getChild("Items_label")->disable();
     }
 }
 

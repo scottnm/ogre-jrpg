@@ -123,14 +123,31 @@ bool SingleplayerGame::go(void)
 bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
 
-    for(auto c : myParty) {
-        c->mAnimationController->updateAnimationTime(evt.timeSinceLastFrame);
+    bool particleEmitting = false;
+
+    for(auto player : myParty) {
+        player->collision(mSoundBank);
     }
-    for(auto c : enemyParty) {
+
+    for(auto enemy : enemyParty) {
+        enemy->collision(mSoundBank);
+    }
+
+    for(auto c : myParty) {
+        if(!particleEmitting) {
+            particleEmitting = c->emittingParticles;
+        }
         c->mAnimationController->updateAnimationTime(evt.timeSinceLastFrame);
     }
 
-    if(mAnimationRunning || mGameOver || mShutDown) {
+    for(auto c : enemyParty) {
+        if(!particleEmitting) {
+            particleEmitting = c->emittingParticles;
+        }
+        c->mAnimationController->updateAnimationTime(evt.timeSinceLastFrame);
+    }
+
+    if(mAnimationRunning || mGameOver || mShutDown || particleEmitting) {
         return true;
     }
 
@@ -143,22 +160,24 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
     }
     else {
         if (activeEnemy < enemyPartyAlive.size()) {
-            // placeholder enemy action
-            int randomAction = rand() % 3;
-            int randomTarget = rand() % myPartyAlive.size();
-            Player* target = myPartyAlive.at(randomTarget);
-            switch(randomAction) {
-                case 0:
-                    onHUDGuardSelect(enemyPartyAlive.at(activeEnemy));
-                    break;
-                case 1:
-                    onHUDPhysicalSelect(enemyPartyAlive.at(activeEnemy), target);
-                    break;
-                case 2:
-                    onHUDSpecialSelect(enemyPartyAlive.at(activeEnemy), target);
-                    break;
-                default:
-                    break;
+            if(!enemyPartyAlive.at(activeEnemy)->isDead()) {
+                // placeholder enemy action
+                int randomAction = rand() % 3;
+                int randomTarget = rand() % myPartyAlive.size();
+                Player* target = myPartyAlive.at(randomTarget);
+                switch(randomAction) {
+                    case 0:
+                        onHUDGuardSelect(enemyPartyAlive.at(activeEnemy));
+                        break;
+                    case 1:
+                        onHUDPhysicalSelect(enemyPartyAlive.at(activeEnemy), target);
+                        break;
+                    case 2:
+                        onHUDSpecialSelect(enemyPartyAlive.at(activeEnemy), target);
+                        break;
+                    default:
+                        break;
+                }
             }
             ++activeEnemy;
         }
@@ -169,13 +188,12 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
             partyReset(myParty);
         }
     }
+
     for(auto player : myPartyAlive) {
-        player->collision();
         player->checkTime();
     }
 
     for(auto enemy : enemyPartyAlive) {
-        enemy->collision();
         enemy->checkTime();
     }
 
@@ -261,19 +279,25 @@ void SingleplayerGame::clearDeadCharacters(void) {
 }
 
 bool SingleplayerGame::keyPressed(const OIS::KeyEvent &arg) {
-    if (!mAnimationRunning && (mGameOver || playerTurn)) {
+    bool emittingParticle = false;
+    for(auto player : myPartyAlive) {
+        if(player->emittingParticles) {
+            emittingParticle = player->emittingParticles;
+        }
+    }
+
+    for(auto enemy : enemyPartyAlive) {
+        if(enemy->emittingParticles) {
+            emittingParticle = enemy->emittingParticles;
+        }
+    }
+    if (!emittingParticle && !mAnimationRunning && (mGameOver || playerTurn)) {
         mHUD->injectKeyDown(arg);
     }
     return true;
 }
 
 void SingleplayerGame::onHUDPhysicalSelect(Player* attacker, Player* target) {
-// <<<<<<< HEAD
-//     std::cout << target->info().name << ": " << target->info().health << std::endl;
-//     int oldhealth = target->info().health;
-//     if (attacker->attemptPhysicalAttack()) {
-//         attacker->physicalAttack(*target);
-// =======
     mAnimationRunning = true;
     bool& animationRunning = mAnimationRunning;
     bool attackSuccessful = attacker->attemptPhysicalAttack();
@@ -295,7 +319,6 @@ void SingleplayerGame::onHUDPhysicalSelect(Player* attacker, Player* target) {
     if (attackSuccessful) {
         mSoundBank->play("physical_woosh_fx");
         mSoundBank->play("physical_impact_fx");
-// >>>>>>> 46cea8f3ba94c89ae6d0532c79dcb7229ed0843b
     }
     else {
         mSoundBank->play("physical_miss_fx");
@@ -303,19 +326,6 @@ void SingleplayerGame::onHUDPhysicalSelect(Player* attacker, Player* target) {
 }
 
 void SingleplayerGame::onHUDSpecialSelect(Player* attacker, Player* target) {
-// <<<<<<< HEAD
-    // std::cout << "Special " << std::endl;
-    // attacker->specialAttack(*target);
-// }
-
-// void SingleplayerGame::onHUDItemSelect(Player* target) {
-//     std::cout << "Item " << std::endl;
-//     const PlayerInfo& pi = target->info();
-//     int bh = pi.health;
-//     inventory.useItem(*target);
-//     int ah = pi.health;
-//     std::cout << pi.name << ": " << bh << " -> " << ah << std::endl;
-// =======
     mAnimationRunning = true;
     bool& animationRunning = this->mAnimationRunning;
     AnimationCallback cb = [&animationRunning, attacker, target](void)-> void{
@@ -345,7 +355,6 @@ void SingleplayerGame::onHUDItemSelect(Player* user, Player* target) {
     else {
         mSoundBank->play("item_def_fx");
     }
-// >>>>>>> 46cea8f3ba94c89ae6d0532c79dcb7229ed0843b
 }
 
 void SingleplayerGame::onHUDGuardSelect(Player* user) {

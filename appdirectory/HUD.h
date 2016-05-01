@@ -26,20 +26,20 @@ enum class HUD_STATE {
 
 class HUD {
 public:
-    HUD(Ogre::SceneManager& scnMgr, GUISystem& gui, std::vector<Player*>& myParty,
-            std::vector<Player*>& enemyParty, std::vector<Player*>& myPartyWaiting,
-            Inventory& inventory);
+    HUD(Ogre::SceneManager& scnMgr,
+        GUISystem& gui,
+        HUDListener* listener,
+        std::vector<Player*>& myParty,
+        std::vector<Player*>& enemyParty,
+        std::vector<Player*>& myPartyWaiting,
+        Inventory& inventory);
     ~HUD(void);
 
     void injectKeyDown(const OIS::KeyEvent& arg);
-    void update(void);
-    void registerListener(HUDListener* hl);
-    void updateFocusedCharacter(Player* character);
-    void setTargetArrowVisible(Player* character, bool visible);
+    void updatePartyInfo(void);
     void refocusAfterCharacterDeath(void);
     void alertGameOver(bool userWins);
 
-    static const Ogre::String windowName;
 
 private:
     void switchToItemMenu(void);
@@ -49,6 +49,10 @@ private:
     void cycleActiveCharacter(void);
     void dequeueActiveCharacter(void);
     void cycleTargetCharacter(void);
+
+    void updateFocusedCharacter(Player* character);
+    void setTargetArrowVisible(Player* character, bool visible);
+    void updateItemBox(void);
 
     void notifyPhysicalSelect(void);
     void notifySpecialSelect(void);
@@ -63,11 +67,12 @@ private:
     std::vector<Player*>& getTargetParty(void);
 
     GUISystem& mGUI;
-    std::unordered_set<HUDListener*> mListeners;
-    CEGUI::Window* mMenuRoot;
-    CEGUI::Window* mEndStateRoot;
+    HUDListener* mListener;
     HUD_STATE mState;
     HUD_STATE mPrevState;
+    CEGUI::Window* mMenuRoot;
+    CEGUI::Window* mEndStateRoot;
+    CEGUI::Window* mItemRoot;
 
     // action menu
     int mActionOptionFocused; // mActionOptionFocused
@@ -89,8 +94,9 @@ private:
     std::vector<Player*>& enemyParty;
     int activeTarget;
     // std::vector<std::pair<Item,int>>& items;
-    Inventory& inventory;
+    Inventory& mInventory;
 
+    static const Ogre::String windowName;
     static const Ogre::String mockItems[4];
 };
 

@@ -3,6 +3,7 @@
 
 #include "GameObject.h"
 #include "PlayerInfo.h"
+#include "AnimationController.h"
 
 #include <OgreBillboardSet.h>
 #include <OgreBillboard.h>
@@ -17,15 +18,16 @@ public:
            const PlayerInfo& i, const Ogre::Vector3& pos);
 	virtual ~Player(void) {};
 
+    bool attemptPhysicalAttack(void);
     void physicalAttack(Player& target);
     void specialAttack(Player& target);
     void item(void);
     GameObject* target;
     void guard(void);
     void unguard(void);
-    bool attemptPhysicalAttack(void);
     bool isDead(void);
     void reset(void);
+
     const PlayerInfo& info(void) const;
     PlayerInfo& info(void);
 
@@ -40,9 +42,16 @@ public:
     double physicalStartTime;
     time_t timer;
 
+    Ogre::Real getHeight(void);
+
 private:
 	Ogre::Entity* mEntity;
     PlayerInfo mInfo;
+
+public:
+    AnimationController* mAnimationController;
+
+private:
 
     std::unordered_map<ParticleType,
                        Ogre::ParticleSystem*,

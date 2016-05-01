@@ -1,5 +1,5 @@
 #include "Player.h"
-
+#include <OgreMeshManager.h>
 #include <OgreStringConverter.h>
 #include <OgreParticle.h>
 
@@ -15,7 +15,7 @@ Player::Player(Ogre::SceneManager* _scnmgr, Ogre::SceneNode* _scnnode,
 
     // create the base representable object
 
-	mEntity = _scnmgr->createEntity("ninja.mesh");
+	mEntity = _scnmgr->createEntity(i.mesh.name + ".mesh");
 	mEntity->setCastShadows(true);
 	sceneNode = _scnnode->createChildSceneNode("Player" + id);
 	sceneNode->attachObject(mEntity);
@@ -30,11 +30,12 @@ Player::Player(Ogre::SceneManager* _scnmgr, Ogre::SceneNode* _scnnode,
     mParticleNodeMap.emplace(ParticleType::Guard, guardNode);
     guardParticles->setEmitting(false);
 
+// <<<<<<< HEAD
     
     auto physicalParticles = _scnmgr->createParticleSystem("Physical_P" + id, "Physical3"); 
     auto physicalNode = sceneNode->createChildSceneNode("Physical_N" + id);
     physicalNode->attachObject(physicalParticles);
-    physicalNode->setPosition(-20, 150, 0);
+    physicalNode->setPosition(0, 125, -15);
     mParticleSystemMap.emplace(ParticleType::Physical, physicalParticles);
     mParticleNodeMap.emplace(ParticleType::Physical, physicalNode);
     physicalParticles->setEmitting(false);
@@ -73,6 +74,13 @@ Player::Player(Ogre::SceneManager* _scnmgr, Ogre::SceneNode* _scnnode,
 
     target = NULL;
     
+// =======
+    // currently removed all of the other particle systems since they
+    // aren't being used yet
+    
+    mAnimationController = new AnimationController(mEntity, i.mesh.animationSpec); 
+    mAnimationController->runIdleAnimation();
+// >>>>>>> 46cea8f3ba94c89ae6d0532c79dcb7229ed0843b
 }
 
 void Player::physicalAttack(Player& target) {
@@ -185,6 +193,7 @@ void Player::lookAt(GameObject* targetObject) {
     }
 }
 
+// <<<<<<< HEAD
 void Player::checkTime(void) {
     if(time(&timer) > itemStartTime + 1.5) {
         setEmitting(ParticleType::Item, false);
@@ -233,6 +242,7 @@ void Player::collision(void) {
                                 setVisible(particleSystemPair.first, false);
                             }
                             setEmitting(particleSystemPair.first, false);
+                            // auto particletype = particleSystemPair.first;
                             // play sound here
                         }
                     }
@@ -240,4 +250,9 @@ void Player::collision(void) {
             }
         }
     }
+}
+// =======
+Ogre::Real Player::getHeight(void) {
+    return mEntity->getBoundingBox().getSize().y * 1.2;
+// >>>>>>> 46cea8f3ba94c89ae6d0532c79dcb7229ed0843b
 }

@@ -9,6 +9,7 @@ Inventory::Inventory(const std::string& _fn) : currentItemIndex(0) {
 
     BOOST_FOREACH(ptree::value_type &v, pt.get_child("inventoryDatabase")) {
         std::string name = v.second.get<std::string>("item.name");
+        std::string description = v.second.get<std::string>("item.description");
         bool isOffensive = v.second.get<bool>("item.offensive");
         int deltaHealth = v.second.get<int>("item.delta-health");
         int deltaArmor = v.second.get<int>("item.delta-armor");
@@ -16,7 +17,7 @@ Inventory::Inventory(const std::string& _fn) : currentItemIndex(0) {
         int deltaSpecial = v.second.get<int>("item.delta-special");
         float deltaAccuracy = v.second.get<float>("item.delta-accuracy");
         int quantity = v.second.get<int>("quantity");
-        Item item(name, isOffensive, deltaHealth, deltaArmor, deltaDamage, deltaSpecial, deltaAccuracy);
+        Item item(name, description, isOffensive, deltaHealth, deltaArmor, deltaDamage, deltaSpecial, deltaAccuracy);
         items.push_back(std::pair<Item,int>(item,quantity));
     }
 
@@ -26,14 +27,20 @@ Inventory::Inventory(const std::string& _fn) : currentItemIndex(0) {
         info += std::to_string(pair.second) + ") | ";
         std::cout << info << std::endl;
     }
+
+    _itemDefaults = items;
 }
 
 const Item& Inventory::getCurrentItem() {
     return items.at(currentItemIndex).first;
 }
 
-std::string Inventory::getCurrentItemMenuTitle() {
-    return items.at(currentItemIndex).first.name + " (" + std::to_string(items.at(currentItemIndex).second) + ")";
+std::string Inventory::getCurrentItemName() {
+    return items.at(currentItemIndex).first.name;
+}
+
+std::string Inventory::getCurrentItemDescription() {
+    return items.at(currentItemIndex).first.description;
 }
 
 int Inventory::getCurrentItemCount() {
@@ -59,4 +66,8 @@ void Inventory::useItem(Player& target) {
         items.erase(items.begin() + currentItemIndex);
         currentItemIndex = std::min(currentItemIndex, (int)items.size() - 1);
     }
+}
+
+void Inventory::reset(void) {
+    items = _itemDefaults;
 }

@@ -13,7 +13,6 @@ http://www.ogre3d.org/tikiwiki/tiki-index.php?page=MinimalOgre-h&structure=Devel
 #include "BaseGame.h"
 #include "HUD.h"
 #include "HUDListener.h"
-#include "SoundController.h"
 #include <SDL_mixer.h>
 
 class SingleplayerGame : public BaseGame,
@@ -32,17 +31,22 @@ private:
     virtual bool keyPressed(const OIS::KeyEvent &arg);
 
     void partyReset(std::vector<Player*>& party);
+    void clearDeadCharacters(void);
 
     void onHUDPhysicalSelect(Player* attacker, Player* target);
     void onHUDSpecialSelect(Player* attacker, Player* target);
-    void onHUDItemSelect(Player* target);
+    void onHUDItemSelect(Player* user, Player* target);
     void onHUDGuardSelect(Player* user);
+    void onHUDCycleCharacter(void);
+    void onHUDOptionSelect();
+    void onHUDNavigation();
     void onHUDPlayAgain();
     void onHUDQuit();
 
     bool mGameOver;
+    bool mAnimationRunning;
     HUD* mHUD;
-    SoundController mSoundController;
+    SoundBank* mSoundBank;
     bool playerTurn;
     unsigned int activeEnemy;
 

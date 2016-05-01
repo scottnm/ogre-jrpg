@@ -28,7 +28,7 @@ Player::Player(Ogre::SceneManager* _scnmgr, Ogre::SceneNode* _scnnode,
     guardNode->attachObject(guardParticles);
     mParticleSystemMap.emplace(ParticleType::Guard, guardParticles);
     mParticleNodeMap.emplace(ParticleType::Guard, guardNode);
-    guardParticles->setEmitting(false);
+    // guardParticles->setEmitting(false);
 
 // <<<<<<< HEAD
     
@@ -38,7 +38,7 @@ Player::Player(Ogre::SceneManager* _scnmgr, Ogre::SceneNode* _scnnode,
     physicalNode->setPosition(0, 125, -15);
     mParticleSystemMap.emplace(ParticleType::Physical, physicalParticles);
     mParticleNodeMap.emplace(ParticleType::Physical, physicalNode);
-    physicalParticles->setEmitting(false);
+    // physicalParticles->setEmitting(false);
 
     auto itemParticles = _scnmgr->createParticleSystem("Item_P" + id, "Item"); 
     auto itemNode = sceneNode->createChildSceneNode("Item_N" + id);
@@ -46,7 +46,7 @@ Player::Player(Ogre::SceneManager* _scnmgr, Ogre::SceneNode* _scnnode,
     itemNode->setPosition(0, 200, 0);
     mParticleSystemMap.emplace(ParticleType::Item, itemParticles);
     mParticleNodeMap.emplace(ParticleType::Item, itemNode);
-    itemParticles->setEmitting(false);
+    // itemParticles->setEmitting(false);
 
     auto fireParticles = _scnmgr->createParticleSystem("Fire_P" + id, "Fire"); 
     auto fireNode = sceneNode->createChildSceneNode("Fire_N" + id);
@@ -54,7 +54,7 @@ Player::Player(Ogre::SceneManager* _scnmgr, Ogre::SceneNode* _scnnode,
     fireNode->setPosition(0, 100, 0);
     mParticleSystemMap.emplace(ParticleType::Fire, fireParticles);
     mParticleNodeMap.emplace(ParticleType::Fire, fireNode);
-    fireParticles->setEmitting(false);
+    // fireParticles->setEmitting(false);
 
     auto iceParticles = _scnmgr->createParticleSystem("Ice_P" + id, "Ice"); 
     auto iceNode = sceneNode->createChildSceneNode("Ice_N" + id);
@@ -62,7 +62,7 @@ Player::Player(Ogre::SceneManager* _scnmgr, Ogre::SceneNode* _scnnode,
     iceNode->setPosition(0, 100, 0);
     mParticleSystemMap.emplace(ParticleType::Ice, iceParticles);
     mParticleNodeMap.emplace(ParticleType::Ice, iceNode);
-    iceParticles->setEmitting(false);
+    // iceParticles->setEmitting(false);
 
     auto flareParticles = _scnmgr->createParticleSystem("Flare_P" + id, "Flare");
     auto flareNode = sceneNode->createChildSceneNode("Flare_N" + id);
@@ -70,7 +70,9 @@ Player::Player(Ogre::SceneManager* _scnmgr, Ogre::SceneNode* _scnnode,
     flareNode->setPosition(0, 100, 0);
     mParticleSystemMap.emplace(ParticleType::Flare, flareParticles);
     mParticleNodeMap.emplace(ParticleType::Flare, flareNode);
-    flareParticles->setEmitting(false);
+    // flareParticles->setEmitting(false);
+
+    stopEmittingAll();
 
     target = NULL;
     
@@ -120,11 +122,11 @@ void Player::unguard(void) {
 
 void Player::specialAttack(Player& target) {
     --mInfo.specialPoints;
-    std::uniform_int_distribution<int> bonus_dist(0, mInfo.accuracy * mInfo.damage);
-    int dmgBonus = bonus_dist(rand_generator);
-    int totalDamage = std::max(0, mInfo.damage + dmgBonus - target.mInfo.armor);
-    target.mInfo.health = std::max(target.mInfo.health - totalDamage, 0);
-
+    // --mInfo.specialPoints;
+    // std::uniform_int_distribution<int> bonus_dist(0, mInfo.accuracy * mInfo.damage);
+    // int dmgBonus = bonus_dist(rand_generator);
+    // int totalDamage = std::max(0, mInfo.damage + dmgBonus - target.mInfo.armor);
+    // target.mInfo.health = std::max(target.mInfo.health - totalDamage, 0);
     int randNum = rand() % 3;
     std::cout << randNum << std::endl << std::endl << std::endl;
     ParticleType pt;
@@ -147,14 +149,15 @@ void Player::specialAttack(Player& target) {
         default:
             break;
     }
+    emittingParticles = true;
 
-    printf("%s hits %s for %d dmg with a bonus of %d\n",
-            mInfo.name.c_str(), target.mInfo.name.c_str(),
-            totalDamage, dmgBonus);
+    // printf("%s hits %s for %d dmg with a bonus of %d\n",
+    //         mInfo.name.c_str(), target.mInfo.name.c_str(),
+    //         totalDamage, dmgBonus);
 
-    fflush(stdout);
+    // fflush(stdout);
 
-    std::cout << "health left " << target.mInfo.health << std::endl; 
+    // std::cout << "health left " << target.mInfo.health << std::endl; 
 }
 
 bool Player::isDead(void) {
@@ -179,17 +182,17 @@ void Player::setEmitting(ParticleType pt, bool emitting) {
 
 
 void Player::setVisible(ParticleType pt, bool visible) {
-	mParticleSystemMap.find(pt)->second->setVisible(visible);
+    mParticleSystemMap.find(pt)->second->setVisible(visible);
 }
 
-void Player::lookAt(GameObject* targetObject) {
+void Player::lookAt(Player* targetObject) {
     target = targetObject;
     GameObject::lookAt(targetObject);
     auto targetNode = targetObject->sceneNode;
     for(auto particleNodePair : mParticleNodeMap) {
         auto psNode = particleNodePair.second;
-		psNode->lookAt(psNode->convertWorldToLocalPosition(targetNode->_getDerivedPosition() + Ogre::Vector3(0, 100, 0)),
-	        Ogre::Node::TransformSpace::TS_LOCAL, Ogre::Vector3::NEGATIVE_UNIT_Z);
+        psNode->lookAt(psNode->convertWorldToLocalPosition(targetNode->_getDerivedPosition() + Ogre::Vector3(0, 100, 0)),
+            Ogre::Node::TransformSpace::TS_LOCAL, Ogre::Vector3::NEGATIVE_UNIT_Z);
     }
 }
 
@@ -206,6 +209,7 @@ void Player::checkTime(void) {
 }
 
 void Player::stopEmittingAll(void) {
+    emittingParticles = false;
     setEmitting(ParticleType::Guard, false);
     setVisible(ParticleType::Guard, false);
     setEmitting(ParticleType::Physical, false);
@@ -220,10 +224,11 @@ void Player::stopEmittingAll(void) {
     setVisible(ParticleType::Flare, false);
 }
 
-void Player::collision(void) {
+void Player::collision(SoundBank* soundBank) {
     for(auto particleSystemPair : mParticleSystemMap) {
         auto ps = particleSystemPair.second;
-        if(ps->getEmitting()) {
+        ParticleType particleType = particleSystemPair.first;
+        if(ps->isVisible() && (particleType == ParticleType::Fire || particleType == ParticleType::Ice || particleType == ParticleType::Flare)) {
             int numParticles = ps->getNumParticles();
             for(int particleNum = 0; particleNum < numParticles; ++particleNum) {
                 auto p = ps->getParticle(particleNum);
@@ -240,16 +245,30 @@ void Player::collision(void) {
                         if(hit) {
                             if(particleNum == numParticles - 1) {
                                 setVisible(particleSystemPair.first, false);
+                                // setEmitting(particleSystemPair.first, false);
+                                emittingParticles = false;
+                                std::uniform_int_distribution<int> bonus_dist(0, mInfo.accuracy * mInfo.damage);
+                                int dmgBonus = bonus_dist(rand_generator);
+                                int totalDamage = std::max(0, mInfo.damage + dmgBonus - target->mInfo.armor);
+                                target->mInfo.health = std::max(target->mInfo.health - totalDamage, 0);
+                                printf("%s hits %s for %d dmg with a bonus of %d\n",
+                                        mInfo.name.c_str(), target->mInfo.name.c_str(),
+                                        totalDamage, dmgBonus);
+
+                                fflush(stdout);
+
+                                std::cout << "health left " << target->mInfo.health << std::endl; 
                             }
                             setEmitting(particleSystemPair.first, false);
-                            // auto particletype = particleSystemPair.first;
                             // play sound here
+                            soundBank->play("special_attack_fx");
                         }
                     }
                 }
             }
         }
     }
+    // return particlesEmitting;
 }
 // =======
 Ogre::Real Player::getHeight(void) {

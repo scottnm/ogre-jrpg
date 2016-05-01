@@ -21,6 +21,7 @@ public:
 	void cycleInventoryForward();
 	void cycleInventoryBackward();
 	void useItem(Player& target);
+    void reset(void);
 
 	/**
      * load the sounds specified by the xml audio database file
@@ -29,6 +30,7 @@ public:
     //void loadInventoryDatabase(const std::string& xmlDbFilename);
 	
 	std::vector<std::pair<Item, int>> items;
+    std::vector<std::pair<Item, int>> _itemDefaults;
 	int currentItemIndex;
 };
 

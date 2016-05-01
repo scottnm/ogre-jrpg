@@ -10,8 +10,6 @@
 #include <OgreBillboard.h>
 #include <random>
 
-// #include <ctime>
-
 class Player : public GameObject
 {
 public:
@@ -41,6 +39,8 @@ public:
 
     bool emittingParticles;
     bool hit;
+
+    ParticleType particleEmitting;
 
     double itemStartTime;
     double physicalStartTime;

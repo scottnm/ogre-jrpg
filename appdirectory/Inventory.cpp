@@ -27,6 +27,8 @@ Inventory::Inventory(const std::string& _fn) : currentItemIndex(0) {
         info += std::to_string(pair.second) + ") | ";
         std::cout << info << std::endl;
     }
+
+    _itemDefaults = items;
 }
 
 const Item& Inventory::getCurrentItem() {
@@ -64,4 +66,8 @@ void Inventory::useItem(Player& target) {
         items.erase(items.begin() + currentItemIndex);
         currentItemIndex = std::min(currentItemIndex, (int)items.size() - 1);
     }
+}
+
+void Inventory::reset(void) {
+    items = _itemDefaults;
 }

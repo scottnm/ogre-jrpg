@@ -321,6 +321,7 @@ void SingleplayerGame::onHUDPlayAgain() {
     playerTurn = true;
 
     mHUD->updatePartyInfo();
+    mInventory.reset();
 }
 
 void SingleplayerGame::onHUDQuit() {

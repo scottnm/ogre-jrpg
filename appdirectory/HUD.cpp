@@ -93,6 +93,7 @@ HUD::HUD(Ogre::SceneManager& scnMgr,
         targetSceneNode->setVisible(false);
 
         characterTargetArrows.emplace(character, targetSceneNode);
+
     }
 
     for (Player* e : enemyParty) {
@@ -105,6 +106,18 @@ HUD::HUD(Ogre::SceneManager& scnMgr,
         targetSceneNode->getAttachedObject(0)->setRenderQueueGroup(Ogre::RENDER_QUEUE_MAX);
         targetSceneNode->setVisible(false);
         characterTargetArrows.emplace(e, targetSceneNode);
+
+        auto healthBarBillboardSet = scnMgr.createBillboardSet();
+        healthBarBillboardSet->setMaterialName("healthbar");
+        healthBarBillboardSet->createBillboard(Ogre::Vector3::ZERO);
+        healthBarBillboardSet->setDefaultDimensions(10, 10);
+
+        auto healthBarSceneNode = e->sceneNode->
+            createChildSceneNode(Ogre::Vector3(0, e->getHeight() * 0.8, 0));
+        healthBarSceneNode->attachObject(healthBarBillboardSet);
+        healthBarSceneNode->getAttachedObject(0)->setRenderQueueGroup(Ogre::RENDER_QUEUE_MAX);
+
+        characterHealthBars.emplace(e, healthBarBillboardSet);
     }
 
 

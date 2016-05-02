@@ -34,17 +34,6 @@ private:
 
     const Animation* activeAnim;
 
-    /*
-    Ogre::AnimationState* mIdleState;
-    Ogre::AnimationState* mPhysicalState;
-    Ogre::AnimationState* mSpecialState;
-    Ogre::AnimationState* mItemState;
-    Ogre::AnimationState* mGuardState;
-    Ogre::AnimationState* mDeathState;
-
-    Ogre::AnimationState* mActiveState;
-    */
-
     AnimationCallback cb;
 };
 

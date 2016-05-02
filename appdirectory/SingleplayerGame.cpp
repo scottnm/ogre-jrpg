@@ -15,7 +15,7 @@ http://www.ogre3d.org/tikiwiki/tiki-index.php?page=MinimalOgre-cpp
 
 SingleplayerGame::SingleplayerGame(RenderingEngine* renderer, GUISystem* gui,
     PlayerBank* playerBank, SoundBank* soundBank)
-    : BaseGame(renderer, gui, playerBank), mGameOver(false), mAnimationRunning(false),
+    : BaseGame(renderer, gui, playerBank), mGameOver(false), mAttackRunning(false),
       mSoundBank(soundBank), playerTurn(true), activeEnemy(0) {
 }
 
@@ -125,8 +125,6 @@ bool SingleplayerGame::go(void)
 bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
 
-    bool particleEmitting = false;
-
     /*
     for(auto player : myParty) {
         player->collision(mSoundBank);
@@ -155,7 +153,7 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
         c->mAnimationController->updateAnimationTime(evt.timeSinceLastFrame);
     }
 
-    if(mAnimationRunning || mGameOver || mShutDown || particleEmitting) {
+    if(mAttackRunning || mGameOver || mShutDown) {
         return true;
     }
 
@@ -301,18 +299,18 @@ bool SingleplayerGame::keyPressed(const OIS::KeyEvent &arg) {
         }
     }
     */
-    if (!emittingParticle && !mAnimationRunning && (mGameOver || playerTurn)) {
+    if (!emittingParticle && !mAttackRunning && (mGameOver || playerTurn)) {
         mHUD->injectKeyDown(arg);
     }
     return true;
 }
 
 void SingleplayerGame::onHUDPhysicalSelect(Player* attacker, Player* target) {
-    mAnimationRunning = true;
-    bool& animationRunning = mAnimationRunning;
+    mAttackRunning = true;
+    bool& attackRunning = mAttackRunning;
     bool attackSuccessful = attacker->attemptPhysicalAttack();
 
-    AnimationCallback cb = [&animationRunning, attacker, target,
+    AnimationCallback cb = [&attackRunning, attacker, target,
                       attackSuccessful](void)-> void{
         if (attackSuccessful) {
             attacker->lookAt(target);
@@ -321,7 +319,7 @@ void SingleplayerGame::onHUDPhysicalSelect(Player* attacker, Player* target) {
         else {
             // miss logic
         }
-        animationRunning = false;
+        attackRunning = false;
         attacker->mAnimationController->runIdleAnimation();
     };
 
@@ -336,12 +334,12 @@ void SingleplayerGame::onHUDPhysicalSelect(Player* attacker, Player* target) {
 }
 
 void SingleplayerGame::onHUDSpecialSelect(Player* attacker, Player* target) {
-    mAnimationRunning = true;
-    bool& animationRunning = this->mAnimationRunning;
-    AnimationCallback cb = [&animationRunning, attacker, target](void)-> void{
+    mAttackRunning = true;
+    bool& attackRunning = this->mAttackRunning;
+    AnimationCallback cb = [&attackRunning, attacker, target](void)-> void{
         attacker->lookAt(target);
         attacker->specialAttack(*target);
-        animationRunning = false;
+        attackRunning = false;
         attacker->mAnimationController->runIdleAnimation();
     };
     attacker->mAnimationController->runAnimation(AnimationType::Special, cb);
@@ -349,13 +347,13 @@ void SingleplayerGame::onHUDSpecialSelect(Player* attacker, Player* target) {
 }
 
 void SingleplayerGame::onHUDItemSelect(Player* user, Player* target) {
-    mAnimationRunning = true;
-    bool& animationRunning = this->mAnimationRunning;
+    mAttackRunning = true;
+    bool& attackRunning = this->mAttackRunning;
     Inventory& inventory = mInventory;
-    AnimationCallback cb = [&animationRunning, user, target, &inventory](void)-> void{
+    AnimationCallback cb = [&attackRunning, user, target, &inventory](void)-> void{
         target->item();
         inventory.useItem(*target);
-        animationRunning = false;
+        attackRunning = false;
         user->mAnimationController->runIdleAnimation();
     };
     user->mAnimationController->runAnimation(AnimationType::Item, cb);
@@ -368,11 +366,11 @@ void SingleplayerGame::onHUDItemSelect(Player* user, Player* target) {
 }
 
 void SingleplayerGame::onHUDGuardSelect(Player* user) {
-    mAnimationRunning = true;
-    bool& animationRunning = this->mAnimationRunning;
-    AnimationCallback cb = [&animationRunning, user](void)-> void{
+    mAttackRunning = true;
+    bool& attackRunning = this->mAttackRunning;
+    AnimationCallback cb = [&attackRunning, user](void)-> void{
         user->guard();
-        animationRunning = false;
+        attackRunning = false;
         user->mAnimationController->runIdleAnimation();
     };
     user->mAnimationController->runAnimation(AnimationType::Guard, cb);

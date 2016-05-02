@@ -127,6 +127,7 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
 
     bool particleEmitting = false;
 
+    /*
     for(auto player : myParty) {
         player->collision(mSoundBank);
     }
@@ -134,18 +135,23 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
     for(auto enemy : enemyParty) {
         enemy->collision(mSoundBank);
     }
+    */
 
     for(auto c : myParty) {
+        /*
         if(!particleEmitting) {
             particleEmitting = c->emittingParticles;
         }
+        */
         c->mAnimationController->updateAnimationTime(evt.timeSinceLastFrame);
     }
 
     for(auto c : enemyParty) {
+        /*
         if(!particleEmitting) {
             particleEmitting = c->emittingParticles;
         }
+        */
         c->mAnimationController->updateAnimationTime(evt.timeSinceLastFrame);
     }
 
@@ -191,6 +197,7 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
         }
     }
 
+    /*
     for(auto player : myPartyAlive) {
         player->checkTime();
     }
@@ -210,20 +217,22 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
             enemy->stopEmittingAll();
         }
     }
+    */
 
     mHUD->update();
     clearDeadCharacters();
 
     if (myPartyAlive.empty() || enemyPartyAlive.empty()) {
         mGameOver = true;
+        /*
         for(auto player: myParty) {
             player->stopEmittingAll();
         }
         for(auto enemy: enemyParty) {
             enemy->stopEmittingAll();
         }
+        */
         // throw up lose game gui
-        std::cout << (enemyPartyAlive.empty() ? "You win" : "You lose") << std::endl;
         mHUD->alertGameOver(enemyPartyAlive.empty());
         if (enemyPartyAlive.empty()) {
             mHUD->alertGameOver(true);
@@ -279,6 +288,7 @@ void SingleplayerGame::clearDeadCharacters(void) {
 
 bool SingleplayerGame::keyPressed(const OIS::KeyEvent &arg) {
     bool emittingParticle = false;
+    /*
     for(auto player : myPartyAlive) {
         if(player->emittingParticles) {
             emittingParticle = player->emittingParticles;
@@ -290,6 +300,7 @@ bool SingleplayerGame::keyPressed(const OIS::KeyEvent &arg) {
             emittingParticle = enemy->emittingParticles;
         }
     }
+    */
     if (!emittingParticle && !mAnimationRunning && (mGameOver || playerTurn)) {
         mHUD->injectKeyDown(arg);
     }

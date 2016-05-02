@@ -23,50 +23,7 @@ Player::Player(Ogre::SceneManager* _scnmgr, Ogre::SceneNode* _scnnode,
     sceneNode->lookAt(Ogre::Vector3::ZERO, Ogre::Node::TS_WORLD);
     sceneNode->lookAt(Ogre::Vector3(0, pos.y, pos.z), Ogre::Node::TS_WORLD);
 
-    auto guardParticles = _scnmgr->createParticleSystem("Guard_P" + id, "Guard"); 
-    auto guardNode = sceneNode->createChildSceneNode("Guard_N" + id);
-    guardNode->attachObject(guardParticles);
-    mParticleSystemMap.emplace(ParticleType::Guard, guardParticles);
-    mParticleNodeMap.emplace(ParticleType::Guard, guardNode);
-
-    auto physicalParticles = _scnmgr->createParticleSystem("Physical_P" + id, "Physical3"); 
-    auto physicalNode = sceneNode->createChildSceneNode("Physical_N" + id);
-    physicalNode->attachObject(physicalParticles);
-    physicalNode->setPosition(0, 125, -15);
-    mParticleSystemMap.emplace(ParticleType::Physical, physicalParticles);
-    mParticleNodeMap.emplace(ParticleType::Physical, physicalNode);
-
-    auto itemParticles = _scnmgr->createParticleSystem("Item_P" + id, "Item"); 
-    auto itemNode = sceneNode->createChildSceneNode("Item_N" + id);
-    itemNode->attachObject(itemParticles);
-    itemNode->setPosition(0, 200, 0);
-    mParticleSystemMap.emplace(ParticleType::Item, itemParticles);
-    mParticleNodeMap.emplace(ParticleType::Item, itemNode);
-
-    auto fireParticles = _scnmgr->createParticleSystem("Fire_P" + id, "Fire"); 
-    auto fireNode = sceneNode->createChildSceneNode("Fire_N" + id);
-    fireNode->attachObject(fireParticles);
-    fireNode->setPosition(0, 100, 0);
-    mParticleSystemMap.emplace(ParticleType::Fire, fireParticles);
-    mParticleNodeMap.emplace(ParticleType::Fire, fireNode);
-
-    auto iceParticles = _scnmgr->createParticleSystem("Ice_P" + id, "Ice"); 
-    auto iceNode = sceneNode->createChildSceneNode("Ice_N" + id);
-    iceNode->attachObject(iceParticles);
-    iceNode->setPosition(0, 100, 0);
-    mParticleSystemMap.emplace(ParticleType::Ice, iceParticles);
-    mParticleNodeMap.emplace(ParticleType::Ice, iceNode);
-
-    auto flareParticles = _scnmgr->createParticleSystem("Flare_P" + id, "Flare");
-    auto flareNode = sceneNode->createChildSceneNode("Flare_N" + id);
-    flareNode->attachObject(flareParticles);
-    flareNode->setPosition(0, 100, 0);
-    mParticleSystemMap.emplace(ParticleType::Flare, flareParticles);
-    mParticleNodeMap.emplace(ParticleType::Flare, flareNode);
-
-    stopEmittingAll();
-
-    target = NULL;
+    target = nullptr;
     
     mAnimationController = new AnimationController(mEntity, i.mesh.animationSpec); 
     mAnimationController->runIdleAnimation();
@@ -78,16 +35,9 @@ void Player::physicalAttack(Player& target) {
     if (targetHealth < 0) {
         targetHealth = 0;
     }
-    target.setEmitting(ParticleType::Physical, true);
-    target.setVisible(ParticleType::Physical, true);
-    target.physicalStartTime = time(&target.timer);
 }
 
 void Player::item(void) {
-    auto pt = ParticleType::Item;
-    setEmitting(pt, true);
-    setVisible(pt, true);
-    itemStartTime = time(&timer);
 }
 
 bool Player::attemptPhysicalAttack(void) {
@@ -97,16 +47,14 @@ bool Player::attemptPhysicalAttack(void) {
 
 void Player::guard(void) {
     mInfo.armor += std::max(1, (int)(0.5f * mInfo.armor));
-    setEmitting(ParticleType::Guard, true);
-    setVisible(ParticleType::Guard, true);
 }
 
 void Player::unguard(void) {
     mInfo.armor = mInfo.baseArmor;
-    setEmitting(ParticleType::Guard, false);
 }
 
 void Player::specialAttack(Player& target) {
+    (void) target;
     --mInfo.specialPoints;
     int randNum = rand() % 3;
     std::cout << randNum << std::endl << std::endl << std::endl;
@@ -114,23 +62,17 @@ void Player::specialAttack(Player& target) {
     switch(randNum) {
         case 0:
             pt = ParticleType::Fire;
-            setEmitting(pt, true);
-            setVisible(pt, true);
             break;
         case 1:
             pt = ParticleType::Ice;
-            setEmitting(pt, true);
-            setVisible(pt, true);
             break;
         case 2:
             pt = ParticleType::Flare;
-            setEmitting(pt, true);
-            setVisible(pt, true);
             break;
         default:
             break;
     }
-    emittingParticles = true;
+    (void) pt;
 }
 
 bool Player::isDead(void) {
@@ -149,15 +91,6 @@ PlayerInfo& Player::info(void) {
     return mInfo;
 }
 
-void Player::setEmitting(ParticleType pt, bool emitting) {
-    mParticleSystemMap.find(pt)->second->setEmitting(emitting);
-}
-
-
-void Player::setVisible(ParticleType pt, bool visible) {
-    mParticleSystemMap.find(pt)->second->setVisible(visible);
-}
-
 void Player::lookAt(Player* targetObject) {
     target = targetObject;
     GameObject::lookAt(targetObject);
@@ -169,6 +102,7 @@ void Player::lookAt(Player* targetObject) {
     }
 }
 
+/*
 void Player::checkTime(void) {
     if(time(&timer) > itemStartTime + 1.5) {
         setEmitting(ParticleType::Item, false);
@@ -178,22 +112,6 @@ void Player::checkTime(void) {
         setEmitting(ParticleType::Physical, false);
         setVisible(ParticleType::Physical, false);
     }
-}
-
-void Player::stopEmittingAll(void) {
-    emittingParticles = false;
-    setEmitting(ParticleType::Guard, false);
-    setVisible(ParticleType::Guard, false);
-    setEmitting(ParticleType::Physical, false);
-    setVisible(ParticleType::Physical, false);
-    setEmitting(ParticleType::Item, false);
-    setVisible(ParticleType::Item, false);
-    setEmitting(ParticleType::Fire, false);
-    setVisible(ParticleType::Fire, false);
-    setEmitting(ParticleType::Ice, false);
-    setVisible(ParticleType::Ice, false);
-    setEmitting(ParticleType::Flare, false);
-    setVisible(ParticleType::Flare, false);
 }
 
 void Player::collision(SoundBank* soundBank) {
@@ -249,6 +167,7 @@ void Player::collision(SoundBank* soundBank) {
         }
     }
 }
+*/
 
 Ogre::Real Player::getHeight(void) {
     return mEntity->getBoundingBox().getSize().y * 1.2;

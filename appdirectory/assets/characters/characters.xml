@@ -54,5 +54,59 @@
             <armor>3</armor>
             <accuracy>0.85</accuracy>
         </character>
+        <character>
+            <name>Babe Ruth</name>
+            <img>CharacterProfiles/CannibalCorpse</img>
+            <health>15</health>
+            <special>2</special>
+            <damage>7</damage>
+            <armor>5</armor>
+            <accuracy>0.80</accuracy>
+        </character>
+        <character>
+            <name>Goldilocks</name>
+            <img>CharacterProfiles/SpookyBoo</img>
+            <health>10</health>
+            <special>4</special>
+            <damage>10</damage>
+            <armor>2</armor>
+            <accuracy>0.90</accuracy>
+        </character>
+        <character>
+            <name>Legs</name>
+            <img>CharacterProfiles/Rattlebones</img>
+            <health>20</health>
+            <special>1</special>
+            <damage>4</damage>
+            <armor>10</armor>
+            <accuracy>0.70</accuracy>
+        </character>
+        <character>
+            <name>Jigbert</name>
+            <img>CharacterProfiles/CannibalCorpse</img>
+            <health>15</health>
+            <special>2</special>
+            <damage>7</damage>
+            <armor>5</armor>
+            <accuracy>0.80</accuracy>
+        </character>
+        <character>
+            <name>DJ Du$ty</name>
+            <img>CharacterProfiles/SpookyBoo</img>
+            <health>10</health>
+            <special>4</special>
+            <damage>10</damage>
+            <armor>2</armor>
+            <accuracy>0.90</accuracy>
+        </character>
+        <character>
+            <name>Marshall</name>
+            <img>CharacterProfiles/Rattlebones</img>
+            <health>20</health>
+            <special>1</special>
+            <damage>4</damage>
+            <armor>10</armor>
+            <accuracy>0.70</accuracy>
+        </character>
     </characters>
 </characterDatabase>

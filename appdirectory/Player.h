@@ -4,6 +4,7 @@
 #include "GameObject.h"
 #include "PlayerInfo.h"
 #include "AnimationController.h"
+#include "SoundBank.h"
 
 #include <OgreBillboardSet.h>
 #include <OgreBillboard.h>
@@ -19,6 +20,8 @@ public:
     bool attemptPhysicalAttack(void);
     void physicalAttack(Player& target);
     void specialAttack(Player& target);
+    void item(void);
+    Player* target;
     void guard(void);
     void unguard(void);
     bool isDead(void);
@@ -28,7 +31,20 @@ public:
     PlayerInfo& info(void);
 
     void setEmitting(ParticleType pt, bool emitting);
-    void lookAt(GameObject* targetObject);
+    void setVisible(ParticleType pt, bool visible);
+    void lookAt(Player* targetObject);
+    void stopEmittingAll(void);
+    void checkTime(void);
+    void collision(SoundBank* soundBank);
+
+    bool emittingParticles;
+    bool hit;
+
+    ParticleType particleEmitting;
+
+    double itemStartTime;
+    double physicalStartTime;
+    time_t timer;
 
     Ogre::Real getHeight(void);
 

@@ -9,7 +9,8 @@ enum class ParticleType {
     Physical,
     Fire,
     Ice,
-    Flare 
+    Flare,
+    NumParticleTypes
 };
 
 typedef struct ParticleTypeHash {

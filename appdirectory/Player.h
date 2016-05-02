@@ -30,21 +30,7 @@ public:
     const PlayerInfo& info(void) const;
     PlayerInfo& info(void);
 
-    void setEmitting(ParticleType pt, bool emitting);
-    void setVisible(ParticleType pt, bool visible);
     void lookAt(Player* targetObject);
-    void stopEmittingAll(void);
-    void checkTime(void);
-    void collision(SoundBank* soundBank);
-
-    bool emittingParticles;
-    bool hit;
-
-    ParticleType particleEmitting;
-
-    double itemStartTime;
-    double physicalStartTime;
-    time_t timer;
 
     Ogre::Real getHeight(void);
 

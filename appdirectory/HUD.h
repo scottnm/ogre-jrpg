@@ -7,6 +7,7 @@
 #include "Inventory.h"
 #include "Item.h"
 
+#include <OgreBillboardSet.h>
 #include <OgreString.h>
 #include <OgreSceneManager.h>
 #include <OISKeyboard.h>
@@ -91,6 +92,7 @@ private:
     CEGUI::Window* charSelected;
     std::unordered_map<Player*, CEGUI::Window*> characterInfoWindows;
     std::unordered_map<Player*, Ogre::SceneNode*> characterTargetArrows;
+    std::unordered_map<Player*, Ogre::BillboardSet*> characterHealthBars;
     std::vector<Player*>& enemyParty;
     int activeTarget;
     // std::vector<std::pair<Item,int>>& items;

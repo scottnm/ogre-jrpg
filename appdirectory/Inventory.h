@@ -27,7 +27,6 @@ public:
      * load the sounds specified by the xml audio database file
      * @param xmlDbFilename - the name of the xml audio database file
      */
-    //void loadInventoryDatabase(const std::string& xmlDbFilename);
 	
 	std::vector<std::pair<Item, int>> items;
     std::vector<std::pair<Item, int>> _itemDefaults;

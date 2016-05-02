@@ -81,8 +81,10 @@ void SingleplayerGame::createScene(void){
     enemyParty.push_back(p6);
 
     // Set Camera Position
-    camera->setPosition(Ogre::Vector3(1100, 250, 700));
-    camera->lookAt(Ogre::Vector3(0, 0, 0));
+    cameraInitialPosition = Ogre::Vector3(1100, 250, 700);
+    cameraInitialLookAt = Ogre::Vector3(0, 0, 0);
+    camera->setPosition(cameraInitialPosition);
+    camera->lookAt(cameraInitialLookAt);
 }
 
 void SingleplayerGame::destroyScene(void) {

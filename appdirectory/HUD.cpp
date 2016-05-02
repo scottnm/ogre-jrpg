@@ -94,6 +94,18 @@ HUD::HUD(Ogre::SceneManager& scnMgr,
 
         characterTargetArrows.emplace(character, targetSceneNode);
 
+        auto healthBarBillboardSet = scnMgr.createBillboardSet();
+        healthBarBillboardSet->setMaterialName("healthbar");
+        healthBarBillboardSet->createBillboard(Ogre::Vector3::ZERO);
+        healthBarBillboardSet->setDefaultDimensions(10, 10);
+
+        auto healthBarSceneNode = character->sceneNode->
+            createChildSceneNode(Ogre::Vector3(0, character->getHeight() * 0.8, 0));
+        healthBarSceneNode->attachObject(healthBarBillboardSet);
+        healthBarSceneNode->getAttachedObject(0)->setRenderQueueGroup(Ogre::RENDER_QUEUE_MAX);
+
+        characterHealthBars.emplace(character, healthBarBillboardSet);
+
     }
 
     for (Player* e : enemyParty) {
@@ -424,6 +436,14 @@ void HUD::update(void) {
                 std::to_string(info.armor));
         infoWindow->getChild("PM_Accuracy_Value")->setText(
                 std::to_string((int)(info.accuracy*100)) + "%");
+
+        auto playerHealthBarBillboard = characterHealthBars.find(character)->second;
+        playerHealthBarBillboard->setDefaultWidth(character->info().health * 10);
+    }
+
+    for(auto character : enemyParty) {
+        auto enemyHealthBarBillBoard = characterHealthBars.find(character)->second;  
+        enemyHealthBarBillBoard->setDefaultWidth(character->info().health * 10);
     }
 
     if (mInventory.items.size() == 0) {

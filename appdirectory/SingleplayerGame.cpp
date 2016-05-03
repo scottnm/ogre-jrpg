@@ -294,23 +294,23 @@ void SingleplayerGame::onHUDPhysicalSelect(Player* attacker, Player* target) {
 }
 
 void SingleplayerGame::onHUDSpecialSelect(Player* attacker, Player* target) {
+    mAttackRunning = true;
+    attacker->lookAt(target);
+
+    // prep animation 
     AnimationCallback cb = [attacker, target](void)-> void{
-        attacker->lookAt(target);
         attacker->mAnimationController->runIdleAnimation();
-         
     };
     attacker->mAnimationController->runAnimation(AnimationType::Special, cb);
 
-    mAttackRunning = true;
-    bool& attackRunning = mAttackRunning;
-    auto tgtscn = target->sceneNode;
-    ParticleEndCheckCallback endCheck = [attacker, tgtscn](void) -> bool {
-        return attacker->mParticleController->checkFireCollision(tgtscn);
+    // prep particles
+    ParticleEndCheckCallback endCheck = [attacker, target](void) -> bool {
+        return attacker->mParticleController->checkFireCollision(target->sceneNode);
     };
-
-    ParticleCallback onEnd = [&attackRunning, attacker, target](void) -> void {
-        attackRunning = false;
+    ParticleCallback onEnd = [this, attacker, target](void) -> void {
+        mAttackRunning = false;
         attacker->specialAttack(*target);
+        mSoundBank->play("fireball_attack_fx");
     };
     attacker->mParticleController->runParticleSystem(ParticleType::Fire, endCheck, onEnd);
 

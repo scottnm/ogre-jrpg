@@ -336,24 +336,26 @@ void SingleplayerGame::onHUDPhysicalSelect(Player* attacker, Player* target) {
 }
 
 void SingleplayerGame::onHUDSpecialSelect(Player* attacker, Player* target) {
-    mAttackRunning = true;
-    bool& attackRunning = this->mAttackRunning;
-    AnimationCallback cb = [&attackRunning, attacker, target](void)-> void{
+    AnimationCallback cb = [attacker, target](void)-> void{
         attacker->lookAt(target);
         attacker->mAnimationController->runIdleAnimation();
          
-        auto tgtscn = target->sceneNode;
-        ParticleEndCheckCallback endCheck = [attacker, tgtscn](void) -> bool {
-            return attacker->mParticleController->checkFireCollision(tgtscn);
-        };
-
-        ParticleCallback onEnd = [&attackRunning, attacker, target](void) -> void {
-            attackRunning = false;
-            attacker->specialAttack(*target);
-        };
-        attacker->mParticleController->runParticleSystem(ParticleType::Fire, endCheck, onEnd);
     };
     attacker->mAnimationController->runAnimation(AnimationType::Special, cb);
+
+    mAttackRunning = true;
+    bool& attackRunning = mAttackRunning;
+    auto tgtscn = target->sceneNode;
+    ParticleEndCheckCallback endCheck = [attacker, tgtscn](void) -> bool {
+        return attacker->mParticleController->checkFireCollision(tgtscn);
+    };
+
+    ParticleCallback onEnd = [&attackRunning, attacker, target](void) -> void {
+        attackRunning = false;
+        attacker->specialAttack(*target);
+    };
+    attacker->mParticleController->runParticleSystem(ParticleType::Fire, endCheck, onEnd);
+
     mSoundBank->play("special_attack_fx"); 
 }
 

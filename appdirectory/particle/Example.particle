@@ -242,7 +242,7 @@ particle_system Fire
         emission_rate       1
         time_to_live        1
         direction           0 0 -1
-        velocity            1000
+        velocity            2000
         colour              1 0 0
         width               250
         height              250

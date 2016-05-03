@@ -264,7 +264,7 @@ particle_system Ice
     emitter Point
     {
         angle               3
-        emission_rate       5
+        emission_rate       50
         time_to_live        1
         direction           0 0 -1
         velocity            1000
@@ -289,7 +289,7 @@ particle_system Flare
     // Point emitter
     emitter Point
     {
-        emission_rate       2
+        emission_rate       20
         time_to_live        1
         direction           0 0 -1
         velocity            1000

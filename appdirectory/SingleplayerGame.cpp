@@ -125,32 +125,12 @@ bool SingleplayerGame::go(void)
 bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
 
-    /*
-    for(auto player : myParty) {
-        player->collision(mSoundBank);
-    }
-
-    for(auto enemy : enemyParty) {
-        enemy->collision(mSoundBank);
-    }
-    */
-
     for(auto c : myParty) {
-        /*
-        if(!particleEmitting) {
-            particleEmitting = c->emittingParticles;
-        }
-        */
         c->mAnimationController->updateAnimationTime(evt.timeSinceLastFrame);
         c->mParticleController->updateParticles();
     }
 
     for(auto c : enemyParty) {
-        /*
-        if(!particleEmitting) {
-            particleEmitting = c->emittingParticles;
-        }
-        */
         c->mAnimationController->updateAnimationTime(evt.timeSinceLastFrame);
         c->mParticleController->updateParticles();
     }
@@ -224,14 +204,6 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
 
     if (myPartyAlive.empty() || enemyPartyAlive.empty()) {
         mGameOver = true;
-        /*
-        for(auto player: myParty) {
-            player->stopEmittingAll();
-        }
-        for(auto enemy: enemyParty) {
-            enemy->stopEmittingAll();
-        }
-        */
         // throw up lose game gui
         mHUD->alertGameOver(enemyPartyAlive.empty());
         if (enemyPartyAlive.empty()) {
@@ -254,9 +226,9 @@ void SingleplayerGame::clearDeadCharacters(void) {
         if (p->isDead()) {
             AnimationCallback cb = [](void)-> void {};
             p->mAnimationController->runAnimation(AnimationType::Death, cb);
+            p->mParticleController->stopEmittingAll();
             mSoundBank->play("death_fx");
             mSoundBank->play("grunt_fx");
-
             citr = myPartyAlive.erase(citr);
             if (citr == myPartyAlive.end()) {
                 break;
@@ -287,21 +259,7 @@ void SingleplayerGame::clearDeadCharacters(void) {
 }
 
 bool SingleplayerGame::keyPressed(const OIS::KeyEvent &arg) {
-    bool emittingParticle = false;
-    /*
-    for(auto player : myPartyAlive) {
-        if(player->emittingParticles) {
-            emittingParticle = player->emittingParticles;
-        }
-    }
-
-    for(auto enemy : enemyPartyAlive) {
-        if(enemy->emittingParticles) {
-            emittingParticle = enemy->emittingParticles;
-        }
-    }
-    */
-    if (!emittingParticle && !mAttackRunning && (mGameOver || playerTurn)) {
+    if (!mAttackRunning && (mGameOver || playerTurn)) {
         mHUD->injectKeyDown(arg);
     }
     return true;

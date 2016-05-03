@@ -142,6 +142,7 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
         }
         */
         c->mAnimationController->updateAnimationTime(evt.timeSinceLastFrame);
+        c->mParticleController->updateParticles();
     }
 
     for(auto c : enemyParty) {
@@ -151,6 +152,7 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
         }
         */
         c->mAnimationController->updateAnimationTime(evt.timeSinceLastFrame);
+        c->mParticleController->updateParticles();
     }
 
     if(mAttackRunning || mGameOver || mShutDown) {
@@ -338,9 +340,18 @@ void SingleplayerGame::onHUDSpecialSelect(Player* attacker, Player* target) {
     bool& attackRunning = this->mAttackRunning;
     AnimationCallback cb = [&attackRunning, attacker, target](void)-> void{
         attacker->lookAt(target);
-        attacker->specialAttack(*target);
-        attackRunning = false;
         attacker->mAnimationController->runIdleAnimation();
+         
+        auto tgtscn = target->sceneNode;
+        ParticleEndCheckCallback endCheck = [attacker, tgtscn](void) -> bool {
+            return attacker->mParticleController->checkFireCollision(tgtscn);
+        };
+
+        ParticleCallback onEnd = [&attackRunning, attacker, target](void) -> void {
+            attackRunning = false;
+            attacker->specialAttack(*target);
+        };
+        attacker->mParticleController->runParticleSystem(ParticleType::Fire, endCheck, onEnd);
     };
     attacker->mAnimationController->runAnimation(AnimationType::Special, cb);
     mSoundBank->play("special_attack_fx"); 

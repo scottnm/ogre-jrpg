@@ -27,6 +27,8 @@ Player::Player(Ogre::SceneManager* _scnmgr, Ogre::SceneNode* _scnnode,
     
     mAnimationController = new AnimationController(mEntity, i.mesh.animationSpec); 
     mAnimationController->runIdleAnimation();
+
+    mParticleController = new ParticleController(_scnmgr, sceneNode);
 }
 
 void Player::physicalAttack(Player& target) {
@@ -56,23 +58,10 @@ void Player::unguard(void) {
 void Player::specialAttack(Player& target) {
     (void) target;
     --mInfo.specialPoints;
-    int randNum = rand() % 3;
-    std::cout << randNum << std::endl << std::endl << std::endl;
-    ParticleType pt;
-    switch(randNum) {
-        case 0:
-            pt = ParticleType::Fire;
-            break;
-        case 1:
-            pt = ParticleType::Ice;
-            break;
-        case 2:
-            pt = ParticleType::Flare;
-            break;
-        default:
-            break;
-    }
-    (void) pt;
+    std::uniform_int_distribution<int> bonus_dist(0, mInfo.accuracy * mInfo.damage);
+    int dmgBonus = bonus_dist(rand_generator);
+    int totalDamage = std::max(0, mInfo.damage + dmgBonus - target.mInfo.armor);
+    target.mInfo.health = std::max(target.mInfo.health - totalDamage, 0);
 }
 
 bool Player::isDead(void) {

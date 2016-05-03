@@ -11,14 +11,18 @@
 typedef std::pair<Ogre::ParticleSystem*, Ogre::SceneNode*> ParticleGenerator;
 
 class ParticleController {
+public:
     ParticleController(Ogre::SceneManager* scnMgr, Ogre::SceneNode* parent);
     void runParticleSystem(ParticleType pt, ParticleEndCheckCallback endCheck, ParticleCallback onEnd);
     void updateParticles(void);
     void stopEmittingAll(void);
 
+    bool checkFireCollision(Ogre::SceneNode* target);
+
 private:
+    bool _checkCollision(Ogre::ParticleSystem* psys, Ogre::SceneNode* target);
+
     static int particleControllerId;
-    static ParticleGenerator emptyGen;
 
     ParticleGenerator guardGen;
     ParticleGenerator itemGen;
@@ -27,7 +31,7 @@ private:
     ParticleGenerator iceGen;
     ParticleGenerator flareGen; 
 
-    ParticleGenerator& currentGen;
+    ParticleGenerator* currentGen;
 
     ParticleEndCheckCallback endCheck;
     ParticleCallback onEnd;

@@ -239,7 +239,7 @@ particle_system Fire
     // Point emitter
     emitter Point
     {
-        emission_rate       1
+        emission_rate       10
         time_to_live        1
         direction           0 0 -1
         velocity            2000

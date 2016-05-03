@@ -273,12 +273,14 @@ void SingleplayerGame::onHUDPhysicalSelect(Player* attacker, Player* target) {
     AnimationCallback cb = [this, attacker, target, attackSuccessful](void)-> void{
         if (attackSuccessful) {
             attacker->physicalAttack(*target);
-            time_t physicalStartTime = time(nullptr);
-            ParticleEndCheckCallback endCheck = [physicalStartTime](void) -> bool {
-                return difftime(time(nullptr), physicalStartTime) > 1.5f;
-            };
-            ParticleCallback onEnd = [](void) -> void {};
-            target->mParticleController->runParticleSystem(ParticleType::Physical, endCheck, onEnd);
+            if (!target->isDead()) {
+                time_t physicalStartTime = time(nullptr);
+                ParticleEndCheckCallback endCheck = [physicalStartTime](void) -> bool {
+                    return difftime(time(nullptr), physicalStartTime) >= 1;
+                };
+                ParticleCallback onEnd = [](void) -> void {};
+                target->mParticleController->runParticleSystem(ParticleType::Physical, endCheck, onEnd);
+            }
         }
         else {
             // miss logic

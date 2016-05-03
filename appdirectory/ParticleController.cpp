@@ -51,15 +51,28 @@ ParticleController::ParticleController(Ogre::SceneManager* scnMgr, Ogre::SceneNo
 
 void ParticleController::stopEmittingAll(void) {
     guardGen.first->setEmitting(false);
+    guardGen.first->setVisible(false);
     physicalGen.first->setEmitting(false);
+    physicalGen.first->setVisible(false);
     itemGen.first->setEmitting(false);
+    itemGen.first->setVisible(false);
     fireGen.first->setEmitting(false);
+    fireGen.first->setVisible(false);
     iceGen.first->setEmitting(false);
+    iceGen.first->setVisible(false);
     flareGen.first->setEmitting(false);
+    flareGen.first->setVisible(false);
 }
 
 void ParticleController::runParticleSystem(ParticleType pt, ParticleEndCheckCallback endCheck,
         ParticleCallback onEnd) {  
+    if (currentGen != nullptr) {
+        this->onEnd(); 
+        currentGen->first->setEmitting(false);
+        currentGen->first->setVisible(false);
+        currentGen = nullptr;
+    }
+
     this->endCheck = endCheck;
     this->onEnd = onEnd;
     switch(pt) {
@@ -90,19 +103,14 @@ void ParticleController::runParticleSystem(ParticleType pt, ParticleEndCheckCall
 
 void ParticleController::updateParticles(void) {
     if (currentGen == nullptr) {
-        std::cout << "empty gen" << std::endl;
         return;
     }
 
-    std::cout << "not empty gen" << std::endl;
     if (endCheck()) {
         onEnd();
         currentGen->first->setEmitting(false);
         currentGen->first->setVisible(false);
         currentGen = nullptr;
-    }
-    else {
-        std::cout << "failed colliion" << std::endl;
     }
 }
 

@@ -111,6 +111,14 @@ bool ParticleController::checkFireCollision(Ogre::SceneNode* target) {
     return _checkCollision(fireGen.first, target);
 }
 
+bool ParticleController::checkIceCollision(Ogre::SceneNode* target) {
+    return _checkCollision(iceGen.first, target);
+}
+
+bool ParticleController::checkFlareCollision(Ogre::SceneNode* target) {
+    return _checkCollision(flareGen.first, target);
+}
+
 bool ParticleController::_checkCollision(Ogre::ParticleSystem* psys, Ogre::SceneNode* target) {
     int numParticles = psys->getNumParticles();
     for(int n = 0; n < numParticles; ++n) {

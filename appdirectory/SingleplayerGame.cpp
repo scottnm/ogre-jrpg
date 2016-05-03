@@ -304,15 +304,38 @@ void SingleplayerGame::onHUDSpecialSelect(Player* attacker, Player* target) {
     attacker->mAnimationController->runAnimation(AnimationType::Special, cb);
 
     // prep particles
-    ParticleEndCheckCallback endCheck = [attacker, target](void) -> bool {
-        return attacker->mParticleController->checkFireCollision(target->sceneNode);
-    };
-    ParticleCallback onEnd = [this, attacker, target](void) -> void {
+    int randNum = rand() % 3; 
+    std::string sfx;
+    ParticleType pt;
+    ParticleEndCheckCallback endCheck;
+    if (randNum == 0) {
+        endCheck = [attacker, target](void) -> bool {
+            return attacker->mParticleController->checkFireCollision(target->sceneNode);
+        };
+        sfx = "fireball_attack_fx";
+        pt = ParticleType::Fire;
+    }
+    else if (randNum == 1) {
+        endCheck = [attacker, target](void) -> bool {
+            return attacker->mParticleController->checkIceCollision(target->sceneNode);
+        };
+        sfx = "ice_attack_fx";
+        pt = ParticleType::Ice;
+    }
+    else {
+        endCheck = [attacker, target](void) -> bool {
+            return attacker->mParticleController->checkFlareCollision(target->sceneNode);
+        };
+        sfx = "flare_attack_fx";
+        pt = ParticleType::Flare;
+    }
+
+    ParticleCallback onEnd = [this, attacker, target, sfx](void) -> void {
         mAttackRunning = false;
         attacker->specialAttack(*target);
-        mSoundBank->play("fireball_attack_fx");
+        mSoundBank->play(sfx);
     };
-    attacker->mParticleController->runParticleSystem(ParticleType::Fire, endCheck, onEnd);
+    attacker->mParticleController->runParticleSystem(pt, endCheck, onEnd);
 
     mSoundBank->play("special_attack_fx"); 
 }

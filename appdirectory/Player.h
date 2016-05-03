@@ -1,9 +1,10 @@
 #ifndef __PLAYER_H__
 #define __PLAYER_H__
 
-#include "GameObject.h"
-#include "PlayerInfo.h"
 #include "AnimationController.h"
+#include "GameObject.h"
+#include "ParticleController.h"
+#include "PlayerInfo.h"
 #include "SoundBank.h"
 
 #include <OgreBillboardSet.h>
@@ -40,6 +41,7 @@ private:
 
 public:
     AnimationController* mAnimationController;
+    ParticleController* mParticleController;
 
 private:
 

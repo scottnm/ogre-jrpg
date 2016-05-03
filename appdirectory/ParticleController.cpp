@@ -1,10 +1,10 @@
 #include "ParticleController.h"
+#include <OgreParticle.h>
 
 int ParticleController::particleControllerId = 0;
-ParticleGenerator ParticleController::emptyGen(nullptr, nullptr);
 
 ParticleController::ParticleController(Ogre::SceneManager* scnMgr, Ogre::SceneNode* parent)
-    : currentGen(guardGen) {
+    : currentGen(nullptr) {
     const Ogre::String id = Ogre::StringConverter::toString(particleControllerId++);
 
     auto guardParticles = scnMgr->createParticleSystem("Guard_P" + id, "Guard"); 
@@ -64,40 +64,63 @@ void ParticleController::runParticleSystem(ParticleType pt, ParticleEndCheckCall
     this->onEnd = onEnd;
     switch(pt) {
         case ParticleType::Guard:
-            currentGen = guardGen;
+            currentGen = &guardGen;
             break;
         case ParticleType::Item:
-            currentGen = itemGen;
+            currentGen = &itemGen;
             break;
         case ParticleType::Physical:
-            currentGen = physicalGen;
+            currentGen = &physicalGen;
             break;
         case ParticleType::Fire:
-            currentGen = fireGen;
+            currentGen = &fireGen;
             break;
         case ParticleType::Ice:
-            currentGen = iceGen;
+            currentGen = &iceGen;
             break;
         case ParticleType::Flare:
-            currentGen = flareGen;
+            currentGen = &flareGen;
             break;
         default:
             break;
     }
-    currentGen.first->setEmitting(true);
-    currentGen.first->setVisible(true);
+    currentGen->first->setEmitting(true);
+    currentGen->first->setVisible(true);
 }
 
 void ParticleController::updateParticles(void) {
-    if (currentGen == emptyGen) {
+    if (currentGen == nullptr) {
+        std::cout << "empty gen" << std::endl;
         return;
     }
 
+    std::cout << "not empty gen" << std::endl;
     if (endCheck()) {
         onEnd();
-        currentGen.first->setEmitting(false);
-        currentGen.first->setVisible(false);
-        currentGen = emptyGen;
+        currentGen->first->setEmitting(false);
+        currentGen->first->setVisible(false);
+        currentGen = nullptr;
+    }
+    else {
+        std::cout << "failed colliion" << std::endl;
     }
 }
 
+
+bool ParticleController::checkFireCollision(Ogre::SceneNode* target) {
+    return _checkCollision(fireGen.first, target);
+}
+
+bool ParticleController::_checkCollision(Ogre::ParticleSystem* psys, Ogre::SceneNode* target) {
+    int numParticles = psys->getNumParticles();
+    for(int n = 0; n < numParticles; ++n) {
+        auto scnNode = psys->getParentSceneNode();
+        bool hit = target->_getWorldAABB().intersects(
+                scnNode->_getDerivedPosition() +
+                (scnNode->_getDerivedOrientation() * psys->getParticle(n)->position));
+        if(hit) {
+            return true;
+        }
+    }
+    return false;
+}

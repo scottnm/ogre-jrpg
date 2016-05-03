@@ -267,19 +267,23 @@ bool SingleplayerGame::keyPressed(const OIS::KeyEvent &arg) {
 
 void SingleplayerGame::onHUDPhysicalSelect(Player* attacker, Player* target) {
     mAttackRunning = true;
-    bool& attackRunning = mAttackRunning;
     bool attackSuccessful = attacker->attemptPhysicalAttack();
 
-    AnimationCallback cb = [&attackRunning, attacker, target,
-                      attackSuccessful](void)-> void{
+    attacker->lookAt(target);
+    AnimationCallback cb = [this, attacker, target, attackSuccessful](void)-> void{
         if (attackSuccessful) {
-            attacker->lookAt(target);
             attacker->physicalAttack(*target);
+            time_t physicalStartTime = time(nullptr);
+            ParticleEndCheckCallback endCheck = [physicalStartTime](void) -> bool {
+                return difftime(time(nullptr), physicalStartTime) > 1.5f;
+            };
+            ParticleCallback onEnd = [](void) -> void {};
+            target->mParticleController->runParticleSystem(ParticleType::Physical, endCheck, onEnd);
         }
         else {
             // miss logic
         }
-        attackRunning = false;
+        mAttackRunning = false;
         attacker->mAnimationController->runIdleAnimation();
     };
 

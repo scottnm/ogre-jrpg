@@ -18,6 +18,8 @@ public:
     void stopEmittingAll(void);
 
     bool checkFireCollision(Ogre::SceneNode* target);
+    bool checkIceCollision(Ogre::SceneNode* target);
+    bool checkFlareCollision(Ogre::SceneNode* target);
 
 private:
     bool _checkCollision(Ogre::ParticleSystem* psys, Ogre::SceneNode* target);

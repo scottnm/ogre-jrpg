@@ -1,5 +1,11 @@
-<Imageset autoScaled="" imagefile="ProfilePicturesPlaceholder.png" name="CharacterProfiles" nativeHorzRes="600" nativeVertRes="600" version="2">
-    <Image height="193" name="Rattlebones" width="197" xPos="2" yPos="3" />
-    <Image height="197" name="SpookyBoo" width="198" xPos="201" yPos="0" />
-    <Image height="194" name="CannibalCorpse" width="196" xPos="2" yPos="202" />
+<Imageset autoScaled="" imagefile="ProfilePicturesPlaceholder9.png" name="CharacterProfiles" nativeHorzRes="600" nativeVertRes="600" version="2">
+    <Image height="200" name="Rattlebones" width="200" xPos="0" yPos="0" />
+    <Image height="200" name="SpookyBoo" width="200" xPos="200" yPos="0" />
+    <Image height="200" name="CannibalCorpse" width="200" xPos="400" yPos="0" />
+    <Image height="200" name="Marshall" width="200" xPos="0" yPos="200" />
+    <Image height="200" name="Legs" width="200" xPos="200" yPos="200" />
+    <Image height="200" name="Jigbert" width="200" xPos="400" yPos="200" />
+    <Image height="200" name="Goldilocks" width="200" xPos="0" yPos="400" />
+    <Image height="200" name="DjDusty" width="200" xPos="200" yPos="400" />
+    <Image height="200" name="BabeRuth" width="200" xPos="400" yPos="400" />
 </Imageset>

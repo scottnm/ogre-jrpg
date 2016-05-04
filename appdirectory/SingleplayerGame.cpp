@@ -128,11 +128,13 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
     for(auto c : myParty) {
         c->mAnimationController->updateAnimationTime(evt.timeSinceLastFrame);
         c->mParticleController->updateParticles();
+        c->mDamageIndicatorController->injectTime(evt.timeSinceLastFrame);
     }
 
     for(auto c : enemyParty) {
         c->mAnimationController->updateAnimationTime(evt.timeSinceLastFrame);
         c->mParticleController->updateParticles();
+        c->mDamageIndicatorController->injectTime(evt.timeSinceLastFrame);
     }
 
     if(mAttackRunning || mGameOver || mShutDown) {
@@ -293,7 +295,7 @@ void SingleplayerGame::onHUDPhysicalSelect(Player* attacker, Player* target) {
             }
         }
         else {
-            // miss logic
+            attacker->missAttack(*target);
         }
         mAttackRunning = false;
         attacker->mAnimationController->runIdleAnimation();

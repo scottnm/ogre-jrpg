@@ -6,14 +6,15 @@
 
 struct PlayerInfo {
     PlayerInfo(const std::string& name, const std::string& img, const MeshSpec& mesh,
-            int hp, int sp, int dmg, int armor, float accuracy)
-        : name(name), img(img), mesh(mesh), health(hp), healthMax(hp), specialPoints(sp),
-          specialPointsMax(sp), damage(dmg), baseDamage(dmg), armor(armor),
+            const std::string& mat, int hp, int sp, int dmg, int armor, float accuracy)
+        : name(name), img(img), mesh(mesh), material(mat), health(hp), healthMax(hp),
+          specialPoints(sp), specialPointsMax(sp), damage(dmg), baseDamage(dmg), armor(armor),
           baseArmor(armor), accuracy(accuracy), baseAccuracy(accuracy) {}
 
     const std::string name;
     const std::string img;
     const MeshSpec mesh;
+    const std::string material;
 
     int health;
     const int healthMax;

@@ -4,6 +4,7 @@
             <name>Cannibal Corpse</name>
             <img>CharacterProfiles/CannibalCorpse</img>
             <mesh>ninja</mesh>
+            <material>NinjaSkins/00</material>
             <health>15</health>
             <special>2</special>
             <damage>7</damage>
@@ -14,6 +15,7 @@
             <name>Spooky Boo</name>
             <img>CharacterProfiles/SpookyBoo</img>
             <mesh>ninja</mesh>
+            <material>NinjaSkins/01</material>
             <health>10</health>
             <special>4</special>
             <damage>10</damage>
@@ -24,6 +26,7 @@
             <name>Rattlebones</name>
             <img>CharacterProfiles/Rattlebones</img>
             <mesh>ninja</mesh>
+            <material>NinjaSkins/02</material>
             <health>20</health>
             <special>1</special>
             <damage>4</damage>
@@ -34,6 +37,7 @@
             <name>Mecha-Scoot</name>
             <img>CharacterProfiles/CannibalCorpse</img>
             <mesh>ninja</mesh>
+            <material>NinjaSkins/04</material>
             <health>15</health>
             <special>2</special>
             <damage>7</damage>
@@ -44,6 +48,7 @@
             <name>SSJVirginia</name>
             <img>CharacterProfiles/CannibalCorpse</img>
             <mesh>ninja</mesh>
+            <material>NinjaSkins/07</material>
             <health>15</health>
             <special>2</special>
             <damage>7</damage>
@@ -54,6 +59,7 @@
             <name>Metal Scoot</name>
             <img>CharacterProfiles/CannibalCorpse</img>
             <mesh>ninja</mesh>
+            <material>NinjaSkins/09</material>
             <health>15</health>
             <special>2</special>
             <damage>7</damage>

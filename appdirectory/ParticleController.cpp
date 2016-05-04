@@ -80,6 +80,17 @@ void ParticleController::updateParticles(void) {
     }
 }
 
+void ParticleController::enableGuard(void) {
+    auto guardSys = systems[PT_Guard];
+    guardSys->setEmitting(true);
+    guardSys->setVisible(true);
+}
+
+void ParticleController::disableGuard(void) {
+    auto guardSys = systems[PT_Guard];
+    guardSys->setEmitting(false);
+    guardSys->setVisible(false);
+}
 
 bool ParticleController::checkFireCollision(Ogre::SceneNode* target) {
     return _checkCollision(systems[PT_Fire], target);

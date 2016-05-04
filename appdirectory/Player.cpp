@@ -23,8 +23,6 @@ Player::Player(Ogre::SceneManager* _scnmgr, Ogre::SceneNode* _scnnode,
     sceneNode->lookAt(Ogre::Vector3::ZERO, Ogre::Node::TS_WORLD);
     sceneNode->lookAt(Ogre::Vector3(0, pos.y, pos.z), Ogre::Node::TS_WORLD);
 
-    target = nullptr;
-    
     mAnimationController = new AnimationController(mEntity, i.mesh.animationSpec); 
     mAnimationController->runIdleAnimation();
 
@@ -49,14 +47,15 @@ bool Player::attemptPhysicalAttack(void) {
 
 void Player::guard(void) {
     mInfo.armor += std::max(1, (int)(0.5f * mInfo.armor));
+    mParticleController->enableGuard();
 }
 
 void Player::unguard(void) {
     mInfo.armor = mInfo.baseArmor;
+    mParticleController->disableGuard();
 }
 
 void Player::specialAttack(Player& target) {
-    (void) target;
     --mInfo.specialPoints;
     std::uniform_int_distribution<int> bonus_dist(0, mInfo.accuracy * mInfo.damage);
     int dmgBonus = bonus_dist(rand_generator);
@@ -81,7 +80,6 @@ PlayerInfo& Player::info(void) {
 }
 
 void Player::lookAt(Player* targetObject) {
-    target = targetObject;
     GameObject::lookAt(targetObject);
     auto targetNode = targetObject->sceneNode;
     for(auto particleNodePair : mParticleNodeMap) {
@@ -90,73 +88,6 @@ void Player::lookAt(Player* targetObject) {
             Ogre::Node::TransformSpace::TS_LOCAL, Ogre::Vector3::NEGATIVE_UNIT_Z);
     }
 }
-
-/*
-void Player::checkTime(void) {
-    if(time(&timer) > itemStartTime + 1.5) {
-        setEmitting(ParticleType::Item, false);
-        setVisible(ParticleType::Item, false);
-    }
-    if(time(&timer) > physicalStartTime + 1.0) {
-        setEmitting(ParticleType::Physical, false);
-        setVisible(ParticleType::Physical, false);
-    }
-}
-
-void Player::collision(SoundBank* soundBank) {
-    for(auto particleSystemPair : mParticleSystemMap) {
-        auto ps = particleSystemPair.second;
-        ParticleType particleType = particleSystemPair.first;
-        if(ps->isVisible() && (particleType == ParticleType::Fire || particleType == ParticleType::Ice || particleType == ParticleType::Flare)) {
-            int numParticles = ps->getNumParticles();
-            for(int particleNum = 0; particleNum < numParticles; ++particleNum) {
-                auto p = ps->getParticle(particleNum);
-                if(p) {
-                    auto pPos = p->position;
-                    auto sn = ps->getParentSceneNode();
-                    auto orientation = sn->_getDerivedOrientation();
-                    auto snPos = sn->_getDerivedPosition();
-                    auto direction = orientation * pPos;
-                    auto pWorldPos = snPos + direction;
-                    if(target) {
-                        auto targetBoundingBox = target->sceneNode->_getWorldAABB();
-                        bool hit = targetBoundingBox.intersects(pWorldPos);
-                        if(hit) {
-                            if(particleNum == numParticles - 1) {
-                                setVisible(particleSystemPair.first, false);
-                                emittingParticles = false;
-                                std::uniform_int_distribution<int> bonus_dist(0, mInfo.accuracy * mInfo.damage);
-                                int dmgBonus = bonus_dist(rand_generator);
-                                int totalDamage = std::max(0, mInfo.damage + dmgBonus - target->mInfo.armor);
-                                target->mInfo.health = std::max(target->mInfo.health - totalDamage, 0);
-                                printf("%s hits %s for %d dmg with a bonus of %d\n",
-                                        mInfo.name.c_str(), target->mInfo.name.c_str(),
-                                        totalDamage, dmgBonus);
-
-                                fflush(stdout);
-
-                                std::cout << "health left " << target->mInfo.health << std::endl; 
-                            }
-                            setEmitting(particleSystemPair.first, false);
-
-                            // play sound
-                            if(particleSystemPair.first == ParticleType::Fire) {
-                                soundBank->play("fireball_attack_fx");
-                            }
-                            if(particleSystemPair.first == ParticleType::Ice) {
-                                soundBank->play("ice_attack_fx");
-                            }
-                            if(particleSystemPair.first == ParticleType::Flare) {
-                                soundBank->play("flare_attack_fx");
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-*/
 
 Ogre::Real Player::getHeight(void) {
     return mEntity->getBoundingBox().getSize().y * 1.2;

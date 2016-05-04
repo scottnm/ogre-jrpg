@@ -279,7 +279,7 @@ void SingleplayerGame::onHUDPhysicalSelect(Player* attacker, Player* target) {
                     return difftime(time(nullptr), physicalStartTime) >= 1;
                 };
                 ParticleCallback onEnd = [](void) -> void {};
-                target->mParticleController->runParticleSystem(ParticleType::Physical, endCheck, onEnd);
+                target->mParticleController->runParticleSystem(PT_Physical, endCheck, onEnd);
             }
         }
         else {
@@ -319,21 +319,21 @@ void SingleplayerGame::onHUDSpecialSelect(Player* attacker, Player* target) {
             return attacker->mParticleController->checkFireCollision(target->sceneNode);
         };
         sfx = "fireball_attack_fx";
-        pt = ParticleType::Fire;
+        pt = PT_Fire;
     }
     else if (randNum == 1) {
         endCheck = [attacker, target](void) -> bool {
             return attacker->mParticleController->checkIceCollision(target->sceneNode);
         };
         sfx = "ice_attack_fx";
-        pt = ParticleType::Ice;
+        pt = PT_Ice;
     }
     else {
         endCheck = [attacker, target](void) -> bool {
             return attacker->mParticleController->checkFlareCollision(target->sceneNode);
         };
         sfx = "flare_attack_fx";
-        pt = ParticleType::Flare;
+        pt = PT_Flare;
     }
 
     ParticleCallback onEnd = [this, attacker, target, sfx](void) -> void {

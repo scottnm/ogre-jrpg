@@ -7,8 +7,12 @@
 #include <OgreSceneManager.h>
 #include <OgreSceneNode.h>
 #include <utility>
+#include <vector>
 
 struct ParticleEvent {
+    ParticleEvent(Ogre::ParticleSystem* ps, ParticleEndCheckCallback peccb,
+            ParticleCallback pcb) : system(ps), endCheck(peccb), onEnd(pcb) {}
+
     Ogre::ParticleSystem* system;
     ParticleEndCheckCallback endCheck;
     ParticleCallback onEnd;
@@ -30,14 +34,9 @@ private:
 
     static int particleControllerId;
 
-    Ogre::ParticleSystem* guardSys;
-    Ogre::ParticleSystem* itemSys;
-    Ogre::ParticleSystem* physicalSys;
-    Ogre::ParticleSystem* fireSys;
-    Ogre::ParticleSystem* iceSys;
-    Ogre::ParticleSystem* flareSys; 
-
-    Ogre::ParticleSystem* currentSys;
+    Ogre::ParticleSystem* systems[6];
+    std::vector<ParticleEvent> mEventQueue;
+    
 
     ParticleEndCheckCallback endCheck;
     ParticleCallback onEnd;

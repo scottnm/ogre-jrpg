@@ -8,7 +8,11 @@
 #include <OgreSceneNode.h>
 #include <utility>
 
-typedef std::pair<Ogre::ParticleSystem*, Ogre::SceneNode*> ParticleGenerator;
+struct ParticleEvent {
+    Ogre::ParticleSystem* system;
+    ParticleEndCheckCallback endCheck;
+    ParticleCallback onEnd;
+};
 
 class ParticleController {
 public:
@@ -26,14 +30,14 @@ private:
 
     static int particleControllerId;
 
-    ParticleGenerator guardGen;
-    ParticleGenerator itemGen;
-    ParticleGenerator physicalGen;
-    ParticleGenerator fireGen;
-    ParticleGenerator iceGen;
-    ParticleGenerator flareGen; 
+    Ogre::ParticleSystem* guardSys;
+    Ogre::ParticleSystem* itemSys;
+    Ogre::ParticleSystem* physicalSys;
+    Ogre::ParticleSystem* fireSys;
+    Ogre::ParticleSystem* iceSys;
+    Ogre::ParticleSystem* flareSys; 
 
-    ParticleGenerator* currentGen;
+    Ogre::ParticleSystem* currentSys;
 
     ParticleEndCheckCallback endCheck;
     ParticleCallback onEnd;

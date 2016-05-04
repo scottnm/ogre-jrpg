@@ -355,6 +355,13 @@ void SingleplayerGame::onHUDItemSelect(Player* user, Player* target) {
         inventory.useItem(*target);
         attackRunning = false;
         user->mAnimationController->runIdleAnimation();
+
+        time_t itemStartTime = time(nullptr);
+        ParticleEndCheckCallback endCheck = [itemStartTime](void) -> bool {
+            return difftime(time(nullptr), itemStartTime) >= 1;
+        };
+        ParticleCallback onEnd = [](void) -> void {};
+        target->mParticleController->runParticleSystem(PT_Item, endCheck, onEnd);
     };
     user->mAnimationController->runAnimation(AnimationType::Item, cb);
     if (mInventory.getCurrentItem().isOffensive) {

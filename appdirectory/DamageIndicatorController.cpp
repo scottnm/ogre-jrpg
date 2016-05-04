@@ -1,17 +1,37 @@
 #include <DamageIndicatorController.h>
+#include <OgreBillboardSet.h>
 #include <OgreMath.h>
+#include <OgreStringConverter.h>
+using Ogre::StringConverter;
 
 Ogre::Vector3 DamageIndicatorController::endPos(0, 50, 0);
 
-DamageIndicatorController::DamageIndicatorController(Ogre::SceneNode* cRoot)
-    : mCharacterRoot(cRoot) {}
+DamageIndicatorController::DamageIndicatorController(Ogre::SceneManager* scnMgr,
+        Ogre::SceneNode* cRoot) : mSceneManager(scnMgr), mCharacterRoot(cRoot) {}
 
 void DamageIndicatorController::alertDamage(int dmg) {
-    (void)dmg;
+    auto damageBillboardSet = mSceneManager->createBillboardSet(); 
+    damageBillboardSet->setMaterialName("damage_" + StringConverter::toString(dmg, 2, '0',
+                std::ios_base::dec | std::ios_base::right));
+    damageBillboardSet->createBillboard(Ogre::Vector3::ZERO);
+    damageBillboardSet->setRenderQueueGroup(Ogre::RENDER_QUEUE_MAX);
+
+    auto damageNode = mCharacterRoot->createChildSceneNode();
+    damageNode->attachObject(damageBillboardSet);
+
+    mIndicators.push_back(DamageIndicator(damageNode, 1.0f));
 }
 
 void DamageIndicatorController::alertMiss(void) {
-    (void)mCharacterRoot;
+    auto missBillboardSet = mSceneManager->createBillboardSet(); 
+    missBillboardSet->setMaterialName("damage_miss");
+    missBillboardSet->createBillboard(Ogre::Vector3::ZERO);
+    missBillboardSet->setRenderQueueGroup(Ogre::RENDER_QUEUE_MAX);
+
+    auto missNode = mCharacterRoot->createChildSceneNode();
+    missNode->attachObject(missBillboardSet);
+
+    mIndicators.push_back(DamageIndicator(missNode, 1.0f));
 }
 
 void DamageIndicatorController::injectTime(Ogre::Real secondsElapsed) {

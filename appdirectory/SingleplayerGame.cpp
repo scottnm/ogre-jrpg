@@ -367,13 +367,13 @@ void SingleplayerGame::onHUDItemSelect(Player* user, Player* target) {
 
 void SingleplayerGame::onHUDGuardSelect(Player* user) {
     mAttackRunning = true;
-    bool& attackRunning = this->mAttackRunning;
-    AnimationCallback cb = [&attackRunning, user](void)-> void{
-        user->guard();
-        attackRunning = false;
+    AnimationCallback cb = [this, user](void)-> void{
+        mAttackRunning = false;
         user->mAnimationController->runIdleAnimation();
     };
     user->mAnimationController->runAnimation(AnimationType::Guard, cb);
+    user->guard();
+
     mSoundBank->play("guard_fx");
 }
 

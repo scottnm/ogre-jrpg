@@ -31,6 +31,7 @@ public:
     const PlayerInfo& info(void) const;
     PlayerInfo& info(void);
 
+    using GameObject::lookAt;
     void lookAt(Player* targetObject);
 
     Ogre::Real getHeight(void);

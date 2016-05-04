@@ -21,7 +21,8 @@ struct ParticleEvent {
 class ParticleController {
 public:
     ParticleController(Ogre::SceneManager* scnMgr, Ogre::SceneNode* parent);
-    void runParticleSystem(ParticleType pt, ParticleEndCheckCallback endCheck, ParticleCallback onEnd);
+    void runParticleSystem(ParticleType pt, ParticleEndCheckCallback endCheck,
+            ParticleCallback onEnd);
     void updateParticles(void);
     void stopEmittingAll(void);
 
@@ -29,6 +30,8 @@ public:
     bool checkIceCollision(Ogre::SceneNode* target);
     bool checkFlareCollision(Ogre::SceneNode* target);
 
+    void enableGuard(void);
+    void disableGuard(void);
 private:
     bool _checkCollision(Ogre::ParticleSystem* psys, Ogre::SceneNode* target);
 
@@ -36,7 +39,6 @@ private:
 
     Ogre::ParticleSystem* systems[6];
     std::vector<ParticleEvent> mEventQueue;
-    
 
     ParticleEndCheckCallback endCheck;
     ParticleCallback onEnd;

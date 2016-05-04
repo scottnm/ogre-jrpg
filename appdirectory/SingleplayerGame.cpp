@@ -128,11 +128,13 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
     for(auto c : myParty) {
         c->mAnimationController->updateAnimationTime(evt.timeSinceLastFrame);
         c->mParticleController->updateParticles();
+        c->mDamageIndicatorController->injectTime(evt.timeSinceLastFrame);
     }
 
     for(auto c : enemyParty) {
         c->mAnimationController->updateAnimationTime(evt.timeSinceLastFrame);
         c->mParticleController->updateParticles();
+        c->mDamageIndicatorController->injectTime(evt.timeSinceLastFrame);
     }
 
     if(mAttackRunning || mGameOver || mShutDown) {
@@ -176,7 +178,17 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
                         onHUDPhysicalSelect(enemyPartyAlive.at(activeEnemy), target);
                         break;
                     case 2:
-                        onHUDSpecialSelect(enemyPartyAlive.at(activeEnemy), target);
+                        if (target->info().specialPoints > 0) {
+                            onHUDSpecialSelect(enemyPartyAlive.at(activeEnemy), target);
+                        }
+                        else {
+                            if (rand() % 2 == 0) {
+                                onHUDGuardSelect(enemyPartyAlive.at(activeEnemy));
+                            }
+                            else {
+                                onHUDPhysicalSelect(enemyPartyAlive.at(activeEnemy), target);
+                            }
+                        }
                         break;
                     default:
                         break;
@@ -280,7 +292,7 @@ void SingleplayerGame::onHUDPhysicalSelect(Player* attacker, Player* target) {
             }
         }
         else {
-            // miss logic
+            attacker->missAttack(*target);
         }
         mAttackRunning = false;
         attacker->mAnimationController->runIdleAnimation();

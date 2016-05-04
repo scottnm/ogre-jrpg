@@ -81,8 +81,8 @@ void SingleplayerGame::createScene(void){
     enemyParty.push_back(p6);
 
     // Set Camera Position
-    auto cameraInitialPosition = Ogre::Vector3(1100, 250, 700);
-    auto cameraInitialLookAt = Ogre::Vector3(0, 0, 0);
+    cameraInitialPosition = Ogre::Vector3(1100, 250, 700);
+    cameraInitialLookAt = Ogre::Vector3(0, 0, 0);
     camera->setPosition(cameraInitialPosition);
     camera->lookAt(cameraInitialLookAt);
 }
@@ -139,6 +139,9 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
         return true;
     }
 
+    mRenderer->mCamera->setPosition(cameraInitialPosition);
+    mRenderer->mCamera->lookAt(cameraInitialLookAt);
+
     if (playerTurn) {
         if (myPartyWaiting.size() == 0) {
             playerTurn = false;
@@ -150,9 +153,21 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
         if (activeEnemy < enemyPartyAlive.size()) {
             if(!enemyPartyAlive.at(activeEnemy)->isDead()) {
                 // placeholder enemy action
-                int randomAction = rand() % 3;
+                int actionOptions = 0;
+                if(enemyPartyAlive.at(activeEnemy)->info().specialPoints > 0) {
+                    actionOptions = 3;
+                }
+                else {
+                    actionOptions = 2;
+                }
+                srand(time(&timer));
+                int randomAction = rand() % actionOptions;
                 int randomTarget = rand() % myPartyAlive.size();
                 Player* target = myPartyAlive.at(randomTarget);
+                while(target->isDead()) {
+                    randomTarget = rand() % myPartyAlive.size();
+                    target = myPartyAlive.at(randomTarget);
+                }
                 switch(randomAction) {
                     case 0:
                         onHUDGuardSelect(enemyPartyAlive.at(activeEnemy));
@@ -187,33 +202,13 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
         }
     }
 
-    /*
-    for(auto player : myPartyAlive) {
-        player->checkTime();
-    }
-
-    for(auto enemy : enemyPartyAlive) {
-        enemy->checkTime();
-    }
-
-    for(auto player : myParty) {
-        if(player->isDead()) {
-            player->stopEmittingAll();
-        }
-    }
-
-    for(auto enemy : enemyParty) {
-        if(enemy->isDead()) {
-            enemy->stopEmittingAll();
-        }
-    }
-    */
-
     mHUD->update();
     clearDeadCharacters();
 
     if (myPartyAlive.empty() || enemyPartyAlive.empty()) {
+
         mGameOver = true;
+
         // throw up lose game gui
         mHUD->alertGameOver(enemyPartyAlive.empty());
         if (enemyPartyAlive.empty()) {
@@ -245,6 +240,7 @@ void SingleplayerGame::clearDeadCharacters(void) {
             }
         }
     }
+
     for(auto citr = enemyPartyAlive.begin(); citr != enemyPartyAlive.end(); ++citr) {
         Player* p = *citr;
         if (p->isDead()) {
@@ -282,6 +278,7 @@ void SingleplayerGame::onHUDPhysicalSelect(Player* attacker, Player* target) {
     attacker->lookAt(target);
     AnimationCallback cb = [this, attacker, target, attackSuccessful](void)-> void{
         if (attackSuccessful) {
+            attacker->lookAt(target);
             attacker->physicalAttack(*target);
             if (!target->isDead()) {
                 time_t physicalStartTime = time(nullptr);
@@ -310,6 +307,7 @@ void SingleplayerGame::onHUDPhysicalSelect(Player* attacker, Player* target) {
 }
 
 void SingleplayerGame::onHUDSpecialSelect(Player* attacker, Player* target) {
+
     mAttackRunning = true;
     attacker->lookAt(target);
 
@@ -320,7 +318,8 @@ void SingleplayerGame::onHUDSpecialSelect(Player* attacker, Player* target) {
     attacker->mAnimationController->runAnimation(AnimationType::Special, cb);
 
     // prep particles
-    int randNum = rand() % 3; 
+    srand(time(&timer));
+    int randNum = rand() % 3;
     std::string sfx;
     ParticleType pt;
     ParticleEndCheckCallback endCheck;
@@ -353,7 +352,14 @@ void SingleplayerGame::onHUDSpecialSelect(Player* attacker, Player* target) {
     };
     attacker->mParticleController->runParticleSystem(pt, endCheck, onEnd);
 
-    mSoundBank->play("special_attack_fx"); 
+    mSoundBank->play("special_attack_fx");
+
+    Ogre::Vector3 camPos = (attacker->sceneNode->_getDerivedPosition() + Ogre::Vector3(0, 200, 0)) - (target->sceneNode->_getDerivedPosition() + Ogre::Vector3(0, 100, 0));
+    camPos.normalise();
+    camPos *= 300;
+    camPos += (attacker->sceneNode->_getDerivedPosition() + Ogre::Vector3(0, 200, 0));
+    mRenderer->mCamera->setPosition(camPos);
+    mRenderer->mCamera->lookAt(target->sceneNode->_getDerivedPosition() + Ogre::Vector3(0, 100, 0));
 }
 
 void SingleplayerGame::onHUDItemSelect(Player* user, Player* target) {

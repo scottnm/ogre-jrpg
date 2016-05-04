@@ -242,7 +242,7 @@ particle_system Fire
         emission_rate       1
         time_to_live        1
         direction           0 0 -1
-        velocity            1000
+        velocity            1100
         colour              1 0 0
         width               250
         height              250
@@ -267,7 +267,7 @@ particle_system Ice
         emission_rate       5
         time_to_live        1
         direction           0 0 -1
-        velocity            1000
+        velocity            1100
         colour              1 1 1
         width               50
         height              50
@@ -292,7 +292,7 @@ particle_system Flare
         emission_rate       2
         time_to_live        1
         direction           0 0 -1
-        velocity            1000
+        velocity            1100
         colour              1 1 1
         width               150
         height              150

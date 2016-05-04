@@ -49,7 +49,7 @@ public:
     Ogre::Real getHeight(void);
 
 private:
-	Ogre::Entity* mEntity;
+    Ogre::Entity* mEntity;
     PlayerInfo mInfo;
 
 public:

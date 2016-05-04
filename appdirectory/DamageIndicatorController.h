@@ -1,9 +1,12 @@
 #ifndef __DAMAGE_INDICATOR_CONTROLLER_H__
 #define __DAMAGE_INDICATOR_CONTROLLER_H__
 
-#include <vector>
 #include <OgreSceneNode.h>
 #include <OgreFrameListener.h>
+#include <utility>
+#include <vector>
+
+typedef std::pair<Ogre::SceneNode*, Ogre::Real> DamageIndicator;
 
 class DamageIndicatorController {
 public:
@@ -12,8 +15,10 @@ public:
     void alertMiss(void);
     void injectTime(Ogre::Real secondsElapsed);
 private:
-    Ogre::SceneNode* characterRoot;
-    std::vector<Ogre::SceneNode*> damageIndicatorNodes; 
+    Ogre::SceneNode* mCharacterRoot;
+    std::vector<DamageIndicator> mIndicators; 
+
+    static Ogre::Vector3 endPos;
 };
 
 #endif // __DAMAGE_INDICATOR_CONTROLLER_H__

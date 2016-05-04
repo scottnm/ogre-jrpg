@@ -34,10 +34,12 @@ public:
     using GameObject::lookAt;
     void lookAt(Player* targetObject);
 
+    time_t timer;
+
     Ogre::Real getHeight(void);
 
 private:
-	Ogre::Entity* mEntity;
+    Ogre::Entity* mEntity;
     PlayerInfo mInfo;
 
 public:

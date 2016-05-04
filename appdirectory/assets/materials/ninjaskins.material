@@ -1,0 +1,154 @@
+material NinjaSkins/00
+{
+    technique
+    {
+       pass
+        {
+          texture_unit
+          {
+            texture NinjaSkins/00.png
+          }
+       }   
+    }
+}
+
+material NinjaSkins/01
+{
+    technique
+    {
+       pass
+        {
+          texture_unit
+          {
+            texture NinjaSkins/01.png
+          }
+       }   
+    }
+}
+
+material NinjaSkins/02
+{
+    technique
+    {
+       pass
+        {
+          texture_unit
+          {
+            texture NinjaSkins/02.png
+          }
+       }   
+    }
+}
+
+material NinjaSkins/03
+{
+    technique
+    {
+       pass
+        {
+          texture_unit
+          {
+            texture NinjaSkins/03.png
+          }
+       }   
+    }
+}
+
+material NinjaSkins/04
+{
+    technique
+    {
+       pass
+        {
+          texture_unit
+          {
+            texture NinjaSkins/04.png
+          }
+       }   
+    }
+}
+
+material NinjaSkins/05
+{
+    technique
+    {
+       pass
+        {
+          texture_unit
+          {
+            texture NinjaSkins/05.png
+          }
+       }   
+    }
+}
+
+material NinjaSkins/06
+{
+    technique
+    {
+       pass
+        {
+          texture_unit
+          {
+            texture NinjaSkins/06.png
+          }
+       }   
+    }
+}
+
+material NinjaSkins/07
+{
+    technique
+    {
+       pass
+        {
+          texture_unit
+          {
+            texture NinjaSkins/07.png
+          }
+       }   
+    }
+}
+
+material NinjaSkins/08
+{
+    technique
+    {
+       pass
+        {
+          texture_unit
+          {
+            texture NinjaSkins/08.png
+          }
+       }   
+    }
+}
+
+material NinjaSkins/09
+{
+    technique
+    {
+       pass
+        {
+          texture_unit
+          {
+            texture NinjaSkins/09.png
+          }
+       }   
+    }
+}
+
+material NinjaSkins/10
+{
+    technique
+    {
+       pass
+        {
+          texture_unit
+          {
+            texture NinjaSkins/10.png
+          }
+       }   
+    }
+}
+

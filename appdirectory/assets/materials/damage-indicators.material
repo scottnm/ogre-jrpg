@@ -1,4 +1,4 @@
-material ravena_miss
+material damage_miss
 {
     technique
     {
@@ -14,7 +14,7 @@ material ravena_miss
     }
 }
 
-material ravena_0
+material damage_00
 {
     technique
     {
@@ -24,13 +24,13 @@ material ravena_0
           depth_write off
           texture_unit
           {
-            texture Ravena_font/ravena_0.png
+            texture Ravena_font/ravena_00.png
           }
        }
     }
 }
 
-material ravena_1
+material damage_01
 {
     technique
     {
@@ -40,13 +40,13 @@ material ravena_1
           depth_write off
           texture_unit
           {
-            texture Ravena_font/ravena_1.png
+            texture Ravena_font/ravena_01.png
           }
        }
     }
 }
 
-material ravena_2
+material damage_02
 {
     technique
     {
@@ -56,13 +56,13 @@ material ravena_2
           depth_write off
           texture_unit
           {
-            texture Ravena_font/ravena_2.png
+            texture Ravena_font/ravena_02.png
           }
        }
     }
 }
 
-material ravena_3
+material damage_03
 {
     technique
     {
@@ -72,13 +72,13 @@ material ravena_3
           depth_write off
           texture_unit
           {
-            texture Ravena_font/ravena_3.png
+            texture Ravena_font/ravena_03.png
           }
        }
     }
 }
 
-material ravena_4
+material damage_04
 {
     technique
     {
@@ -88,13 +88,13 @@ material ravena_4
           depth_write off
           texture_unit
           {
-            texture Ravena_font/ravena_4.png
+            texture Ravena_font/ravena_04.png
           }
        }
     }
 }
 
-material ravena_5
+material damage_05
 {
     technique
     {
@@ -104,13 +104,13 @@ material ravena_5
           depth_write off
           texture_unit
           {
-            texture Ravena_font/ravena_5.png
+            texture Ravena_font/ravena_05.png
           }
        }
     }
 }
 
-material ravena_6
+material damage_06
 {
     technique
     {
@@ -120,13 +120,13 @@ material ravena_6
           depth_write off
           texture_unit
           {
-            texture Ravena_font/ravena_6.png
+            texture Ravena_font/ravena_06.png
           }
        }
     }
 }
 
-material ravena_7
+material damage_07
 {
     technique
     {
@@ -136,13 +136,13 @@ material ravena_7
           depth_write off
           texture_unit
           {
-            texture Ravena_font/ravena_7.png
+            texture Ravena_font/ravena_07.png
           }
        }
     }
 }
 
-material ravena_8
+material damage_08
 {
     technique
     {
@@ -152,13 +152,13 @@ material ravena_8
           depth_write off
           texture_unit
           {
-            texture Ravena_font/ravena_8.png
+            texture Ravena_font/ravena_08.png
           }
        }
     }
 }
 
-material ravena_9
+material damage_09
 {
     technique
     {
@@ -168,13 +168,13 @@ material ravena_9
           depth_write off
           texture_unit
           {
-            texture Ravena_font/ravena_9.png
+            texture Ravena_font/ravena_09.png
           }
        }
     }
 }
 
-material ravena_10
+material damage_10
 {
     technique
     {
@@ -190,7 +190,7 @@ material ravena_10
     }
 }
 
-material ravena_11
+material damage_11
 {
     technique
     {
@@ -206,7 +206,7 @@ material ravena_11
     }
 }
 
-material ravena_12
+material damage_12
 {
     technique
     {
@@ -222,7 +222,7 @@ material ravena_12
     }
 }
 
-material ravena_13
+material damage_13
 {
     technique
     {
@@ -238,7 +238,7 @@ material ravena_13
     }
 }
 
-material ravena_14
+material damage_14
 {
     technique
     {
@@ -254,7 +254,7 @@ material ravena_14
     }
 }
 
-material ravena_15
+material damage_15
 {
     technique
     {
@@ -270,7 +270,7 @@ material ravena_15
     }
 }
 
-material ravena_16
+material damage_16
 {
     technique
     {
@@ -286,7 +286,7 @@ material ravena_16
     }
 }
 
-material ravena_17
+material damage_17
 {
     technique
     {
@@ -302,7 +302,7 @@ material ravena_17
     }
 }
 
-material ravena_18
+material damage_18
 {
     technique
     {
@@ -318,7 +318,7 @@ material ravena_18
     }
 }
 
-material ravena_19
+material damage_19
 {
     technique
     {

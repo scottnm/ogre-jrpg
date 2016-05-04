@@ -49,6 +49,8 @@ private:
     SoundBank* mSoundBank;
     bool playerTurn;
     unsigned int activeEnemy;
+    
+    time_t timer;
 
     Mix_Music* mMusicTrack;
 };

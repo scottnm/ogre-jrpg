@@ -1,0 +1,335 @@
+material ravena_miss
+{
+    technique
+    {
+       pass
+        {
+          scene_blend src_alpha src_alpha 
+          depth_write off
+          texture_unit
+          {
+            texture Ravena_font/ravena_miss.png
+          }
+       }
+    }
+}
+
+material ravena_0
+{
+    technique
+    {
+       pass
+        {
+          scene_blend src_alpha src_alpha 
+          depth_write off
+          texture_unit
+          {
+            texture Ravena_font/ravena_0.png
+          }
+       }
+    }
+}
+
+material ravena_1
+{
+    technique
+    {
+       pass
+        {
+          scene_blend src_alpha src_alpha 
+          depth_write off
+          texture_unit
+          {
+            texture Ravena_font/ravena_1.png
+          }
+       }
+    }
+}
+
+material ravena_2
+{
+    technique
+    {
+       pass
+        {
+          scene_blend src_alpha src_alpha 
+          depth_write off
+          texture_unit
+          {
+            texture Ravena_font/ravena_2.png
+          }
+       }
+    }
+}
+
+material ravena_3
+{
+    technique
+    {
+       pass
+        {
+          scene_blend src_alpha src_alpha 
+          depth_write off
+          texture_unit
+          {
+            texture Ravena_font/ravena_3.png
+          }
+       }
+    }
+}
+
+material ravena_4
+{
+    technique
+    {
+       pass
+        {
+          scene_blend src_alpha src_alpha 
+          depth_write off
+          texture_unit
+          {
+            texture Ravena_font/ravena_4.png
+          }
+       }
+    }
+}
+
+material ravena_5
+{
+    technique
+    {
+       pass
+        {
+          scene_blend src_alpha src_alpha 
+          depth_write off
+          texture_unit
+          {
+            texture Ravena_font/ravena_5.png
+          }
+       }
+    }
+}
+
+material ravena_6
+{
+    technique
+    {
+       pass
+        {
+          scene_blend src_alpha src_alpha 
+          depth_write off
+          texture_unit
+          {
+            texture Ravena_font/ravena_6.png
+          }
+       }
+    }
+}
+
+material ravena_7
+{
+    technique
+    {
+       pass
+        {
+          scene_blend src_alpha src_alpha 
+          depth_write off
+          texture_unit
+          {
+            texture Ravena_font/ravena_7.png
+          }
+       }
+    }
+}
+
+material ravena_8
+{
+    technique
+    {
+       pass
+        {
+          scene_blend src_alpha src_alpha 
+          depth_write off
+          texture_unit
+          {
+            texture Ravena_font/ravena_8.png
+          }
+       }
+    }
+}
+
+material ravena_9
+{
+    technique
+    {
+       pass
+        {
+          scene_blend src_alpha src_alpha 
+          depth_write off
+          texture_unit
+          {
+            texture Ravena_font/ravena_9.png
+          }
+       }
+    }
+}
+
+material ravena_10
+{
+    technique
+    {
+       pass
+        {
+          scene_blend src_alpha src_alpha 
+          depth_write off
+          texture_unit
+          {
+            texture Ravena_font/ravena_10.png
+          }
+       }
+    }
+}
+
+material ravena_11
+{
+    technique
+    {
+       pass
+        {
+          scene_blend src_alpha src_alpha 
+          depth_write off
+          texture_unit
+          {
+            texture Ravena_font/ravena_11.png
+          }
+       }
+    }
+}
+
+material ravena_12
+{
+    technique
+    {
+       pass
+        {
+          scene_blend src_alpha src_alpha 
+          depth_write off
+          texture_unit
+          {
+            texture Ravena_font/ravena_12.png
+          }
+       }
+    }
+}
+
+material ravena_13
+{
+    technique
+    {
+       pass
+        {
+          scene_blend src_alpha src_alpha 
+          depth_write off
+          texture_unit
+          {
+            texture Ravena_font/ravena_13.png
+          }
+       }
+    }
+}
+
+material ravena_14
+{
+    technique
+    {
+       pass
+        {
+          scene_blend src_alpha src_alpha 
+          depth_write off
+          texture_unit
+          {
+            texture Ravena_font/ravena_14.png
+          }
+       }
+    }
+}
+
+material ravena_15
+{
+    technique
+    {
+       pass
+        {
+          scene_blend src_alpha src_alpha 
+          depth_write off
+          texture_unit
+          {
+            texture Ravena_font/ravena_15.png
+          }
+       }
+    }
+}
+
+material ravena_16
+{
+    technique
+    {
+       pass
+        {
+          scene_blend src_alpha src_alpha 
+          depth_write off
+          texture_unit
+          {
+            texture Ravena_font/ravena_16.png
+          }
+       }
+    }
+}
+
+material ravena_17
+{
+    technique
+    {
+       pass
+        {
+          scene_blend src_alpha src_alpha 
+          depth_write off
+          texture_unit
+          {
+            texture Ravena_font/ravena_17.png
+          }
+       }
+    }
+}
+
+material ravena_18
+{
+    technique
+    {
+       pass
+        {
+          scene_blend src_alpha src_alpha 
+          depth_write off
+          texture_unit
+          {
+            texture Ravena_font/ravena_18.png
+          }
+       }
+    }
+}
+
+material ravena_19
+{
+    technique
+    {
+       pass
+        {
+          scene_blend src_alpha src_alpha 
+          depth_write off
+          texture_unit
+          {
+            texture Ravena_font/ravena_19.png
+          }
+       }
+    }
+}

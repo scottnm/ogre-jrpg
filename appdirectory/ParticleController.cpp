@@ -3,7 +3,7 @@
 
 int ParticleController::particleControllerId = 0;
 
-ParticleController::ParticleController(Ogre::SceneManager* scnMgr, Ogre::SceneNode* parent) {
+ParticleController::ParticleController(Ogre::SceneManager* scnMgr, Ogre::SceneNode* parent, SoundBank* soundBank) {
     const Ogre::String id = Ogre::StringConverter::toString(particleControllerId++);
 
     auto guardParticles = scnMgr->createParticleSystem("Guard_P" + id, "Guard"); 
@@ -46,6 +46,8 @@ ParticleController::ParticleController(Ogre::SceneManager* scnMgr, Ogre::SceneNo
     flareNode->attachObject(flareParticles);
     flareNode->setPosition(0, 100, 0);
     systems[PT_Flare] = flareParticles;
+
+    mSoundBank = soundBank;
 }
 
 void ParticleController::stopEmittingAll(void) {
@@ -93,18 +95,18 @@ void ParticleController::disableGuard(void) {
 }
 
 bool ParticleController::checkFireCollision(Ogre::SceneNode* target) {
-    return _checkCollision(systems[PT_Fire], target);
+    return _checkCollision(systems[PT_Fire], target, "fireball_attack_fx");
 }
 
 bool ParticleController::checkIceCollision(Ogre::SceneNode* target) {
-    return _checkCollision(systems[PT_Ice], target);
+    return _checkCollision(systems[PT_Ice], target, "ice_attack_fx");
 }
 
 bool ParticleController::checkFlareCollision(Ogre::SceneNode* target) {
-    return _checkCollision(systems[PT_Flare], target);
+    return _checkCollision(systems[PT_Flare], target, "flare_attack_fx");
 }
 
-bool ParticleController::_checkCollision(Ogre::ParticleSystem* psys, Ogre::SceneNode* target) {
+bool ParticleController::_checkCollision(Ogre::ParticleSystem* psys, Ogre::SceneNode* target, const std::string special_fx) {
     int numParticles = psys->getNumParticles();
     for(int n = 0; n < numParticles; ++n) {
         auto scnNode = psys->getParentSceneNode();
@@ -112,7 +114,10 @@ bool ParticleController::_checkCollision(Ogre::ParticleSystem* psys, Ogre::Scene
                 scnNode->_getDerivedPosition() +
                 (scnNode->_getDerivedOrientation() * psys->getParticle(n)->position));
         if(hit) {
-            return true;
+            mSoundBank->play(special_fx);
+            if(n == numParticles - 1) {
+                return true;
+            }
         }
     }
     return false;

@@ -3,9 +3,11 @@
 
 #include "ParticleCallback.h"
 #include "ParticleType.h"
+#include "SoundBank.h"
 #include <OgreParticleSystem.h>
 #include <OgreSceneManager.h>
 #include <OgreSceneNode.h>
+#include <string>
 #include <utility>
 #include <vector>
 
@@ -20,7 +22,7 @@ struct ParticleEvent {
 
 class ParticleController {
 public:
-    ParticleController(Ogre::SceneManager* scnMgr, Ogre::SceneNode* parent);
+    ParticleController(Ogre::SceneManager* scnMgr, Ogre::SceneNode* parent, SoundBank* soundBank);
     void runParticleSystem(ParticleType pt, ParticleEndCheckCallback endCheck,
             ParticleCallback onEnd);
     void updateParticles(void);
@@ -33,7 +35,7 @@ public:
     void enableGuard(void);
     void disableGuard(void);
 private:
-    bool _checkCollision(Ogre::ParticleSystem* psys, Ogre::SceneNode* target);
+    bool _checkCollision(Ogre::ParticleSystem* psys, Ogre::SceneNode* target, const std::string special_fx);
 
     static int particleControllerId;
 
@@ -42,6 +44,8 @@ private:
 
     ParticleEndCheckCallback endCheck;
     ParticleCallback onEnd;
+
+    SoundBank* mSoundBank;
 };
 
 #endif //__PARTICLE_CONTROLLER_H__

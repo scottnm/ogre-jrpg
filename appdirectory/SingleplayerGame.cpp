@@ -51,33 +51,33 @@ void SingleplayerGame::createScene(void){
     // Add test objects
     Player* p = new Player(scnMgr, mRoomRoot,
             mPlayerBank->getPlayerInfo("Cannibal Corpse"),
-            Ogre::Vector3(500, 0, 200));
+            Ogre::Vector3(500, 0, 200), mSoundBank);
     myParty.push_back(p);
 
     Player* p2 = new Player(scnMgr, mRoomRoot,
             mPlayerBank->getPlayerInfo("Spooky Boo"),
-            Ogre::Vector3(500, 0, 0));
+            Ogre::Vector3(500, 0, 0), mSoundBank);
     myParty.push_back(p2);
 
     Player* p3 = new Player(scnMgr, mRoomRoot,
             mPlayerBank->getPlayerInfo("Rattlebones"),
-            Ogre::Vector3(500, 0, -200));
+            Ogre::Vector3(500, 0, -200), mSoundBank);
     myParty.push_back(p3);
     
 
     Player* p4 = new Player(scnMgr, mRoomRoot,
             mPlayerBank->getPlayerInfo("Mecha-Scoot"),
-            Ogre::Vector3(-500, 0, 200));
+            Ogre::Vector3(-500, 0, 200), mSoundBank);
     enemyParty.push_back(p4);
 
     Player* p5 = new Player(scnMgr, mRoomRoot,
             mPlayerBank->getPlayerInfo("SSJVirginia"),
-            Ogre::Vector3(-500, 0, 0));
+            Ogre::Vector3(-500, 0, 0), mSoundBank);
     enemyParty.push_back(p5);
 
     Player* p6 = new Player(scnMgr, mRoomRoot,
             mPlayerBank->getPlayerInfo("Metal Scoot"),
-            Ogre::Vector3(-500, 0, -200));
+            Ogre::Vector3(-500, 0, -200), mSoundBank);
     enemyParty.push_back(p6);
 
     // Set Camera Position
@@ -306,6 +306,12 @@ void SingleplayerGame::onHUDPhysicalSelect(Player* attacker, Player* target) {
     else {
         mSoundBank->play("physical_miss_fx");
     }
+    Ogre::Vector3 camPos = (attacker->sceneNode->_getDerivedPosition() + Ogre::Vector3(0, 200, 0)) - (target->sceneNode->_getDerivedPosition() + Ogre::Vector3(0, 100, 0));
+    camPos.normalise();
+    camPos *= 300;
+    camPos += (attacker->sceneNode->_getDerivedPosition() + Ogre::Vector3(0, 200, 0));
+    mRenderer->mCamera->setPosition(camPos);
+    mRenderer->mCamera->lookAt(target->sceneNode->_getDerivedPosition() + Ogre::Vector3(0, 100, 0));
 }
 
 void SingleplayerGame::onHUDSpecialSelect(Player* attacker, Player* target) {
@@ -350,7 +356,6 @@ void SingleplayerGame::onHUDSpecialSelect(Player* attacker, Player* target) {
     ParticleCallback onEnd = [this, attacker, target, sfx](void) -> void {
         mAttackRunning = false;
         attacker->specialAttack(*target);
-        mSoundBank->play(sfx);
     };
     attacker->mParticleController->runParticleSystem(pt, endCheck, onEnd);
 

@@ -7,9 +7,11 @@
         <Property name="MaxSize" value="{{1,0},{1,0}}" />
         <Window type="Vanilla/FrameColourRect" name="Control_Frame" >
             <Property name="Area" value="{{0,0},{0.75,0},{1,0},{1,0}}" />
+            <Property name="Colour" value="tl:C8000000 tr:C8000000 bl:C8000000 br:C8000000" />
             <Property name="MaxSize" value="{{1,0},{1,0}}" />
             <Window type="Vanilla/FrameColourRect" name="Menu_Frame" >
                 <Property name="Area" value="{{0,0},{0,0},{0.27,0},{1,0}}" />
+                <Property name="Colour" value="tl:00FFFFFF tr:00FFFFFF bl:00FFFFFF br:00FFFFFF" />
                 <Property name="MaxSize" value="{{1,0},{1,0}}" />
                 <Window type="Vanilla/Label" name="Physical_label" >
                     <Property name="Area" value="{{0.3,0},{0.16,0},{0.8,0},{0.32,0}}" />
@@ -66,9 +68,11 @@
             </Window>
             <Window type="Vanilla/FrameColourRect" name="Party_Frame" >
                 <Property name="Area" value="{{0.27,0},{0,0},{1,0},{1,0}}" />
+                <Property name="Colour" value="tl:00FFFFFF tr:00FFFFFF bl:00FFFFFF br:00FFFFFF" />
                 <Property name="MaxSize" value="{{1,0},{1,0}}" />
                 <Window type="Vanilla/FrameColourRect" name="PartyMember0_Frame" >
                     <Property name="Area" value="{{0,0},{0,0},{0.33,0},{1,0}}" />
+                    <Property name="Colour" value="tl:00FFFFFF tr:00FFFFFF bl:00FFFFFF br:00FFFFFF" />
                     <Property name="MaxSize" value="{{1,0},{1,0}}" />
                     <Window type="Vanilla/Label" name="PM_HP_Label" >
                         <Property name="Area" value="{{0.44,0},{0.23,0},{0.71,0},{0.35,0}}" />
@@ -162,6 +166,7 @@
                 </Window>
                 <Window type="Vanilla/FrameColourRect" name="PartyMember1_Frame" >
                     <Property name="Area" value="{{0.33,0},{0,0},{0.66,0},{1,0}}" />
+                    <Property name="Colour" value="tl:00FFFFFF tr:00FFFFFF bl:00FFFFFF br:00FFFFFF" />
                     <Property name="MaxSize" value="{{1,0},{1,0}}" />
                     <Window type="Vanilla/Label" name="PM_HP_Label" >
                         <Property name="Area" value="{{0.44,0},{0.23,0},{0.71,0},{0.35,0}}" />
@@ -255,6 +260,7 @@
                 </Window>
                 <Window type="Vanilla/FrameColourRect" name="PartyMember2_Frame" >
                     <Property name="Area" value="{{0.66,0},{0,0},{0.99,0},{1,0}}" />
+                    <Property name="Colour" value="tl:00FFFFFF tr:00FFFFFF bl:00FFFFFF br:00FFFFFF" />
                     <Property name="MaxSize" value="{{1,0},{1,0}}" />
                     <Window type="Vanilla/Label" name="PM_HP_Label" >
                         <Property name="Area" value="{{0.44,0},{0.23,0},{0.71,0},{0.35,0}}" />
@@ -349,6 +355,7 @@
             </Window>
             <Window type="Vanilla/FrameColourRect" name="Item_Frame" >
                 <Property name="Area" value="{{0,0},{0,0},{0.27,0},{1,0}}" />
+                <Property name="Colour" value="tl:00FFFFFF tr:00FFFFFF bl:00FFFFFF br:00FFFFFF" />
                 <Property name="MaxSize" value="{{1,0},{1,0}}" />
                 <Window type="Vanilla/Label" name="Back_Label" >
                     <Property name="Area" value="{{0.16,0},{0.6,0},{0.86,0},{0.75,0}}" />
@@ -386,7 +393,29 @@
         </Window>
         <Window type="Vanilla/FrameColourRect" name="ItemInfo_Frame" >
             <Property name="Area" value="{{0,0},{0.63,0},{0.27,0},{0.75,0}}" />
+            <Property name="Colour" value="tl:C8000000 tr:C8000000 bl:C8000000 br:C8000000" />
             <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            <Window type="Vanilla/Label" name="nameText" >
+                <Property name="Area" value="{{0.02,0},{0.05,0},{0.87,0},{0.45,0}}" />
+                <Property name="Font" value="DejaVuSans-12" />
+                <Property name="Text" value="Title" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="HorzFormatting" value="LeftAligned" />
+            </Window>
+            <Window type="Vanilla/MultiLineEditbox" name="descriptionText" >
+                <Property name="Area" value="{{0.02,0},{0.45,0},{0.87,0},{0.95,0}}" />
+                <Property name="Font" value="DejaVuSans-10-NoScale" />
+                <Property name="Text" >Description
+</Property>
+                <Property name="ReadOnly" value="true" />
+                <Property name="SelectionBrushImage" value="Vanilla-Images/RadioButtonNormal" />
+            </Window>
+            <Window type="Vanilla/Label" name="countText" >
+                <Property name="Area" value="{{0.87,0},{0.05,0},{0.993,0},{0.45,0}}" />
+                <Property name="Font" value="Jura-18" />
+                <Property name="Text" value="0" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            </Window>
         </Window>
     </Window>
 </GUILayout>

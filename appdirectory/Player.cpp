@@ -27,14 +27,25 @@ Player::Player(Ogre::SceneManager* _scnmgr, Ogre::SceneNode* _scnnode,
     mAnimationController->runIdleAnimation();
 
     mParticleController = new ParticleController(_scnmgr, sceneNode, soundBank);
+
+    mDamageIndicatorController = new DamageIndicatorController(_scnmgr, sceneNode);
 }
 
 void Player::physicalAttack(Player& target) {
+    std::cout << "!!!contact" << std::endl;
     int& targetHealth = target.mInfo.health;
-    targetHealth -= std::max(0, mInfo.damage - target.mInfo.armor); 
+    int damageDealt = std::max(0, mInfo.damage - target.mInfo.armor);
+    targetHealth -= damageDealt;
     if (targetHealth < 0) {
         targetHealth = 0;
     }
+    target.mDamageIndicatorController->alertDamage(damageDealt);
+    std::cout << "finish" << std::endl;
+}
+
+void Player::missAttack(Player& target) {
+    std::cout << "!!!miss" << std::endl;
+    target.mDamageIndicatorController->alertMiss();
 }
 
 void Player::item(void) {
@@ -61,6 +72,7 @@ void Player::specialAttack(Player& target) {
     int dmgBonus = bonus_dist(rand_generator);
     int totalDamage = std::max(0, mInfo.damage + dmgBonus - target.mInfo.armor);
     target.mInfo.health = std::max(target.mInfo.health - totalDamage, 0);
+    target.mDamageIndicatorController->alertDamage(totalDamage);
 }
 
 bool Player::isDead(void) {

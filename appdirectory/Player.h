@@ -2,6 +2,7 @@
 #define __PLAYER_H__
 
 #include "AnimationController.h"
+#include "DamageIndicatorController.h"
 #include "GameObject.h"
 #include "ParticleController.h"
 #include "PlayerInfo.h"
@@ -20,11 +21,14 @@ public:
 
     bool attemptPhysicalAttack(void);
     void physicalAttack(Player& target);
+    void missAttack(Player& target);
+
     void specialAttack(Player& target);
     void item(void);
-    Player* target;
+
     void guard(void);
     void unguard(void);
+
     bool isDead(void);
     void reset(void);
 
@@ -45,6 +49,7 @@ private:
 public:
     AnimationController* mAnimationController;
     ParticleController* mParticleController;
+    DamageIndicatorController* mDamageIndicatorController;
 
 private:
 

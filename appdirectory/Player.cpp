@@ -65,6 +65,7 @@ Player::Player(Ogre::SceneManager* _scnmgr, Ogre::SceneNode* _scnnode,
     mParticleNodeMap.emplace(ParticleType::Flare, flareNode);
 
     stopEmittingAll();
+    setVisible(ParticleType::Guard, true);
 
     target = NULL;
     
@@ -98,7 +99,6 @@ bool Player::attemptPhysicalAttack(void) {
 void Player::guard(void) {
     mInfo.armor += std::max(1, (int)(0.5f * mInfo.armor));
     setEmitting(ParticleType::Guard, true);
-    setVisible(ParticleType::Guard, true);
 }
 
 void Player::unguard(void) {
@@ -108,8 +108,8 @@ void Player::unguard(void) {
 
 void Player::specialAttack(Player& target) {
     --mInfo.specialPoints;
+    srand(time(&timer));
     int randNum = rand() % 3;
-    std::cout << randNum << std::endl << std::endl << std::endl;
     ParticleType pt;
     switch(randNum) {
         case 0:
@@ -130,7 +130,7 @@ void Player::specialAttack(Player& target) {
         default:
             break;
     }
-    emittingParticles = true;
+    // emittingParticles = true;
 }
 
 bool Player::isDead(void) {
@@ -215,6 +215,18 @@ void Player::collision(SoundBank* soundBank) {
                         auto targetBoundingBox = target->sceneNode->_getWorldAABB();
                         bool hit = targetBoundingBox.intersects(pWorldPos);
                         if(hit) {
+                            setEmitting(particleSystemPair.first, false);
+
+                            // play sound
+                            if(particleSystemPair.first == ParticleType::Fire) {
+                                soundBank->play("fireball_attack_fx");
+                            }
+                            if(particleSystemPair.first == ParticleType::Ice) {
+                                soundBank->play("ice_attack_fx");
+                            }
+                            if(particleSystemPair.first == ParticleType::Flare) {
+                                soundBank->play("flare_attack_fx");
+                            }
                             if(particleNum == numParticles - 1) {
                                 setVisible(particleSystemPair.first, false);
                                 emittingParticles = false;
@@ -229,18 +241,7 @@ void Player::collision(SoundBank* soundBank) {
                                 fflush(stdout);
 
                                 std::cout << "health left " << target->mInfo.health << std::endl; 
-                            }
-                            setEmitting(particleSystemPair.first, false);
-
-                            // play sound
-                            if(particleSystemPair.first == ParticleType::Fire) {
-                                soundBank->play("fireball_attack_fx");
-                            }
-                            if(particleSystemPair.first == ParticleType::Ice) {
-                                soundBank->play("ice_attack_fx");
-                            }
-                            if(particleSystemPair.first == ParticleType::Flare) {
-                                soundBank->play("flare_attack_fx");
+                                return;
                             }
                         }
                     }

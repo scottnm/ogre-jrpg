@@ -8,7 +8,7 @@ std::uniform_real_distribution<float> Player::rand_dist(0.f, 1.f);
 
 static int idGenerator = 0;
 Player::Player(Ogre::SceneManager* _scnmgr, Ogre::SceneNode* _scnnode,
-        const PlayerInfo& i, const Ogre::Vector3& pos)
+        const PlayerInfo& i, const Ogre::Vector3& pos, SoundBank* soundBank)
     : GameObject(_scnmgr), mInfo(i) {
 
     const Ogre::String id = Ogre::StringConverter::toString(idGenerator++);
@@ -26,7 +26,7 @@ Player::Player(Ogre::SceneManager* _scnmgr, Ogre::SceneNode* _scnnode,
     mAnimationController = new AnimationController(mEntity, i.mesh.animationSpec); 
     mAnimationController->runIdleAnimation();
 
-    mParticleController = new ParticleController(_scnmgr, sceneNode);
+    mParticleController = new ParticleController(_scnmgr, sceneNode, soundBank);
 }
 
 void Player::physicalAttack(Player& target) {

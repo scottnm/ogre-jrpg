@@ -15,7 +15,7 @@ class Player : public GameObject
 {
 public:
 	Player(Ogre::SceneManager* _scnmgr, Ogre::SceneNode* _scnnode,
-           const PlayerInfo& i, const Ogre::Vector3& pos);
+           const PlayerInfo& i, const Ogre::Vector3& pos, SoundBank* soundBank);
 	virtual ~Player(void) {};
 
     bool attemptPhysicalAttack(void);

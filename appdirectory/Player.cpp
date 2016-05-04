@@ -17,6 +17,7 @@ Player::Player(Ogre::SceneManager* _scnmgr, Ogre::SceneNode* _scnnode,
 
 	mEntity = _scnmgr->createEntity(i.mesh.name + ".mesh");
 	mEntity->setCastShadows(true);
+    mEntity->setMaterialName(i.material);
 	sceneNode = _scnnode->createChildSceneNode("Player" + id);
 	sceneNode->attachObject(mEntity);
     sceneNode->setPosition(pos);

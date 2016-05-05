@@ -447,6 +447,18 @@ void HUD::update(void) {
     }
 }
 
+void HUD::reset(void) {
+    mActionOptions[mActionOptionFocused]->hide();
+    mActionOptionFocused = 0;
+    mActionOptions[0]->show();
+    mActionOptions[0]->activate();
+    switchToActionMenu(); 
+
+    updateFocusedCharacter(myParty.at(0)); 
+    myPartyFocused = 0;
+    activeTarget = 0;
+}
+
 
 void HUD::updateItemBox(void) {
     mItemRoot->getChild("title")->setText(mInventory.getCurrentItemName());

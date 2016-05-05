@@ -303,8 +303,8 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
     else if (mState == HUD_STATE::GAME_OVER) {
         if (arg.key == OIS::KC_RETURN) {
             mEndStateRoot->hide();
-            if (mPlayAgainOptionFocused) {
-                notifyPlayAgain();
+            if (mPlayNextOptionFocused) {
+                notifyPlayNext();
                 switchToActionMenu();
             }
             else {
@@ -313,9 +313,9 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
             }
         }
         else if (arg.key == OIS::KC_UP || arg.key == OIS::KC_DOWN) {
-            mPlayAgainOptionFocused = !mPlayAgainOptionFocused;
-            mEndStateRoot->getChild("Next_select")->setVisible(mPlayAgainOptionFocused);
-            mEndStateRoot->getChild("Quit_select")->setVisible(!mPlayAgainOptionFocused);
+            mPlayNextOptionFocused = !mPlayNextOptionFocused;
+            mEndStateRoot->getChild("Next_select")->setVisible(mPlayNextOptionFocused);
+            mEndStateRoot->getChild("Quit_select")->setVisible(!mPlayNextOptionFocused);
         }
     }
 }
@@ -457,7 +457,7 @@ void HUD::updateItemBox(void) {
 void HUD::alertGameOver(bool userWins) {
     mPrevState = mState;
     mState = HUD_STATE::GAME_OVER;
-    mPlayAgainOptionFocused = true;
+    mPlayNextOptionFocused = true;
     mEndStateRoot->show();
     mEndStateRoot->activate();
     mEndStateRoot->getChild("Win_label")->setVisible(userWins);
@@ -499,8 +499,8 @@ void HUD::notifyHUDNavigation(void) {
     mListener->onHUDNavigation();
 }
 
-void HUD::notifyPlayAgain(void) {
-    mListener->onHUDPlayAgain();
+void HUD::notifyPlayNext(void) {
+    mListener->onHUDPlayNext();
 }
 
 void HUD::notifyQuit(void) {

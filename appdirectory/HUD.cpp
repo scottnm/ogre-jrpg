@@ -34,12 +34,11 @@ HUD::HUD(Ogre::SceneManager& scnMgr,
     activeTarget = 0;
 
     CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
-    //auto root = wmgr.createWindow("DefaultWindow", "HUDRoot");
     auto root = wmgr.loadLayoutFromFile("menu.layout");
     mMenuRoot = root->getChild("Control_Frame");
     mItemRoot = root->getChild("ItemInfo_Frame");
     mItemRoot->hide();
-    mEndStateRoot = wmgr.loadLayoutFromFile("end_state.layout");
+    mEndStateRoot = root->getChild("EndState_Frame");
     root->addChild(mEndStateRoot);
     mEndStateRoot->hide();
 

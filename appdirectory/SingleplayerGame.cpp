@@ -145,6 +145,9 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
         return true;
     }
 
+    mRenderer->mCamera->setPosition(cameraInitialPosition);
+    mRenderer->mCamera->lookAt(cameraInitialLookAt);
+
     if(!playerActions.empty()) {
         playerTurn = false;
         int actionOptions = 0;
@@ -194,9 +197,6 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
             }
         }
     }
-
-    mRenderer->mCamera->setPosition(cameraInitialPosition);
-    mRenderer->mCamera->lookAt(cameraInitialLookAt);
 
     if (playerTurn) {
         if (myPartyWaiting.size() == 0) {

@@ -1,6 +1,8 @@
 #include "HUD.h"
 #include <algorithm>
 
+using std::to_string;
+
 const Ogre::String HUD::windowName = "HUDRoot";
 
 enum HUD_ID {
@@ -32,15 +34,16 @@ HUD::HUD(Ogre::SceneManager& scnMgr,
     activeTarget = 0;
 
     CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
-    auto root = wmgr.createWindow("DefaultWindow", "HUDRoot");
-    mMenuRoot = wmgr.loadLayoutFromFile("scaling_menu.layout");
-    root->addChild(mMenuRoot);
-    mItemRoot = wmgr.loadLayoutFromFile("item_info.layout");
-    root->addChild(mItemRoot);
-    mItemRoot->setVisible(false);
+    //auto root = wmgr.createWindow("DefaultWindow", "HUDRoot");
+    auto root = wmgr.loadLayoutFromFile("menu.layout");
+    mMenuRoot = root->getChild("Control_Frame");
+    mItemRoot = root->getChild("ItemInfo_Frame");
+    mItemRoot->hide();
     mEndStateRoot = wmgr.loadLayoutFromFile("end_state.layout");
     root->addChild(mEndStateRoot);
     mEndStateRoot->hide();
+
+    // targeting icon
     auto targetWindow = wmgr.createWindow("TaharezLook/Button", "TargetingIcon");
     targetWindow->setText("Targeting");
     targetWindow->setSize(CEGUI::USize(CEGUI::UDim(0.10, 0), CEGUI::UDim(0.05, 0)));
@@ -70,17 +73,14 @@ HUD::HUD(Ogre::SceneManager& scnMgr,
 
         const PlayerInfo& info = character->info();
         frame->getChild("PM_Name_Value")->setText(info.name);
-        frame->getChild("PM_Pic_StaticImage")->setProperty("Image", info.img);
-        std::string hpText = std::to_string(info.health) + "/" + std::to_string(info.healthMax);
-        frame->getChild("PM_HP_Left_StaticText")->setText(hpText);
-        std::string spText = std::to_string(info.specialPoints) + "/" + std::to_string(info.specialPointsMax);
-        frame->getChild("PM_SP_Left_StaticText")->setText(spText);
-        frame->getChild("PM_Damage_Value")->setText(
-                std::to_string(info.damage));
-        frame->getChild("PM_Armor_Value")->setText(
-                std::to_string(info.armor));
-        frame->getChild("PM_Accuracy_Value")->setText(
-                std::to_string((int)(info.accuracy*100)) + "%");
+        frame->getChild("PM_Pic")->setProperty("Image", info.img);
+        std::string hpText = to_string(info.health) + "/" + to_string(info.healthMax);
+        frame->getChild("PM_HP_Value")->setText(hpText);
+        std::string spText = to_string(info.specialPoints) + "/" + to_string(info.specialPointsMax);
+        frame->getChild("PM_SP_Value")->setText(spText);
+        frame->getChild("PM_Damage_Value")->setText(to_string(info.damage));
+        frame->getChild("PM_Armor_Value")->setText(to_string(info.armor));
+        frame->getChild("PM_Accuracy_Value")->setText(to_string((int)(info.accuracy * 100)) + "%");
 
         auto targetBillboardSet = scnMgr.createBillboardSet();
         targetBillboardSet->setMaterialName("pixeltarget");
@@ -426,16 +426,13 @@ void HUD::update(void) {
     for(auto character : myParty) {
         auto infoWindow = characterInfoWindows.find(character)->second;
         const PlayerInfo& info = character->info();
-        std::string hpText = std::to_string(info.health) + "/" + std::to_string(info.healthMax);
-        infoWindow->getChild("PM_HP_Left_StaticText")->setText(hpText);
-        std::string spText = std::to_string(info.specialPoints) + "/" + std::to_string(info.specialPointsMax);
-        infoWindow->getChild("PM_SP_Left_StaticText")->setText(spText);
-        infoWindow->getChild("PM_Damage_Value")->setText(
-                std::to_string(info.damage));
-        infoWindow->getChild("PM_Armor_Value")->setText(
-                std::to_string(info.armor));
-        infoWindow->getChild("PM_Accuracy_Value")->setText(
-                std::to_string((int)(info.accuracy*100)) + "%");
+        std::string hpText = to_string(info.health) + "/" + to_string(info.healthMax);
+        infoWindow->getChild("PM_HP_Value")->setText(hpText);
+        std::string spText = to_string(info.specialPoints) + "/" + to_string(info.specialPointsMax);
+        infoWindow->getChild("PM_SP_Value")->setText(spText);
+        infoWindow->getChild("PM_Damage_Value")->setText(to_string(info.damage));
+        infoWindow->getChild("PM_Armor_Value")->setText(to_string(info.armor));
+        infoWindow->getChild("PM_Accuracy_Value")->setText(to_string((int)(info.accuracy*100)) + "%");
 
         auto playerHealthBarBillboard = characterHealthBars.find(character)->second;
         playerHealthBarBillboard->setDefaultWidth(character->info().health * 10);
@@ -453,9 +450,9 @@ void HUD::update(void) {
 
 
 void HUD::updateItemBox(void) {
-    mItemRoot->getChild("countText")->setText(std::to_string(mInventory.getCurrentItemCount()));
-    mItemRoot->getChild("descriptionText")->setText(mInventory.getCurrentItemDescription());
-    mItemRoot->getChild("nameText")->setText(mInventory.getCurrentItemName());
+    mItemRoot->getChild("title")->setText(mInventory.getCurrentItemName());
+    mItemRoot->getChild("description")->setText(mInventory.getCurrentItemDescription());
+    mItemRoot->getChild("count")->setText(to_string(mInventory.getCurrentItemCount()));
 }
 
 void HUD::alertGameOver(bool userWins) {

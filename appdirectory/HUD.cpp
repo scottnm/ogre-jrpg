@@ -314,7 +314,7 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
         }
         else if (arg.key == OIS::KC_UP || arg.key == OIS::KC_DOWN) {
             mPlayAgainOptionFocused = !mPlayAgainOptionFocused;
-            mEndStateRoot->getChild("PlayAgain_select")->setVisible(mPlayAgainOptionFocused);
+            mEndStateRoot->getChild("Next_select")->setVisible(mPlayAgainOptionFocused);
             mEndStateRoot->getChild("Quit_select")->setVisible(!mPlayAgainOptionFocused);
         }
     }

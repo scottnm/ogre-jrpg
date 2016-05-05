@@ -34,13 +34,13 @@ HUD::HUD(Ogre::SceneManager& scnMgr,
     activeTarget = 0;
 
     CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
-    auto root = wmgr.loadLayoutFromFile("hud.layout");
-    mMenuRoot = root->getChild("Control_Frame");
-    mItemRoot = root->getChild("ItemInfo_Frame");
+    mRoot = wmgr.loadLayoutFromFile("hud.layout");
+    mMenuRoot = mRoot->getChild("Control_Frame");
+    mItemRoot = mRoot->getChild("ItemInfo_Frame");
     mItemRoot->hide();
-    mEndStateRoot = root->getChild("EndState_Frame");
-    root->addChild(mEndStateRoot);
-    mEndStateRoot->hide();
+    mRoot->getChild("WinState_Frame")->hide();
+    mRoot->getChild("LoseState_Frame")->hide();
+    mEndStateRoot = nullptr; // don't initialize the endState until the endstate has been reached
 
     // targeting icon
     auto targetWindow = wmgr.createWindow("TaharezLook/Button", "TargetingIcon");
@@ -134,7 +134,7 @@ HUD::HUD(Ogre::SceneManager& scnMgr,
 
     charSelected = p0Frame;
     updateFocusedCharacter(myParty.at(0));
-    mGUI.addAndSetWindowGroup(HUD::windowName, root);
+    mGUI.addAndSetWindowGroup(HUD::windowName, mRoot);
 }
 
 HUD::~HUD() {
@@ -301,21 +301,23 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
         }
     }
     else if (mState == HUD_STATE::GAME_OVER) {
-        if (arg.key == OIS::KC_RETURN) {
-            mEndStateRoot->hide();
-            if (mPlayNextOptionFocused) {
-                notifyPlayNext();
-                switchToActionMenu();
+        if (userWins) {
+            if (arg.key == OIS::KC_RETURN) {
+                mEndStateRoot->hide();
+                if (mPlayNextOptionFocused) {
+                    notifyPlayNext();
+                    switchToActionMenu();
+                }
+                else {
+                    notifyQuit();
+                    switchToActionMenu();
+                }
             }
-            else {
-                notifyQuit();
-                switchToActionMenu();
+            else if (arg.key == OIS::KC_UP || arg.key == OIS::KC_DOWN) {
+                mPlayNextOptionFocused = !mPlayNextOptionFocused;
+                mEndStateRoot->getChild("Next_select")->setVisible(mPlayNextOptionFocused);
+                mEndStateRoot->getChild("Quit_select")->setVisible(!mPlayNextOptionFocused);
             }
-        }
-        else if (arg.key == OIS::KC_UP || arg.key == OIS::KC_DOWN) {
-            mPlayNextOptionFocused = !mPlayNextOptionFocused;
-            mEndStateRoot->getChild("Next_select")->setVisible(mPlayNextOptionFocused);
-            mEndStateRoot->getChild("Quit_select")->setVisible(!mPlayNextOptionFocused);
         }
     }
 }
@@ -467,13 +469,13 @@ void HUD::updateItemBox(void) {
 }
 
 void HUD::alertGameOver(bool userWins) {
+    this->userWins = userWins;
     mPrevState = mState;
     mState = HUD_STATE::GAME_OVER;
     mPlayNextOptionFocused = true;
+    mEndStateRoot = mRoot->getChild(userWins ? "WinState_Frame" : "LoseState_Frame");
     mEndStateRoot->show();
     mEndStateRoot->activate();
-    mEndStateRoot->getChild("Win_label")->setVisible(userWins);
-    mEndStateRoot->getChild("Lose_label")->setVisible(!userWins);
 }
 
 void HUD::notifyPhysicalSelect(void) {

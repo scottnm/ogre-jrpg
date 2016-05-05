@@ -72,9 +72,10 @@ private:
     HUDListener* mListener;
     HUD_STATE mState;
     HUD_STATE mPrevState;
+    CEGUI::Window* mRoot;
     CEGUI::Window* mMenuRoot;
-    CEGUI::Window* mEndStateRoot;
     CEGUI::Window* mItemRoot;
+    CEGUI::Window* mEndStateRoot;
 
     // action menu
     int mActionOptionFocused; // mActionOptionFocused
@@ -85,6 +86,7 @@ private:
     bool mItemsFocused;
 
     // end game
+    bool userWins;
     bool mPlayNextOptionFocused;
 
     std::vector<Player*>& myParty;

@@ -37,6 +37,7 @@ public:
     ~HUD(void);
 
     void injectKeyDown(const OIS::KeyEvent& arg);
+    void reset(void);
     void update(void);
     void refocusAfterCharacterDeath(void);
     void alertGameOver(bool userWins);

@@ -420,13 +420,8 @@ void SingleplayerGame::onHUDNavigation(void) {
 }
 
 void SingleplayerGame::onHUDPlayNext() {
-    // reset game state, i.e. iterate over each player reseting hp, sp, and then reset HUD
-    for (Player* p : myParty) {
-        p->reset();
-        p->mAnimationController->runIdleAnimation();
-    }
-    myPartyAlive = myParty;
-    myPartyWaiting = myParty;
+    myPartyWaiting = myPartyAlive;
+    mHUD->reset();
 
     for (Player* p : enemyParty) {
         p->reset();
@@ -438,7 +433,6 @@ void SingleplayerGame::onHUDPlayNext() {
     playerTurn = true;
 
     mHUD->update();
-    mInventory.reset();
 }
 
 void SingleplayerGame::onHUDQuit() {

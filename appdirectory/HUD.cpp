@@ -34,7 +34,7 @@ HUD::HUD(Ogre::SceneManager& scnMgr,
     activeTarget = 0;
 
     CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
-    auto root = wmgr.loadLayoutFromFile("menu.layout");
+    auto root = wmgr.loadLayoutFromFile("hud.layout");
     mMenuRoot = root->getChild("Control_Frame");
     mItemRoot = root->getChild("ItemInfo_Frame");
     mItemRoot->hide();

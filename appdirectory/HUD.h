@@ -62,7 +62,7 @@ private:
     void notifyCharacterCycle(void);
     void notifyHUDOptionSelect(void);
     void notifyHUDNavigation(void);
-    void notifyPlayAgain(void);
+    void notifyPlayNext(void);
     void notifyQuit(void);
 
     std::vector<Player*>& getTargetParty(void);
@@ -84,7 +84,7 @@ private:
     bool mItemsFocused;
 
     // end game
-    bool mPlayAgainOptionFocused;
+    bool mPlayNextOptionFocused;
 
     std::vector<Player*>& myParty;
     std::vector<Player*>& myPartyWaiting;

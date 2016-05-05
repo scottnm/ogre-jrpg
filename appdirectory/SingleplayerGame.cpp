@@ -419,7 +419,7 @@ void SingleplayerGame::onHUDNavigation(void) {
     mSoundBank->play("option_nav_fx");
 }
 
-void SingleplayerGame::onHUDPlayAgain() {
+void SingleplayerGame::onHUDPlayNext() {
     // reset game state, i.e. iterate over each player reseting hp, sp, and then reset HUD
     for (Player* p : myParty) {
         p->reset();

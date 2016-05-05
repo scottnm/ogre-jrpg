@@ -31,8 +31,9 @@ void PlayerBank::loadPlayerDatabase(const std::string& _fn) {
         int damage = v.second.get<int>("damage");
         int armor = v.second.get<int>("armor");
         float accuracy = v.second.get<float>("accuracy");
+        float speed = v.second.get<float>("speed");
         mCharacterBank.emplace(name, PlayerInfo(name, img, meshspec, materialname,
-                    health, special, damage, armor, accuracy));
+                    health, special, damage, armor, accuracy, speed));
     }
 
     for (auto pair : mCharacterBank) {
@@ -43,6 +44,7 @@ void PlayerBank::loadPlayerDatabase(const std::string& _fn) {
         info += "Da(" + std::to_string(pair.second.damage)   + ") ";
         info += "Ar(" + std::to_string(pair.second.armor)    + ") ";
         info += "Ac(" + std::to_string(pair.second.accuracy) + ") ";
+        info += "Sp(" + std::to_string(pair.second.speed)    + ") ";
         std::cout << info << std::endl;
     }
 }

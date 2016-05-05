@@ -10,6 +10,7 @@
             <damage>7</damage>
             <armor>5</armor>
             <accuracy>0.80</accuracy>
+            <speed>0.20</speed>
         </character>
         <character>
             <name>Spooky Boo</name>
@@ -21,6 +22,7 @@
             <damage>10</damage>
             <armor>2</armor>
             <accuracy>0.90</accuracy>
+            <speed>0.10</speed>
         </character>
         <character>
             <name>Rattlebones</name>
@@ -32,6 +34,7 @@
             <damage>4</damage>
             <armor>6</armor>
             <accuracy>0.70</accuracy>
+            <speed>0.25</speed>
         </character>
         <character>
             <name>Mecha-Scoot</name>
@@ -43,6 +46,7 @@
             <damage>7</damage>
             <armor>3</armor>
             <accuracy>0.85</accuracy>
+            <speed>0.22</speed>
         </character>
         <character>
             <name>SSJVirginia</name>
@@ -54,6 +58,7 @@
             <damage>7</damage>
             <armor>3</armor>
             <accuracy>0.85</accuracy>
+            <speed>0.17</speed>
         </character>
         <character>
             <name>Metal Scoot</name>
@@ -65,6 +70,7 @@
             <damage>7</damage>
             <armor>3</armor>
             <accuracy>0.85</accuracy>
+            <speed>0.09</speed>
         </character>
     </characters>
 </characterDatabase>

@@ -63,6 +63,8 @@ public:
     std::vector<Player*> enemyParty;
     std::vector<Player*> enemyPartyAlive;
     std::vector<Player*> myPartyWaiting;
+    std::vector<Player*> playerActions;
+    std::vector<Player*> playerCooldown;
     Ogre::Vector3 cameraInitialPosition;
     Ogre::Vector3 cameraInitialLookAt;
     Inventory mInventory;

@@ -111,6 +111,11 @@ bool SingleplayerGame::go(void)
     myPartyAlive = myParty;
     myPartyWaiting = myParty;
     enemyPartyAlive = enemyParty;
+    playerCooldown = enemyParty;
+    // playerCooldown = myParty;
+    // for(auto c: enemyParty) {
+    //     playerCooldown.push_back(c);
+    // }
 
     initGUI();
 
@@ -124,7 +129,6 @@ bool SingleplayerGame::go(void)
 
 bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
-
     for(auto c : myParty) {
         c->mAnimationController->updateAnimationTime(evt.timeSinceLastFrame);
         c->mParticleController->updateParticles();
@@ -141,6 +145,56 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
         return true;
     }
 
+    if(!playerActions.empty()) {
+        playerTurn = false;
+        int actionOptions = 0;
+        if(enemyPartyAlive.at(activeEnemy)->info().specialPoints > 0) {
+            actionOptions = 3;
+        }
+        else {
+            actionOptions = 2;
+        }
+        srand(time(&timer));
+        int randomAction = rand() % actionOptions;
+        int randomTarget = rand() % myPartyAlive.size();
+        Player* target = myPartyAlive.at(randomTarget);
+        while(target->isDead()) {
+            randomTarget = rand() % myPartyAlive.size();
+            target = myPartyAlive.at(randomTarget);
+        }
+        switch(randomAction) {
+            case 0:
+                onHUDGuardSelect(playerActions.front());
+                break;
+            case 1:
+                onHUDPhysicalSelect(playerActions.front(), target);
+                break;
+            case 2:
+                onHUDSpecialSelect(playerActions.front(), target);
+                break;
+            default:
+                break;
+        }
+        playerCooldown.push_back(playerActions.front());
+        playerActions.erase(playerActions.begin());
+        return true;
+    }
+    else {
+        playerTurn = true;
+    }
+
+    for(auto citr = playerCooldown.begin(); citr != playerCooldown.end(); ++citr) {
+        Player* p = *citr;
+        p->cool_time_remaining -= evt.timeSinceLastFrame * p->info().speed; 
+        if(p->cool_time_remaining < 0) {
+            playerActions.push_back(p);
+            citr = playerCooldown.erase(citr);
+            if(citr == playerCooldown.end()) {
+                break;
+            }
+        }
+    }
+
     mRenderer->mCamera->setPosition(cameraInitialPosition);
     mRenderer->mCamera->lookAt(cameraInitialLookAt);
 
@@ -151,58 +205,58 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
             partyReset(enemyParty);
         }
     }
-    else {
-        if (activeEnemy < enemyPartyAlive.size()) {
-            if(!enemyPartyAlive.at(activeEnemy)->isDead()) {
-                // placeholder enemy action
-                int actionOptions = 0;
-                if(enemyPartyAlive.at(activeEnemy)->info().specialPoints > 0) {
-                    actionOptions = 3;
-                }
-                else {
-                    actionOptions = 2;
-                }
-                srand(time(&timer));
-                int randomAction = rand() % actionOptions;
-                int randomTarget = rand() % myPartyAlive.size();
-                Player* target = myPartyAlive.at(randomTarget);
-                while(target->isDead()) {
-                    randomTarget = rand() % myPartyAlive.size();
-                    target = myPartyAlive.at(randomTarget);
-                }
-                switch(randomAction) {
-                    case 0:
-                        onHUDGuardSelect(enemyPartyAlive.at(activeEnemy));
-                        break;
-                    case 1:
-                        onHUDPhysicalSelect(enemyPartyAlive.at(activeEnemy), target);
-                        break;
-                    case 2:
-                        if (target->info().specialPoints > 0) {
-                            onHUDSpecialSelect(enemyPartyAlive.at(activeEnemy), target);
-                        }
-                        else {
-                            if (rand() % 2 == 0) {
-                                onHUDGuardSelect(enemyPartyAlive.at(activeEnemy));
-                            }
-                            else {
-                                onHUDPhysicalSelect(enemyPartyAlive.at(activeEnemy), target);
-                            }
-                        }
-                        break;
-                    default:
-                        break;
-                }
-            }
-            ++activeEnemy;
-        }
-        else {
-            // enemy turns over
-            activeEnemy = 0;
-            playerTurn = true;
-            partyReset(myParty);
-        }
-    }
+    // else {
+    //     if (activeEnemy < enemyPartyAlive.size()) {
+    //         if(!enemyPartyAlive.at(activeEnemy)->isDead()) {
+                // // placeholder enemy action
+                // int actionOptions = 0;
+                // if(enemyPartyAlive.at(activeEnemy)->info().specialPoints > 0) {
+                //     actionOptions = 3;
+                // }
+                // else {
+                //     actionOptions = 2;
+                // }
+                // srand(time(&timer));
+                // int randomAction = rand() % actionOptions;
+                // int randomTarget = rand() % myPartyAlive.size();
+                // Player* target = myPartyAlive.at(randomTarget);
+                // while(target->isDead()) {
+                //     randomTarget = rand() % myPartyAlive.size();
+                //     target = myPartyAlive.at(randomTarget);
+                // }
+                // switch(randomAction) {
+                //     case 0:
+                //         onHUDGuardSelect(enemyPartyAlive.at(activeEnemy));
+                //         break;
+                //     case 1:
+                //         onHUDPhysicalSelect(enemyPartyAlive.at(activeEnemy), target);
+                //         break;
+                //     case 2:
+                //         if (target->info().specialPoints > 0) {
+                //             onHUDSpecialSelect(enemyPartyAlive.at(activeEnemy), target);
+                //         }
+                //         else {
+                //             if (rand() % 2 == 0) {
+                //                 onHUDGuardSelect(enemyPartyAlive.at(activeEnemy));
+                //             }
+                //             else {
+                //                 onHUDPhysicalSelect(enemyPartyAlive.at(activeEnemy), target);
+                //             }
+                //         }
+                //         break;
+                //     default:
+                //         break;
+                // }
+    //         }
+    //         ++activeEnemy;
+    //     }
+    //     else {
+    //         // enemy turns over
+    //         activeEnemy = 0;
+    //         playerTurn = true;
+    //         partyReset(myParty);
+    //     }
+    // }
 
     mHUD->update();
     clearDeadCharacters();
@@ -258,6 +312,36 @@ void SingleplayerGame::clearDeadCharacters(void) {
         }
     }
 
+    for(auto citr = playerCooldown.begin(); citr != playerCooldown.end(); ++citr) {
+        Player* p = *citr;
+        if (p->isDead()) {
+            AnimationCallback cb = [](void)-> void {};
+            p->mAnimationController->runAnimation(AnimationType::Death, cb);
+            mSoundBank->play("death_fx");
+            mSoundBank->play("grunt_fx");
+
+            citr = playerCooldown.erase(citr);
+            if (citr == playerCooldown.end()) {
+                break;
+            }
+        }        
+    }
+
+    for(auto citr = playerActions.begin(); citr != playerActions.end(); ++citr) {
+        Player* p = *citr;
+        if (p->isDead()) {
+            AnimationCallback cb = [](void)-> void {};
+            p->mAnimationController->runAnimation(AnimationType::Death, cb);
+            mSoundBank->play("death_fx");
+            mSoundBank->play("grunt_fx");
+
+            citr = playerActions.erase(citr);
+            if (citr == playerActions.end()) {
+                break;
+            }
+        }        
+    }
+
     myPartyWaiting.erase(
             std::remove_if(myPartyWaiting.begin(), myPartyWaiting.end(),
                 [](Player* p)->bool{ return p->isDead(); }),
@@ -278,6 +362,7 @@ void SingleplayerGame::onHUDPhysicalSelect(Player* attacker, Player* target) {
     bool attackSuccessful = attacker->attemptPhysicalAttack();
 
     attacker->lookAt(target);
+    attacker->cool_time_remaining = 0.5;
     AnimationCallback cb = [this, attacker, target, attackSuccessful](void)-> void{
         if (attackSuccessful) {
             attacker->lookAt(target);
@@ -318,6 +403,7 @@ void SingleplayerGame::onHUDSpecialSelect(Player* attacker, Player* target) {
 
     mAttackRunning = true;
     attacker->lookAt(target);
+    attacker->cool_time_remaining = 1.0;
 
     // prep animation 
     AnimationCallback cb = [attacker, target](void)-> void{
@@ -397,6 +483,7 @@ void SingleplayerGame::onHUDItemSelect(Player* user, Player* target) {
 
 void SingleplayerGame::onHUDGuardSelect(Player* user) {
     mAttackRunning = true;
+    user->cool_time_remaining = 0.5;
     AnimationCallback cb = [this, user](void)-> void{
         mAttackRunning = false;
         user->mAnimationController->runIdleAnimation();

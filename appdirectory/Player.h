@@ -42,6 +42,8 @@ public:
 
     Ogre::Real getHeight(void);
 
+    float cool_time_remaining = 0.5;
+
 private:
     Ogre::Entity* mEntity;
     PlayerInfo mInfo;

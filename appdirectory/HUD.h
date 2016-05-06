@@ -37,9 +37,11 @@ public:
     ~HUD(void);
 
     void injectKeyDown(const OIS::KeyEvent& arg);
+    void reset(void);
     void update(void);
     void refocusAfterCharacterDeath(void);
     void alertGameOver(bool userWins);
+    void updateWaveCounter(int wave);
 
 private:
     void injectKeyActionMenu(const OIS::KeyEvent& arg);
@@ -67,6 +69,7 @@ private:
     void notifyHUDOptionSelect(void);
     void notifyHUDNavigation(void);
     void notifyPlayAgain(void);
+    void notifyPlayNext(void);
     void notifyQuit(void);
 
     std::vector<Player*>& getTargetParty(void);
@@ -75,9 +78,10 @@ private:
     HUDListener* mListener;
     HUD_STATE mState;
     HUD_STATE mPrevState;
+    CEGUI::Window* mRoot;
     CEGUI::Window* mMenuRoot;
-    CEGUI::Window* mEndStateRoot;
     CEGUI::Window* mItemRoot;
+    CEGUI::Window* mEndStateRoot;
 
     // action menu
     int mActionOptionFocused; // mActionOptionFocused
@@ -88,7 +92,8 @@ private:
     bool mItemsFocused;
 
     // end game
-    bool mPlayAgainOptionFocused;
+    bool userWins;
+    bool mPlayNextOptionFocused;
 
     std::vector<Player*>& myParty;
     std::vector<Player*>& myPartyWaiting;

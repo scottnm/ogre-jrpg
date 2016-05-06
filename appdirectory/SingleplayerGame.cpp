@@ -16,7 +16,7 @@ http://www.ogre3d.org/tikiwiki/tiki-index.php?page=MinimalOgre-cpp
 SingleplayerGame::SingleplayerGame(RenderingEngine* renderer, GUISystem* gui,
     PlayerBank* playerBank, SoundBank* soundBank)
     : BaseGame(renderer, gui, playerBank), mGameOver(false), mAttackRunning(false),
-      mSoundBank(soundBank), playerTurn(true), activeEnemy(0) {
+      mSoundBank(soundBank), playerTurn(true), activeEnemy(0), mWaveCnt(1) {
 }
 
 SingleplayerGame::~SingleplayerGame(void) {
@@ -141,6 +141,26 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
         return true;
     }
 
+    mHUD->update();
+    clearDeadCharacters();
+
+    if (myPartyAlive.empty() || enemyPartyAlive.empty()) {
+
+        mGameOver = true;
+
+        // throw up lose game gui
+        mHUD->alertGameOver(enemyPartyAlive.empty());
+        if (enemyPartyAlive.empty()) {
+            mHUD->alertGameOver(true);
+            mSoundBank->play("game_win_fx");
+        }
+        else {
+            mHUD->alertGameOver(false);
+            mSoundBank->play("game_lose_fx");
+        }
+        return true;
+    }
+
     mRenderer->mCamera->setPosition(cameraInitialPosition);
     mRenderer->mCamera->lookAt(cameraInitialLookAt);
 
@@ -162,13 +182,13 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
                 else {
                     actionOptions = 2;
                 }
-                int randomAction = rand() % actionOptions;
                 int randomTarget = rand() % myPartyAlive.size();
                 Player* target = myPartyAlive.at(randomTarget);
                 while(target->isDead()) {
                     randomTarget = rand() % myPartyAlive.size();
                     target = myPartyAlive.at(randomTarget);
                 }
+                int randomAction = rand() % actionOptions;
                 switch(randomAction) {
                     case 0:
                         onHUDGuardSelect(enemyPartyAlive.at(activeEnemy));
@@ -203,24 +223,6 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
         }
     }
 
-    mHUD->update();
-    clearDeadCharacters();
-
-    if (myPartyAlive.empty() || enemyPartyAlive.empty()) {
-
-        mGameOver = true;
-
-        // throw up lose game gui
-        mHUD->alertGameOver(enemyPartyAlive.empty());
-        if (enemyPartyAlive.empty()) {
-            mHUD->alertGameOver(true);
-            mSoundBank->play("game_win_fx");
-        }
-        else {
-            mHUD->alertGameOver(false);
-            mSoundBank->play("game_lose_fx");
-        }
-    }
 
     return true;
 }
@@ -437,6 +439,26 @@ void SingleplayerGame::onHUDPlayAgain() {
 
     mHUD->update();
     mInventory.reset();
+
+    mWaveCnt = 1;
+    mHUD->updateWaveCounter(mWaveCnt);
+}
+
+void SingleplayerGame::onHUDPlayNext() {
+    myPartyWaiting = myPartyAlive;
+    mHUD->reset();
+
+    for (Player* p : enemyParty) {
+        p->reset();
+        p->mAnimationController->runIdleAnimation();
+    }
+    enemyPartyAlive = enemyParty;
+
+    mGameOver = false;
+    playerTurn = true;
+
+    mHUD->update();
+    mHUD->updateWaveCounter(++mWaveCnt);
 }
 
 void SingleplayerGame::onHUDQuit() {

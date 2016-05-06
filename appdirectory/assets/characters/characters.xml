@@ -68,7 +68,9 @@
         </character>
         <character>
             <name>Babe Ruth</name>
-            <img>CharacterProfiles/CannibalCorpse</img>
+            <img>CharacterProfiles/BabeRuth</img>
+            <mesh>ninja</mesh>
+            <material>NinjaSkins/09</material>
             <health>15</health>
             <special>2</special>
             <damage>7</damage>
@@ -77,7 +79,9 @@
         </character>
         <character>
             <name>Goldilocks</name>
-            <img>CharacterProfiles/SpookyBoo</img>
+            <img>CharacterProfiles/Goldilocks</img>
+            <mesh>ninja</mesh>
+            <material>NinjaSkins/09</material>
             <health>10</health>
             <special>4</special>
             <damage>10</damage>
@@ -86,7 +90,9 @@
         </character>
         <character>
             <name>Legs</name>
-            <img>CharacterProfiles/Rattlebones</img>
+            <img>CharacterProfiles/Legs</img>
+            <mesh>ninja</mesh>
+            <material>NinjaSkins/09</material>
             <health>20</health>
             <special>1</special>
             <damage>4</damage>
@@ -95,7 +101,9 @@
         </character>
         <character>
             <name>Jigbert</name>
-            <img>CharacterProfiles/CannibalCorpse</img>
+            <img>CharacterProfiles/Jigbert</img>
+            <mesh>ninja</mesh>
+            <material>NinjaSkins/09</material>
             <health>15</health>
             <special>2</special>
             <damage>7</damage>
@@ -104,7 +112,9 @@
         </character>
         <character>
             <name>DJ Du$ty</name>
-            <img>CharacterProfiles/SpookyBoo</img>
+            <img>CharacterProfiles/DjDusty</img>
+            <mesh>ninja</mesh>
+            <material>NinjaSkins/09</material>
             <health>10</health>
             <special>4</special>
             <damage>10</damage>
@@ -113,7 +123,9 @@
         </character>
         <character>
             <name>Marshall</name>
-            <img>CharacterProfiles/Rattlebones</img>
+            <img>CharacterProfiles/Marshall</img>
+            <mesh>ninja</mesh>
+            <material>NinjaSkins/09</material>
             <health>20</health>
             <special>1</special>
             <damage>4</damage>

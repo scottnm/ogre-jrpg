@@ -20,5 +20,7 @@ void Item::use(Player& target) {
 	
 	info.armor = std::max(info.armor + delta_armor, 0);
 	info.damage = std::max(info.damage + delta_damage, 0);
-	info.accuracy = std::max(info.accuracy + delta_accuracy, 0.0f);
+	
+    info.accuracy = std::max(info.accuracy * (1 + delta_accuracy), 0.0f);
+    info.accuracy = std::min(info.accuracy, 1.0f);
 }

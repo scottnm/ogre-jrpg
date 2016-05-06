@@ -35,13 +35,14 @@ http://www.ogre3d.org/tikiwiki/tiki-index.php?page=MinimalOgre-h&structure=Devel
 #include <CEGUI/CEGUI.h>
 
 #include <vector>
+#include <string>
  
 class BaseGame : public Ogre::FrameListener
 {
 public:
     BaseGame(RenderingEngine* renderer, GUISystem* gui, PlayerBank* playerBank);
     virtual ~BaseGame(void);
-    virtual bool go(void) = 0;
+    virtual bool go(std::vector<std::string> v) = 0;
     virtual bool isShutDown(void) { return mShutDown; }
 
     RenderingEngine* mRenderer;
@@ -75,7 +76,7 @@ public:
     virtual bool keyPressed( const OIS::KeyEvent &arg );
 
     // setup
-    virtual void createScene(void) = 0;
+    virtual void createScene(std::vector<std::string>) = 0;
     virtual void destroyScene(void) = 0;
     void initGUI(void);
 

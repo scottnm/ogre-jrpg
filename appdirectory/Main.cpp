@@ -1,7 +1,10 @@
+#include "OgreScreenRecorder.h"
+#include "RenderingEngine.h"
 #include "GameManager.h"
 #include <iostream>
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>       /* time */
+#include <string>
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 #define WIN32_LEAN_AND_MEAN
@@ -18,6 +21,12 @@ extern "C" {
     int main(int argc, char *argv[])
 #endif
     {
+        
+        OgreScreenRecorder* rec = nullptr;
+        if(argc > 1 && std::string(argv[1]) == std::string("--rec")) {
+            auto re = RenderingEngine::getSingleton();
+            rec = new OgreScreenRecorder(*re->mRoot, *re->mWindow);
+        }
         srand(time(NULL));
         // Create application object
         try {
@@ -31,7 +40,8 @@ extern "C" {
                 e.getFullDescription().c_str() << std::endl;
 #endif
         }
- 
+
+        if (rec) delete rec;
         return 0;
     }
  

@@ -5,15 +5,15 @@
 
 class HUDListener {
 public:
-    virtual void onHUDPhysicalSelect(Player* attacker, Player* target) {};
-    virtual void onHUDSpecialSelect(Player* attacker, Player* target) {};
-    virtual void onHUDItemSelect(Player* target) {};
-    virtual void onHUDGuardSelect(Player* user) {};
-    virtual void onHUDCycleCharacter() {};
-    virtual void onHUDOptionSelect() {};
-    virtual void onHUDNavigation() {};
-    virtual void onHUDPlayAgain() {};
-    virtual void onHUDQuit() {};
+    virtual void onHUDPhysicalSelect(Player* attacker, Player* target) = 0;
+    virtual void onHUDSpecialSelect(Player* attacker, Player* target) = 0;
+    virtual void onHUDItemSelect(Player* user, Player* target) = 0;
+    virtual void onHUDGuardSelect(Player* user) = 0;
+    virtual void onHUDCycleCharacter() = 0;
+    virtual void onHUDOptionSelect() = 0;
+    virtual void onHUDNavigation() = 0;
+    virtual void onHUDPlayAgain() = 0;
+    virtual void onHUDQuit() = 0;
 };
 
 #endif // __HUD_LISTENER_H__

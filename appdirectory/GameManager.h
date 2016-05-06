@@ -7,7 +7,6 @@
 #include "RenderingEngine.h"
 #include "SoundBank.h"
 #include "PlayerBank.h"
-#include "Inventory.h"
 
 #include <OgreFrameListener.h>
 #include <CEGUI/CEGUI.h>
@@ -41,7 +40,6 @@ private:
     GUISystem* mGUI;
     SoundBank mSoundBank;
     PlayerBank mPlayerBank;
-    //Inventory inventory;
     BaseGame* mGame;
     bool mShutDown;
     

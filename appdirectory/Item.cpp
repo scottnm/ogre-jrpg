@@ -1,8 +1,9 @@
 #include "Item.h"
+#include <OgreMath.h>
 
-Item::Item(std::string name, bool isOffensive, int d_health, int d_armor,
+Item::Item(std::string name, std::string description, bool isOffensive, int d_health, int d_armor,
 	       int d_damage, int d_special, float d_accuracy) 
-	: name(name), isOffensive(isOffensive), delta_health(d_health), delta_armor(d_armor),
+	: name(name), description(description), isOffensive(isOffensive), delta_health(d_health), delta_armor(d_armor),
 	  delta_damage(d_damage), delta_special(d_special), delta_accuracy(d_accuracy) {}
 
 void Item::use(Player& target) {
@@ -10,6 +11,9 @@ void Item::use(Player& target) {
     
     int health = std::max(info.health + delta_health, 0);
     info.health = std::min(health, info.healthMax);
+    if (delta_health != 0) {
+        target.mDamageIndicatorController->alertDamage(Ogre::Math::Abs(delta_health));
+    }
 
     int special = std::max(info.specialPoints + delta_special, 0);
     info.specialPoints = std::min(special, info.specialPointsMax);

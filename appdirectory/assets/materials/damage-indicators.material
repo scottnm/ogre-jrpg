@@ -1,0 +1,356 @@
+material damage_miss
+{
+    technique
+    {
+       pass
+        {
+          emissive 1.0 1.0 1.0
+          depth_write off
+          scene_blend alpha_blend
+          texture_unit
+          {
+            texture Ravena_font/ravena_miss.png
+          }
+       }
+    }
+}
+
+material damage_00
+{
+    technique
+    {
+       pass
+        {
+          emissive 1.0 1.0 1.0
+          depth_write off
+          scene_blend alpha_blend
+          texture_unit
+          {
+            texture Ravena_font/ravena_00.png
+          }
+       }
+    }
+}
+
+material damage_01
+{
+    technique
+    {
+       pass
+        {
+          emissive 1.0 1.0 1.0
+          depth_write off
+          scene_blend alpha_blend
+          texture_unit
+          {
+            texture Ravena_font/ravena_01.png
+          }
+       }
+    }
+}
+
+material damage_02
+{
+    technique
+    {
+       pass
+        {
+          emissive 1.0 1.0 1.0
+          depth_write off
+          scene_blend alpha_blend
+          texture_unit
+          {
+            texture Ravena_font/ravena_02.png
+          }
+       }
+    }
+}
+
+material damage_03
+{
+    technique
+    {
+       pass
+        {
+          emissive 1.0 1.0 1.0
+          depth_write off
+          scene_blend alpha_blend
+          texture_unit
+          {
+            texture Ravena_font/ravena_03.png
+          }
+       }
+    }
+}
+
+material damage_04
+{
+    technique
+    {
+       pass
+        {
+          emissive 1.0 1.0 1.0
+          depth_write off
+          scene_blend alpha_blend
+          texture_unit
+          {
+            texture Ravena_font/ravena_04.png
+          }
+       }
+    }
+}
+
+material damage_05
+{
+    technique
+    {
+       pass
+        {
+          emissive 1.0 1.0 1.0
+          depth_write off
+          scene_blend alpha_blend
+          texture_unit
+          {
+            texture Ravena_font/ravena_05.png
+          }
+       }
+    }
+}
+
+material damage_06
+{
+    technique
+    {
+       pass
+        {
+          emissive 1.0 1.0 1.0
+          depth_write off
+          scene_blend alpha_blend
+          texture_unit
+          {
+            texture Ravena_font/ravena_06.png
+          }
+       }
+    }
+}
+
+material damage_07
+{
+    technique
+    {
+       pass
+        {
+          emissive 1.0 1.0 1.0
+          depth_write off
+          scene_blend alpha_blend
+          texture_unit
+          {
+            texture Ravena_font/ravena_07.png
+          }
+       }
+    }
+}
+
+material damage_08
+{
+    technique
+    {
+       pass
+        {
+          emissive 1.0 1.0 1.0
+          depth_write off
+          scene_blend alpha_blend
+          texture_unit
+          {
+            texture Ravena_font/ravena_08.png
+          }
+       }
+    }
+}
+
+material damage_09
+{
+    technique
+    {
+       pass
+        {
+          emissive 1.0 1.0 1.0
+          depth_write off
+          scene_blend alpha_blend
+          texture_unit
+          {
+            texture Ravena_font/ravena_09.png
+          }
+       }
+    }
+}
+
+material damage_10
+{
+    technique
+    {
+       pass
+        {
+          emissive 1.0 1.0 1.0
+          depth_write off
+          scene_blend alpha_blend
+          texture_unit
+          {
+            texture Ravena_font/ravena_10.png
+          }
+       }
+    }
+}
+
+material damage_11
+{
+    technique
+    {
+       pass
+        {
+          emissive 1.0 1.0 1.0
+          depth_write off
+          scene_blend alpha_blend
+          texture_unit
+          {
+            texture Ravena_font/ravena_11.png
+          }
+       }
+    }
+}
+
+material damage_12
+{
+    technique
+    {
+       pass
+        {
+          emissive 1.0 1.0 1.0
+          depth_write off
+          scene_blend alpha_blend
+          texture_unit
+          {
+            texture Ravena_font/ravena_12.png
+          }
+       }
+    }
+}
+
+material damage_13
+{
+    technique
+    {
+       pass
+        {
+          emissive 1.0 1.0 1.0
+          depth_write off
+          scene_blend alpha_blend
+          texture_unit
+          {
+            texture Ravena_font/ravena_13.png
+          }
+       }
+    }
+}
+
+material damage_14
+{
+    technique
+    {
+       pass
+        {
+          emissive 1.0 1.0 1.0
+          depth_write off
+          scene_blend alpha_blend
+          texture_unit
+          {
+            texture Ravena_font/ravena_14.png
+          }
+       }
+    }
+}
+
+material damage_15
+{
+    technique
+    {
+       pass
+        {
+          emissive 1.0 1.0 1.0
+          depth_write off
+          scene_blend alpha_blend
+          texture_unit
+          {
+            texture Ravena_font/ravena_15.png
+          }
+       }
+    }
+}
+
+material damage_16
+{
+    technique
+    {
+       pass
+        {
+          emissive 1.0 1.0 1.0
+          depth_write off
+          scene_blend alpha_blend
+          texture_unit
+          {
+            texture Ravena_font/ravena_16.png
+          }
+       }
+    }
+}
+
+material damage_17
+{
+    technique
+    {
+       pass
+        {
+          emissive 1.0 1.0 1.0
+          depth_write off
+          scene_blend alpha_blend
+          texture_unit
+          {
+            texture Ravena_font/ravena_17.png
+          }
+       }
+    }
+}
+
+material damage_18
+{
+    technique
+    {
+       pass
+        {
+          emissive 1.0 1.0 1.0
+          depth_write off
+          scene_blend alpha_blend
+          texture_unit
+          {
+            texture Ravena_font/ravena_18.png
+          }
+       }
+    }
+}
+
+material damage_19
+{
+    technique
+    {
+       pass
+        {
+          emissive 1.0 1.0 1.0
+          depth_write off
+          scene_blend alpha_blend
+          texture_unit
+          {
+            texture Ravena_font/ravena_19.png
+          }
+       }
+    }
+}

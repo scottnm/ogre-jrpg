@@ -1,0 +1,31 @@
+<meshSpecDatabase>
+    <meshSpec>
+        <name>ninja</name>
+        <animationSpec>
+            <idle>
+                <state-name>Idle1</state-name>
+                <speed-scale>1</speed-scale>
+            </idle>
+            <physical>
+                <state-name>Attack3</state-name>
+                <speed-scale>1.5</speed-scale>
+            </physical>
+            <special>
+                <state-name>Spin</state-name>
+                <speed-scale>2</speed-scale>
+            </special>
+            <item>
+                <state-name>Crouch</state-name>
+                <speed-scale>1</speed-scale>
+            </item>
+            <guard>
+                <state-name>Block</state-name>
+                <speed-scale>0.9</speed-scale>
+            </guard>
+            <death>
+                <state-name>Death1</state-name>
+                <speed-scale>1</speed-scale>
+            </death>
+        </animationSpec>
+    </meshSpec>
+</meshSpecDatabase>

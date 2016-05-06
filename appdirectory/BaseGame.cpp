@@ -21,7 +21,7 @@ BaseGame::BaseGame(RenderingEngine* renderer, GUISystem* gui,
     mShutDown(false),
     mCursorWasVisible(false),
     mRoomRoot(nullptr),
-    inventory("assets/item/inventory.xml") {
+    mInventory("assets/item/inventory.xml") {
 }
 
 BaseGame::~BaseGame(void) {

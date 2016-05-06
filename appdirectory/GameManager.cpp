@@ -202,8 +202,7 @@ void GameManager::windowClosed(Ogre::RenderWindow* rw) {
 void GameManager::closeGame(void) {
     delete mGame;
     mGame = nullptr;
-    mGUI->switchToWindowGroup("StartMenuGUI");
-    CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor().show();
+    mGUI->switchToWindowGroup("charSelect");
 }
 
 // STARTUP MENU CALLBACKS

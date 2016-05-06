@@ -214,6 +214,7 @@ void GameManager::closeGame(void) {
     delete mGame;
     mGame = nullptr;
     mGUI->switchToWindowGroup("charSelect");
+    CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor().show();
 }
 
 // STARTUP MENU CALLBACKS

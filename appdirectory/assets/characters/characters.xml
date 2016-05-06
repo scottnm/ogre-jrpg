@@ -5,7 +5,7 @@
             <img>CharacterProfiles/CannibalCorpse</img>
             <mesh>ninja</mesh>
             <material>NinjaSkins/00</material>
-            <health>1</health>
+            <health>15</health>
             <special>2</special>
             <damage>7</damage>
             <armor>5</armor>
@@ -16,7 +16,7 @@
             <img>CharacterProfiles/SpookyBoo</img>
             <mesh>ninja</mesh>
             <material>NinjaSkins/01</material>
-            <health>1</health>
+            <health>10</health>
             <special>4</special>
             <damage>10</damage>
             <armor>2</armor>
@@ -27,7 +27,7 @@
             <img>CharacterProfiles/Rattlebones</img>
             <mesh>ninja</mesh>
             <material>NinjaSkins/02</material>
-            <health>1</health>
+            <health>20</health>
             <special>1</special>
             <damage>4</damage>
             <armor>6</armor>

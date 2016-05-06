@@ -63,6 +63,7 @@ private:
     void notifyCharacterCycle(void);
     void notifyHUDOptionSelect(void);
     void notifyHUDNavigation(void);
+    void notifyPlayAgain(void);
     void notifyPlayNext(void);
     void notifyQuit(void);
 

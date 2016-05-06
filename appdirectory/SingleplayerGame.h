@@ -40,6 +40,7 @@ private:
     void onHUDCycleCharacter(void);
     void onHUDOptionSelect();
     void onHUDNavigation();
+    void onHUDPlayAgain();
     void onHUDPlayNext();
     void onHUDQuit();
 

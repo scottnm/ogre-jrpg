@@ -142,181 +142,197 @@ HUD::~HUD() {
 }
 
 void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
-    if (mState == HUD_STATE::ACTION_MENU_ACTIVE) {
-        int oldOption = mActionOptionFocused;
+    switch (mState) {
+        case HUD_STATE::ACTION_MENU_ACTIVE:
+            injectKeyActionMenu(arg);
+            break;
+        case HUD_STATE::ITEMS_MENU_ACTIVE:
+            injectKeyItemMenu(arg);
+            break;
+        case HUD_STATE::TARGETING_MENU_ACTIVE:
+            injectKeyTargetMenu(arg);
+            break;
+        case HUD_STATE::GAME_OVER:
+            injectKeyGameOver(arg);
+            break;
+    }
+}
+
+void HUD::injectKeyActionMenu(const OIS::KeyEvent& arg) {
+    int oldOption = mActionOptionFocused;
+    switch(arg.key) {
+        case OIS::KC_UP:
+            notifyHUDNavigation();
+            mActionOptionFocused = std::max(0, mActionOptionFocused - 1);
+            if (mInventory.items.size() == 0 && mActionOptionFocused == ITEMS_ID) {
+                mActionOptionFocused = SPECIAL_ID;
+            }
+            if (myPartyWaiting.at(myPartyFocused)->info().specialPoints == 0 &&
+                    mActionOptionFocused == SPECIAL_ID) {
+                mActionOptionFocused = PHYSICAL_ID;
+            }
+            break;
+        case OIS::KC_DOWN:
+            notifyHUDNavigation();
+            mActionOptionFocused = std::min(3, mActionOptionFocused + 1);
+            if (myPartyWaiting.at(myPartyFocused)->info().specialPoints == 0 &&
+                    mActionOptionFocused == SPECIAL_ID) {
+                mActionOptionFocused = ITEMS_ID;
+            }
+            if (mInventory.items.size() == 0 && mActionOptionFocused == ITEMS_ID) {
+                mActionOptionFocused = GUARD_ID;
+            }
+            break;
+        case OIS::KC_RETURN:
+            switch (mActionOptionFocused) {
+                case PHYSICAL_ID:
+                case SPECIAL_ID:
+                    notifyHUDOptionSelect();
+                    switchToTargetMenu();
+                    break;
+                case ITEMS_ID:
+                    notifyHUDOptionSelect();
+                    switchToItemMenu();
+                    break;
+                case GUARD_ID:
+                    notifyGuardSelect();
+                    dequeueActiveCharacter();
+                    mActionOptions[mActionOptionFocused]->hide();
+                    mActionOptionFocused = 0;
+                    mActionOptions[0]->show();
+                    mActionOptions[0]->activate();
+                    break;
+            }
+            break;
+        case OIS::KC_TAB:
+            notifyCharacterCycle();
+            cycleActiveCharacter();
+            break;
+        default:
+            return;
+    }
+    mActionOptions[oldOption]->hide();
+    mActionOptions[mActionOptionFocused]->show();
+    mActionOptions[mActionOptionFocused]->activate();
+}
+
+void HUD::injectKeyItemMenu(const OIS::KeyEvent& arg) {
+    if (mItemsFocused) {
         switch(arg.key) {
-            case OIS::KC_UP:
+            case OIS::KC_DOWN: {
                 notifyHUDNavigation();
-                mActionOptionFocused = std::max(0, mActionOptionFocused - 1);
-                if (mInventory.items.size() == 0 && mActionOptionFocused == ITEMS_ID) {
-                    mActionOptionFocused = SPECIAL_ID;
-                }
-                if (myPartyWaiting.at(myPartyFocused)->info().specialPoints == 0 &&
-                        mActionOptionFocused == SPECIAL_ID) {
-                    mActionOptionFocused = PHYSICAL_ID;
-                }
+                mItemsFocused = false;
+                auto itemFrame = mMenuRoot->getChild("Item_Frame");
+                itemFrame->getChild("Items_select")->hide();
+                itemFrame->getChild("Back_select")->show();
+                itemFrame->getChild("Back_select")->activate();
                 break;
-            case OIS::KC_DOWN:
+            }
+            case OIS::KC_LEFT:
                 notifyHUDNavigation();
-                mActionOptionFocused = std::min(3, mActionOptionFocused + 1);
-                if (myPartyWaiting.at(myPartyFocused)->info().specialPoints == 0 &&
-                        mActionOptionFocused == SPECIAL_ID) {
-                    mActionOptionFocused = ITEMS_ID;
-                }
-                if (mInventory.items.size() == 0 && mActionOptionFocused == ITEMS_ID) {
-                    mActionOptionFocused = GUARD_ID;
-                }
+                mInventory.cycleInventoryBackward();
+                updateItemBox();
+                break;
+            case OIS::KC_RIGHT:
+                notifyHUDNavigation();
+                mInventory.cycleInventoryForward();
+                updateItemBox();
                 break;
             case OIS::KC_RETURN:
-                switch (mActionOptionFocused) {
-                    case PHYSICAL_ID:
-                    case SPECIAL_ID:
-                        notifyHUDOptionSelect();
-                        switchToTargetMenu();
-                        break;
-                    case ITEMS_ID:
-                        notifyHUDOptionSelect();
-                        switchToItemMenu();
-                        break;
-                    case GUARD_ID:
-                        notifyGuardSelect();
-                        dequeueActiveCharacter();
-                        mActionOptions[mActionOptionFocused]->hide();
-                        mActionOptionFocused = 0;
-                        mActionOptions[0]->show();
-                        mActionOptions[0]->activate();
-                        break;
-                }
-                break;
-            case OIS::KC_TAB:
-                notifyCharacterCycle();
-                cycleActiveCharacter();
+                notifyHUDOptionSelect(); 
+                switchToTargetMenu();
                 break;
             default:
                 return;
         }
-        mActionOptions[oldOption]->hide();
-        mActionOptions[mActionOptionFocused]->show();
-        mActionOptions[mActionOptionFocused]->activate();
+        mMenuRoot->getChild("Item_Frame")->getChild("Items_StaticText")->setText(
+                mInventory.getCurrentItemName());
     }
-    else if (mState == HUD_STATE::ITEMS_MENU_ACTIVE) {
-        
-
-        if (mItemsFocused) {
-            switch(arg.key) {
-                case OIS::KC_DOWN: {
-                    notifyHUDNavigation();
-                    mItemsFocused = false;
-                    auto itemFrame = mMenuRoot->getChild("Item_Frame");
-                    itemFrame->getChild("Items_select")->hide();
-                    itemFrame->getChild("Back_select")->show();
-                    itemFrame->getChild("Back_select")->activate();
-                    break;
-                }
-                case OIS::KC_LEFT:
-                    notifyHUDNavigation();
-                    mInventory.cycleInventoryBackward();
-                    updateItemBox();
-                    break;
-                case OIS::KC_RIGHT:
-                    notifyHUDNavigation();
-                    mInventory.cycleInventoryForward();
-                    updateItemBox();
-                    break;
-                case OIS::KC_RETURN:
-                    notifyHUDOptionSelect(); 
-                    switchToTargetMenu();
-                    break;
-                default:
-                    return;
-            }
-            mMenuRoot->getChild("Item_Frame")->getChild("Items_StaticText")->setText(
-                    mInventory.getCurrentItemName());
-        }
-        else {
-            switch(arg.key) {
-                case OIS::KC_RETURN:
-                    mItemRoot->setVisible(false);
-                    notifyHUDOptionSelect();
-                    switchToActionMenu();
-                    break;
-                case OIS::KC_UP: {
-                    notifyHUDNavigation();
-                    mItemsFocused = true;
-                    auto itemFrame = mMenuRoot->getChild("Item_Frame");
-                    itemFrame->getChild("Back_select")->hide();
-                    itemFrame->getChild("Items_select")->show();
-                    itemFrame->getChild("Items_select")->activate();
-                    break;
-                }
-                default:
-                    return;
-            }
-        }
-    }
-    else if (mState == HUD_STATE::TARGETING_MENU_ACTIVE) {
-        auto& targetParty = getTargetParty();
+    else {
         switch(arg.key) {
-            case OIS::KC_Q:
-                notifyHUDOptionSelect();
-                setTargetArrowVisible(targetParty.at(activeTarget), false);
-                activeTarget = 0;
-                if (mPrevState == HUD_STATE::ACTION_MENU_ACTIVE) {
-                    switchToActionMenu();
-                }
-                else {
-                    switchToItemMenu();
-                }
-                break;
             case OIS::KC_RETURN:
-                switch(mActionOptionFocused) {
-                    case PHYSICAL_ID:
-                        notifyPhysicalSelect();
-                        break;
-                    case SPECIAL_ID:
-                        notifySpecialSelect();
-                        break;
-                    case ITEMS_ID:
-                        notifyItemSelect();
-                        mItemRoot->setVisible(false);
-                        break;
-                    default:
-                        break;
-                }
-                dequeueActiveCharacter();
-                setTargetArrowVisible(targetParty.at(activeTarget), false);
-                activeTarget = 0;
-                mActionOptions[mActionOptionFocused]->hide();
-                mActionOptionFocused = 0;
-                mActionOptions[0]->show();
-                mActionOptions[0]->activate();
-                switchToActionMenu(); 
+                mItemRoot->setVisible(false);
+                notifyHUDOptionSelect();
+                switchToActionMenu();
                 break;
-            case OIS::KC_TAB:
-                notifyCharacterCycle();
-                cycleTargetCharacter();
+            case OIS::KC_UP: {
+                notifyHUDNavigation();
+                mItemsFocused = true;
+                auto itemFrame = mMenuRoot->getChild("Item_Frame");
+                itemFrame->getChild("Back_select")->hide();
+                itemFrame->getChild("Items_select")->show();
+                itemFrame->getChild("Items_select")->activate();
                 break;
+            }
             default:
-                break;
+                return;
         }
     }
-    else if (mState == HUD_STATE::GAME_OVER) {
-        if (arg.key == OIS::KC_RETURN) {
-            mEndStateRoot->hide();
-            if (mPlayAgainOptionFocused) {
-                notifyPlayAgain();
+}
+
+void HUD::injectKeyTargetMenu(const OIS::KeyEvent& arg) {
+    auto& targetParty = getTargetParty();
+    switch(arg.key) {
+        case OIS::KC_Q:
+            notifyHUDOptionSelect();
+            setTargetArrowVisible(targetParty.at(activeTarget), false);
+            activeTarget = 0;
+            if (mPrevState == HUD_STATE::ACTION_MENU_ACTIVE) {
                 switchToActionMenu();
             }
             else {
-                notifyQuit();
-                switchToActionMenu();
+                switchToItemMenu();
             }
+            break;
+        case OIS::KC_RETURN:
+            switch(mActionOptionFocused) {
+                case PHYSICAL_ID:
+                    notifyPhysicalSelect();
+                    break;
+                case SPECIAL_ID:
+                    notifySpecialSelect();
+                    break;
+                case ITEMS_ID:
+                    notifyItemSelect();
+                    mItemRoot->setVisible(false);
+                    break;
+                default:
+                    break;
+            }
+            dequeueActiveCharacter();
+            setTargetArrowVisible(targetParty.at(activeTarget), false);
+            activeTarget = 0;
+            mActionOptions[mActionOptionFocused]->hide();
+            mActionOptionFocused = 0;
+            mActionOptions[0]->show();
+            mActionOptions[0]->activate();
+            switchToActionMenu(); 
+            break;
+        case OIS::KC_TAB:
+            notifyCharacterCycle();
+            cycleTargetCharacter();
+            break;
+        default:
+            break;
+    }
+}
+
+void HUD::injectKeyGameOver(const OIS::KeyEvent& arg) {
+    if (arg.key == OIS::KC_RETURN) {
+        mEndStateRoot->hide();
+        if (mPlayAgainOptionFocused) {
+            notifyPlayAgain();
+            switchToActionMenu();
         }
-        else if (arg.key == OIS::KC_UP || arg.key == OIS::KC_DOWN) {
-            mPlayAgainOptionFocused = !mPlayAgainOptionFocused;
-            mEndStateRoot->getChild("PlayAgain_select")->setVisible(mPlayAgainOptionFocused);
-            mEndStateRoot->getChild("Quit_select")->setVisible(!mPlayAgainOptionFocused);
+        else {
+            notifyQuit();
+            switchToActionMenu();
         }
+    }
+    else if (arg.key == OIS::KC_UP || arg.key == OIS::KC_DOWN) {
+        mPlayAgainOptionFocused = !mPlayAgainOptionFocused;
+        mEndStateRoot->getChild("PlayAgain_select")->setVisible(mPlayAgainOptionFocused);
+        mEndStateRoot->getChild("Quit_select")->setVisible(!mPlayAgainOptionFocused);
     }
 }
 

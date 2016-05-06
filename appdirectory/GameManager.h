@@ -50,6 +50,7 @@ private:
     std::set<int> party;
 
     CEGUI::Window* mRoot;
+    CEGUI::Window* charRoot;
 
     // Sound System goes here
 

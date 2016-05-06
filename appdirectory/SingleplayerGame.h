@@ -21,10 +21,11 @@ class SingleplayerGame : public BaseGame,
 public:
     SingleplayerGame(RenderingEngine* renderer, GUISystem* gui, PlayerBank* playerBank, SoundBank* soundBank);
     virtual ~SingleplayerGame(void);
-    bool go(void);
+    bool go(std::vector<std::string> v);
+
 
 private:
-    void createScene(void);
+    void createScene(std::vector<std::string> v);
     void destroyScene(void);
     void initGUI(void);
     bool frameRenderingQueued(const Ogre::FrameEvent& evt);

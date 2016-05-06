@@ -46,14 +46,16 @@ bool GameManager::runGame(void) {
     
     mRoot = wmgr.loadLayoutFromFile("character_select.layout");
     charRoot = mRoot->getChild("CharacterSelect_Frame");
-    auto instructionRoot = mRoot->getChild("Instruction_Frame");
-    instructionRoot->hide();
     mGUI->addAndSetWindowGroup("charSelect", mRoot);
 
-    charRoot->getChild("ConfirmButton")->setEnabled(false);
-    charRoot->getChild("ConfirmButton")->setText("Select 3 Fighters");
-    charRoot->getChild("ConfirmButton")->subscribeEvent(CEGUI::PushButton::EventClicked,
+    auto confirmButton = charRoot->getChild("ConfirmButton");
+    confirmButton->setEnabled(false);
+    confirmButton->setText("Select 3 Fighters");
+    confirmButton->subscribeEvent(CEGUI::PushButton::EventClicked,
         CEGUI::Event::Subscriber(&GameManager::guiCbConfirmButton, this));
+
+    charRoot->getChild("InstructionButton")->subscribeEvent(CEGUI::PushButton::EventClicked,
+            CEGUI::Event::Subscriber(&GameManager::guiCbShowInstructions, this));
 
     possible_players.push_back(mPlayerBank.getPlayerInfo("Cannibal Corpse"));
     possible_players.push_back(mPlayerBank.getPlayerInfo("Spooky Boo"));
@@ -96,6 +98,11 @@ bool GameManager::runGame(void) {
         frame->getChild("Value_Armor")->setText(std::to_string(info.armor));
         frame->getChild("Value_Accuracy")->setText(std::to_string((int)(info.accuracy * 100)) + "%");
     }
+
+    instructionRoot = mRoot->getChild("Instruction_Frame");
+    instructionRoot->getChild("BackButton")->subscribeEvent(CEGUI::PushButton::EventClicked,
+            CEGUI::Event::Subscriber(&GameManager::guiCbReturnToSelectScreen, this));
+    instructionRoot->hide();
 
     //create FrameListener
     Ogre::LogManager::getSingletonPtr()->logMessage("*** Initializing OIS ***");
@@ -262,5 +269,17 @@ bool GameManager::guiCbConfirmButton(const CEGUI::EventArgs& e) {
 
 bool GameManager::guiCbQuit(const CEGUI::EventArgs& e) {
     mShutDown = true;
+    return true;
+}
+
+bool GameManager::guiCbReturnToSelectScreen(const CEGUI::EventArgs& e) {
+    instructionRoot->hide();
+    charRoot->show();
+    return true;
+}
+
+bool GameManager::guiCbShowInstructions(const CEGUI::EventArgs& e) {
+    charRoot->hide();
+    instructionRoot->show();
     return true;
 }

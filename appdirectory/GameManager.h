@@ -29,6 +29,8 @@ private:
     bool guiCbClickFrame(const CEGUI::EventArgs& e);
     bool guiCbConfirmButton(const CEGUI::EventArgs& e);
     bool guiCbQuit(const CEGUI::EventArgs& e);
+    bool guiCbReturnToSelectScreen(const CEGUI::EventArgs& e);
+    bool guiCbShowInstructions(const CEGUI::EventArgs& e);
 
     virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
     virtual bool keyPressed( const OIS::KeyEvent &arg );
@@ -51,6 +53,7 @@ private:
 
     CEGUI::Window* mRoot;
     CEGUI::Window* charRoot;
+    CEGUI::Window* instructionRoot;
 
     // Sound System goes here
 

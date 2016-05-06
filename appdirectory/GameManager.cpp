@@ -43,22 +43,51 @@ bool GameManager::runGame(void) {
         .setDefaultImage("WindowsLook/MouseArrow");
 
     CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
-    CEGUI::Window* StartupMenuGUI = wmgr.createWindow("DefaultWindow", "StartMenuGUI/Win");
-    CEGUI::Window* spLauncher = wmgr.createWindow("WindowsLook/Button",
-            "StartMenuGUI/spLauncherButton");
-    spLauncher->setText("Launch");
-    spLauncher->setSize(CEGUI::USize(CEGUI::UDim(0.15, 0), CEGUI::UDim(0.05, 0)));
-    spLauncher->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5, 0), CEGUI::UDim(0.5, 0)));
-    StartupMenuGUI->addChild(spLauncher);
-    spLauncher->subscribeEvent(CEGUI::PushButton::EventClicked,
-            CEGUI::Event::Subscriber(&GameManager::guiCbInitSinglePlayer, this));
-    CEGUI::Window* quit = wmgr.createWindow("WindowsLook/Button", "StartMenuGUI/QuitButton");
-    quit->setText("Quit");
-    quit->setSize(CEGUI::USize(CEGUI::UDim(0.15, 0), CEGUI::UDim(0.05, 0)));
-    StartupMenuGUI->addChild(quit);
-    quit->subscribeEvent(CEGUI::PushButton::EventClicked,
-            CEGUI::Event::Subscriber(&GameManager::guiCbQuit, this));
-    mGUI->addAndSetWindowGroup("StartMenuGUI", StartupMenuGUI);
+    
+    auto root = wmgr.loadLayoutFromFile("character_select.layout");
+    mGUI->addAndSetWindowGroup("charSelect", root);
+
+    possible_players.push_back(mPlayerBank.getPlayerInfo("Cannibal Corpse"));
+    possible_players.push_back(mPlayerBank.getPlayerInfo("Spooky Boo"));
+    possible_players.push_back(mPlayerBank.getPlayerInfo("Rattlebones"));
+    possible_players.push_back(mPlayerBank.getPlayerInfo("Goldilocks"));
+    possible_players.push_back(mPlayerBank.getPlayerInfo("Legs"));
+    possible_players.push_back(mPlayerBank.getPlayerInfo("Jigbert"));
+    possible_players.push_back(mPlayerBank.getPlayerInfo("DJ Du$ty"));
+    possible_players.push_back(mPlayerBank.getPlayerInfo("Marshall"));
+    possible_players.push_back(mPlayerBank.getPlayerInfo("Babe Ruth"));
+
+    std::vector<CEGUI::Window*> frames;
+    frames.push_back(root->getChild("FrameColourRect0x0"));
+    frames.push_back(root->getChild("FrameColourRect0x1"));
+    frames.push_back(root->getChild("FrameColourRect0x2"));
+    frames.push_back(root->getChild("FrameColourRect1x0"));
+    frames.push_back(root->getChild("FrameColourRect1x1"));
+    frames.push_back(root->getChild("FrameColourRect1x2"));
+    frames.push_back(root->getChild("FrameColourRect2x0"));
+    frames.push_back(root->getChild("FrameColourRect2x1"));
+    frames.push_back(root->getChild("FrameColourRect2x2"));
+
+    for (int i = 0; i < 9; i++) {
+        frames[i]->getChild("Image_Portrait")->subscribeEvent(CEGUI::Window::EventMouseClick,
+            CEGUI::Event::Subscriber(&GameManager::guiCbClickFrame, this));
+        frames[i]->getChild("Image_Portrait")->setID(i);
+    }
+    
+    for(int i = 0; i < 9; ++i) {
+        const PlayerInfo& info = possible_players[i];
+        CEGUI::Window* frame = frames[i]; 
+
+        frame->getChild("Label_Name")->setText(info.name);
+        frame->getChild("Image_Portrait")->setProperty("Image", info.img);
+        std::string hpText = std::to_string(info.health) + "/" + std::to_string(info.healthMax);
+        frame->getChild("Value_HP")->setText(hpText);
+        std::string spText = std::to_string(info.specialPoints) + "/" + std::to_string(info.specialPointsMax);
+        frame->getChild("Value_SP")->setText(spText);
+        frame->getChild("Value_Damage")->setText(std::to_string(info.damage));
+        frame->getChild("Value_Armor")->setText(std::to_string(info.armor));
+        frame->getChild("Value_Accuracy")->setText(std::to_string((int)(info.accuracy * 100)) + "%");
+    }
 
     //create FrameListener
     Ogre::LogManager::getSingletonPtr()->logMessage("*** Initializing OIS ***");
@@ -173,11 +202,21 @@ void GameManager::closeGame(void) {
 }
 
 // STARTUP MENU CALLBACKS
-bool GameManager::guiCbInitSinglePlayer(const CEGUI::EventArgs& e) {
-    if (mGame != nullptr) delete mGame;
-    mGame = new SingleplayerGame(mRenderer, mGUI, &mPlayerBank, &mSoundBank);
-    mGame->go();
-    CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor().hide();
+bool GameManager::guiCbClickFrame(const CEGUI::EventArgs& e) {
+    CEGUI::Window* w = static_cast<const CEGUI::WindowEventArgs&>(e).window;
+    std::cout << w->getID() << std::endl;
+
+    auto i = party.find(w->getID());
+    if (i != party.end())
+        party.erase(i);
+    else if (party.size() < 3)
+        party.insert(w->getID());
+
+    std::cout << "[";
+    for(auto e : party) {
+        std::cout << e << ", ";
+    }
+    std::cout << "]" << std::endl;
     return true;
 }
 

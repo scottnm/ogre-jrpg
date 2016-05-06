@@ -12,6 +12,8 @@
 #include <CEGUI/CEGUI.h>
 #include <CEGUI/RendererModules/Ogre/Renderer.h>
 
+#include <set>
+
 class GameManager : public Ogre::FrameListener,
                     public Ogre::WindowEventListener,
                     public OIS::KeyListener,
@@ -24,7 +26,7 @@ public:
 private:
     void closeGame(void);
 
-    bool guiCbInitSinglePlayer(const CEGUI::EventArgs& e);
+    bool guiCbClickFrame(const CEGUI::EventArgs& e);
     bool guiCbQuit(const CEGUI::EventArgs& e);
 
     virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
@@ -42,7 +44,9 @@ private:
     PlayerBank mPlayerBank;
     BaseGame* mGame;
     bool mShutDown;
-    
+    std::vector<PlayerInfo> possible_players;
+    std::set<int> party;
+
     // Sound System goes here
 
     // OIS Input devices

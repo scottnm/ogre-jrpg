@@ -169,6 +169,7 @@ void GameManager::closeGame(void) {
     delete mGame;
     mGame = nullptr;
     mGUI->switchToWindowGroup("StartMenuGUI");
+    CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor().show();
 }
 
 // STARTUP MENU CALLBACKS
@@ -176,6 +177,7 @@ bool GameManager::guiCbInitSinglePlayer(const CEGUI::EventArgs& e) {
     if (mGame != nullptr) delete mGame;
     mGame = new SingleplayerGame(mRenderer, mGUI, &mPlayerBank, &mSoundBank);
     mGame->go();
+    CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor().hide();
     return true;
 }
 

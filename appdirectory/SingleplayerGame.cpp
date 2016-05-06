@@ -155,6 +155,7 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
         if (activeEnemy < enemyPartyAlive.size()) {
             if(!enemyPartyAlive.at(activeEnemy)->isDead()) {
                 // placeholder enemy action
+                /*
                 int actionOptions = 0;
                 if(enemyPartyAlive.at(activeEnemy)->info().specialPoints > 0) {
                     actionOptions = 3;
@@ -162,14 +163,17 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
                 else {
                     actionOptions = 2;
                 }
+                */
                 srand(time(&timer));
-                int randomAction = rand() % actionOptions;
+                //int randomAction = rand() % actionOptions;
                 int randomTarget = rand() % myPartyAlive.size();
                 Player* target = myPartyAlive.at(randomTarget);
                 while(target->isDead()) {
                     randomTarget = rand() % myPartyAlive.size();
                     target = myPartyAlive.at(randomTarget);
                 }
+                onHUDPhysicalSelect(enemyPartyAlive.at(activeEnemy), target);
+                /*
                 switch(randomAction) {
                     case 0:
                         onHUDGuardSelect(enemyPartyAlive.at(activeEnemy));
@@ -193,6 +197,7 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
                     default:
                         break;
                 }
+                */
             }
             ++activeEnemy;
         }

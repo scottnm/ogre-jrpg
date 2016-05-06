@@ -41,8 +41,12 @@ public:
     void refocusAfterCharacterDeath(void);
     void alertGameOver(bool userWins);
 
-
 private:
+    void injectKeyActionMenu(const OIS::KeyEvent& arg);
+    void injectKeyItemMenu(const OIS::KeyEvent& arg);
+    void injectKeyTargetMenu(const OIS::KeyEvent& arg);
+    void injectKeyGameOver(const OIS::KeyEvent& arg);
+
     void switchToItemMenu(void);
     void switchToActionMenu(void);
     void switchToTargetMenu(void);

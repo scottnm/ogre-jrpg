@@ -27,7 +27,7 @@ SingleplayerGame::~SingleplayerGame(void) {
     mRenderer->mRoot->removeFrameListener(this);
 }
 
-void SingleplayerGame::createScene(void){
+void SingleplayerGame::createScene(std::vector<std::string> partyNames){
     auto scnMgr = mRenderer->mSceneManager;
     auto root = scnMgr->getRootSceneNode();
     Ogre::Camera* camera = mRenderer->mCamera;
@@ -50,17 +50,17 @@ void SingleplayerGame::createScene(void){
 
     // Add test objects
     Player* p = new Player(scnMgr, mRoomRoot,
-            mPlayerBank->getPlayerInfo("Cannibal Corpse"),
+            mPlayerBank->getPlayerInfo(partyNames[0]),
             Ogre::Vector3(500, 0, 200), mSoundBank);
     myParty.push_back(p);
 
     Player* p2 = new Player(scnMgr, mRoomRoot,
-            mPlayerBank->getPlayerInfo("Spooky Boo"),
+            mPlayerBank->getPlayerInfo(partyNames[1]),
             Ogre::Vector3(500, 0, 0), mSoundBank);
     myParty.push_back(p2);
 
     Player* p3 = new Player(scnMgr, mRoomRoot,
-            mPlayerBank->getPlayerInfo("Rattlebones"),
+            mPlayerBank->getPlayerInfo(partyNames[2]),
             Ogre::Vector3(500, 0, -200), mSoundBank);
     myParty.push_back(p3);
     
@@ -104,10 +104,10 @@ void SingleplayerGame::initGUI(void)
             enemyPartyAlive, myPartyWaiting, mInventory);
 }
 
-bool SingleplayerGame::go(void)
+bool SingleplayerGame::go(std::vector<std::string> pn)
 {
     // Create the scene
-    createScene();
+    createScene(pn);
     myPartyAlive = myParty;
     myPartyWaiting = myParty;
     enemyPartyAlive = enemyParty;

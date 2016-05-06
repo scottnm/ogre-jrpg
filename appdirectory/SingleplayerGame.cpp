@@ -190,7 +190,6 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
                     randomTarget = rand() % myPartyAlive.size();
                     target = myPartyAlive.at(randomTarget);
                 }
-                onHUDPhysicalSelect(enemyPartyAlive.at(activeEnemy), target);
                 switch(randomAction) {
                     case 0:
                         onHUDGuardSelect(enemyPartyAlive.at(activeEnemy));

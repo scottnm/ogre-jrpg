@@ -141,6 +141,26 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
         return true;
     }
 
+    mHUD->update();
+    clearDeadCharacters();
+
+    if (myPartyAlive.empty() || enemyPartyAlive.empty()) {
+
+        mGameOver = true;
+
+        // throw up lose game gui
+        mHUD->alertGameOver(enemyPartyAlive.empty());
+        if (enemyPartyAlive.empty()) {
+            mHUD->alertGameOver(true);
+            mSoundBank->play("game_win_fx");
+        }
+        else {
+            mHUD->alertGameOver(false);
+            mSoundBank->play("game_lose_fx");
+        }
+        return true;
+    }
+
     mRenderer->mCamera->setPosition(cameraInitialPosition);
     mRenderer->mCamera->lookAt(cameraInitialLookAt);
 
@@ -155,7 +175,6 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
         if (activeEnemy < enemyPartyAlive.size()) {
             if(!enemyPartyAlive.at(activeEnemy)->isDead()) {
                 // placeholder enemy action
-                /*
                 int actionOptions = 0;
                 if(enemyPartyAlive.at(activeEnemy)->info().specialPoints > 0) {
                     actionOptions = 3;
@@ -163,9 +182,8 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
                 else {
                     actionOptions = 2;
                 }
-                */
                 srand(time(&timer));
-                //int randomAction = rand() % actionOptions;
+                int randomAction = rand() % actionOptions;
                 int randomTarget = rand() % myPartyAlive.size();
                 Player* target = myPartyAlive.at(randomTarget);
                 while(target->isDead()) {
@@ -173,7 +191,6 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
                     target = myPartyAlive.at(randomTarget);
                 }
                 onHUDPhysicalSelect(enemyPartyAlive.at(activeEnemy), target);
-                /*
                 switch(randomAction) {
                     case 0:
                         onHUDGuardSelect(enemyPartyAlive.at(activeEnemy));
@@ -197,7 +214,6 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
                     default:
                         break;
                 }
-                */
             }
             ++activeEnemy;
         }
@@ -209,24 +225,6 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
         }
     }
 
-    mHUD->update();
-    clearDeadCharacters();
-
-    if (myPartyAlive.empty() || enemyPartyAlive.empty()) {
-
-        mGameOver = true;
-
-        // throw up lose game gui
-        mHUD->alertGameOver(enemyPartyAlive.empty());
-        if (enemyPartyAlive.empty()) {
-            mHUD->alertGameOver(true);
-            mSoundBank->play("game_win_fx");
-        }
-        else {
-            mHUD->alertGameOver(false);
-            mSoundBank->play("game_lose_fx");
-        }
-    }
 
     return true;
 }
@@ -422,6 +420,28 @@ void SingleplayerGame::onHUDOptionSelect(void) {
 
 void SingleplayerGame::onHUDNavigation(void) {
     mSoundBank->play("option_nav_fx");
+}
+
+void SingleplayerGame::onHUDPlayAgain() {
+    // reset game state, i.e. iterate over each player reseting hp, sp, and then reset HUD
+    for (Player* p : myParty) {
+        p->reset();
+        p->mAnimationController->runIdleAnimation();
+    }
+    myPartyAlive = myParty;
+    myPartyWaiting = myParty;
+
+    for (Player* p : enemyParty) {
+        p->reset();
+        p->mAnimationController->runIdleAnimation();
+    }
+    enemyPartyAlive = enemyParty;
+
+    mGameOver = false;
+    playerTurn = true;
+
+    mHUD->update();
+    mInventory.reset();
 }
 
 void SingleplayerGame::onHUDPlayNext() {

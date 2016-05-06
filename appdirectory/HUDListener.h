@@ -12,6 +12,7 @@ public:
     virtual void onHUDCycleCharacter() = 0;
     virtual void onHUDOptionSelect() = 0;
     virtual void onHUDNavigation() = 0;
+    virtual void onHUDPlayAgain() = 0;
     virtual void onHUDPlayNext() = 0;
     virtual void onHUDQuit() = 0;
 };

@@ -323,7 +323,7 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
             if (arg.key == OIS::KC_RETURN) {
                 mEndStateRoot->hide();
                 if (mPlayNextOptionFocused) {
-                    notifyPlayNext();
+                    notifyPlayAgain();
                     switchToActionMenu();
                 }
                 else {
@@ -383,9 +383,13 @@ void HUD::refocusAfterCharacterDeath(void) {
         charSelected->setProperty("Colour",
             "tl:0000000 tr:00000000 bl:00000000 br:00000000");
     }
-    else {
+    else if (myPartyWaiting.size() > 0) {
         myPartyFocused = std::min(myPartyFocused, myPartyWaiting.size());
         updateFocusedCharacter(myPartyWaiting.at(myPartyFocused));
+    }
+    else {
+        myPartyFocused = 0;
+        updateFocusedCharacter(myParty.at(0));
     }
 }
 
@@ -529,6 +533,10 @@ void HUD::notifyHUDOptionSelect(void) {
 
 void HUD::notifyHUDNavigation(void) {
     mListener->onHUDNavigation();
+}
+
+void HUD::notifyPlayAgain(void) {
+    mListener->onHUDPlayAgain();
 }
 
 void HUD::notifyPlayNext(void) {

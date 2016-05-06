@@ -1,0 +1,16 @@
+material healthbar 
+{
+    technique
+    {
+       pass
+        {
+          scene_blend src_alpha src_alpha 
+          depth_write off
+          texture_unit
+          {
+            texture healthbar.png
+          }
+       }   
+    }
+}
+

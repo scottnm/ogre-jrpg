@@ -63,7 +63,11 @@ public:
     std::vector<Player*> enemyParty;
     std::vector<Player*> enemyPartyAlive;
     std::vector<Player*> myPartyWaiting;
-    Inventory inventory;
+    std::vector<Ogre::Vector3> partyCameraPositions;
+    std::vector<Ogre::Vector3> enemyCameraPositions;
+    Ogre::Vector3 cameraInitialPosition;
+    Ogre::Vector3 cameraInitialLookAt;
+    Inventory mInventory;
 
     std::vector<std::string> windowNames;
 

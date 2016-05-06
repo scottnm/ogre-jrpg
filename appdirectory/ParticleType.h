@@ -3,13 +3,13 @@
 
 #include <stddef.h> // for size_t
 
-enum class ParticleType {
-    Guard = 0,
-    Item,
-    Physical,
-    Fire,
-    Ice,
-    Flare 
+enum ParticleType {
+    PT_Guard = 0,
+    PT_Item,
+    PT_Physical,
+    PT_Fire,
+    PT_Ice,
+    PT_Flare
 };
 
 typedef struct ParticleTypeHash {

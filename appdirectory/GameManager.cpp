@@ -230,6 +230,8 @@ bool GameManager::guiCbClickFrame(const CEGUI::EventArgs& e) {
         mRoot->getChild("ConfirmButton")->setEnabled(false);
         mRoot->getChild("ConfirmButton")->setText("Select 3 Fighters");
     }
+
+    mSoundBank.play("hud_cycle_fx");
     return true;
 }
 
@@ -249,7 +251,7 @@ bool GameManager::guiCbConfirmButton(const CEGUI::EventArgs& e) {
 
         mGame->go(playerNames);
         CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor().hide();
-        return true;
+        mSoundBank.play("option_select_fx");
     }
 
     return true;

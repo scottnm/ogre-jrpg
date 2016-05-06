@@ -45,6 +45,7 @@ bool GameManager::runGame(void) {
     CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
     
     auto root = wmgr.loadLayoutFromFile("character_select.layout");
+    auto charRoot = root->getChild("FrameColourRect");
     mGUI->addAndSetWindowGroup("charSelect", root);
 
     possible_players.push_back(mPlayerBank.getPlayerInfo("Cannibal Corpse"));
@@ -58,15 +59,15 @@ bool GameManager::runGame(void) {
     possible_players.push_back(mPlayerBank.getPlayerInfo("Babe Ruth"));
 
     std::vector<CEGUI::Window*> frames;
-    frames.push_back(root->getChild("FrameColourRect0x0"));
-    frames.push_back(root->getChild("FrameColourRect0x1"));
-    frames.push_back(root->getChild("FrameColourRect0x2"));
-    frames.push_back(root->getChild("FrameColourRect1x0"));
-    frames.push_back(root->getChild("FrameColourRect1x1"));
-    frames.push_back(root->getChild("FrameColourRect1x2"));
-    frames.push_back(root->getChild("FrameColourRect2x0"));
-    frames.push_back(root->getChild("FrameColourRect2x1"));
-    frames.push_back(root->getChild("FrameColourRect2x2"));
+    frames.push_back(charRoot->getChild("FrameColourRect0x0"));
+    frames.push_back(charRoot->getChild("FrameColourRect0x1"));
+    frames.push_back(charRoot->getChild("FrameColourRect0x2"));
+    frames.push_back(charRoot->getChild("FrameColourRect1x0"));
+    frames.push_back(charRoot->getChild("FrameColourRect1x1"));
+    frames.push_back(charRoot->getChild("FrameColourRect1x2"));
+    frames.push_back(charRoot->getChild("FrameColourRect2x0"));
+    frames.push_back(charRoot->getChild("FrameColourRect2x1"));
+    frames.push_back(charRoot->getChild("FrameColourRect2x2"));
 
     for (int i = 0; i < 9; i++) {
         frames[i]->getChild("Image_Portrait")->subscribeEvent(CEGUI::Window::EventMouseClick,

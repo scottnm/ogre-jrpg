@@ -44,9 +44,14 @@ bool GameManager::runGame(void) {
 
     CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
     
-    auto root = wmgr.loadLayoutFromFile("character_select.layout");
-    auto charRoot = root->getChild("FrameColourRect");
-    mGUI->addAndSetWindowGroup("charSelect", root);
+    mRoot = wmgr.loadLayoutFromFile("character_select.layout");
+    auto charRoot = mRoot->getChild("FrameColourRect");
+    mGUI->addAndSetWindowGroup("charSelect", mRoot);
+
+    mRoot->getChild("ConfirmButton")->setEnabled(false);
+    mRoot->getChild("ConfirmButton")->setText("Select 3 Fighters");
+    mRoot->getChild("ConfirmButton")->subscribeEvent(CEGUI::PushButton::EventClicked,
+        CEGUI::Event::Subscriber(&GameManager::guiCbConfirmButton, this));
 
     possible_players.push_back(mPlayerBank.getPlayerInfo("Cannibal Corpse"));
     possible_players.push_back(mPlayerBank.getPlayerInfo("Spooky Boo"));
@@ -58,7 +63,6 @@ bool GameManager::runGame(void) {
     possible_players.push_back(mPlayerBank.getPlayerInfo("Marshall"));
     possible_players.push_back(mPlayerBank.getPlayerInfo("Babe Ruth"));
 
-    std::vector<CEGUI::Window*> frames;
     frames.push_back(charRoot->getChild("FrameColourRect0x0"));
     frames.push_back(charRoot->getChild("FrameColourRect0x1"));
     frames.push_back(charRoot->getChild("FrameColourRect0x2"));
@@ -208,16 +212,47 @@ bool GameManager::guiCbClickFrame(const CEGUI::EventArgs& e) {
     std::cout << w->getID() << std::endl;
 
     auto i = party.find(w->getID());
-    if (i != party.end())
+    if (i != party.end()) {
         party.erase(i);
-    else if (party.size() < 3)
+        frames[w->getID()]->setProperty("Colour",
+            "tl:00000000 tr:00000000 bl:00000000 br:00000000");
+    }
+    else if (party.size() < 3) {
         party.insert(w->getID());
+        frames[w->getID()]->setProperty("Colour",
+            "tl:FFFF0000 tr:FFFF0000 bl:FFFF0000 br:FFFF0000");
+    }
+
+    if (party.size() == 3) {
+        mRoot->getChild("ConfirmButton")->setEnabled(true);
+        mRoot->getChild("ConfirmButton")->setText("Fight!");
+    }
+    else {
+        mRoot->getChild("ConfirmButton")->setEnabled(false);
+        mRoot->getChild("ConfirmButton")->setText("Select 3 Fighters");
+    }
 
     std::cout << "[";
     for(auto e : party) {
         std::cout << e << ", ";
     }
     std::cout << "]" << std::endl;
+    return true;
+}
+
+bool GameManager::guiCbConfirmButton(const CEGUI::EventArgs& e) {
+    if (party.size() == 3) {
+        if (mGame != nullptr) delete mGame;
+        mGame = new SingleplayerGame(mRenderer, mGUI, &mPlayerBank, &mSoundBank);
+        std::vector<std::string> playerNames;
+        for(auto e : party) {
+            playerNames.push_back(possible_players[e].name);
+        }
+        mGame->go(playerNames);
+        CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor().hide();
+        return true;
+    }
+
     return true;
 }
 

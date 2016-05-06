@@ -27,6 +27,7 @@ private:
     void closeGame(void);
 
     bool guiCbClickFrame(const CEGUI::EventArgs& e);
+    bool guiCbConfirmButton(const CEGUI::EventArgs& e);
     bool guiCbQuit(const CEGUI::EventArgs& e);
 
     virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
@@ -45,7 +46,10 @@ private:
     BaseGame* mGame;
     bool mShutDown;
     std::vector<PlayerInfo> possible_players;
+    std::vector<CEGUI::Window*> frames;
     std::set<int> party;
+
+    CEGUI::Window* mRoot;
 
     // Sound System goes here
 

@@ -37,7 +37,7 @@
             <name>Mecha-Scoot</name>
             <img>CharacterProfiles/CannibalCorpse</img>
             <mesh>ninja</mesh>
-            <material>NinjaSkins/04</material>
+            <material>NinjaSkins/08</material>
             <health>15</health>
             <special>2</special>
             <damage>7</damage>
@@ -48,7 +48,7 @@
             <name>SSJVirginia</name>
             <img>CharacterProfiles/CannibalCorpse</img>
             <mesh>ninja</mesh>
-            <material>NinjaSkins/07</material>
+            <material>NinjaSkins/09</material>
             <health>15</health>
             <special>2</special>
             <damage>7</damage>
@@ -59,7 +59,7 @@
             <name>Metal Scoot</name>
             <img>CharacterProfiles/CannibalCorpse</img>
             <mesh>ninja</mesh>
-            <material>NinjaSkins/09</material>
+            <material>NinjaSkins/10</material>
             <health>15</health>
             <special>2</special>
             <damage>7</damage>
@@ -70,67 +70,67 @@
             <name>Babe Ruth</name>
             <img>CharacterProfiles/BabeRuth</img>
             <mesh>ninja</mesh>
-            <material>NinjaSkins/09</material>
-            <health>15</health>
-            <special>2</special>
-            <damage>7</damage>
-            <armor>5</armor>
-            <accuracy>0.80</accuracy>
+            <material>NinjaSkins/03</material>
+            <health>18</health>
+            <special>3</special>
+            <damage>5</damage>
+            <armor>7</armor>
+            <accuracy>0.55</accuracy>
         </character>
         <character>
             <name>Goldilocks</name>
             <img>CharacterProfiles/Goldilocks</img>
             <mesh>ninja</mesh>
-            <material>NinjaSkins/09</material>
-            <health>10</health>
-            <special>4</special>
-            <damage>10</damage>
-            <armor>2</armor>
-            <accuracy>0.90</accuracy>
+            <material>NinjaSkins/04</material>
+            <health>12</health>
+            <special>1</special>
+            <damage>6</damage>
+            <armor>1</armor>
+            <accuracy>0.95</accuracy>
         </character>
         <character>
             <name>Legs</name>
             <img>CharacterProfiles/Legs</img>
             <mesh>ninja</mesh>
-            <material>NinjaSkins/09</material>
-            <health>20</health>
-            <special>1</special>
-            <damage>4</damage>
-            <armor>10</armor>
-            <accuracy>0.70</accuracy>
+            <material>NinjaSkins/05</material>
+            <health>25</health>
+            <special>3</special>
+            <damage>8</damage>
+            <armor>0</armor>
+            <accuracy>0.50</accuracy>
         </character>
         <character>
             <name>Jigbert</name>
             <img>CharacterProfiles/Jigbert</img>
             <mesh>ninja</mesh>
-            <material>NinjaSkins/09</material>
-            <health>15</health>
-            <special>2</special>
-            <damage>7</damage>
-            <armor>5</armor>
-            <accuracy>0.80</accuracy>
+            <material>NinjaSkins/06</material>
+            <health>13</health>
+            <special>3</special>
+            <damage>6</damage>
+            <armor>4</armor>
+            <accuracy>0.75</accuracy>
         </character>
         <character>
             <name>DJ Du$ty</name>
             <img>CharacterProfiles/DjDusty</img>
             <mesh>ninja</mesh>
-            <material>NinjaSkins/09</material>
-            <health>10</health>
-            <special>4</special>
-            <damage>10</damage>
-            <armor>2</armor>
-            <accuracy>0.90</accuracy>
+            <material>NinjaSkins/07</material>
+            <health>15</health>
+            <special>2</special>
+            <damage>6</damage>
+            <armor>9</armor>
+            <accuracy>0.85</accuracy>
         </character>
         <character>
             <name>Marshall</name>
             <img>CharacterProfiles/Marshall</img>
             <mesh>ninja</mesh>
-            <material>NinjaSkins/09</material>
-            <health>20</health>
-            <special>1</special>
-            <damage>4</damage>
-            <armor>10</armor>
-            <accuracy>0.70</accuracy>
+            <material>NinjaSkins/08</material>
+            <health>10</health>
+            <special>0</special>
+            <damage>7</damage>
+            <armor>2</armor>
+            <accuracy>1.00</accuracy>
         </character>
     </characters>
 </characterDatabase>

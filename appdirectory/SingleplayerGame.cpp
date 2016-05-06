@@ -16,7 +16,7 @@ http://www.ogre3d.org/tikiwiki/tiki-index.php?page=MinimalOgre-cpp
 SingleplayerGame::SingleplayerGame(RenderingEngine* renderer, GUISystem* gui,
     PlayerBank* playerBank, SoundBank* soundBank)
     : BaseGame(renderer, gui, playerBank), mGameOver(false), mAttackRunning(false),
-      mSoundBank(soundBank), playerTurn(true), activeEnemy(0) {
+      mSoundBank(soundBank), playerTurn(true), activeEnemy(0), mWaveCnt(1) {
 }
 
 SingleplayerGame::~SingleplayerGame(void) {
@@ -439,6 +439,9 @@ void SingleplayerGame::onHUDPlayAgain() {
 
     mHUD->update();
     mInventory.reset();
+
+    mWaveCnt = 1;
+    mHUD->updateWaveCounter(mWaveCnt);
 }
 
 void SingleplayerGame::onHUDPlayNext() {
@@ -455,6 +458,7 @@ void SingleplayerGame::onHUDPlayNext() {
     playerTurn = true;
 
     mHUD->update();
+    mHUD->updateWaveCounter(++mWaveCnt);
 }
 
 void SingleplayerGame::onHUDQuit() {

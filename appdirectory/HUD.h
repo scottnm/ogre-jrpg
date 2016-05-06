@@ -41,6 +41,7 @@ public:
     void update(void);
     void refocusAfterCharacterDeath(void);
     void alertGameOver(bool userWins);
+    void updateWaveCounter(int wave);
 
 
 private:

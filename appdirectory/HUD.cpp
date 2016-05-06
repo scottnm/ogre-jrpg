@@ -553,3 +553,8 @@ std::vector<Player*>& HUD::getTargetParty(void) {
         myParty : enemyParty;
 }
 
+void HUD::updateWaveCounter(int wave) {
+    mRoot->getChild("WaveInfo_Frame")->getChild("Counter_Label")->
+        setText(to_string(wave));
+}
+

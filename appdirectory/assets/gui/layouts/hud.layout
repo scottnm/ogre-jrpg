@@ -498,5 +498,22 @@
                 <Property name="Visible" value="false" />
             </Window>
         </Window>
+        <Window type="Vanilla/FrameColourRect" name="WaveInfo_Frame" >
+            <Property name="Area" value="{{0.8,0},{0,0},{1,0},{0.075,0}}" />
+            <Property name="Colour" value="tl:C8000000 tr:C8000000 bl:C8000000 br:C8000000" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            <Window type="Vanilla/Label" name="Title_Label" >
+                <Property name="Area" value="{{0,0},{0,0},{0.6,0},{1,0}}" />
+                <Property name="Font" value="Jura-18" />
+                <Property name="Text" value="Wave:" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            </Window>
+            <Window type="Vanilla/Label" name="Counter_Label" >
+                <Property name="Area" value="{{0.6,0},{0,-2},{1,0},{1,-2}}" />
+                <Property name="Font" value="Jura-18" />
+                <Property name="Text" value="1" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            </Window>
+        </Window>
     </Window>
 </GUILayout>

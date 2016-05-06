@@ -13,6 +13,7 @@ cd appdirectory
 * UP/DOWN/LEFT/RIGHT - navigate the menus
 * ENTER - select actions
 * TAB - cycle your party or targets
+* Q - exit out of targeting mode
 * ESC - quit games
 
 ## Credits & Contributions

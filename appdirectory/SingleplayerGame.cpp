@@ -182,7 +182,6 @@ bool SingleplayerGame::frameRenderingQueued(const Ogre::FrameEvent& evt)
                 else {
                     actionOptions = 2;
                 }
-                srand(time(&timer));
                 int randomAction = rand() % actionOptions;
                 int randomTarget = rand() % myPartyAlive.size();
                 Player* target = myPartyAlive.at(randomTarget);
@@ -328,7 +327,6 @@ void SingleplayerGame::onHUDSpecialSelect(Player* attacker, Player* target) {
     attacker->mAnimationController->runAnimation(AnimationType::Special, cb);
 
     // prep particles
-    srand(time(&timer));
     int randNum = rand() % 3;
     std::string sfx;
     ParticleType pt;

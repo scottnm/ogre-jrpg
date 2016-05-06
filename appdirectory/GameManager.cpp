@@ -230,12 +230,6 @@ bool GameManager::guiCbClickFrame(const CEGUI::EventArgs& e) {
         mRoot->getChild("ConfirmButton")->setEnabled(false);
         mRoot->getChild("ConfirmButton")->setText("Select 3 Fighters");
     }
-
-    std::cout << "[";
-    for(auto e : party) {
-        std::cout << e << ", ";
-    }
-    std::cout << "]" << std::endl;
     return true;
 }
 
@@ -246,7 +240,13 @@ bool GameManager::guiCbConfirmButton(const CEGUI::EventArgs& e) {
         std::vector<std::string> playerNames;
         for(auto e : party) {
             playerNames.push_back(possible_players[e].name);
+            frames[e]->setProperty("Colour",
+                "tl:00000000 tr:00000000 bl:00000000 br:00000000");
         }
+        mRoot->getChild("ConfirmButton")->setEnabled(false);
+        mRoot->getChild("ConfirmButton")->setText("Select 3 Fighters");
+        party.clear();
+
         mGame->go(playerNames);
         CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor().hide();
         return true;

@@ -42,6 +42,7 @@ private:
     void onHUDOptionSelect();
     void onHUDNavigation();
     void onHUDPlayAgain();
+    void onHUDPlayNext();
     void onHUDQuit();
 
     bool mGameOver;
@@ -50,6 +51,7 @@ private:
     SoundBank* mSoundBank;
     bool playerTurn;
     unsigned int activeEnemy;
+    int mWaveCnt;
     
     time_t timer;
 

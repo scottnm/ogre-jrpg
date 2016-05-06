@@ -1,6 +1,7 @@
 #include "GameManager.h"
 #include "SingleplayerGame.h"
 
+
 GameManager::GameManager()
     : mRenderer(RenderingEngine::getSingleton()),
       mGUI(new GUISystem()),

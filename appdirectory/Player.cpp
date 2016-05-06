@@ -33,7 +33,6 @@ Player::Player(Ogre::SceneManager* _scnmgr, Ogre::SceneNode* _scnnode,
 }
 
 void Player::physicalAttack(Player& target) {
-    std::cout << "!!!contact" << std::endl;
     int& targetHealth = target.mInfo.health;
     int damageDealt = std::max(0, mInfo.damage - target.mInfo.armor);
     targetHealth -= damageDealt;
@@ -41,11 +40,9 @@ void Player::physicalAttack(Player& target) {
         targetHealth = 0;
     }
     target.mDamageIndicatorController->alertDamage(damageDealt);
-    std::cout << "finish" << std::endl;
 }
 
 void Player::missAttack(Player& target) {
-    std::cout << "!!!miss" << std::endl;
     target.mDamageIndicatorController->alertMiss();
 }
 

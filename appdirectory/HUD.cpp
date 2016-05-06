@@ -319,6 +319,24 @@ void HUD::injectKeyDown(const OIS::KeyEvent& arg) {
                 mEndStateRoot->getChild("Quit_select")->setVisible(!mPlayNextOptionFocused);
             }
         }
+        else {
+            if (arg.key == OIS::KC_RETURN) {
+                mEndStateRoot->hide();
+                if (mPlayNextOptionFocused) {
+                    notifyPlayNext();
+                    switchToActionMenu();
+                }
+                else {
+                    notifyQuit();
+                    switchToActionMenu();
+                }
+            }
+            else if (arg.key == OIS::KC_UP || arg.key == OIS::KC_DOWN) {
+                mPlayNextOptionFocused = !mPlayNextOptionFocused;
+                mEndStateRoot->getChild("TryAgain_select")->setVisible(mPlayNextOptionFocused);
+                mEndStateRoot->getChild("Quit_select")->setVisible(!mPlayNextOptionFocused);
+            }
+        }
     }
 }
 

@@ -484,7 +484,7 @@
                 <Property name="Text" value="Quit" />
                 <Property name="MaxSize" value="{{1,0},{1,0}}" />
             </Window>
-            <Window type="Vanilla/Label" name="Next_select" >
+            <Window type="Vanilla/Label" name="TryAgain_select" >
                 <Property name="Area" value="{{0.5,0},{0.14,0},{0.6,0},{0.54,0}}" />
                 <Property name="Font" value="Jura-18" />
                 <Property name="Text" value="&gt;" />

@@ -45,12 +45,14 @@ bool GameManager::runGame(void) {
     CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
     
     mRoot = wmgr.loadLayoutFromFile("character_select.layout");
-    auto charRoot = mRoot->getChild("FrameColourRect");
+    charRoot = mRoot->getChild("CharacterSelect_Frame");
+    auto instructionRoot = mRoot->getChild("Instruction_Frame");
+    instructionRoot->hide();
     mGUI->addAndSetWindowGroup("charSelect", mRoot);
 
-    mRoot->getChild("ConfirmButton")->setEnabled(false);
-    mRoot->getChild("ConfirmButton")->setText("Select 3 Fighters");
-    mRoot->getChild("ConfirmButton")->subscribeEvent(CEGUI::PushButton::EventClicked,
+    charRoot->getChild("ConfirmButton")->setEnabled(false);
+    charRoot->getChild("ConfirmButton")->setText("Select 3 Fighters");
+    charRoot->getChild("ConfirmButton")->subscribeEvent(CEGUI::PushButton::EventClicked,
         CEGUI::Event::Subscriber(&GameManager::guiCbConfirmButton, this));
 
     possible_players.push_back(mPlayerBank.getPlayerInfo("Cannibal Corpse"));
@@ -63,15 +65,16 @@ bool GameManager::runGame(void) {
     possible_players.push_back(mPlayerBank.getPlayerInfo("Marshall"));
     possible_players.push_back(mPlayerBank.getPlayerInfo("Babe Ruth"));
 
-    frames.push_back(charRoot->getChild("FrameColourRect0x0"));
-    frames.push_back(charRoot->getChild("FrameColourRect0x1"));
-    frames.push_back(charRoot->getChild("FrameColourRect0x2"));
-    frames.push_back(charRoot->getChild("FrameColourRect1x0"));
-    frames.push_back(charRoot->getChild("FrameColourRect1x1"));
-    frames.push_back(charRoot->getChild("FrameColourRect1x2"));
-    frames.push_back(charRoot->getChild("FrameColourRect2x0"));
-    frames.push_back(charRoot->getChild("FrameColourRect2x1"));
-    frames.push_back(charRoot->getChild("FrameColourRect2x2"));
+    auto selectRoot = charRoot->getChild("Select_Frames");
+    frames.push_back(selectRoot->getChild("FrameColourRect0x0"));
+    frames.push_back(selectRoot->getChild("FrameColourRect0x1"));
+    frames.push_back(selectRoot->getChild("FrameColourRect0x2"));
+    frames.push_back(selectRoot->getChild("FrameColourRect1x0"));
+    frames.push_back(selectRoot->getChild("FrameColourRect1x1"));
+    frames.push_back(selectRoot->getChild("FrameColourRect1x2"));
+    frames.push_back(selectRoot->getChild("FrameColourRect2x0"));
+    frames.push_back(selectRoot->getChild("FrameColourRect2x1"));
+    frames.push_back(selectRoot->getChild("FrameColourRect2x2"));
 
     for (int i = 0; i < 9; i++) {
         frames[i]->getChild("Image_Portrait")->subscribeEvent(CEGUI::Window::EventMouseClick,
@@ -208,7 +211,6 @@ void GameManager::closeGame(void) {
 // STARTUP MENU CALLBACKS
 bool GameManager::guiCbClickFrame(const CEGUI::EventArgs& e) {
     CEGUI::Window* w = static_cast<const CEGUI::WindowEventArgs&>(e).window;
-    std::cout << w->getID() << std::endl;
 
     auto i = party.find(w->getID());
     if (i != party.end()) {
@@ -223,12 +225,12 @@ bool GameManager::guiCbClickFrame(const CEGUI::EventArgs& e) {
     }
 
     if (party.size() == 3) {
-        mRoot->getChild("ConfirmButton")->setEnabled(true);
-        mRoot->getChild("ConfirmButton")->setText("Fight!");
+        charRoot->getChild("ConfirmButton")->setEnabled(true);
+        charRoot->getChild("ConfirmButton")->setText("Fight!");
     }
     else {
-        mRoot->getChild("ConfirmButton")->setEnabled(false);
-        mRoot->getChild("ConfirmButton")->setText("Select 3 Fighters");
+        charRoot->getChild("ConfirmButton")->setEnabled(false);
+        charRoot->getChild("ConfirmButton")->setText("Select 3 Fighters");
     }
 
     mSoundBank.play("hud_cycle_fx");
@@ -245,8 +247,8 @@ bool GameManager::guiCbConfirmButton(const CEGUI::EventArgs& e) {
             frames[e]->setProperty("Colour",
                 "tl:00000000 tr:00000000 bl:00000000 br:00000000");
         }
-        mRoot->getChild("ConfirmButton")->setEnabled(false);
-        mRoot->getChild("ConfirmButton")->setText("Select 3 Fighters");
+        charRoot->getChild("ConfirmButton")->setEnabled(false);
+        charRoot->getChild("ConfirmButton")->setText("Select 3 Fighters");
         party.clear();
 
         mGame->go(playerNames);

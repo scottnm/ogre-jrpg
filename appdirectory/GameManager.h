@@ -1,5 +1,4 @@
-#ifndef __GAME_MANAGER_H__
-#define __GAME_MANAGER_H__
+#pragma once
 
 #include "BaseGame.h"
 #include "SingleplayerGame.h"
@@ -63,5 +62,3 @@ private:
     OIS::Keyboard* mKeyboard;
     OgreBites::InputContext mInputContext;
 };
-
-#endif // __GAME_MANAGER_H__

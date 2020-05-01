@@ -1,5 +1,4 @@
-#ifndef __PLAYER_H__
-#define __PLAYER_H__
+#pragma once
 
 #include "AnimationController.h"
 #include "DamageIndicatorController.h"
@@ -63,5 +62,3 @@ private:
     static std::default_random_engine rand_generator;
     static std::uniform_real_distribution<float> rand_dist;
 };
-
-#endif	// __PLAYER_H__

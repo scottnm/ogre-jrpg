@@ -1,5 +1,4 @@
-#ifndef __ITEM_H__
-#define __ITEM_H__
+#pragma once
 
 #include <string>
 
@@ -19,5 +18,3 @@ public:
 	int delta_special;
 	float delta_accuracy;
 };
-
-#endif // __INVENTORY_H__

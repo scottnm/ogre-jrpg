@@ -1,5 +1,4 @@
-#ifndef __DAMAGE_INDICATOR_CONTROLLER_H__
-#define __DAMAGE_INDICATOR_CONTROLLER_H__
+#pragma once
 
 #include <OgreSceneManager.h>
 #include <OgreSceneNode.h>
@@ -18,9 +17,7 @@ public:
 private:
     Ogre::SceneManager* mSceneManager;
     Ogre::SceneNode* mCharacterRoot;
-    std::vector<DamageIndicator> mIndicators; 
+    std::vector<DamageIndicator> mIndicators;
 
     static Ogre::Vector3 endPos;
 };
-
-#endif // __DAMAGE_INDICATOR_CONTROLLER_H__

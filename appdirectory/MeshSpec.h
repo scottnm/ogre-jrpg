@@ -1,5 +1,4 @@
-#ifndef __MESHSPEC_H__
-#define __MESHSPEC_H__
+#pragma once
 
 #include "AnimationSpec.h"
 #include <string>
@@ -11,4 +10,3 @@ struct MeshSpec {
     const std::string name;
     const AnimationSpec animationSpec;
 };
-#endif // __MESHSPEC_H__

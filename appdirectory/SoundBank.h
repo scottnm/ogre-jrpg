@@ -1,5 +1,4 @@
-#ifndef __SOUNDBANK_H__
-#define __SOUNDBANK_H__
+#pragma once
 
 #include <SDL.h>
 #include <SDL_mixer.h>
@@ -26,5 +25,3 @@ public:
 private:
     std::unordered_map<std::string, Mix_Chunk*> mChunkBank;
 };
-
-#endif // __SOUNDBANK_H__

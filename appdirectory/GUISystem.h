@@ -1,5 +1,4 @@
-#ifndef __GUI_SYSTEM_H__
-#define __GUI_SYSTEM_H__
+#pragma once
 
 #include <OISMouse.h>
 #include <OISKeyboard.h>
@@ -37,5 +36,3 @@ private:
     CEGUI::Window* mRootWindow;
     CEGUI::Window* mActiveWindow;
 };
-
-#endif // __GUI_SYSTEM_H__

@@ -1,11 +1,10 @@
-#ifndef __ANIMATION_SPEC_H__
-#define __ANIMATION_SPEC_H__
+#pragma once
 
 #include <string>
 #include <utility>
 
 struct AnimationSpec {
-    AnimationSpec(const std::string& idle_n, const float idle_spd, 
+    AnimationSpec(const std::string& idle_n, const float idle_spd,
             const std::string& phys_n, const float phys_spd,
             const std::string& special_n, const float special_spd,
             const std::string& item_n, const float item_spd,
@@ -25,5 +24,3 @@ struct AnimationSpec {
     const std::pair<const std::string, const float> guard;
     const std::pair<const std::string, const float> death;
 };
-
-#endif // __ANIMATION_SPEC_H__

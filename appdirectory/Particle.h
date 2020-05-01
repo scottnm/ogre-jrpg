@@ -1,5 +1,4 @@
-#ifndef	_PARTICLE_H_
-#define _PARTICLE_H_
+#pragma once
 
 #include "GameObject.h"
 #include "OgreParticleSystem.h"
@@ -13,5 +12,3 @@ public:
 	Ogre::ParticleSystem* particleSystem;
 	// void switchParticleSystem(const char* )
 };
-
-#endif // _PARTICLE_H_

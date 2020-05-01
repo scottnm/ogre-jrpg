@@ -1,5 +1,4 @@
-#ifndef __MESHBANK_H__
-#define __MESHBANK_H__
+#pragma once
 
 #include <string>
 #include <unordered_map>
@@ -18,5 +17,3 @@ public:
 private:
     std::unordered_map<std::string, MeshSpec> mSpecBank;
 };
-
-#endif // __MESHBANK_H__

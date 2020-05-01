@@ -1,5 +1,4 @@
-#ifndef __PLAYERBANK_H__
-#define __PLAYERBANK_H__
+#pragma once
 
 #include <string>
 #include <unordered_map>
@@ -22,5 +21,3 @@ private:
     MeshSpecBank mMeshSpecBank;
     std::unordered_map<std::string, PlayerInfo> mCharacterBank;
 };
-
-#endif // __PLAYERBANK_H__

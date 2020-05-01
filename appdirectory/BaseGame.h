@@ -1,15 +1,14 @@
+#pragma once
+
 /*
 -----------------------------------------------------------------------------
 Filename:    BaseGame.h
 -----------------------------------------------------------------------------
- 
+
 This source file was adopted from the Ogre Wiki's MinimalOgre.h
 http://www.ogre3d.org/tikiwiki/tiki-index.php?page=MinimalOgre-h&structure=Development
 -----------------------------------------------------------------------------
 */
-#ifndef __BASE_GAME_H__
-#define __BASE_GAME_H__
- 
 #include "GUISystem.h"
 #include "RenderingEngine.h"
 #include "Plane.h"
@@ -25,7 +24,7 @@ http://www.ogre3d.org/tikiwiki/tiki-index.php?page=MinimalOgre-h&structure=Devel
 #include <OISInputManager.h>
 #include <OISKeyboard.h>
 #include <OISMouse.h>
- 
+
 #include <SdkCameraMan.h>
 #include <SdkTrays.h>
 
@@ -36,7 +35,7 @@ http://www.ogre3d.org/tikiwiki/tiki-index.php?page=MinimalOgre-h&structure=Devel
 
 #include <vector>
 #include <string>
- 
+
 class BaseGame : public Ogre::FrameListener
 {
 public:
@@ -83,5 +82,3 @@ public:
     // gui callbacks
     bool guiCbQuit(const CEGUI::EventArgs& e);
 };
- 
-#endif // __BASE_GAME_H__

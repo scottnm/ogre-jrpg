@@ -1,5 +1,4 @@
-#ifndef __ANIMATION_CONTROLLER_H__
-#define __ANIMATION_CONTROLLER_H__
+#pragma once
 
 #include "AnimationCallback.h"
 #include "AnimationSpec.h"
@@ -36,5 +35,3 @@ private:
 
     AnimationCallback cb;
 };
-
-#endif // __ANIMATION_CONTROLLER_H__

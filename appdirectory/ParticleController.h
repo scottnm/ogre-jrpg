@@ -1,5 +1,4 @@
-#ifndef __PARTICLE_CONTROLLER_H__
-#define __PARTICLE_CONTROLLER_H__
+#pragma once
 
 #include "ParticleCallback.h"
 #include "ParticleType.h"
@@ -47,5 +46,3 @@ private:
 
     SoundBank* mSoundBank;
 };
-
-#endif //__PARTICLE_CONTROLLER_H__

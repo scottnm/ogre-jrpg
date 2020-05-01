@@ -1,5 +1,4 @@
-#ifndef _NINJA_H_
-#define _NINJA_H_
+#pragma once
 
 #include "GameObject.h"
 #include <string>
@@ -38,5 +37,3 @@ public:
 
 	Ogre::Entity* entity;
 };
-
-#endif	// ifndef _NINJA_H_

@@ -1,5 +1,4 @@
-#ifndef __INVENTORY_H__
-#define __INVENTORY_H__
+#pragma once
 
 #include <string>
 #include <utility>
@@ -27,10 +26,8 @@ public:
      * load the sounds specified by the xml audio database file
      * @param xmlDbFilename - the name of the xml audio database file
      */
-	
+
 	std::vector<std::pair<Item, int>> items;
     std::vector<std::pair<Item, int>> _itemDefaults;
 	int currentItemIndex;
 };
-
-#endif // __INVENTORY_H__

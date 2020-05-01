@@ -1,5 +1,4 @@
-#ifndef _PLANE_H_
-#define _PLANE_H_
+#pragma once
 
 #include <Ogre.h>
 
@@ -12,5 +11,3 @@ public:
 	Ogre::SceneNode* sceneNode;
 	Ogre::Entity* entity;
 };
-
-#endif // _PLANE_H_

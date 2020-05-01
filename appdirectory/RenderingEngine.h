@@ -1,5 +1,4 @@
-#ifndef __RENDERING_ENGINE_H__
-#define __RENDERING_ENGINE_H__
+#pragma once
 
 #include <OGRE/Overlay/OgreOverlayPrerequisites.h>
 #include <OGRE/Overlay/OgreOverlaySystem.h>
@@ -44,5 +43,3 @@ private:
     RenderingEngine(void);
     ~RenderingEngine(void);
 };
-
-#endif // __RENDERING_ENGINE_H__

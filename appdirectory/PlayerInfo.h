@@ -1,5 +1,4 @@
-#ifndef __PLAYER_INFO_H__
-#define __PLAYER_INFO_H__
+#pragma once
 
 #include <string>
 #include "MeshSpec.h"
@@ -39,5 +38,3 @@ struct PlayerInfo {
         accuracy = baseAccuracy;
     }
 };
-
-#endif // __PLAYER_INFO_H__

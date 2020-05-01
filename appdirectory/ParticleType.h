@@ -1,5 +1,4 @@
-#ifndef __PARTICLE_TYPE_H__
-#define __PARTICLE_TYPE_H__
+#pragma once
 
 #include <stddef.h> // for size_t
 
@@ -18,5 +17,3 @@ typedef struct ParticleTypeHash {
         return static_cast<size_t>(t);
     }
 } ParticleTypeHash;
-
-#endif //__PARTICLE_TYPE_H__

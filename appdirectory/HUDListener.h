@@ -1,5 +1,4 @@
-#ifndef __HUD_LISTENER_H__
-#define __HUD_LISTENER_H__
+#pragma once
 
 #include "Player.h"
 
@@ -16,5 +15,3 @@ public:
     virtual void onHUDPlayNext() = 0;
     virtual void onHUDQuit() = 0;
 };
-
-#endif // __HUD_LISTENER_H__

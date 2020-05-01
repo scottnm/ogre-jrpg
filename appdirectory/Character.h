@@ -1,5 +1,4 @@
-#ifndef	_CHARACTER_H_
-#define	_CHARACTER_H_
+#pragma once
 
 #include "GameObject.h"
 // #include <string>
@@ -41,5 +40,3 @@ public:
 	// std::vector<Ogre::ParticleSystem*> particleList;
 	// std::vector<Ogre::SceneNode*> particleNodeList;
 };
-
-#endif	// _CHARACTER_H_

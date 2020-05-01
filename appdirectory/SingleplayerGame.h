@@ -1,15 +1,14 @@
+#pragma once
+
 /*
 -----------------------------------------------------------------------------
 Filename:    SingleplayerGame.h
 -----------------------------------------------------------------------------
- 
+
 This source file was adopted from the Ogre Wiki's MinimalOgre.h
 http://www.ogre3d.org/tikiwiki/tiki-index.php?page=MinimalOgre-h&structure=Development
 -----------------------------------------------------------------------------
 */
-#ifndef __SINGLE_PLAYER_GAME_H__
-#define __SINGLE_PLAYER_GAME_H__
- 
 #include "BaseGame.h"
 #include "HUD.h"
 #include "HUDListener.h"
@@ -52,10 +51,8 @@ private:
     bool playerTurn;
     unsigned int activeEnemy;
     int mWaveCnt;
-    
+
     time_t timer;
 
     Mix_Music* mMusicTrack;
 };
- 
-#endif // __SINGLE_PLAYER_GAME_H__

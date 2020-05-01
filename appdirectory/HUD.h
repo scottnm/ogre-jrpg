@@ -1,5 +1,4 @@
-#ifndef __HUD_H__
-#define __HUD_H__
+#pragma once
 
 #include "GUISystem.h"
 #include "HUDListener.h"
@@ -88,7 +87,7 @@ private:
     CEGUI::Window* mActionOptions[4]; // mActionOptions
 
     // item menu
-    bool mItemsMenuVisible; 
+    bool mItemsMenuVisible;
     bool mItemsFocused;
 
     // end game
@@ -110,5 +109,3 @@ private:
     static const Ogre::String windowName;
     static const Ogre::String mockItems[4];
 };
-
-#endif // __HUD_H__

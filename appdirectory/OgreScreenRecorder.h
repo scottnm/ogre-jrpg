@@ -1,5 +1,4 @@
-#ifndef __OGRE_SCREEN_RECORDER__
-#define __OGRE_SCREEN_RECORDER__
+#pragma once
 
 #include <OgreFrameListener.h>
 #include <OgreRoot.h>
@@ -23,5 +22,3 @@ private:
     Ogre::Real timer;
     const Ogre::Real limit;
 };
-
-#endif // __OGRE_SCREEN_RECORDER__

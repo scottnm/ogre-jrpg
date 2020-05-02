@@ -1,3 +1,5 @@
+#ifndef _WIN32 // TODO: get to compile
+
 #pragma once
 
 #include "GameObject.h"
@@ -40,3 +42,5 @@ public:
 	// std::vector<Ogre::ParticleSystem*> particleList;
 	// std::vector<Ogre::SceneNode*> particleNodeList;
 };
+
+#endif // _WIN32

@@ -1,3 +1,5 @@
+#ifndef _WIN32 // TODO: get to compile
+
 #pragma once
 
 #include <SDL.h>
@@ -25,3 +27,5 @@ public:
 private:
     std::unordered_map<std::string, Mix_Chunk*> mChunkBank;
 };
+
+#endif // _WIN32

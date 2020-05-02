@@ -1,3 +1,5 @@
+#ifndef _WIN32 // TODO: get to compile
+
 #include "GameManager.h"
 #include "SingleplayerGame.h"
 
@@ -24,7 +26,7 @@ GameManager::~GameManager(void) {
     // unlatch our input devices from the game upon close
     if( mInputManager ) {
         mInputManager->destroyInputObject( mMouse );
-        mInputManager->destroyInputObject( mKeyboard ); 
+        mInputManager->destroyInputObject( mKeyboard );
         OIS::InputManager::destroyInputSystem(mInputManager);
         mInputManager = 0;
     }
@@ -44,7 +46,7 @@ bool GameManager::runGame(void) {
         .setDefaultImage("WindowsLook/MouseArrow");
 
     CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
-    
+
     mRoot = wmgr.loadLayoutFromFile("character_select.layout");
     charRoot = mRoot->getChild("CharacterSelect_Frame");
     mGUI->addAndSetWindowGroup("charSelect", mRoot);
@@ -84,10 +86,10 @@ bool GameManager::runGame(void) {
             CEGUI::Event::Subscriber(&GameManager::guiCbClickFrame, this));
         frames[i]->getChild("Image_Portrait")->setID(i);
     }
-    
+
     for(int i = 0; i < 9; ++i) {
         const PlayerInfo& info = possible_players[i];
-        CEGUI::Window* frame = frames[i]; 
+        CEGUI::Window* frame = frames[i];
 
         frame->getChild("Label_Name")->setText(info.name);
         frame->getChild("Image_Portrait")->setProperty("Image", info.img);
@@ -110,26 +112,26 @@ bool GameManager::runGame(void) {
     OIS::ParamList pl;
     size_t windowHnd = 0;
     std::ostringstream windowHndStr;
- 
+
     mRenderer->mWindow->getCustomAttribute("WINDOW", &windowHnd);
     windowHndStr << windowHnd;
     pl.insert(std::make_pair(std::string("WINDOW"), windowHndStr.str()));
- 
+
     // setup OIS inputs
     mInputManager = OIS::InputManager::createInputSystem( pl );
- 
+
     mKeyboard = static_cast<OIS::Keyboard*>(mInputManager->createInputObject( OIS::OISKeyboard, true ));
     mMouse = static_cast<OIS::Mouse*>(mInputManager->createInputObject( OIS::OISMouse, true ));
- 
+
     mMouse->setEventCallback(this);
     mKeyboard->setEventCallback(this);
- 
+
     //Set initial mouse clipping size
     windowResized(mRenderer->mWindow);
- 
+
     //Register as a Window listener
     mRenderer->addWindowEventListener(this);
- 
+
     mInputContext.mKeyboard = mKeyboard;
     mInputContext.mMouse = mMouse;
 
@@ -143,11 +145,11 @@ bool GameManager::frameRenderingQueued(const Ogre::FrameEvent& evt) {
     if (mShutDown || mRenderer->isWindowClosed()) {
         return false;
     }
-    
+
     if (mGame && mGame->isShutDown()) {
         closeGame();
     }
-    
+
     mKeyboard->capture();
     mMouse->capture();
 
@@ -191,7 +193,7 @@ void GameManager::windowResized(Ogre::RenderWindow* rw) {
     unsigned int width, height, depth;
     int left, top;
     mRenderer->getRenderMetrics(width, height, depth, left, top);
- 
+
     const OIS::MouseState &ms = mMouse->getMouseState();
     ms.width = width;
     ms.height = height;
@@ -203,7 +205,7 @@ void GameManager::windowClosed(Ogre::RenderWindow* rw) {
         if( mInputManager ) {
             mInputManager->destroyInputObject( mMouse );
             mInputManager->destroyInputObject( mKeyboard );
- 
+
             OIS::InputManager::destroyInputSystem(mInputManager);
             mInputManager = 0;
         }
@@ -284,3 +286,5 @@ bool GameManager::guiCbShowInstructions(const CEGUI::EventArgs& e) {
     instructionRoot->show();
     return true;
 }
+
+#endif // _WIN32

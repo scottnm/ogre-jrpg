@@ -1,3 +1,5 @@
+#ifndef _WIN32 // TODO: get to compile
+
 #include "MeshSpecBank.h"
 
 #include <boost/property_tree/ptree.hpp>
@@ -14,7 +16,7 @@ void MeshSpecBank::loadMeshSpecDatabase(const std::string& _fn) {
     using boost::property_tree::ptree;
     ptree pt;
     read_xml(_fn, pt);
-    
+
     BOOST_FOREACH(ptree::value_type &v,
             pt.get_child("meshSpecDatabase")) {
         std::cout << "!!!" << std::endl;
@@ -50,3 +52,5 @@ const MeshSpec& MeshSpecBank::getMeshSpec(const std::string& _n) {
 
     return pair->second;
 }
+
+#endif // _WIN32

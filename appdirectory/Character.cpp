@@ -1,3 +1,5 @@
+#ifndef _WIN32 // TODO: get to compile
+
 #include "Character.h"
 
 Character::Character(Ogre::SceneManager* _scnmgr, Ogre::SceneNode* _scnnode) :
@@ -121,3 +123,5 @@ GameObject(_scnmgr) {
 // 		particleNodeList.push_back(ps_node);
 // 	}
 // }
+
+#endif // _WIN32

@@ -1,3 +1,5 @@
+#ifndef _WIN32 // TODO: get to compile
+
 #pragma once
 
 #include "AnimationCallback.h"
@@ -35,3 +37,5 @@ private:
 
     AnimationCallback cb;
 };
+
+#endif // _WIN32

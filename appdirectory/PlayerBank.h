@@ -1,3 +1,5 @@
+#ifndef _WIN32 // TODO: get to compile
+
 #pragma once
 
 #include <string>
@@ -21,3 +23,5 @@ private:
     MeshSpecBank mMeshSpecBank;
     std::unordered_map<std::string, PlayerInfo> mCharacterBank;
 };
+
+#endif // _WIN32

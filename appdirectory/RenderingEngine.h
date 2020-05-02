@@ -1,3 +1,5 @@
+#ifndef _WIN32 // TODO: get to compile
+
 #pragma once
 
 #include <OGRE/Overlay/OgreOverlayPrerequisites.h>
@@ -43,3 +45,5 @@ private:
     RenderingEngine(void);
     ~RenderingEngine(void);
 };
+
+#endif // _WIN32

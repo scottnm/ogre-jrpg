@@ -1,3 +1,5 @@
+#ifndef _WIN32 // TODO: get to compile
+
 #include "OgreScreenRecorder.h"
 #include <cstring>
 
@@ -30,8 +32,10 @@ bool OgreScreenRecorder::frameEnded(const Ogre::FrameEvent& evt)
     ++cnt;
     assert(cnt < 999999);
     char* picIdOfs = filename_buf + 14;
-    Ogre::String s = Ogre::StringConverter::toString(cnt, 6, '0', mFF); 
+    Ogre::String s = Ogre::StringConverter::toString(cnt, 6, '0', mFF);
     std::copy(s.cbegin(), s.cend(), picIdOfs);
     mWindow.writeContentsToFile(Ogre::String(filename_buf));
     return true;
 }
+
+#endif // _WIN32

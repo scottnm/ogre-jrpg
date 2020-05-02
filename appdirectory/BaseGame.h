@@ -1,3 +1,5 @@
+#ifndef _WIN32 // TODO: get to compile
+
 #pragma once
 
 /*
@@ -82,3 +84,5 @@ public:
     // gui callbacks
     bool guiCbQuit(const CEGUI::EventArgs& e);
 };
+
+#endif // _WIN32

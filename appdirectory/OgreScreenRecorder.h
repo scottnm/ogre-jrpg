@@ -1,3 +1,5 @@
+#ifndef _WIN32 // TODO: get to compile
+
 #pragma once
 
 #include <OgreFrameListener.h>
@@ -22,3 +24,5 @@ private:
     Ogre::Real timer;
     const Ogre::Real limit;
 };
+
+#endif // _WIN32

@@ -1,3 +1,5 @@
+#ifndef _WIN32 // TODO: get to compile
+
 #include "Plane.h"
 
 Plane::Plane(Ogre::SceneManager* _scnmgr, Ogre::SceneNode* _scnnode) {
@@ -13,3 +15,5 @@ Plane::Plane(Ogre::SceneManager* _scnmgr, Ogre::SceneNode* _scnnode) {
 	entity->setMaterialName("Examples/Rockwall");
 	sceneNode->attachObject(entity);
 }
+
+#endif // _WIN32

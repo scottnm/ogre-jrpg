@@ -1,3 +1,5 @@
+#ifndef _WIN32 // TODO: get to compile
+
 #pragma once
 
 #include <string>
@@ -18,3 +20,5 @@ public:
 	int delta_special;
 	float delta_accuracy;
 };
+
+#endif // _WIN32

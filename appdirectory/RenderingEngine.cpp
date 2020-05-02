@@ -1,3 +1,5 @@
+#ifndef _WIN32 // TODO: get to compile
+
 #include "RenderingEngine.h"
 
 bool RenderingEngine::instanceCreated = false;
@@ -80,7 +82,7 @@ RenderingEngine::RenderingEngine()
     mCamera->setAspectRatio(
             Ogre::Real(viewport->getActualWidth()) /
             Ogre::Real(viewport->getActualHeight()));
-    
+
     Ogre::TextureManager::getSingleton().setDefaultNumMipmaps(5);
 
     Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
@@ -97,7 +99,7 @@ bool RenderingEngine::isRenderWindow(Ogre::RenderWindow* rw) {
     return rw == mWindow;
 }
 
-void RenderingEngine::getRenderMetrics(unsigned int& w, unsigned int& h, 
+void RenderingEngine::getRenderMetrics(unsigned int& w, unsigned int& h,
         unsigned int& d, int& l, int& t) {
     mWindow->getMetrics(w, h, d, l, t);
 }
@@ -121,3 +123,5 @@ void RenderingEngine::startRendering() {
 bool RenderingEngine::isWindowClosed() {
     return mWindow->isClosed();
 }
+
+#endif // _WIN32

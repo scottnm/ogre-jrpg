@@ -1,3 +1,5 @@
+#ifndef _WIN32 // TODO: get to compile
+
 #pragma once
 
 #include <Ogre.h>
@@ -11,3 +13,5 @@ public:
 	Ogre::SceneNode* sceneNode;
 	Ogre::Entity* entity;
 };
+
+#endif // _WIN32

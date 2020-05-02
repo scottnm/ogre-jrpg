@@ -1,3 +1,5 @@
+#ifndef _WIN32 // TODO: get to compile
+
 #pragma once
 
 #include "BaseGame.h"
@@ -62,3 +64,5 @@ private:
     OIS::Keyboard* mKeyboard;
     OgreBites::InputContext mInputContext;
 };
+
+#endif // _WIN32

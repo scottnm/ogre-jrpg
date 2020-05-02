@@ -1,3 +1,5 @@
+#ifndef _WIN32 // TODO: get to compile
+
 #pragma once
 
 #include "AnimationController.h"
@@ -62,3 +64,5 @@ private:
     static std::default_random_engine rand_generator;
     static std::uniform_real_distribution<float> rand_dist;
 };
+
+#endif // _WIN32

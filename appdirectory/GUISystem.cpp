@@ -1,3 +1,5 @@
+#ifndef _WIN32 // TODO: get to compile
+
 #include "GUISystem.h"
 
 GUISystem::GUISystem() {
@@ -14,7 +16,7 @@ GUISystem::GUISystem() {
     CEGUI::SchemeManager::getSingleton().createFromFile("VanillaSkin.scheme");
     CEGUI::SchemeManager::getSingleton().createFromFile("VanillaCommonDialogs.scheme");
     CEGUI::SchemeManager::getSingleton().createFromFile("GameMenu.scheme");
-    
+
 
 
     mContext = &CEGUI::System::getSingleton().getDefaultGUIContext();
@@ -114,3 +116,5 @@ bool GUISystem::mouseMoved(const OIS::MouseEvent& arg) {
     }
     return true;
 }
+
+#endif // _WIN32

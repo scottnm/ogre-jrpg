@@ -1,3 +1,5 @@
+#ifndef _WIN32 // TODO: get to compile
+
 #pragma once
 
 #include <stddef.h> // for size_t
@@ -17,3 +19,5 @@ typedef struct ParticleTypeHash {
         return static_cast<size_t>(t);
     }
 } ParticleTypeHash;
+
+#endif // _WIN32

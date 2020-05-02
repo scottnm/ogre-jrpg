@@ -1,3 +1,5 @@
+#ifndef _WIN32 // TODO: get to compile
+
 #include "PlayerBank.h"
 
 #include <boost/property_tree/ptree.hpp>
@@ -18,7 +20,7 @@ void PlayerBank::loadPlayerDatabase(const std::string& _fn) {
     using boost::property_tree::ptree;
     ptree pt;
     read_xml(_fn, pt);
-    
+
     BOOST_FOREACH(ptree::value_type &v,
             pt.get_child("characterDatabase.characters")) {
         std::string name = v.second.get<std::string>("name");
@@ -37,7 +39,7 @@ void PlayerBank::loadPlayerDatabase(const std::string& _fn) {
 
     for (auto pair : mCharacterBank) {
         std::string info;
-        info += pair.second.name + " | "; 
+        info += pair.second.name + " | ";
         info += "He(" + std::to_string(pair.second.health)   + ") ";
         info += "AP(" + std::to_string(pair.second.specialPoints)  + ") ";
         info += "Da(" + std::to_string(pair.second.damage)   + ") ";
@@ -57,3 +59,5 @@ const PlayerInfo& PlayerBank::getPlayerInfo(const std::string& _n) {
 
     return pair->second;
 }
+
+#endif // _WIN32

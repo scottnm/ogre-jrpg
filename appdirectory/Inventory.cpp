@@ -1,3 +1,5 @@
+#ifndef _WIN32 // TODO: get to compile
+
 #include "Inventory.h"
 
 Inventory::Inventory(const std::string& _fn) : currentItemIndex(0) {
@@ -57,7 +59,7 @@ void Inventory::cycleInventoryBackward() {
 }
 
 void Inventory::useItem(Player& target) {
-    
+
     auto& item = items.at(currentItemIndex);
     item.first.use(target);
 
@@ -71,3 +73,5 @@ void Inventory::useItem(Player& target) {
 void Inventory::reset(void) {
     items = _itemDefaults;
 }
+
+#endif // _WIN32

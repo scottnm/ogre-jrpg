@@ -1,3 +1,5 @@
+#ifndef _WIN32 // TODO: get to compile
+
 #pragma once
 
 /*
@@ -56,3 +58,5 @@ private:
 
     Mix_Music* mMusicTrack;
 };
+
+#endif // _WIN32

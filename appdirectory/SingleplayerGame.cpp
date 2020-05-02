@@ -1,8 +1,10 @@
+#ifndef _WIN32 // TODO: get to compile
+
 /*
 -----------------------------------------------------------------------------
 Filename:    SingleplayerGame.cpp
 -----------------------------------------------------------------------------
- 
+
 This source file is adopted from MinimalOgre.cpp
 http://www.ogre3d.org/tikiwiki/tiki-index.php?page=MinimalOgre-cpp
 -----------------------------------------------------------------------------
@@ -38,7 +40,7 @@ void SingleplayerGame::createScene(std::vector<std::string> partyNames){
     // Set ambient light
     scnMgr->setAmbientLight(Ogre::ColourValue(0.3, 0.3, 0.3));
     scnMgr->setShadowTechnique(Ogre::SHADOWTYPE_STENCIL_ADDITIVE);
- 
+
     // Create a light
     mMainLight = scnMgr->createLight(BaseGame::mainLightName);
     mMainLight->setPosition(0, 500, 0);
@@ -63,7 +65,7 @@ void SingleplayerGame::createScene(std::vector<std::string> partyNames){
             mPlayerBank->getPlayerInfo(partyNames[2]),
             Ogre::Vector3(500, 0, -200), mSoundBank);
     myParty.push_back(p3);
-    
+
 
     Player* p4 = new Player(scnMgr, mRoomRoot,
             mPlayerBank->getPlayerInfo("Mecha-Scoot"),
@@ -320,7 +322,7 @@ void SingleplayerGame::onHUDSpecialSelect(Player* attacker, Player* target) {
     mAttackRunning = true;
     attacker->lookAt(target);
 
-    // prep animation 
+    // prep animation
     AnimationCallback cb = [attacker, target](void)-> void{
         attacker->mAnimationController->runIdleAnimation();
     };
@@ -470,3 +472,5 @@ void SingleplayerGame::partyReset(std::vector<Player*>& party) {
         p->unguard();
     }
 }
+
+#endif // _WIN32

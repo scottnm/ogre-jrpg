@@ -1,3 +1,5 @@
+#ifndef _WIN32 // TODO: get to compile
+
 #pragma once
 
 #include <OISMouse.h>
@@ -36,3 +38,5 @@ private:
     CEGUI::Window* mRootWindow;
     CEGUI::Window* mActiveWindow;
 };
+
+#endif // _WIN32

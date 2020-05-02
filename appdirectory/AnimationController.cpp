@@ -1,3 +1,5 @@
+#ifndef _WIN32 // TODO: get to compile
+
 #include "AnimationController.h"
 
 AnimationController::AnimationController(Ogre::Entity* mesh, const AnimationSpec& spec)
@@ -49,3 +51,5 @@ void AnimationController::updateAnimationTime(Ogre::Real secondsElapsed) {
         cb();
     }
 }
+
+#endif // _WIN32

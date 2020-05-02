@@ -1,3 +1,5 @@
+#ifndef _WIN32 // TODO: get to compile
+
 #include <DamageIndicatorController.h>
 #include <OgreBillboardSet.h>
 #include <OgreMath.h>
@@ -10,7 +12,7 @@ DamageIndicatorController::DamageIndicatorController(Ogre::SceneManager* scnMgr,
         Ogre::SceneNode* cRoot) : mSceneManager(scnMgr), mCharacterRoot(cRoot) {}
 
 void DamageIndicatorController::alertDamage(int dmg) {
-    auto damageBillboardSet = mSceneManager->createBillboardSet(); 
+    auto damageBillboardSet = mSceneManager->createBillboardSet();
     damageBillboardSet->setMaterialName("damage_" + StringConverter::toString(dmg, 2, '0',
                 std::ios_base::dec | std::ios_base::right));
     damageBillboardSet->createBillboard(Ogre::Vector3::ZERO);
@@ -24,7 +26,7 @@ void DamageIndicatorController::alertDamage(int dmg) {
 }
 
 void DamageIndicatorController::alertMiss(void) {
-    auto missBillboardSet = mSceneManager->createBillboardSet(); 
+    auto missBillboardSet = mSceneManager->createBillboardSet();
     missBillboardSet->setMaterialName("damage_miss");
     missBillboardSet->createBillboard(Ogre::Vector3::ZERO);
     missBillboardSet->setRenderQueueGroup(Ogre::RENDER_QUEUE_MAX);
@@ -52,7 +54,9 @@ void DamageIndicatorController::injectTime(Ogre::Real secondsElapsed) {
             // translate the indicator
             di.first->setPosition(
                     Ogre::Math::lerp(di.first->getPosition(), endPos, secondsElapsed));
-            ++i; 
+            ++i;
         }
     }
 }
+
+#endif // _WIN32

@@ -1,3 +1,5 @@
+#ifndef _WIN32 // TODO: get to compile
+
 #include "HUD.h"
 #include <algorithm>
 
@@ -18,7 +20,7 @@ HUD::HUD(Ogre::SceneManager& scnMgr,
          std::vector<Player*>& myParty,
          std::vector<Player*>& enemyParty,
          std::vector<Player*>& myPartyWaiting,
-         Inventory& inventory) 
+         Inventory& inventory)
          : mGUI(gui),
            mListener(listener),
            mState(HUD_STATE::ACTION_MENU_ACTIVE),
@@ -67,7 +69,7 @@ HUD::HUD(Ogre::SceneManager& scnMgr,
 
     for(int i = 0; i < 3; ++i) {
         Player* character = myParty[i];
-        CEGUI::Window* frame = frames[i]; 
+        CEGUI::Window* frame = frames[i];
         characterInfoWindows.emplace(character, frame);
 
         const PlayerInfo& info = character->info();
@@ -239,7 +241,7 @@ void HUD::injectKeyItemMenu(const OIS::KeyEvent& arg) {
                 updateItemBox();
                 break;
             case OIS::KC_RETURN:
-                notifyHUDOptionSelect(); 
+                notifyHUDOptionSelect();
                 switchToTargetMenu();
                 break;
             default:
@@ -306,7 +308,7 @@ void HUD::injectKeyTargetMenu(const OIS::KeyEvent& arg) {
             mActionOptionFocused = 0;
             mActionOptions[0]->show();
             mActionOptions[0]->activate();
-            switchToActionMenu(); 
+            switchToActionMenu();
             break;
         case OIS::KC_TAB:
             notifyCharacterCycle();
@@ -479,7 +481,7 @@ void HUD::update(void) {
     }
 
     for(auto character : enemyParty) {
-        auto enemyHealthBarBillBoard = characterHealthBars.find(character)->second;  
+        auto enemyHealthBarBillBoard = characterHealthBars.find(character)->second;
         enemyHealthBarBillBoard->setDefaultWidth(character->info().health * 10);
     }
 
@@ -493,9 +495,9 @@ void HUD::reset(void) {
     mActionOptionFocused = 0;
     mActionOptions[0]->show();
     mActionOptions[0]->activate();
-    switchToActionMenu(); 
+    switchToActionMenu();
 
-    updateFocusedCharacter(myParty.at(0)); 
+    updateFocusedCharacter(myParty.at(0));
     myPartyFocused = 0;
     activeTarget = 0;
 }
@@ -575,3 +577,5 @@ void HUD::updateWaveCounter(int wave) {
         setText(to_string(wave));
 }
 
+
+#endif // _WIN32

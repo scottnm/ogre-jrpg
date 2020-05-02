@@ -1,3 +1,5 @@
+#ifndef _WIN32 // TODO: get to compile
+
 #pragma once
 
 #include <string>
@@ -31,3 +33,5 @@ public:
     std::vector<std::pair<Item, int>> _itemDefaults;
 	int currentItemIndex;
 };
+
+#endif // _WIN32

@@ -1,3 +1,5 @@
+#ifndef _WIN32 // TODO: get to compile
+
 #pragma once
 
 #include "GUISystem.h"
@@ -109,3 +111,5 @@ private:
     static const Ogre::String windowName;
     static const Ogre::String mockItems[4];
 };
+
+#endif // _WIN32

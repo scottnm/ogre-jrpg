@@ -1,3 +1,5 @@
+#ifndef _WIN32 // TODO: get to compile
+
 #pragma once
 
 #include "ParticleType.h"
@@ -23,3 +25,5 @@ public:
     Ogre::SceneNode* sceneNode;
 
 };
+
+#endif // _WIN32

@@ -1,3 +1,5 @@
+#ifndef _WIN32 // TODO: get to compile
+
 #pragma once
 
 #include <string>
@@ -17,3 +19,5 @@ public:
 private:
     std::unordered_map<std::string, MeshSpec> mSpecBank;
 };
+
+#endif // _WIN32

@@ -1,3 +1,5 @@
+#ifndef _WIN32 // TODO: get to compile
+
 #include "Ninja.h"
 
 Ninja::Ninja(Ogre::SceneManager* _scnmgr, Ogre::SceneNode* _scnnode, int i) :
@@ -137,3 +139,5 @@ bool Ninja::is_emitting(particle_type p_type) {
 	Ogre::ParticleSystem* ps = GameObject::particleSystemList[p_type];
 	return ps->getEmitting();
 }
+
+#endif // _WIN32

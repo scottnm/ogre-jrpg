@@ -1,3 +1,5 @@
+#ifndef _WIN32 // TODO: get to compile
+
 #pragma once
 
 #include "ParticleCallback.h"
@@ -46,3 +48,5 @@ private:
 
     SoundBank* mSoundBank;
 };
+
+#endif // _WIN32

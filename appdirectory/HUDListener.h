@@ -1,3 +1,5 @@
+#ifndef _WIN32 // TODO: get to compile
+
 #pragma once
 
 #include "Player.h"
@@ -15,3 +17,5 @@ public:
     virtual void onHUDPlayNext() = 0;
     virtual void onHUDQuit() = 0;
 };
+
+#endif // _WIN32

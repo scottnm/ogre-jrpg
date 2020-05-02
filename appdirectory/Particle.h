@@ -1,3 +1,5 @@
+#ifndef _WIN32 // TODO: get to compile
+
 #pragma once
 
 #include "GameObject.h"
@@ -12,3 +14,5 @@ public:
 	Ogre::ParticleSystem* particleSystem;
 	// void switchParticleSystem(const char* )
 };
+
+#endif // _WIN32

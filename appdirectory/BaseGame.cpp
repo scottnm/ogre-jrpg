@@ -1,8 +1,10 @@
+#ifndef _WIN32 // TODO: get to compile
+
 /*
 -----------------------------------------------------------------------------
 Filename:    BaseGame.cpp
 -----------------------------------------------------------------------------
- 
+
 This source file is adopted from MinimalOgre.cpp
 http://www.ogre3d.org/tikiwiki/tiki-index.php?page=MinimalOgre-cpp
 -----------------------------------------------------------------------------
@@ -55,9 +57,11 @@ bool BaseGame::keyPressed( const OIS::KeyEvent &arg ) {
     }
     return true;
 }
- 
+
 bool BaseGame::guiCbQuit(const CEGUI::EventArgs& e) {
     mShutDown = true;
     return true;
 }
 
+
+#endif // _WIN32

@@ -1,3 +1,5 @@
+#ifndef _WIN32 // TODO: get to compile
+
 #include "Player.h"
 #include <OgreMeshManager.h>
 #include <OgreStringConverter.h>
@@ -24,7 +26,7 @@ Player::Player(Ogre::SceneManager* _scnmgr, Ogre::SceneNode* _scnnode,
     sceneNode->lookAt(Ogre::Vector3::ZERO, Ogre::Node::TS_WORLD);
     sceneNode->lookAt(Ogre::Vector3(0, pos.y, pos.z), Ogre::Node::TS_WORLD);
 
-    mAnimationController = new AnimationController(mEntity, i.mesh.animationSpec); 
+    mAnimationController = new AnimationController(mEntity, i.mesh.animationSpec);
     mAnimationController->runIdleAnimation();
 
     mParticleController = new ParticleController(_scnmgr, sceneNode, soundBank);
@@ -102,3 +104,5 @@ void Player::lookAt(Player* targetObject) {
 Ogre::Real Player::getHeight(void) {
     return mEntity->getBoundingBox().getSize().y * 1.2;
 }
+
+#endif // _WIN32

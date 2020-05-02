@@ -1,3 +1,5 @@
+#ifndef _WIN32 // TODO: get to compile
+
 #pragma once
 
 #include <OgreSceneManager.h>
@@ -21,3 +23,5 @@ private:
 
     static Ogre::Vector3 endPos;
 };
+
+#endif // _WIN32

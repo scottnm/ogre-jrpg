@@ -1,3 +1,5 @@
+#ifndef _WIN32 // TODO: get to compile
+
 #include "SoundBank.h"
 
 #include <boost/property_tree/ptree.hpp>
@@ -57,3 +59,5 @@ void SoundBank::play(const std::string& id) {
     }
     Mix_PlayChannel(FIRST_FREE_CHANNEL, mChunkBank.find(id)->second, NO_LOOPS);
 }
+
+#endif // _WIN32

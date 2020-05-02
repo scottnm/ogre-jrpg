@@ -1,3 +1,5 @@
+#ifndef _WIN32 // TODO: get to compile
+
 #pragma once
 
 #include <string>
@@ -38,3 +40,5 @@ struct PlayerInfo {
         accuracy = baseAccuracy;
     }
 };
+
+#endif // _WIN32

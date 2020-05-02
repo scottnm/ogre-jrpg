@@ -1,3 +1,5 @@
+#ifndef _WIN32 // TODO: get to compile
+
 #include "GameObject.h"
 
 void GameObject::setPosition(Ogre::Vector3 position) {
@@ -9,3 +11,5 @@ void GameObject::lookAt(GameObject* targetObject) {
 	sceneNode->lookAt(sceneNode->convertWorldToLocalPosition(targetNode->_getDerivedPosition()),
         Ogre::Node::TransformSpace::TS_LOCAL, Ogre::Vector3::NEGATIVE_UNIT_Z);
 }
+
+#endif // _WIN32

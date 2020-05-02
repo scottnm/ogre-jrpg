@@ -1,3 +1,5 @@
+#ifndef _WIN32 // TODO: get to compile
+
 #pragma once
 
 #include "GameObject.h"
@@ -37,3 +39,5 @@ public:
 
 	Ogre::Entity* entity;
 };
+
+#endif // _WIN32

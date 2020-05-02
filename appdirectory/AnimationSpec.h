@@ -1,3 +1,5 @@
+#ifndef _WIN32 // TODO: get to compile
+
 #pragma once
 
 #include <string>
@@ -24,3 +26,5 @@ struct AnimationSpec {
     const std::pair<const std::string, const float> guard;
     const std::pair<const std::string, const float> death;
 };
+
+#endif // _WIN32

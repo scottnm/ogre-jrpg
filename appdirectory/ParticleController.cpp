@@ -1,3 +1,5 @@
+#ifndef _WIN32 // TODO: get to compile
+
 #include "ParticleController.h"
 #include <OgreParticle.h>
 
@@ -6,34 +8,34 @@ int ParticleController::particleControllerId = 0;
 ParticleController::ParticleController(Ogre::SceneManager* scnMgr, Ogre::SceneNode* parent, SoundBank* soundBank) {
     const Ogre::String id = Ogre::StringConverter::toString(particleControllerId++);
 
-    auto guardParticles = scnMgr->createParticleSystem("Guard_P" + id, "Guard"); 
+    auto guardParticles = scnMgr->createParticleSystem("Guard_P" + id, "Guard");
     guardParticles->setEmitting(false);
     auto guardNode = parent->createChildSceneNode("Guard_N" + id);
     guardNode->attachObject(guardParticles);
     systems[PT_Guard] = guardParticles;
 
-    auto physicalParticles = scnMgr->createParticleSystem("Physical_P" + id, "Physical3"); 
+    auto physicalParticles = scnMgr->createParticleSystem("Physical_P" + id, "Physical3");
     physicalParticles->setEmitting(false);
     auto physicalNode = parent->createChildSceneNode("Physical_N" + id);
     physicalNode->attachObject(physicalParticles);
     physicalNode->setPosition(0, 125, -15);
     systems[PT_Physical] = physicalParticles;
 
-    auto itemParticles = scnMgr->createParticleSystem("Item_P" + id, "Item"); 
+    auto itemParticles = scnMgr->createParticleSystem("Item_P" + id, "Item");
     itemParticles->setEmitting(false);
     auto itemNode = parent->createChildSceneNode("Item_N" + id);
     itemNode->attachObject(itemParticles);
     itemNode->setPosition(0, 200, 0);
     systems[PT_Item] = itemParticles;
 
-    auto fireParticles = scnMgr->createParticleSystem("Fire_P" + id, "Fire"); 
+    auto fireParticles = scnMgr->createParticleSystem("Fire_P" + id, "Fire");
     fireParticles->setEmitting(false);
     auto fireNode = parent->createChildSceneNode("Fire_N" + id);
     fireNode->attachObject(fireParticles);
     fireNode->setPosition(0, 100, 0);
     systems[PT_Fire] = fireParticles;
 
-    auto iceParticles = scnMgr->createParticleSystem("Ice_P" + id, "Ice"); 
+    auto iceParticles = scnMgr->createParticleSystem("Ice_P" + id, "Ice");
     iceParticles->setEmitting(false);
     auto iceNode = parent->createChildSceneNode("Ice_N" + id);
     iceNode->attachObject(iceParticles);
@@ -59,7 +61,7 @@ void ParticleController::stopEmittingAll(void) {
 }
 
 void ParticleController::runParticleSystem(ParticleType pt, ParticleEndCheckCallback endCheck,
-        ParticleCallback onEnd) {  
+        ParticleCallback onEnd) {
     Ogre::ParticleSystem* system = systems[pt];
     system->setEmitting(true);
     system->setVisible(true);
@@ -122,3 +124,5 @@ bool ParticleController::_checkCollision(Ogre::ParticleSystem* psys, Ogre::Scene
     }
     return false;
 }
+
+#endif // _WIN32
